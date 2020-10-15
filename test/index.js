@@ -1,8 +1,8 @@
 /* eslint-env node */
 
 const { describe, it, before } = require('mocha')
-const spawn = require('../packages/base-toolchain/lib/spawn')
-const copy = require('../packages/base-toolchain/lib/copy')
+const spawn = require('../packages/base/lib/spawn')
+const copy = require('../packages/base/lib/copy')
 const { expect } = require('chai')
 const path = require('path')
 const _glob = require('glob')
@@ -17,23 +17,15 @@ const fixture = (...args) => path.resolve(repoRoot, 'fixtures', ...args)
 const tmp = path.join(require('os').tmpdir(), path.basename(repoRoot))
 
 const glob = promisify(_glob)
-const toolchains = ['js', 'js-react', 'ts']
+const toolchains = ['js', 'js-react', 'ts', 'ts-react']
 
 const toolchainDirs = Object.fromEntries(
-  toolchains.map((t) => [
-    t,
-    path.resolve(repoRoot, 'packages', `${t}-toolchain`),
-  ])
+  toolchains.map((t) => [t, path.resolve(repoRoot, 'packages', t)])
 )
 const toolchainNames = Object.fromEntries(
   toolchains.map((t) => [
     t,
-    require(path.resolve(
-      repoRoot,
-      'packages',
-      `${t}-toolchain`,
-      'package.json'
-    )).name,
+    require(path.resolve(repoRoot, 'packages', t, 'package.json')).name,
   ])
 )
 

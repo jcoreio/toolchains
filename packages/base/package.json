@@ -1,7 +1,7 @@
 {
-  "name": "@jedwards1211/base-toolchain",
+  "name": "@jcoreio/base",
   "version": "0.0.0-development",
-  "description": "build tools and package scripts for js packages",
+  "description": "build tools and package scripts for npm packages",
   "main": "index.js",
   "author": "Andy Edwards",
   "license": "MIT",
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jedwards1211/js-toolchain.git"
+    "url": "https://github.com/jcoreio/js.git"
   },
   "keywords": [
     "build-tools",
@@ -35,9 +35,9 @@
     "toolchain"
   ],
   "bugs": {
-    "url": "https://github.com/jedwards1211/js-toolchain/issues"
+    "url": "https://github.com/jcoreio/js/issues"
   },
-  "homepage": "https://github.com/jedwards1211/js-toolchain#readme",
+  "homepage": "https://github.com/jcoreio/js#readme",
   "publishConfig": {
     "access": "public"
   },
@@ -46,7 +46,7 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "@jedwards1211/base-toolchain": {
+  "@jcoreio/base": {
     "mochaArgs": [
       "test/*.js"
     ]

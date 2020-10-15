@@ -11,14 +11,14 @@ const { dependencies } = packageJson
 // and need to be checked
 
 const variants = {
-  'js-toolchain': {
+  js: {
     dependencies: new Set([
       '@babel/preset-flow',
       '@jedwards1211/eslint-config-flow',
       'eslint-plugin-flowtype',
     ]),
   },
-  'ts-toolchain': {
+  ts: {
     dependencies: new Set([
       '@babel/preset-typescript',
       '@jedwards1211/eslint-config-typescript',
@@ -32,9 +32,9 @@ const variants = {
   },
 }
 
-variants['js-react-toolchain'] = {
+variants['js-react'] = {
   dependencies: new Set([
-    ...variants['js-toolchain'].dependencies,
+    ...variants['js'].dependencies,
     '@babel/preset-react',
     '@jedwards1211/eslint-config-react',
     'babel-plugin-flow-react-proptypes',
@@ -49,10 +49,10 @@ variants['js-react-toolchain'] = {
   ]),
 }
 
-variants['ts-react-toolchain'] = {
+variants['ts-react'] = {
   dependencies: new Set([
-    ...variants['ts-toolchain'].dependencies,
-    ...variants['js-react-toolchain'].dependencies,
+    ...variants['ts'].dependencies,
+    ...variants['js-react'].dependencies,
     '@types/enzyme',
     '@types/react',
     '@types/react-dom',

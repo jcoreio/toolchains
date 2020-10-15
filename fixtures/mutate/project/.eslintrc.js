@@ -1,5 +1,5 @@
 /* eslint-env node */
 
 module.exports = {
-  ...require('@jedwards1211/js-toolchain/.eslintrc.js'),
+  ...require('@jcoreio/js/.eslintrc.js'),
 }

@@ -1,4 +1,4 @@
 /* eslint-env node */
 module.exports = {
-  ...require('@jedwards1211/js-react-toolchain/lint-staged.config.js'),
+  ...require('@jcoreio/js-react/lint-staged.config.js'),
 }

@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/jcoreio/react-transition-context#readme",
   "devDependencies": {
-    "@jedwards1211/js-react-toolchain": "file:.yalc/@jedwards1211/js-react-toolchain",
+    "@jcoreio/js-react": "file:.yalc/@jcoreio/js-react",
     "sinon": "^7.3.1",
     "waait": "^1.0.5"
   },

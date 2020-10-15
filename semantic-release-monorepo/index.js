@@ -3,6 +3,7 @@ const withOnlyPackageCommits = require('./only-package-commits')
 const versionToGitTag = require('./version-to-git-tag')
 const logPluginVersion = require('./log-plugin-version')
 const { wrapStep } = require('semantic-release-plugin-decorators')
+const { name: packageName } = require('../package.json')
 
 const {
   mapNextReleaseVersion,
@@ -11,7 +12,7 @@ const {
 
 const compose = (...fns) => fns.reduce((a, b) => (...args) => a(b(...args)))
 
-const wrapperName = 'js-toolchain-semrel'
+const wrapperName = `${packageName}-semrel`
 
 const analyzeCommits = wrapStep(
   'analyzeCommits',

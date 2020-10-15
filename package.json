@@ -1,24 +1,24 @@
 {
-  "name": "@jedwards1211/js-toolchain-root",
+  "name": "@jcoreio/toolchains",
   "version": "0.0.0-development",
   "author": "Andy Edwards <jedwards@fastmail.com>",
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "packages/base-toolchain",
-    "packages/js-toolchain",
-    "packages/js-react-toolchain",
-    "packages/ts-toolchain",
-    "packages/ts-react-toolchain"
+    "packages/base",
+    "packages/js",
+    "packages/js-react",
+    "packages/ts",
+    "packages/ts-react"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jedwards1211/js-toolchain.git"
+    "url": "https://github.com/jcoreio/toolchains.git"
   },
   "bugs": {
-    "url": "https://github.com/jedwards1211/js-toolchain/issues"
+    "url": "https://github.com/jcoreio/toolchains/issues"
   },
-  "homepage": "https://github.com/jedwards1211/js-toolchain#readme",
+  "homepage": "https://github.com/jcoreio/toolchains#readme",
   "devDependencies": {
     "@semantic-release/exec": "^5.0.0",
     "chai": "^4.2.0",

@@ -1,29 +1,29 @@
-# @jedwards1211/base-toolchain
+# @jcoreio/base
 
-[![CircleCI](https://circleci.com/gh/jedwards1211/js-toolchain.svg?style=svg)](https://circleci.com/gh/jedwards1211/js-toolchain)
+[![CircleCI](https://circleci.com/gh/jcoreio/js.svg?style=svg)](https://circleci.com/gh/jcoreio/js)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![npm version](https://badge.fury.io/js/%40jedwards1211%2Fbase-toolchain.svg)](https://badge.fury.io/js/%40jedwards1211%2Fbase-toolchain)
+[![npm version](https://badge.fury.io/js/%40jcoreio%2Fbase.svg)](https://badge.fury.io/js/%40jcoreio%2Fbase)
 
 This is my personal skeleton for creating an npm package with JS(/flow) source code.
 
 ## Assumptions
 
 - All source files are in `src`
-- Test files are in `test`. You can override this by specifying options for mocha in `['@jedwards1211/base-toolchain'].mochaArgs` in your `package.json`.
+- Test files are in `test`. You can override this by specifying options for mocha in `['@jcoreio/base'].mochaArgs` in your `package.json`.
 - You want to publish the package via `semantic-release`
 - You're using CircleCI
 
 ## Usage
 
 ```sh
-yarn add --dev @jedwards1211/base-toolchain
+yarn add --dev @jcoreio/base
 yarn toolchain bootstrap
 ```
 
 If you want to more aggressively replace existing configuration, use `yarn toolchain bootstrap --hard`.
 
-The bootstrap script will modify your package.json, .gitignore, .circleci/config.yml and generate .babelrc.js, .eslintrc.js, and .prettierrc.js that are just proxies for the config in `@jedwards1211/base-toolchain`.
+The bootstrap script will modify your package.json, .gitignore, .circleci/config.yml and generate .babelrc.js, .eslintrc.js, and .prettierrc.js that are just proxies for the config in `@jcoreio/base`.
 
 Instead of running scripts from your `package.json`, you can run them with the `yarn toolchain` command (or `yarn tc`), for example `yarn toolchain lint`. Run `yarn toolchain` by itself
 to see all of the available commands.
@@ -39,7 +39,7 @@ You can customize the config files created by the bootstrap process:
 - `nyc.config.js`
 - `prettier.config.js`
 
-You can also set the following options in the `@jedwards1211/base-toolchain` property in your `package.json`:
+You can also set the following options in the `@jcoreio/base` property in your `package.json`:
 
 - `mochaArgs`: an array of additional arguments to mocha (default: ["test/**.js"], or `.ts`/`.tsx` depending on the toolchain)
 - `noBabelRuntime`: if `true`, disables `@babel/plugin-transform-flow-runtime`
@@ -49,7 +49,7 @@ For example:
 ```
 {
   "name": "foo",
-  "@jedwards1211/base-toolchain": {
+  "@jcoreio/base": {
     "mochaArgs": ["test/index.js"]
   }
 }

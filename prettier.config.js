@@ -1,5 +1,5 @@
 /* eslint-env node */
 
 module.exports = {
-  ...require('./packages/base-toolchain/prettier.config.js'),
+  ...require('./packages/base/prettier.config.js'),
 }

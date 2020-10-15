@@ -1080,7 +1080,7 @@
   resolved "https://registry.npmjs.org/@jedwards1211/eslint-config/-/eslint-config-2.0.2.tgz#8cc12d8d1c4a7f011c9e4d7519f99a2e870fbea1"
   integrity sha512-PSHzMSQJ/t7OuZGdigIzz6EW+yoncZKFQQyvYLY88o1NOU0AowGambLyzJC59tiIncQ8wY+rFtpigPBta5ttYg==
 
-"@jedwards1211/ts-toolchain@file:.yalc/@jedwards1211/ts-toolchain":
+"@jcoreio/ts@file:.yalc/@jcoreio/ts":
   version "0.0.0-development"
   dependencies:
     "@babel/core" "^7.11.6"

@@ -31,8 +31,5 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "eslintConfig": {
-    "extends": "@jedwards1211/js-toolchain/.eslintrc.js"
   }
 }

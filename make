@@ -11,15 +11,15 @@ const { rule, task, cli, spawn } = promake
 
 const baseToolchainDeps = nodeModulesRule({
   promake,
-  projectDir: path.join('packages', 'base-toolchain'),
+  projectDir: path.join('packages', 'base'),
   command: 'yarn',
 })
 
 const variantNames = [
-  'js-toolchain',
-  'js-react-toolchain',
-  'ts-toolchain',
-  'ts-react-toolchain',
+  'js',
+  'js-react',
+  'ts',
+  'ts-react',
 ]
 
 const variants = variantNames.map((p) => path.join('packages', p))
@@ -28,20 +28,20 @@ rule(
   variants,
   [
     baseToolchainDeps,
-    ...glob.sync('packages/base-toolchain/*', {
+    ...glob.sync('packages/base/*', {
       nodir: true,
       dot: true,
     }),
-    ...glob.sync('packages/base-toolchain/lib/**', {
+    ...glob.sync('packages/base/lib/**', {
       nodir: true,
       dot: true,
     }),
-    ...glob.sync('packages/base-toolchain/content/**', {
+    ...glob.sync('packages/base/content/**', {
       nodir: true,
       dot: true,
     }),
   ],
-  () => require('./packages/base-toolchain/makeVariants')()
+  () => require('./packages/base/makeVariants')()
 )
 
 task('variants', variants)
@@ -63,7 +63,7 @@ task('format', [baseToolchainDeps], async () => {
     stdio: 'inherit',
   })
   await spawn(process.execPath, [path.join('lib', 'toolchain.js'), 'format'], {
-    cwd: path.join('packages', 'base-toolchain'),
+    cwd: path.join('packages', 'base'),
     stdio: 'inherit',
   })
 })
@@ -71,7 +71,7 @@ task('format', [baseToolchainDeps], async () => {
 task('check', [baseToolchainDeps], async () => {
   await spawn(bin('prettier'), ['-c', '*.{js,json,md}'], { stdio: 'inherit' })
   await spawn(process.execPath, [path.join('lib', 'toolchain.js'), 'check'], {
-    cwd: path.join('packages', 'base-toolchain'),
+    cwd: path.join('packages', 'base'),
     stdio: 'inherit',
   })
 })

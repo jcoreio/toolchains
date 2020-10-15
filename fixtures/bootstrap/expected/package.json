@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/jcoreio/poll#readme",
   "devDependencies": {
-    "@jedwards1211/js-toolchain": "file:.yalc/@jedwards1211/js-toolchain",
+    "@jcoreio/js": "file:.yalc/@jcoreio/js",
     "copy": "^0.3.0",
     "rimraf": "^2.6.0"
   },

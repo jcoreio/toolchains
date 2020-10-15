@@ -1,10 +1,10 @@
 {
   "packages": [
-    "packages/base-toolchain",
-    "packages/js-toolchain",
-    "packages/js-react-toolchain",
-    "packages/ts-toolchain",
-    "packages/ts-react-toolchain"
+    "packages/base",
+    "packages/js",
+    "packages/js-react",
+    "packages/ts",
+    "packages/ts-react"
   ],
   "version": "0.0.0"
 }

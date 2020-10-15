@@ -1,6 +1,6 @@
 /* eslint-env node */
 
 module.exports = {
-  ...require('./packages/base-toolchain/husky.config.js'),
+  ...require('./packages/base/husky.config.js'),
 }
 module.exports.hooks['pre-commit'] = './make check'
