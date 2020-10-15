@@ -55,6 +55,28 @@ For example:
 }
 ```
 
+### `babel.config.js`
+
+You can pass a second argument to the base babel config like this:
+
+```
+/* eslint-env node */
+module.exports = function (api) {
+  return require(`@jcoreio/base/babel.config.js`)(api, {
+    envPresetOptions: {
+      target: {node: 12},
+      forceAllTransforms: false,
+    },
+    babelRuntime: false,
+  })
+}
+```
+
+It accepts the following options:
+
+- `envPresetOptions`: overrides options for `@babel/preset-env`
+- `babelRuntime`: if `false`, won't use `@babel/plugin-transform-runtime`
+
 ## Package Publishing
 
 Files to publish are output/copied into the `dist` folder and then published from there. This includes a derived
