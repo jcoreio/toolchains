@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jcoreio/js.git"
+    "url": "https://github.com/jcoreio/toolchains.git"
   },
   "keywords": [
     "build-tools",
@@ -35,9 +35,9 @@
     "toolchain"
   ],
   "bugs": {
-    "url": "https://github.com/jcoreio/js/issues"
+    "url": "https://github.com/jcoreio/toolchains/issues"
   },
-  "homepage": "https://github.com/jcoreio/js#readme",
+  "homepage": "https://github.com/jcoreio/toolchains#readme",
   "publishConfig": {
     "access": "public"
   },
