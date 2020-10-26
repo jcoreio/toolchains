@@ -8,19 +8,22 @@ const eslintExts = dependencies['@typescript-eslint/eslint-plugin']
   ? dependencies['eslint-plugin-react']
     ? '*.{ts,tsx}'
     : '*.ts'
-  : '*.{js}'
+  : '*.js'
 
-const prettierExts = `*.${[
-  dependencies['@babel/preset-typescript'] && '.ts',
+const prettierExtList = [
+  dependencies['@babel/preset-typescript'] && 'ts',
   dependencies['@babel/preset-typescript'] &&
     dependencies['@babel/preset-react'] &&
-    '.tsx',
-  '.js',
-  '.json',
-  '.md',
-]
-  .filter(Boolean)
-  .join(',')}`
+    'tsx',
+  'js',
+  'json',
+  'md',
+].filter(Boolean)
+
+const prettierExts =
+  prettierExtList.length === 1
+    ? `*.${prettierExtList[0]}`
+    : `*.{${prettierExtList.join(',')}}`
 
 module.exports = {
   [eslintExts]: [`${toolchain.eslintShellCommand()} --fix`],
