@@ -130,9 +130,18 @@ async function bootstrap(options = {}) {
       'utf8'
     )
   )
+  for (const file of ['.eslintrc.js', 'commitlint.config.js']) {
+    await writeConfig(
+      file,
+      () => `/* eslint-env node */
+module.exports = {
+  extends: [require.resolve('${toolchainName}/${file}')],
+}
+`
+    )
+  }
+
   for (const file of [
-    '.eslintrc.js',
-    'commitlint.config.js',
     'lint-staged.config.js',
     'nyc.config.js',
     'prettier.config.js',
@@ -141,8 +150,11 @@ async function bootstrap(options = {}) {
     await writeConfig(
       file,
       () => `/* eslint-env node */
+
+const base = require('${toolchainName}/${file}')
+
 module.exports = {
-  ...require('${toolchainName}/${file}'),
+  ...base,
 }
 `
     )

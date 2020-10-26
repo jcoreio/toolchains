@@ -1,4 +1,7 @@
 /* eslint-env node */
+
+const base = require('@jcoreio/js/lint-staged.config.js')
+
 module.exports = {
-  ...require('@jcoreio/js/lint-staged.config.js'),
+  ...base,
 }

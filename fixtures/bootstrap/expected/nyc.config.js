@@ -1,4 +1,7 @@
 /* eslint-env node */
+
+const base = require('@jcoreio/js/nyc.config.js')
+
 module.exports = {
-  ...require('@jcoreio/js/nyc.config.js'),
+  ...base,
 }

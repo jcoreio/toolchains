@@ -1,4 +1,4 @@
 /* eslint-env node */
 module.exports = {
-  ...require('@jcoreio/js/commitlint.config.js'),
+  extends: [require.resolve('@jcoreio/js/commitlint.config.js')],
 }
