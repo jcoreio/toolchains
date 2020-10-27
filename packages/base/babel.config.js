@@ -15,8 +15,12 @@ module.exports = function (api, { envPresetOptions, babelRuntime } = {}) {
     plugins: [
       resolveIfDep('@babel/plugin-transform-flow-strip-types'),
       !hostPackageConfig.noBabelRuntime &&
-        babelRuntime !== false &&
-        require.resolve('@babel/plugin-transform-runtime'),
+        babelRuntime !== false && [
+          require.resolve('@babel/plugin-transform-runtime'),
+          {
+            version: dependencies['@babel/helpers'].replace(/^[^]/, ''),
+          },
+        ],
       require.resolve('@babel/plugin-proposal-class-properties'),
       api.env('coverage') && require.resolve('babel-plugin-istanbul'),
       !api.env(['test', 'coverage']) && [

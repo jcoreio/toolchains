@@ -60,9 +60,9 @@
     "url": "https://github.com/jcoreio/typescript-validators/issues"
   },
   "homepage": "https://github.com/jcoreio/typescript-validators#readme",
+  "main": "./index.js",
+  "module": "./index.mjs",
   "dependencies": {
     "@babel/runtime": "^7.12.0"
-  },
-  "main": "./index.js",
-  "module": "./index.mjs"
+  }
 }

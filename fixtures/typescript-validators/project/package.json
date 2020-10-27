@@ -69,8 +69,5 @@
   "homepage": "https://github.com/jcoreio/typescript-validators#readme",
   "devDependencies": {
     "dedent-js": "^1.0.1"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.1.5"
   }
 }

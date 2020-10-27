@@ -87,7 +87,7 @@ async function doFixtureTest(name, toolchainName, action) {
 }
 
 describe(`toolchain`, function () {
-  this.timeout(120000)
+  this.timeout(240000)
 
   it(`prepublishOnly works on mutate project`, async function () {
     await doFixtureTest('mutate', toolchainNames.js, ({ cwd }) =>
