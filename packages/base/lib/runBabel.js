@@ -27,8 +27,9 @@ async function runBabel({
       destDir,
       outFileExtension ? file.replace(/\.[^.]+$/, outFileExtension) : file
     )
+    const { mode } = await fs.stat(srcFile)
     const { code } = await babel.transformFileAsync(srcFile, babelOptions)
-    await fs.writeFile(destFile, code, 'utf8')
+    await fs.writeFile(destFile, code, { encoding: 'utf8', mode })
     console.log(`${srcFile} -> ${destFile}`) // eslint-disable-line no-console
   }
 }
