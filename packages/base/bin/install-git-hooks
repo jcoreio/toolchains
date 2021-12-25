@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { name: packageName } = require('../package.json')
+const execa = require('execa')
 const fs = require('fs-extra')
 const Path = require('path')
 const dedent = require('dedent-js')
@@ -41,45 +42,53 @@ function warnAboutMissingGitDir() {
 }
 
 async function installHooks(gitDir) {
-  await Promise.all(
-    [
-      'applypatch-msg',
-      'commit-msg',
-      'post-applypatch',
-      'post-checkout',
-      'post-commit',
-      'post-merge',
-      'post-receive',
-      'post-rewrite',
-      'post-update',
-      'pre-applypatch',
-      'pre-auto-gc',
-      'pre-commit',
-      'pre-merge-commit',
-      'pre-push',
-      'pre-rebase',
-      'pre-receive',
-      'prepare-commit-msg',
-      'push-to-checkout',
-      'update',
-    ].map(async (hook) => {
-      const file = Path.join(gitDir, 'hooks', hook)
-      await fs.writeFile(
-        file,
-        dedent`
-        #!/usr/bin/env node
+  await execa('git', [
+    'config',
+    'core.hooksPath',
+    Path.relative(
+      Path.dirname(gitDir),
+      Path.resolve(__dirname, '..', 'githooks')
+    ),
+  ])
+  // await Promise.all(
+  //   [
+  //     'applypatch-msg',
+  //     'commit-msg',
+  //     'post-applypatch',
+  //     'post-checkout',
+  //     'post-commit',
+  //     'post-merge',
+  //     'post-receive',
+  //     'post-rewrite',
+  //     'post-update',
+  //     'pre-applypatch',
+  //     'pre-auto-gc',
+  //     'pre-commit',
+  //     'pre-merge-commit',
+  //     'pre-push',
+  //     'pre-rebase',
+  //     'pre-receive',
+  //     'prepare-commit-msg',
+  //     'push-to-checkout',
+  //     'update',
+  //   ].map(async (hook) => {
+  //     const file = Path.join(gitDir, 'hooks', hook)
+  //     await fs.writeFile(
+  //       file,
+  //       dedent`
+  //       #!/usr/bin/env node
 
-        const path = require('path')
-        require(${JSON.stringify(`${packageName}/runHook.cjs`)})(
-          path.resolve(__dirname, '..', '..'),
-          ${JSON.stringify(hook)})
-      `,
-        {
-          encoding: 'utf8',
-          mode: 0o755,
-        }
-      )
-    })
-  )
+  //       const path = require('path')
+  //       require(${JSON.stringify(`${packageName}/runHook.cjs`)})(
+  //         path.resolve(__dirname, '..', '..'),
+  //         ${JSON.stringify(hook)})
+  //     `,
+  //       {
+  //         encoding: 'utf8',
+  //         mode: 0o755,
+  //       }
+  //     )
+  //   })
+  // )
   console.log('successfully installed git hooks!')
 }
