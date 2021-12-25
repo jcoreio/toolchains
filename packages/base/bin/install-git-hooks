@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+
+const { name: packageName } = require('../package.json')
+const fs = require('fs-extra')
+const Path = require('path')
+const dedent = require('dedent-js')
+
+async function go() {
+  const gitDir = await findGitDir()
+  if (!gitDir) {
+    warnAboutMissingGitDir()
+  } else {
+    await installHooks(gitDir)
+  }
+}
+
+go().catch((err) => console.error('failed to install git hooks', err.stack))
+
+async function findGitDir() {
+  let path = __dirname
+  const root = process.env.INIT_CWD || process.cwd()
+  while (path && path.startsWith(root)) {
+    try {
+      const dir = Path.join(path, '.git')
+      if ((await fs.stat(dir)).isDirectory()) {
+        return dir
+      }
+    } catch (error) {
+      // ignore
+    }
+    path = Path.dirname(path)
+  }
+}
+
+function warnAboutMissingGitDir() {
+  console.warn(dedent`
+    .git directory not found!
+    git hooks could not be installed.
+    after you run \`git init\`, try \`pnpm exec install-git-hooks\`.
+  `)
+}
+
+async function installHooks(gitDir) {
+  await Promise.all(
+    [
+      'applypatch-msg',
+      'commit-msg',
+      'post-applypatch',
+      'post-checkout',
+      'post-commit',
+      'post-merge',
+      'post-receive',
+      'post-rewrite',
+      'post-update',
+      'pre-applypatch',
+      'pre-auto-gc',
+      'pre-commit',
+      'pre-merge-commit',
+      'pre-push',
+      'pre-rebase',
+      'pre-receive',
+      'prepare-commit-msg',
+      'push-to-checkout',
+      'update',
+    ].map(async (hook) => {
+      const file = Path.join(gitDir, 'hooks', hook)
+      await fs.writeFile(
+        file,
+        dedent`
+        #!/usr/bin/env node
+
+        const path = require('path')
+        require(${JSON.stringify(`${packageName}/runHook.cjs`)})(
+          path.resolve(__dirname, '..', '..'),
+          ${JSON.stringify(hook)})
+      `,
+        {
+          encoding: 'utf8',
+          mode: 0o755,
+        }
+      )
+    })
+  )
+  console.log('successfully installed git hooks!')
+}

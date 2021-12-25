@@ -1,0 +1,29 @@
+{
+  "name": "@jcoreio/toolchain-monorepo",
+  "private": true,
+  "version": "0.0.0-development",
+  "description": "JS/TS build toolchains",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchain.git"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchain/issues"
+  },
+  "homepage": "https://github.com/jcoreio/toolchain#readme",
+  "devDependencies": {
+    "@jcoreio/toolchain": "workspace:*",
+    "ghooks": "^2.0.4"
+  },
+  "config": {
+    "ghooks": {
+      "prepare-commit-msg": "grep -qE '^[^#]' .git/COMMIT_EDITMSG || (exec < /dev/tty && git-cz --hook || true)",
+      "commit-msg": "commitlint -e"
+    },
+    "commitizen": {
+      "path": "@jcoreio/toolchain/commitizen.cjs"
+    }
+  }
+}

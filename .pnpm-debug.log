@@ -1,0 +1,24 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1,
+    "workspacePrefix": "/Users/andy/github/toolchain"
+  },
+  "1 info pnpm": {
+    "err": {
+      "name": "Error",
+      "message": "not found: workspace",
+      "code": "ENOENT",
+      "stack": "Error: not found: workspace\n    at getNotFoundError (/snapshot/dist/pnpm.cjs)\n    at Function.whichSync [as sync] (/snapshot/dist/pnpm.cjs)\n    at getCommandAbsolutePathSync (/snapshot/dist/pnpm.cjs)\n    at default_1 (/snapshot/dist/pnpm.cjs)\n    at /snapshot/dist/pnpm.cjs"
+    }
+  },
+  "2 error pnpm": {
+    "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+    "prefix": "/Users/andy/github/toolchain",
+    "err": {
+      "name": "pnpm",
+      "message": "not found: workspace",
+      "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+      "stack": "Error: not found: workspace\n    at getNotFoundError (/snapshot/dist/pnpm.cjs)\n    at Function.whichSync [as sync] (/snapshot/dist/pnpm.cjs)\n    at getCommandAbsolutePathSync (/snapshot/dist/pnpm.cjs)\n    at default_1 (/snapshot/dist/pnpm.cjs)\n    at /snapshot/dist/pnpm.cjs"
+    }
+  }
+}

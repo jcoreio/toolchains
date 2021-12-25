@@ -1,0 +1,36 @@
+{
+  "name": "@jcoreio/toolchain",
+  "version": "0.0.0-development",
+  "description": "base JS build toolchain",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchain.git"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchain/issues"
+  },
+  "homepage": "https://github.com/jcoreio/toolchain#readme",
+  "dependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "dedent-js": "^1.0.1",
+    "fs-extra": "^10.0.0",
+    "prettier": "^2.5.1",
+    "resolve-bin": "^1.0.0"
+  },
+  "bin": {
+    "prettier": "./bin/prettier",
+    "commitizen": "./bin/commitizen",
+    "commitlint": "./bin/commitlint",
+    "cz": "./bin/cz",
+    "git-cz": "./bin/git-cz",
+    "install-git-hooks": "./bin/install-git-hooks"
+  },
+  "scripts": {
+    "postinstall": "install-git-hooks"
+  }
+}
