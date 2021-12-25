@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: [require.resolve('@commitlint/config-conventional')],
   rules: {
     'scope-case': [2, 'always', ['lowerCase']],
     'subject-case': [
