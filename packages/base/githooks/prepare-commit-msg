@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('./runHook.cjs')('prepare-commit-msg')
+require('./runHook.cjs')(require('path').basename(__filename))

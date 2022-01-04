@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 module.exports = {
   extends: [require.resolve('@commitlint/config-conventional')],
   rules: {
