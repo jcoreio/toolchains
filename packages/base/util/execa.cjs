@@ -8,6 +8,12 @@ function formatArg(arg) {
   return `'${arg.replace(/'/g, "'\\''")}'`
 }
 
+function extractCommand(command) {
+  command = Path.basename(command).trim()
+  const match = /^\S+/.exec(command)
+  return match ? match[0] : command
+}
+
 module.exports = async function defaultExeca(command, args, options, ...rest) {
   if (args instanceof Object && !Array.isArray(args)) {
     options = args
@@ -41,18 +47,18 @@ module.exports = async function defaultExeca(command, args, options, ...rest) {
     (result) => {
       // eslint-disable-next-line no-console
       console.error(
-        chalk`{green ✔} {bold ${Path.basename(command)}} exited with code 0`
+        chalk`{green ✔} {bold ${extractCommand(command)}} exited with code 0`
       )
     },
     (error) => {
       const { code, signal } = error
       if (code) {
-        error.message = chalk`{red ✖} {bold ${Path.basename(
+        error.message = chalk`{red ✖} {bold ${extractCommand(
           command
         )}} exited with code ${code}`
       }
       if (signal) {
-        error.message = chalk`{red ✖} {bold ${Path.basename(
+        error.message = chalk`{red ✖} {bold ${extractCommand(
           command
         )}} was killed with signal ${signal}`
       }
