@@ -13,13 +13,25 @@ describe(`@jcoreio/toolchain`, function () {
   this.timeout(60000)
   it(`bootstrap --hard && format && lint:fix && prepublish`, async function () {
     const cwd = await copyFixture('find-cycle')
-    await execa('tc', ['bootstrap', '--hard'], { cwd, stdio: 'inherit' })
+    await execa(
+      process.execPath,
+      [
+        require.resolve('../packages/base/scripts/toolchain.cjs'),
+        'bootstrap',
+        '--hard',
+      ],
+      { cwd, stdio: 'inherit' }
+    )
+    await execa('pnpm', ['add', '-D', `@jcoreio/toolchain@workspace:*`], {
+      cwd,
+      stdio: 'inherit',
+    })
     await execa('tc', ['format'], { cwd, stdio: 'inherit' })
     await execa('tc', ['lint:fix'], { cwd, stdio: 'inherit' })
     await execa('tc', ['prepublish'], { cwd, stdio: 'inherit' })
     await expectDirsEqual(
       cwd,
-      Path.resolve(cwd, '..', 'bootstrap-hard-expected')
+      Path.resolve(cwd, '..', 'expected-bootstrap-hard')
     )
   })
 })

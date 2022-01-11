@@ -1,7 +1,7 @@
 const Path = require('path')
 const execa = require('execa')
 const chalk = require('chalk')
-const { projectDir } = require('./findUps.cjs')
+const { projectDir, toolchainPackages } = require('./findUps.cjs')
 
 function formatArg(arg) {
   if (/^[-_a-z0-9=./]+$/i.test(arg)) return arg
@@ -35,8 +35,10 @@ module.exports = async function defaultExeca(command, args, options, ...rest) {
       ...process.env,
       ...options.env,
       PATH: [
-        Path.resolve(__dirname, '..', 'node_modules', '.bin'),
-        Path.resolve(projectDir, 'node_modules', '.bin'),
+        Path.join(projectDir, 'node_modules', '.bin'),
+        ...toolchainPackages.map((pkg) =>
+          Path.join(projectDir, 'node_modules', pkg, 'node_modules', '.bin')
+        ),
         (options.env || process.env).PATH,
       ].join(Path.delimiter),
     },

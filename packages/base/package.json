@@ -33,7 +33,8 @@
     "open": "^8.4.0",
     "prettier": "^2.5.1",
     "resolve-bin": "^1.0.0",
-    "semantic-release": "^18.0.1"
+    "semantic-release": "^18.0.1",
+    "toposort": "^2.0.2"
   },
   "bin": {
     "commitizen": "./bin/commitizen",

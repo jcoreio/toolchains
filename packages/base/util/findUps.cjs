@@ -1,6 +1,8 @@
 const findUp = require('find-up')
 const Path = require('path')
+const fs = require('fs-extra')
 const once = require('./once.cjs')
+const { name } = require('../package.json')
 
 const findGitDir = once(function findGitDir(
   cwd = process.env.INIT_CWD || process.cwd()
@@ -20,4 +22,10 @@ if (!packageJsonFile) {
   )
 }
 exports.packageJsonFile = packageJsonFile
+const packageJson = (exports.packageJson = fs.readJsonSync(packageJsonFile))
 exports.projectDir = Path.dirname(packageJsonFile)
+
+exports.toolchainPackages = [
+  ...Object.keys(packageJson.dependencies || {}),
+  ...Object.keys(packageJson.devDependencies || {}),
+].filter((dep) => dep.startsWith(name))
