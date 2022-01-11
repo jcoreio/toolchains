@@ -18,7 +18,7 @@ function normalizeDef(def) {
 function sortPlugins(defs) {
   const plugins = new Map()
   const edges = []
-  const exclusions = {}
+  const excluded = new Set()
 
   const makeId = (pkg, i) => JSON.stringify({ pkg, i })
 
@@ -46,8 +46,10 @@ function sortPlugins(defs) {
         }
       }
       for (const other of insteadOf) {
-        const e = exclusions[other] || (exclusions[other] = [])
-        e.push(pkg)
+        if (!defs[other]) continue
+        for (let i = 0; i < defs[other].length; i++) {
+          excluded.add(makeId(other, i))
+        }
       }
     }
   }
@@ -59,11 +61,7 @@ function sortPlugins(defs) {
       if (!sortedSet.has(id)) sorted.push(id)
     }
   }
-  const isIncluded = (pkg) =>
-    !exclusions[pkg] || !exclusions[pkg].find((other) => isIncluded(other))
-  return sorted
-    .filter((id) => isIncluded(JSON.parse(id).pkg))
-    .map((id) => plugins.get(id))
+  return sorted.filter((id) => !excluded.has(id)).map((id) => plugins.get(id))
 }
 
 module.exports = sortPlugins

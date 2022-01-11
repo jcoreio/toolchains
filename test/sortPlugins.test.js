@@ -23,21 +23,9 @@ describe(`sortPlugins`, function () {
         d: [['d0', { before: 'c', after: 'b' }]],
         e: ['e0'],
         f: ['f0', 'f1'],
-        g: [['g0', { insteadOf: ['f', 'a'] }]],
+        g: [['g0', { insteadOf: ['f', 'e'] }]],
         h: [['h0', { insteadOf: 'g', before: 'e' }]],
       })
-    ).to.deep.equal([
-      'b1',
-      'a0',
-      'a1',
-      'b0',
-      'd0',
-      'c0',
-      'c1',
-      'h0',
-      'e0',
-      'f0',
-      'f1',
-    ])
+    ).to.deep.equal(['b1', 'a0', 'a1', 'b0', 'd0', 'c0', 'c1', 'h0'])
   })
 })
