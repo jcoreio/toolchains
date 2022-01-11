@@ -5,12 +5,11 @@ const fs = require('../../util/projectFs.cjs')
 async function writeConfigFiles() {
   const files = {
     '.eslintrc.js': dedent`
+      /* eslint-env node */
       module.exports = {
-        extends: [require.resolve('${name}/eslintConfig.cjs')],
-        env: {
-          node: true,
-        },
+        extends: [require.resolve('${name}/eslint.config.cjs')],
       }
+
     `,
   }
   for (const file of [
@@ -22,6 +21,7 @@ async function writeConfigFiles() {
     'prettier.config.cjs',
   ]) {
     files[file] = dedent`
+      /* eslint-env node */
       module.exports = {
         ...require('${name}/${file}'),
       }

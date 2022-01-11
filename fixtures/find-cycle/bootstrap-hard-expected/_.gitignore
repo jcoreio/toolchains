@@ -1,5 +1,4 @@
+/dist
 .nyc_output
 node_modules
 /coverage
-/dist
-/fixtures/*/actual

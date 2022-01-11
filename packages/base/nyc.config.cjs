@@ -1,5 +1,5 @@
 module.exports = {
-  include: ['src/**', 'test/**'],
+  include: ['src/**'],
   extension: ['.js', '.cjs', '.mjs', '.ts', '.tsx', '.jsx'],
   reporter: ['lcov', 'text'],
   sourceMap: true,

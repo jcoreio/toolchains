@@ -24,9 +24,8 @@ module.exports = async function runHook(hook) {
       })
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
-    if (error.exitCode == null) console.error(error.stack)
-    process.exit(error.exitCode != null ? error.exitCode : 1)
+    const { exitCode } = error
+    process.exit(exitCode != null ? exitCode : 1)
     return
   }
   process.exit(0)

@@ -5,10 +5,15 @@ const chalk = require('chalk')
 
 const scripts = {
   bootstrap: require('./bootstrap.cjs'),
+  build: require('./build.cjs'),
   check: require('./check.cjs'),
+  clean: require('./clean.cjs'),
+  coverage: require('./coverage.cjs'),
   format: require('./format.cjs'),
+  lint: require('./lint.cjs'),
   'lint:fix': require('./lint-fix.cjs'),
   'open:coverage': require('./open-coverage.cjs'),
+  prepublish: require('./prepublish.cjs'),
   test: require('./test.cjs'),
   version: {
     description: `print version of ${name}`,

@@ -3,6 +3,7 @@ const fs = require('../../util/projectFs.cjs')
 
 async function updateGitignore() {
   const paths = {
+    '/dist': 'dist',
     '.nyc_output': '.nyc_output',
     node_modules: 'node_modules',
     '/coverage': 'coverage',
