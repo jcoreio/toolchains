@@ -19,7 +19,8 @@ async function gut(args = []) {
   await gutProjectPackageJson()
 }
 
-exports.description = 'remove files and dependencies from old project skeletons'
+exports.description =
+  'remove files and dependencies before installing and bootstrapping'
 exports.run = gut
 
 if (require.main === module) {
