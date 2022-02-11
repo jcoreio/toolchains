@@ -1,7 +1,7 @@
 const execa = require('../../util/execa.cjs')
 const fs = require('../../util/projectFs.cjs')
 
-async function updateGitignore() {
+async function bootstrapGitignore() {
   const paths = {
     '/dist': 'dist',
     '.nyc_output': '.nyc_output',
@@ -34,4 +34,4 @@ async function updateGitignore() {
     console.error('updated .gitignore')
   }
 }
-module.exports = updateGitignore
+module.exports = bootstrapGitignore

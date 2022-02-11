@@ -2,16 +2,16 @@
 
 async function bootstrap(args = []) {
   const execa = require('../util/execa.cjs')
-  const installGitHooks = require('./bootstrap/install-git-hooks.cjs')
-  const updateProjectPackageJson = require('./bootstrap/updateProjectPackageJson.cjs')
-  const writeConfigFiles = require('./bootstrap/writeConfigFiles.cjs')
-  const updateGitignore = require('./bootstrap/updateGitignore.cjs')
+  const installGitHooks = require('./bootstrap/installGitHooks.cjs')
+  const bootstrapProjectPackageJson = require('./bootstrap/bootstrapProjectPackageJson.cjs')
+  const bootstrapConfigFiles = require('./bootstrap/bootstrapConfigFiles.cjs')
+  const bootstrapGitignore = require('./bootstrap/bootstrapGitignore.cjs')
 
   await execa('git', ['init'])
   await installGitHooks()
-  await updateProjectPackageJson()
-  await writeConfigFiles()
-  await updateGitignore()
+  await bootstrapProjectPackageJson()
+  await bootstrapConfigFiles()
+  await bootstrapGitignore()
 }
 
 exports.description = 'set up project'

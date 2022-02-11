@@ -2,7 +2,7 @@ const { name, dependencies: ownDeps } = require('../../package.json')
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 
-async function updateProjectPackageJson() {
+async function bootstrapProjectPackageJson() {
   const { merge, pick } = require('lodash')
 
   const packageJson = await fs.readJson('package.json')
@@ -30,4 +30,4 @@ async function updateProjectPackageJson() {
   console.error('updated package.json')
 }
 
-module.exports = updateProjectPackageJson
+module.exports = bootstrapProjectPackageJson
