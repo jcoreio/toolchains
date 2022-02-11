@@ -1,36 +1,12 @@
 const { name, dependencies: ownDeps } = require('../../package.json')
 const fs = require('../../util/projectFs.cjs')
+const sortDeps = require('../../util/sortDeps.cjs')
 
-async function updateProjectPackageJson({ hard = false } = {}) {
-  const { merge, unset, pick } = require('lodash')
+async function updateProjectPackageJson() {
+  const { merge, pick } = require('lodash')
 
   const packageJson = await fs.readJson('package.json')
-  const { devDependencies } = packageJson
 
-  if (hard) {
-    for (const path of [
-      'exports',
-      'files',
-      'husky',
-      'main',
-      'module',
-      'renovate',
-      'prettier',
-      'eslintConfig',
-      'commitlint',
-      'lint-staged',
-      'nyc',
-      'husky',
-      'config.mocha',
-    ]) {
-      unset(packageJson, path)
-    }
-  }
-  if (devDependencies && hard) {
-    for (const dep of require('./removeDevDeps.cjs')) {
-      delete devDependencies[dep]
-    }
-  }
   merge(packageJson, {
     version: '0.0.0-development',
     sideEffects: false,
@@ -46,6 +22,8 @@ async function updateProjectPackageJson({ hard = false } = {}) {
       commitizen: { path: `${name}/commitizen.cjs` },
     },
   })
+
+  sortDeps(packageJson)
 
   await fs.writeJson('package.json', packageJson, { spaces: 2 })
   // eslint-disable-next-line no-console

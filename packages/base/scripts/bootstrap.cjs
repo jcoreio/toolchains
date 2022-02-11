@@ -1,26 +1,16 @@
 #!/usr/bin/env node
 
-const fs = require('../util/projectFs.cjs')
-
 async function bootstrap(args = []) {
-  const hard = args.includes('--hard')
-
   const execa = require('../util/execa.cjs')
   const installGitHooks = require('./bootstrap/install-git-hooks.cjs')
   const updateProjectPackageJson = require('./bootstrap/updateProjectPackageJson.cjs')
   const writeConfigFiles = require('./bootstrap/writeConfigFiles.cjs')
   const updateGitignore = require('./bootstrap/updateGitignore.cjs')
 
-  if (hard) {
-    await Promise.all(
-      require('./bootstrap/removeFiles.cjs').map((file) => fs.remove(file))
-    )
-  }
-
   await execa('git', ['init'])
   await installGitHooks()
-  await updateProjectPackageJson({ hard })
-  await writeConfigFiles({ hard })
+  await updateProjectPackageJson()
+  await writeConfigFiles()
   await updateGitignore()
 }
 

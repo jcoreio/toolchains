@@ -15,6 +15,7 @@ let cwd = process.env.INIT_CWD || process.cwd()
 
 const nodeModulesMatch = /\/node_modules(\/|$)/.exec(cwd)
 if (nodeModulesMatch) cwd = cwd.substring(0, nodeModulesMatch.index)
+
 const packageJsonFile = findUp.sync('package.json', { cwd, type: 'file' })
 if (!packageJsonFile) {
   throw new Error(

@@ -12,17 +12,16 @@
     "url": "https://github.com/jcoreio/toolchain/issues"
   },
   "homepage": "https://github.com/jcoreio/toolchain#readme",
-  "devDependencies": {
+  "dependencies": {
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.5",
     "@babel/eslint-parser": "^7.16.5",
+    "@babel/node": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
     "@babel/register": "^7.16.5",
     "@jcoreio/toolchain": "workspace:^0.0.0-development",
-    "eslint": "^8.5.0"
-  },
-  "dependencies": {
-    "@babel/node": "^7.16.5",
+    "babel-plugin-istanbul": "^6.1.1",
+    "eslint": "^8.5.0",
     "resolve-bin": "^1.0.0"
   },
   "peerDependencies": {

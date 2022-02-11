@@ -53,4 +53,4 @@ module.exports = [
   '.travis.yml',
   'solano.yml',
   'yarn.lock',
-]
+].sort()
