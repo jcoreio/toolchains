@@ -2,15 +2,15 @@ module.exports = function (api) {
   return {
     presets: [
       [
-        '@babel/preset-env',
+        require.resolve('@babel/preset-env'),
         {
           targets: { node: 16 },
         },
       ],
     ],
     plugins: [
-      '@babel/plugin-transform-runtime',
-      api.env('coverage') && 'babel-plugin-istanbul',
+      require.resolve('@babel/plugin-transform-runtime'),
+      api.env('coverage') && require.resolve('babel-plugin-istanbul'),
     ].filter(Boolean),
   }
 }

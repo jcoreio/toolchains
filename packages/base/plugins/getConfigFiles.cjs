@@ -2,7 +2,7 @@ const { name } = require('../package.json')
 const dedent = require('dedent-js')
 
 module.exports = [
-  async function getConfigFiles(args = []) {
+  async function getConfigFiles() {
     const files = {
       '.eslintrc.js': dedent`
         /* eslint-env node */
