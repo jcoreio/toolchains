@@ -1,5 +1,6 @@
 const fs = require('../util/projectFs.cjs')
 const execa = require('../util/execa.cjs')
+const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
 
 async function eslintArgs() {
   return [
@@ -8,7 +9,7 @@ async function eslintArgs() {
     '--ignore-pattern',
     'flow-typed/',
     '--ext',
-    '.js,.cjs,.mjs',
+    ['.js', '.cjs', '.mjs', ...getPluginsArraySync('lintExtensions')].join(','),
   ]
 }
 

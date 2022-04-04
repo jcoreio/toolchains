@@ -26,6 +26,7 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-flow`, function () {
         `@jcoreio/toolchain@workspace:*`,
         `@jcoreio/toolchain-esnext@workspace:*`,
         `@jcoreio/toolchain-flow@workspace:*`,
+        'eslint-plugin-flowtype',
       ],
       {
         cwd,

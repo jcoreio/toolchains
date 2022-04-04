@@ -1,4 +1,4 @@
-const { name, dependencies: ownDeps } = require('../../package.json')
+const { name, peerDependencies } = require('../../package.json')
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 
@@ -17,7 +17,7 @@ async function bootstrapProjectPackageJson() {
       prepublishOnly:
         'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
     },
-    devDependencies: pick(ownDeps, 'mocha', 'chai'),
+    devDependencies: peerDependencies,
     config: {
       commitizen: { path: `${name}/commitizen.cjs` },
     },

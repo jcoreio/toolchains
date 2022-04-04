@@ -15,11 +15,12 @@
   "dependencies": {
     "@babel/preset-flow": "^7.16.5",
     "@jcoreio/toolchain": "workspace:^0.0.0-development",
-    "@jcoreio/toolchain-esnext": "workspace:^0.0.0-development",
-    "eslint-plugin-flowtype": "^8.0.3"
+    "@jcoreio/toolchain-esnext": "workspace:^0.0.0-development"
   },
   "peerDependencies": {
     "@jcoreio/toolchain": "^1.0.0",
-    "@jcoreio/toolchain-esnext": "^1.0.0"
+    "@jcoreio/toolchain-esnext": "^1.0.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "flow-bin": "*"
   }
 }

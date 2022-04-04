@@ -1,1 +1,2 @@
-require('chai').use(require('chai-as-promised'))
+const getPlugins = require('./getPlugins.cjs')
+for (const plugin of getPlugins('configureMocha')) plugin()
