@@ -14,7 +14,6 @@ async function gutProjectPackageJson() {
     'module',
     'renovate',
     'prettier',
-    'eslintConfig',
     'commitlint',
     'lint-staged',
     'nyc',
@@ -24,7 +23,7 @@ async function gutProjectPackageJson() {
     unset(packageJson, path)
   }
   if (devDependencies) {
-    for (const dep of require('./removeDevDeps.cjs')) {
+    for (const dep of require('./gutDevDeps.cjs')) {
       delete devDependencies[dep]
     }
   }

@@ -6,7 +6,7 @@ async function gut(args = []) {
   const gutProjectPackageJson = require('./gut/gutProjectPackageJson.cjs')
 
   await Promise.all(
-    require('./gut/removeFiles.cjs').map(async (file) => {
+    require('./gut/gutFiles.cjs').map(async (file) => {
       const exists = await fs.pathExists(file)
       if (exists) {
         await fs.remove(file)

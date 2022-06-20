@@ -13,9 +13,8 @@
   },
   "homepage": "https://github.com/jcoreio/toolchain#readme",
   "dependencies": {
-    "@babel/preset-flow": "^7.16.5",
-    "@jcoreio/toolchain": "workspace:^0.0.0-development",
-    "@jcoreio/toolchain-esnext": "workspace:^0.0.0-development"
+    "@babel/core": "^7.16.5",
+    "@babel/preset-flow": "^7.16.5"
   },
   "peerDependencies": {
     "@jcoreio/toolchain": "^1.0.0",

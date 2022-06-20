@@ -87,6 +87,7 @@ module.exports = [
   'coveralls',
   'eslint',
   'eslint-plugin-flowtype',
+  'eslint-plugin-react',
   'eslint-watch',
   'flow-copy-source',
   'flow-watch',

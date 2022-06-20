@@ -3,9 +3,13 @@ const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 
 async function bootstrapProjectPackageJson() {
-  const { merge, pick } = require('lodash')
+  const { merge, unset } = require('lodash')
 
   const packageJson = await fs.readJson('package.json')
+
+  for (const path of ['eslintConfig']) {
+    unset(packageJson, path)
+  }
 
   merge(packageJson, {
     version: '0.0.0-development',

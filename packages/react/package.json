@@ -13,9 +13,9 @@
   },
   "homepage": "https://github.com/jcoreio/toolchain#readme",
   "dependencies": {
+    "@babel/core": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
-    "@jcoreio/toolchain": "workspace:^0.0.0-development",
-    "@jcoreio/toolchain-esnext": "workspace:^0.0.0-development"
+    "babel-plugin-flow-react-proptypes": "^26.0.0"
   },
   "peerDependencies": {
     "@jcoreio/toolchain": "^1.0.0",
