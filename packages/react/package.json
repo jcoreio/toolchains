@@ -15,11 +15,14 @@
   "dependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
-    "babel-plugin-flow-react-proptypes": "^26.0.0"
+    "babel-plugin-flow-react-proptypes": "^26.0.0",
+    "global-jsdom": "^8.4.0",
+    "jsdom": "^11.5.1"
   },
   "peerDependencies": {
-    "@jcoreio/toolchain": "^1.0.0",
-    "@jcoreio/toolchain-esnext": "^1.0.0",
+    "@jcoreio/toolchain": "workspace:*",
+    "@jcoreio/toolchain-esnext": "workspace:*",
+    "eslint": "^8.0.0",
     "eslint-plugin-react": "^7.29.4",
     "react": "*"
   }

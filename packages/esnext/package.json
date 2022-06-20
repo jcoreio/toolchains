@@ -28,7 +28,7 @@
     "resolve-bin": "^1.0.0"
   },
   "peerDependencies": {
-    "@jcoreio/toolchain": "^1.0.0"
+    "@jcoreio/toolchain": "workspace:*"
   },
   "bin": {
     "babel": "./bin/babel",

@@ -1,4 +1,5 @@
-const { name, peerDependencies } = require('../../package.json')
+const { name, peerDependencies: basePeerDeps } = require('../../package.json')
+const { projectDir, toolchainPackages } = require('../../util/findUps.cjs')
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 
@@ -6,6 +7,15 @@ async function bootstrapProjectPackageJson() {
   const { merge, unset } = require('lodash')
 
   const packageJson = await fs.readJson('package.json')
+
+  const peerDependencies = { ...basePeerDeps }
+  for (const pkg of toolchainPackages) {
+    Object.assign(
+      peerDependencies,
+      require(require.resolve(`${pkg}/package.json`, { paths: [projectDir] }))
+        .peerDependencies
+    )
+  }
 
   for (const path of ['eslintConfig']) {
     unset(packageJson, path)

@@ -24,7 +24,9 @@ module.exports = async function defaultExeca(command, args, options, ...rest) {
 
   // eslint-disable-next-line no-console
   console.error(
-    chalk`{gray.bold $ ${command} ${args.map(formatArg).join(' ')}}`
+    chalk`{gray.bold $ ${command}${
+      args ? ' ' + args.map(formatArg).join(' ') : ''
+    }}`
   )
 
   const opts = {

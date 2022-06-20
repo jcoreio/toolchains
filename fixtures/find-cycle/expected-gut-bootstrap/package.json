@@ -59,6 +59,7 @@
   "devDependencies": {
     "@jcoreio/toolchain": "workspace:0.0.0-development",
     "chai": "^4.1.2",
+    "eslint": "^8.0.0",
     "flow-bin": "^0.64.0",
     "mocha": "^9.1.3"
   },

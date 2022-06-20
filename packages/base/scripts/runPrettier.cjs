@@ -2,10 +2,11 @@ const fs = require('../util/projectFs.cjs')
 const execa = require('../util/execa.cjs')
 
 async function prettierArgs() {
-  return [
-    '--ignore-path',
-    (await fs.pathExists('.prettierignore')) ? '.prettierignore' : '.gitignore',
-  ]
+  return (await fs.pathExists('.prettierignore'))
+    ? ['--ignore-path', '.prettierignore']
+    : (await fs.pathExists('.gitignore'))
+    ? ['--ignore-path', '.gitignore']
+    : []
 }
 
 async function runPrettier(args = []) {

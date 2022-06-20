@@ -3,7 +3,6 @@
 
 import * as React from 'react'
 import Prefixer from 'inline-style-prefixer'
-import { TransitionContext } from 'react-transition-context'
 
 type TransitionState = 'in' | 'out' | 'entering' | 'leaving'
 
@@ -108,7 +107,10 @@ export const defaultProps: DefaultProps = {
 function applyDefaults(props: Props): DefaultedProps {
   const result: any = { ...props }
   for (const key in defaultProps) {
-    if (Object.prototype.hasOwnProperty.call(defaultProps, key) && props[key] == null) {
+    if (
+      Object.prototype.hasOwnProperty.call(defaultProps, key) &&
+      props[key] == null
+    ) {
       result[key] = defaultProps[key]
     }
   }
@@ -268,13 +270,11 @@ export default class ViewSlider extends React.Component<Props, State> {
         <div
           style={prefixer.prefix({ width: '100%', ...innerViewWrapperStyle })}
         >
-          <TransitionContext state={this.getTransitionState(index)}>
-            {this.props.renderView({
-              index,
-              active: index === activeView,
-              transitionState: this.getTransitionState(index),
-            })}
-          </TransitionContext>
+          {this.props.renderView({
+            index,
+            active: index === activeView,
+            transitionState: this.getTransitionState(index),
+          })}
         </div>
       </div>
     )

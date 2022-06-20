@@ -4,8 +4,11 @@ const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
 
 async function eslintArgs() {
   return [
-    '--ignore-path',
-    (await fs.pathExists('.eslintignore')) ? '.eslintignore' : '.gitignore',
+    ...((await fs.pathExists('.eslintignore'))
+      ? ['--ignore-path', '.eslintignore']
+      : (await fs.pathExists('.eslintignore'))
+      ? ['--ignore-path', '.gitignore']
+      : []),
     '--ignore-pattern',
     'flow-typed/',
     '--ext',

@@ -40,6 +40,7 @@ describe(`@jcoreio/toolchain-react and @jcoreio/toolchain-flow`, function () {
       [require.resolve('../packages/base/scripts/toolchain.cjs'), 'bootstrap'],
       { cwd, stdio: 'inherit' }
     )
+    await execa('pnpm', ['i'], { cwd, stdio: 'inherit' })
     await execa('tc', ['format'], { cwd, stdio: 'inherit' })
     await execa('tc', ['lint:fix'], { cwd, stdio: 'inherit' })
     await execa('tc', ['prepublish'], { cwd, stdio: 'inherit' })

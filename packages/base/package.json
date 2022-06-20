@@ -34,7 +34,8 @@
     "toposort": "^2.0.2"
   },
   "peerDependencies": {
-    "mocha": "^9.1.3"
+    "mocha": "^9.1.3",
+    "eslint": "^8.0.0"
   },
   "bin": {
     "commitizen": "./bin/commitizen",
