@@ -1,7 +1,5 @@
 const { name } = require('../package.json')
 const dedent = require('dedent-js')
-const { projectDir } = require('../util/findUps.cjs')
-const path = require('path')
 const execa = require('../util/execa.cjs')
 
 module.exports = [
@@ -16,7 +14,6 @@ module.exports = [
         ).stdout.toString()
       )
     } catch (error) {
-      console.error(error.stack)
       // ignore
     }
     const eslintEnv = eslintConfig && eslintConfig.env

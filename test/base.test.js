@@ -8,9 +8,6 @@ const Path = require('path')
 const copyFixture = require('./util/copyFixture')
 const expectDirsEqual = require('./util/expectDirsEqual')
 const execa = require('execa')
-const fs = require('fs-extra')
-
-const root = Path.resolve(__dirname, '..')
 
 describe(`@jcoreio/toolchain`, function () {
   this.timeout(60000)
