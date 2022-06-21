@@ -11,11 +11,11 @@ const execa = require('execa')
 
 describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-flow`, function () {
   this.timeout(60000)
-  it(`gut && bootstrap && format && lint:fix && prepublish`, async function () {
+  it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function () {
     const cwd = await copyFixture('async-throttle')
     await execa(
       process.execPath,
-      [require.resolve('../packages/base/scripts/toolchain.cjs'), 'gut'],
+      [require.resolve('../packages/base/scripts/toolchain.cjs'), 'preinstall'],
       { cwd, stdio: 'inherit' }
     )
     await execa(
@@ -23,28 +23,24 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-flow`, function () {
       [
         'add',
         '-D',
-        `@jcoreio/toolchain@workspace:*`,
-        `@jcoreio/toolchain-esnext@workspace:*`,
-        `@jcoreio/toolchain-flow@workspace:*`,
-        'eslint-plugin-flowtype',
+        '../packages/base',
+        '../packages/esnext',
+        '../packages/flow',
+        '@babel/core@^7.11.0',
       ],
       {
         cwd,
         stdio: 'inherit',
       }
     )
-    await execa(
-      process.execPath,
-      [require.resolve('../packages/base/scripts/toolchain.cjs'), 'bootstrap'],
-      { cwd, stdio: 'inherit' }
-    )
+    await execa('tc', ['bootstrap'], { cwd, stdio: 'inherit' })
     await execa('pnpm', ['i'], { cwd, stdio: 'inherit' })
     await execa('tc', ['format'], { cwd, stdio: 'inherit' })
     await execa('tc', ['lint:fix'], { cwd, stdio: 'inherit' })
     await execa('tc', ['prepublish'], { cwd, stdio: 'inherit' })
     await expectDirsEqual(
       cwd,
-      Path.resolve(cwd, '..', 'expected-gut-bootstrap')
+      Path.resolve(cwd, '..', 'expected-preinstall-bootstrap')
     )
   })
 })

@@ -1,0 +1,36 @@
+{
+  "name": "@jcoreio/toolchain-typescript",
+  "version": "0.0.0-development",
+  "description": "TypeScript JS build toolchain",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchain.git"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchain/issues"
+  },
+  "homepage": "https://github.com/jcoreio/toolchain#readme",
+  "dependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-typescript": "^7.16.5",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-typescript": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@jcoreio/toolchain": "workspace:*",
+    "@jcoreio/toolchain-esnext": "workspace:*",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "eslint": "^8.0.0",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "typescript": "^4.7.4"
+  }
+}

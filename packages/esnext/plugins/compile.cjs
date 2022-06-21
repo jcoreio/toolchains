@@ -5,14 +5,17 @@ const glob = require('glob')
 const fs = require('fs-extra')
 const dedent = require('dedent-js')
 const { packageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
+const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 
 module.exports = [
   [
     async function compile(args = []) {
       const config = packageJson['@jcoreio/toolchain']
+      const extensions = getPluginsArraySync('babelExtensions')
 
       await execa('babel', [
         'src',
+        ...(extensions.length ? ['--extensions', extensions.join(',')] : []),
         '--out-dir',
         'dist',
         '--out-file-extension',
@@ -37,7 +40,16 @@ module.exports = [
       } else {
         await execa(
           'babel',
-          ['src', '--out-dir', 'dist', '--out-file-extension', '.mjs'],
+          [
+            'src',
+            ...(extensions.length
+              ? ['--extensions', extensions.join(',')]
+              : []),
+            '--out-dir',
+            'dist',
+            '--out-file-extension',
+            '.mjs',
+          ],
           { env: { ...process.env, JCOREIO_TOOLCHAIN_MJS: '1' } }
         )
       }

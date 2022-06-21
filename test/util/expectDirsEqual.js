@@ -10,7 +10,7 @@ const { expect } = require('chai')
 
 async function expectDirsEqual(actual, expected) {
   const gitignore = new Gitignore({
-    finalRules: ['!dist'],
+    finalRules: ['!dist', 'pnpm-lock.yaml'],
   })
 
   async function readdir(dir) {

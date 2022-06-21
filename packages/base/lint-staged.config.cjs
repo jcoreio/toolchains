@@ -1,11 +1,6 @@
 const getPluginsArraySync = require('./util/getPluginsArraySync.cjs')
 
-const lintExtList = [
-  'js',
-  'cjs',
-  'mjs',
-  ...getPluginsArraySync('lintExtensions'),
-]
+const lintExtList = getPluginsArraySync('lintExtensions')
 
 const lintExts =
   lintExtList.length === 1

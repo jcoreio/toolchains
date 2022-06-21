@@ -10,7 +10,7 @@ const scripts = {
   clean: require('./clean.cjs'),
   coverage: require('./coverage.cjs'),
   format: require('./format.cjs'),
-  gut: require('./gut.cjs'),
+  preinstall: require('./preinstall.cjs'),
   lint: require('./lint.cjs'),
   'lint:fix': require('./lint-fix.cjs'),
   'open:coverage': require('./open-coverage.cjs'),

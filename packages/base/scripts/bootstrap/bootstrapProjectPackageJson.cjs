@@ -7,6 +7,8 @@ async function bootstrapProjectPackageJson() {
   const { merge, unset } = require('lodash')
 
   const packageJson = await fs.readJson('package.json')
+  const devDependencies =
+    packageJson.devDependencies || (packageJson.devDependencies = {})
 
   const peerDependencies = { ...basePeerDeps }
   for (const pkg of toolchainPackages) {
@@ -20,6 +22,9 @@ async function bootstrapProjectPackageJson() {
   for (const path of ['eslintConfig']) {
     unset(packageJson, path)
   }
+  for (const dep of require('./bootstrapRemoveDevDeps.cjs')) {
+    delete devDependencies[dep]
+  }
 
   merge(packageJson, {
     version: '0.0.0-development',
@@ -31,11 +36,18 @@ async function bootstrapProjectPackageJson() {
       prepublishOnly:
         'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
     },
-    devDependencies: peerDependencies,
     config: {
       commitizen: { path: `${name}/commitizen.cjs` },
     },
   })
+
+  if (peerDependencies) {
+    for (const dep in peerDependencies) {
+      const version = peerDependencies[dep]
+      if (version.startsWith('workspace')) continue
+      packageJson.devDependencies[dep] = version
+    }
+  }
 
   sortDeps(packageJson)
 

@@ -11,11 +11,11 @@ const execa = require('execa')
 
 describe(`@jcoreio/toolchain-react and @jcoreio/toolchain-flow`, function () {
   this.timeout(60000)
-  it(`gut && bootstrap && format && lint:fix && prepublish`, async function () {
+  it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function () {
     const cwd = await copyFixture('react-view-slider')
     await execa(
       process.execPath,
-      [require.resolve('../packages/base/scripts/toolchain.cjs'), 'gut'],
+      [require.resolve('../packages/base/scripts/toolchain.cjs'), 'preinstall'],
       { cwd, stdio: 'inherit' }
     )
     await execa(
@@ -23,10 +23,10 @@ describe(`@jcoreio/toolchain-react and @jcoreio/toolchain-flow`, function () {
       [
         'add',
         '-D',
-        `@jcoreio/toolchain@workspace:*`,
-        `@jcoreio/toolchain-esnext@workspace:*`,
-        `@jcoreio/toolchain-flow@workspace:*`,
-        `@jcoreio/toolchain-react@workspace:*`,
+        '../packages/base',
+        '../packages/esnext',
+        '../packages/flow',
+        '../packages/react',
         'eslint-plugin-flowtype',
         'eslint-plugin-react',
       ],
@@ -35,18 +35,14 @@ describe(`@jcoreio/toolchain-react and @jcoreio/toolchain-flow`, function () {
         stdio: 'inherit',
       }
     )
-    await execa(
-      process.execPath,
-      [require.resolve('../packages/base/scripts/toolchain.cjs'), 'bootstrap'],
-      { cwd, stdio: 'inherit' }
-    )
+    await execa('tc', ['bootstrap'], { cwd, stdio: 'inherit' })
     await execa('pnpm', ['i'], { cwd, stdio: 'inherit' })
     await execa('tc', ['format'], { cwd, stdio: 'inherit' })
     await execa('tc', ['lint:fix'], { cwd, stdio: 'inherit' })
     await execa('tc', ['prepublish'], { cwd, stdio: 'inherit' })
     await expectDirsEqual(
       cwd,
-      Path.resolve(cwd, '..', 'expected-gut-bootstrap')
+      Path.resolve(cwd, '..', 'expected-preinstall-bootstrap')
     )
   })
 })

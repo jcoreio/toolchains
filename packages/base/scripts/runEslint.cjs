@@ -6,13 +6,13 @@ async function eslintArgs() {
   return [
     ...((await fs.pathExists('.eslintignore'))
       ? ['--ignore-path', '.eslintignore']
-      : (await fs.pathExists('.eslintignore'))
+      : (await fs.pathExists('.gitignore'))
       ? ['--ignore-path', '.gitignore']
       : []),
     '--ignore-pattern',
     'flow-typed/',
     '--ext',
-    ['.js', '.cjs', '.mjs', ...getPluginsArraySync('lintExtensions')].join(','),
+    getPluginsArraySync('lintExtensions').join(','),
   ]
 }
 

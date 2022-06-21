@@ -8,7 +8,7 @@ async function bootstrap(args = []) {
   const bootstrapProjectPackageJson = require('./bootstrap/bootstrapProjectPackageJson.cjs')
   const bootstrapConfigFiles = require('./bootstrap/bootstrapConfigFiles.cjs')
   const bootstrapGitignore = require('./bootstrap/bootstrapGitignore.cjs')
-  const bootstrapGutFiles = require('./bootstrap/bootstrapGutFiles.cjs')
+  const bootstrapRemoveFiles = require('./bootstrap/bootstrapRemoveFiles.cjs')
 
   await execa('git', ['init'])
   await installGitHooks()
@@ -16,7 +16,7 @@ async function bootstrap(args = []) {
   await bootstrapConfigFiles()
   await bootstrapGitignore()
   await Promise.all(
-    bootstrapGutFiles.map(async (file) => {
+    bootstrapRemoveFiles.map(async (file) => {
       const exists = await fs.pathExists(file)
       if (exists) {
         await fs.remove(file)

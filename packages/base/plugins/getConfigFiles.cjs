@@ -2,19 +2,21 @@ const { name } = require('../package.json')
 const dedent = require('dedent-js')
 const { projectDir } = require('../util/findUps.cjs')
 const path = require('path')
+const execa = require('../util/execa.cjs')
 
 module.exports = [
   async function getConfigFiles() {
     let eslintConfig
     try {
-      const { ESLint } = require(require.resolve('eslint', {
-        paths: [projectDir],
-      }))
-      const eslint = new ESLint()
-      eslintConfig = await eslint.calculateConfigForFile(
-        path.join(projectDir, 'index.js')
+      eslintConfig = JSON.parse(
+        (
+          await execa('eslint', ['--print-config', 'index.js'], {
+            stdio: 'pipe',
+          })
+        ).stdout.toString()
       )
     } catch (error) {
+      console.error(error.stack)
       // ignore
     }
     const eslintEnv = eslintConfig && eslintConfig.env

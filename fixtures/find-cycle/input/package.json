@@ -70,7 +70,7 @@
     "@jedwards1211/eslint-config-flow": "^1.0.0",
     "chai": "^4.1.2",
     "codecov": "^3.0.0",
-    "eslint": "^4.16.0",
+    "eslint": "^5.0.0",
     "eslint-plugin-flowtype": "^2.42.0",
     "eslint-watch": "^3.1.3",
     "flow-bin": "^0.64.0",
