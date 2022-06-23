@@ -165,7 +165,9 @@ function defaultLogFormat(loggerPath: string, level: Level): string {
   return `[${date}${loggerPath}] ${(logLevelToName as any)[level]}`
 }
 
-export function createDefaultLogProvider(logFunc: (...args: any[]) => any): LogProvider {
+export function createDefaultLogProvider(
+  logFunc: (...args: any[]) => any
+): LogProvider {
   return (loggerPath: string, level: Level, ...args: Array<any>): void => {
     logFunc(defaultLogFormat(loggerPath, level), ...args)
   }

@@ -1,0 +1,49 @@
+{
+  "name": "log4jcore",
+  "version": "0.0.0-development",
+  "description": "logging",
+  "types": "index.d.ts",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1",
+    "semantic-release": "semantic-release",
+    "tc": "toolchain",
+    "toolchain": "toolchain",
+    "test": "toolchain test"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@jcoreio/toolchain/commitizen.cjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/log4jcore.git"
+  },
+  "keywords": [
+    "logging"
+  ],
+  "author": "Jason McLaurin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/log4jcore/issues"
+  },
+  "homepage": "https://github.com/jcoreio/log4jcore#readme",
+  "sideEffects": false,
+  "exports": {
+    "./index": {
+      "require": "./index.cjs",
+      "import": "./index.mjs"
+    },
+    "./memoryLogProvider": {
+      "require": "./memoryLogProvider.cjs",
+      "import": "./memoryLogProvider.mjs"
+    },
+    "./writableLogFunction": {
+      "require": "./writableLogFunction.cjs",
+      "import": "./writableLogFunction.mjs"
+    }
+  }
+}

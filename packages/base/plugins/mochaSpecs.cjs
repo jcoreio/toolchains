@@ -1,1 +1,5 @@
-module.exports = [() => ['test/**.{js,cjs,mjs}']]
+const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
+
+module.exports = [
+  () => [`test/**.{${getPluginsArraySync('sourceExtensions').join(',')}}`],
+]

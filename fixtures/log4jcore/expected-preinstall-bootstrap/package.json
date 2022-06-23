@@ -1,0 +1,76 @@
+{
+  "name": "log4jcore",
+  "version": "0.0.0-development",
+  "description": "logging",
+  "types": "index.d.ts",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1",
+    "semantic-release": "semantic-release",
+    "tc": "toolchain",
+    "toolchain": "toolchain",
+    "test": "toolchain test"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@jcoreio/toolchain/commitizen.cjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/log4jcore.git"
+  },
+  "keywords": [
+    "logging"
+  ],
+  "author": "Jason McLaurin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/log4jcore/issues"
+  },
+  "homepage": "https://github.com/jcoreio/log4jcore#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-typescript": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@babel/register": "^7.17.7",
+    "@babel/runtime": "^7.7.1",
+    "@jcoreio/toolchain": "link:../packages/base",
+    "@jcoreio/toolchain-esnext": "link:../packages/esnext",
+    "@jcoreio/toolchain-typescript": "link:../packages/typescript",
+    "@types/chai": "^4.2.6",
+    "@types/fs-extra": "^8.0.1",
+    "@types/glob": "^7.2.0",
+    "@types/lodash": "^4.14.182",
+    "@types/mocha": "^8.2.2",
+    "@types/sinon": "^10.0.2",
+    "@types/touch": "^3.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "chai": "^4.2.0",
+    "chalk": "^2.4.2",
+    "copy": "^0.3.2",
+    "cross-env": "^5.2.0",
+    "defaultenv": "^4.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^6.5.0",
+    "flow-bin": "^0.180.0",
+    "fs-extra": "^8.1.0",
+    "glob": "^8.0.3",
+    "lodash": "^4.17.21",
+    "mocha": "^9.1.3",
+    "p-event": "^4.2.0",
+    "prettier": "^2.7.1",
+    "promake": "^3.1.2",
+    "promisify-child-process": "^3.1.1",
+    "rimraf": "^2.6.0",
+    "semver": "^6.3.0",
+    "sinon": "^11.1.1",
+    "touch": "^3.1.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^4.7.4"
+  },
+  "sideEffects": false
+}

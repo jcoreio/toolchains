@@ -5,7 +5,6 @@ module.exports = {
   reporter: 'spec',
   spec: [
     require.resolve('./util/mochaWatchClearConsole.cjs'),
-    'test/**.{js,cjs,mjs}',
     ...getPluginsArraySync('mochaSpecs'),
   ],
 }

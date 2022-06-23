@@ -16,8 +16,10 @@ module.exports = [
           include: ['./src'],
           exclude: ['node_modules', './src/**/*.spec.ts', './test'],
           compilerOptions: {
+            outDir: './dist',
             declaration: true,
             noEmit: false,
+            emitDeclarationOnly: true,
           },
         },
         null,

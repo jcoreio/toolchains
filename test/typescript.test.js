@@ -34,7 +34,10 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function
       }
     )
     await execa('tc', ['bootstrap'], { cwd, stdio: 'inherit' })
-    await execa('pnpm', ['i'], { cwd, stdio: 'inherit' })
+    await execa('pnpm', ['add', '-D', '@babel/register'], {
+      cwd,
+      stdio: 'inherit',
+    })
     await execa('tc', ['format'], { cwd, stdio: 'inherit' })
     await execa('tc', ['lint:fix'], { cwd, stdio: 'inherit' })
     await execa('tc', ['prepublish'], { cwd, stdio: 'inherit' })
