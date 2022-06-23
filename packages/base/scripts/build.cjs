@@ -33,5 +33,6 @@ exports.run = async function build(args = []) {
   ).catch(ignoreEnoent)
 
   await getPluginsAsyncFunction('compile')(args)
+  await getPluginsAsyncFunction('build')(args)
 }
 exports.description = 'build output directory'

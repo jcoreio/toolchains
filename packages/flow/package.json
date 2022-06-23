@@ -14,7 +14,8 @@
   "homepage": "https://github.com/jcoreio/toolchain#readme",
   "dependencies": {
     "@babel/core": "^7.16.5",
-    "@babel/preset-flow": "^7.16.5"
+    "@babel/preset-flow": "^7.16.5",
+    "glob": "^7.2.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0",

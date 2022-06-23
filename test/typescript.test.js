@@ -25,8 +25,10 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function
         '-D',
         '../packages/base',
         '../packages/esnext',
+        '../packages/flow',
         '../packages/typescript',
         'prettier',
+        '@babel/core@^7.11.0',
       ],
       {
         cwd,

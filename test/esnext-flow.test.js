@@ -26,6 +26,8 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-flow`, function () {
         '../packages/base',
         '../packages/esnext',
         '../packages/flow',
+        '../packages/typescript',
+        'prettier',
         '@babel/core@^7.11.0',
       ],
       {

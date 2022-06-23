@@ -31,6 +31,8 @@ function ChdirFs(cwd) {
     mkdirsSync: (path, ...args) => fs.mkdirsSync(resolve(cwd, path), ...args),
     remove: (path, ...args) => fs.remove(resolve(cwd, path), ...args),
     removeSync: (path, ...args) => fs.removeSync(resolve(cwd, path), ...args),
+    readdir: (path, ...args) => fs.readdir(resolve(cwd, path), ...args),
+    readdirSync: (path, ...args) => fs.readdirSync(resolve(cwd, path), ...args),
   }
 }
 module.exports = ChdirFs

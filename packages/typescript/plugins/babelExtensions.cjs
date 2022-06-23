@@ -1,1 +1,3 @@
-module.exports = [() => ['.ts', '.tsx']]
+const hasTSSourcesSync = require('@jcoreio/toolchain/util/hasTSSourcesSync.cjs')
+
+module.exports = hasTSSourcesSync() ? [() => ['.ts', '.tsx']] : []
