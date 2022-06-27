@@ -46,5 +46,6 @@ module.exports = [
   '.renovaterc',
   '.travis.yml',
   'solano.yml',
+  'tsconfig.json',
   'yarn.lock',
 ].sort()

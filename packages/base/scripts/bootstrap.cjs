@@ -6,6 +6,7 @@ async function bootstrap(args = []) {
   const execa = require('../util/execa.cjs')
   const installGitHooks = require('./bootstrap/installGitHooks.cjs')
   const bootstrapProjectPackageJson = require('./bootstrap/bootstrapProjectPackageJson.cjs')
+  const bootstrapEslintConfigs = require('./bootstrap/bootstrapEslintConfigs.cjs')
   const bootstrapConfigFiles = require('./bootstrap/bootstrapConfigFiles.cjs')
   const bootstrapGitignore = require('./bootstrap/bootstrapGitignore.cjs')
   const bootstrapRemoveFiles = require('./bootstrap/bootstrapRemoveFiles.cjs')
@@ -13,8 +14,6 @@ async function bootstrap(args = []) {
   await execa('git', ['init'])
   await installGitHooks()
   await bootstrapProjectPackageJson()
-  await bootstrapConfigFiles()
-  await bootstrapGitignore()
   await Promise.all(
     bootstrapRemoveFiles.map(async (file) => {
       const exists = await fs.pathExists(file)
@@ -25,6 +24,9 @@ async function bootstrap(args = []) {
       }
     })
   )
+  await bootstrapConfigFiles()
+  await bootstrapEslintConfigs()
+  await bootstrapGitignore()
 }
 
 exports.description = 'set up project'

@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* eslint-env node, es2018 */
 module.exports = {
   ...Object.fromEntries(
     [

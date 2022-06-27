@@ -28,6 +28,6 @@ module.exports = [
         )
       }
     },
-    { after: ['@jcoreio/toolchain-esnext'] },
+    { after: ['@jcoreio/toolchain', '@jcoreio/toolchain-esnext'] },
   ],
 ]

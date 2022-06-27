@@ -1,11 +1,5 @@
 module.exports = {
   extends: ['eslint:recommended'],
-  env: {
-    es2017: true,
-  },
-  parserOptions: {
-    ecmaVersion: 2018,
-  },
   rules: {
     'arrow-spacing': 'error',
     'comma-spacing': 'error',

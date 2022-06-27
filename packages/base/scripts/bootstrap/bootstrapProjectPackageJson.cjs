@@ -19,7 +19,21 @@ async function bootstrapProjectPackageJson() {
     )
   }
 
-  for (const path of ['eslintConfig']) {
+  for (const path of [
+    'exports',
+    'eslintConfig',
+    'files',
+    'husky',
+    'main',
+    'module',
+    'renovate',
+    'prettier',
+    'commitlint',
+    'lint-staged',
+    'nyc',
+    'husky',
+    'config.mocha',
+  ]) {
     unset(packageJson, path)
   }
   for (const dep of require('./bootstrapRemoveDevDeps.cjs')) {

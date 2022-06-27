@@ -1,28 +1,32 @@
 const { name } = require('../package.json')
 const dedent = require('dedent-js')
-const execa = require('../util/execa.cjs')
+const fs = require('../util/projectFs.cjs')
+const JSON5 = require('json5')
+
+async function getRootEslintConfig() {
+  if (await fs.pathExists('.eslintrc.json')) {
+    return JSON5.parse(await fs.readFile('.eslintrc.json', 'utf8'))
+  }
+  if (await fs.pathExists('.eslintrc')) {
+    return JSON5.parse(await fs.readFile('.eslintrc', 'utf8'))
+  }
+}
 
 module.exports = [
   async function getConfigFiles() {
-    let eslintConfig
-    try {
-      eslintConfig = JSON.parse(
-        (
-          await execa('eslint', ['--print-config', 'index.js'], {
-            stdio: 'pipe',
-          })
-        ).stdout.toString()
-      )
-    } catch (error) {
-      // ignore
-    }
-    const eslintEnv = eslintConfig && eslintConfig.env
+    const { env, rules } = (await getRootEslintConfig()) || {}
     const files = {
-      '.eslintrc.js': dedent`
-        /* eslint-env node */
+      '.eslintrc.cjs': dedent`
+        /* eslint-env node, es2018 */
         module.exports = {
           extends: [require.resolve('${name}/eslint.config.cjs')],${
-        eslintEnv ? `\nenv: ${JSON.stringify(eslintEnv, null, 2)},` : ''
+        env
+          ? `\nenv: ${JSON.stringify(env, null, 2).replace(/\n/gm, '\n  ')},`
+          : ''
+      }${
+        rules
+          ? `\nrules: ${JSON.stringify(rules, null, 2).replace(/\n/gm, '\n  ')}`
+          : ''
       }
         }
       `,
@@ -36,7 +40,7 @@ module.exports = [
       'prettier.config.cjs',
     ]) {
       files[file] = dedent`
-        /* eslint-env node */
+        /* eslint-env node, es2018 */
         module.exports = {
           ...require('${name}/${file}'),
         }

@@ -27,13 +27,8 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-flow`, function () {
         '../packages/esnext',
         '../packages/flow',
         '../packages/typescript',
-        'prettier',
-        '@babel/core@^7.11.0',
       ],
-      {
-        cwd,
-        stdio: 'inherit',
-      }
+      { cwd, stdio: 'inherit' }
     )
     await execa('tc', ['bootstrap'], { cwd, stdio: 'inherit' })
     await execa('pnpm', ['i'], { cwd, stdio: 'inherit' })
