@@ -78,7 +78,7 @@
     "sinon": "^14.0.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
+    "@babel/runtime": "^7.18.6",
     "inline-style-prefixer": "^4.0.0",
     "prop-types": "^15.6.0"
   },

@@ -8,11 +8,13 @@ const Path = require('path')
 const copyFixture = require('./util/copyFixture')
 const expectDirsEqual = require('./util/expectDirsEqual')
 const execa = require('execa')
+const fs = require('fs-extra')
 
-describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function () {
+describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function() {
   this.timeout(60000)
-  it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function () {
-    const cwd = await copyFixture('log4jcore')
+  it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function() {
+    const dirlink = await copyFixture('log4jcore')
+    const cwd = await fs.realpath(dirlink)
     await execa(
       process.execPath,
       [require.resolve('../packages/base/scripts/toolchain.cjs'), 'preinstall'],
@@ -27,8 +29,6 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function
         '../packages/esnext',
         '../packages/flow',
         '../packages/typescript',
-        'prettier',
-        '@babel/core@^7.11.0',
       ],
       {
         cwd,
@@ -36,16 +36,13 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function
       }
     )
     await execa('tc', ['bootstrap'], { cwd, stdio: 'inherit' })
-    await execa('pnpm', ['add', '-D', '@babel/register'], {
-      cwd,
-      stdio: 'inherit',
-    })
+    await execa('pnpm', ['i'], { cwd, stdio: 'inherit' })
     await execa('tc', ['format'], { cwd, stdio: 'inherit' })
     await execa('tc', ['lint:fix'], { cwd, stdio: 'inherit' })
     await execa('tc', ['prepublish'], { cwd, stdio: 'inherit' })
     await expectDirsEqual(
-      cwd,
-      Path.resolve(cwd, '..', 'expected-preinstall-bootstrap')
+      dirlink,
+      Path.resolve(dirlink, '..', 'expected-preinstall-bootstrap')
     )
   })
 })

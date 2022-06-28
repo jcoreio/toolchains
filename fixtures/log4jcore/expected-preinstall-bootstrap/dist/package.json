@@ -6,18 +6,6 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "scripts": {
-    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1",
-    "semantic-release": "semantic-release",
-    "tc": "toolchain",
-    "toolchain": "toolchain",
-    "test": "toolchain test"
-  },
-  "config": {
-    "commitizen": {
-      "path": "@jcoreio/toolchain/commitizen.cjs"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jcoreio/log4jcore.git"
@@ -32,6 +20,9 @@
   },
   "homepage": "https://github.com/jcoreio/log4jcore#readme",
   "sideEffects": false,
+  "dependencies": {
+    "@babel/runtime": "^7.18.6"
+  },
   "exports": {
     "./index": {
       "require": "./index.cjs",

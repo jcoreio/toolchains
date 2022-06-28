@@ -15,13 +15,13 @@ async function runPrettier(args = []) {
 exports.runPrettier = runPrettier
 
 async function prettierCheck(args = []) {
-  if (args.length === 0) args = ['.']
+  if (args.length === 0) args = ['.', '!pnpm-lock.yaml']
   await runPrettier(['-c', ...args])
 }
 exports.prettierCheck = prettierCheck
 
 async function prettierFormat(args = []) {
-  if (args.length === 0) args = ['.']
+  if (args.length === 0) args = ['.', '!pnpm-lock.yaml']
   await runPrettier(['--write', ...args])
 }
 exports.prettierFormat = prettierFormat

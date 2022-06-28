@@ -1,5 +1,6 @@
 const { name, peerDependencies: basePeerDeps } = require('../../package.json')
 const { projectDir, toolchainPackages } = require('../../util/findUps.cjs')
+const getPluginsAsyncFunction = require('../../util/getPluginsAsyncFunction.cjs')
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 
@@ -62,6 +63,8 @@ async function bootstrapProjectPackageJson() {
       packageJson.devDependencies[dep] = version
     }
   }
+
+  await getPluginsAsyncFunction('bootstrapProjectPackageJson')(packageJson)
 
   sortDeps(packageJson)
 

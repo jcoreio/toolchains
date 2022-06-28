@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('../util/projectFs.cjs')
+const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 
 async function bootstrap(args = []) {
   const execa = require('../util/execa.cjs')
@@ -27,6 +28,7 @@ async function bootstrap(args = []) {
   await bootstrapConfigFiles()
   await bootstrapEslintConfigs()
   await bootstrapGitignore()
+  await getPluginsAsyncFunction('bootstrap')(args)
 }
 
 exports.description = 'set up project'
