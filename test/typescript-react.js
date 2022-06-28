@@ -6,15 +6,15 @@
 const { describe, it } = require('mocha')
 const Path = require('path')
 const copyFixture = require('./util/copyFixture')
+const fs = require('fs-extra')
 const expectDirsEqual = require('./util/expectDirsEqual')
 const execa = require('execa')
-const fs = require('fs-extra')
 
 describe(`typescript/react project`, function() {
-  this.timeout(60000)
+  this.timeout(120000)
   it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function() {
-    const dirlink = await copyFixture('react-view-slider-ts')
-    const cwd = await fs.realpath(dirlink)
+    const linkdir = await copyFixture('react-view-slider-ts')
+    const cwd = await fs.realpath(linkdir)
     await execa(
       process.execPath,
       [require.resolve('../packages/base/scripts/toolchain.cjs'), 'preinstall'],
@@ -27,7 +27,6 @@ describe(`typescript/react project`, function() {
         '-D',
         '../packages/base',
         '../packages/esnext',
-        '../packages/flow',
         '../packages/react',
         '../packages/typescript',
       ],
@@ -42,8 +41,8 @@ describe(`typescript/react project`, function() {
     await execa('tc', ['lint:fix'], { cwd, stdio: 'inherit' })
     await execa('tc', ['prepublish'], { cwd, stdio: 'inherit' })
     await expectDirsEqual(
-      dirlink,
-      Path.resolve(dirlink, '..', 'expected-preinstall-bootstrap')
+      linkdir,
+      Path.resolve(linkdir, '..', 'expected-preinstall-bootstrap')
     )
   })
 })

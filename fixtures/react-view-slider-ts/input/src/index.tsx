@@ -109,9 +109,9 @@ function applyDefaults(props: Props): DefaultedProps {
   for (const key in defaultProps) {
     if (
       Object.prototype.hasOwnProperty.call(defaultProps, key) &&
-      props[key] == null
+      (props as any)[key] == null
     ) {
-      result[key] = defaultProps[key]
+      result[key] = (defaultProps as any)[key]
     }
   }
   return result

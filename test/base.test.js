@@ -11,10 +11,10 @@ const execa = require('execa')
 const fs = require('fs-extra')
 
 describe(`@jcoreio/toolchain`, function() {
-  this.timeout(60000)
+  this.timeout(120000)
   it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function() {
-    const dirlink = await copyFixture('find-cycle')
-    const cwd = await fs.realpath(dirlink)
+    const linkdir = await copyFixture('find-cycle')
+    const cwd = await fs.realpath(linkdir)
 
     await execa(
       process.execPath,
@@ -31,8 +31,8 @@ describe(`@jcoreio/toolchain`, function() {
     await execa('tc', ['lint:fix'], { cwd, stdio: 'inherit' })
     await execa('tc', ['prepublish'], { cwd, stdio: 'inherit' })
     await expectDirsEqual(
-      dirlink,
-      Path.resolve(dirlink, '..', 'expected-preinstall-bootstrap')
+      linkdir,
+      Path.resolve(linkdir, '..', 'expected-preinstall-bootstrap')
     )
   })
 })
