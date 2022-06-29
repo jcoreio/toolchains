@@ -34,15 +34,25 @@ exports.run = async function build(args = []) {
     )
   ).catch(ignoreEnoent)
 
-  const flowFiles = await promisify(glob)(Path.join('src', '**', '*.js.flow'), {
-    cwd: projectDir,
-  })
+  const flowFiles = await promisify(glob)(
+    Path.join('src', '**', '*.{js,mjs,cjs}.flow'),
+    {
+      cwd: projectDir,
+    }
+  )
   await Promise.all(
     flowFiles.map(async (src) => {
-      const dest = Path.join('dist', Path.relative('src', src))
-      // eslint-disable-next-line no-console
-      console.error(src, '->', dest)
-      await fs.copy(src, dest)
+      for (const ext of src.endsWith('.js.flow')
+        ? ['.js.flow', '.cjs.flow', '.mjs.flow']
+        : /\.(js|mjs|cjs)\.flow$/.exec(ext)[0]) {
+        const dest = Path.join(
+          'dist',
+          Path.relative('src', src.replace(/\.(js|mjs|cjs)\.flow$/, ext))
+        )
+        // eslint-disable-next-line no-console
+        console.error(src, '->', dest)
+        await fs.copy(src, dest)
+      }
     })
   )
 
@@ -61,4 +71,4 @@ exports.run = async function build(args = []) {
   await getPluginsAsyncFunction('compile')(args)
   await getPluginsAsyncFunction('build')(args)
 }
-exports.description = 'build output directory'
+exports.description = 'build dist directory'

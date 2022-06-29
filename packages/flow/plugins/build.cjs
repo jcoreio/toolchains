@@ -15,17 +15,19 @@ module.exports = [
             cwd: projectDir,
           }
         )
-        await Promise.all(
-          jsFiles.map(async src => {
-            const dest = Path.join('dist', Path.relative('src', src)).replace(
-              /\.[cm]?js$/,
-              '.js.flow'
-            )
-            // eslint-disable-next-line no-console
-            console.error(src, '->', dest)
-            await fs.copy(src, dest)
-          })
-        )
+        for (const ext of ['.js.flow', '.cjs.flow', '.mjs.flow']) {
+          await Promise.all(
+            jsFiles.map(async src => {
+              const dest = Path.join('dist', Path.relative('src', src)).replace(
+                /\.[cm]?js$/,
+                ext
+              )
+              // eslint-disable-next-line no-console
+              console.error(src, '->', dest)
+              await fs.copy(src, dest)
+            })
+          )
+        }
       }
     },
     { after: ['@jcoreio/toolchain', '@jcoreio/toolchain-esnext'] },
