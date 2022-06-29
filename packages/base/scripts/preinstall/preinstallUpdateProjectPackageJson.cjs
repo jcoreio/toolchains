@@ -23,6 +23,9 @@ async function preinstallUpdateProjectPackageJson() {
     unset(packageJson, path)
   }
   if (devDependencies) {
+    for (const dep in Object.keys(devDependencies)) {
+      if (dep.startsWith('@babel/')) delete devDependencies[dep]
+    }
     for (const dep of require('./preinstallRemoveDevDeps.cjs')) {
       delete devDependencies[dep]
     }

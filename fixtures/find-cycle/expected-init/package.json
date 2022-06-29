@@ -1,0 +1,67 @@
+{
+  "name": "find-cycle",
+  "version": "0.0.0-development",
+  "description": "find and identify a cycle in a directed graph",
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint *.js test --cache",
+    "lint:fix": "eslint --fix *.js test --cache",
+    "lint:watch": "esw --watch *.js test --cache",
+    "flow": "flow",
+    "flow:coverage": "for file in *.js test/**.js; do echo $file; flow coverage $file; done",
+    "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch *.js --watch test/",
+    "test": "toolchain test",
+    "test:watch": "mocha --watch $npm_package_config_mocha",
+    "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "precommit": "npm run lint && flow",
+    "prepush": "npm test",
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1",
+    "open:coverage": "open coverage/lcov-report/index.html",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once",
+    "tc": "toolchain",
+    "toolchain": "toolchain"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@jcoreio/toolchain/commitizen.cjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/find-cycle.git"
+  },
+  "keywords": [
+    "cycle",
+    "cycles",
+    "cyclic",
+    "graph",
+    "graphs",
+    "directed",
+    "directed-graph",
+    "directed-graphs",
+    "find",
+    "finder",
+    "search",
+    "detect",
+    "detector",
+    "detection"
+  ],
+  "bugs": {
+    "url": "https://github.com/jcoreio/find-cycle/issues"
+  },
+  "homepage": "https://github.com/jcoreio/find-cycle#readme",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "devDependencies": {
+    "@jcoreio/toolchain": "link:../packages/base",
+    "chai": "^4.1.2",
+    "eslint": "^8.0.0",
+    "flow-bin": "^0.64.0",
+    "mocha": "^9.1.3"
+  },
+  "sideEffects": false
+}

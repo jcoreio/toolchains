@@ -45,4 +45,18 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function
       Path.resolve(linkdir, '..', 'expected-preinstall-bootstrap')
     )
   })
+  it(`init`, async function() {
+    const linkdir = await copyFixture('log4jcore')
+    const cwd = await fs.realpath(linkdir)
+    await execa(
+      process.execPath,
+      [require.resolve('../packages/base/scripts/toolchain.cjs'), 'init'],
+      {
+        cwd,
+        stdio: 'inherit',
+        env: { ...process.env, JCOREIO_TOOLCHAIN_TEST: '1' },
+      }
+    )
+    await expectDirsEqual(linkdir, Path.resolve(linkdir, '..', 'expected-init'))
+  })
 })

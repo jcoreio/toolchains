@@ -1,0 +1,40 @@
+{
+  "name": "log4jcore",
+  "version": "0.0.0-development",
+  "description": "logging",
+  "types": "index.d.ts",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/log4jcore.git"
+  },
+  "keywords": [
+    "logging"
+  ],
+  "author": "Jason McLaurin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/log4jcore/issues"
+  },
+  "homepage": "https://github.com/jcoreio/log4jcore#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "@babel/runtime": "^7.18.6"
+  },
+  "exports": {
+    "./index": {
+      "require": "./index.cjs",
+      "import": "./index.mjs"
+    },
+    "./memoryLogProvider": {
+      "require": "./memoryLogProvider.cjs",
+      "import": "./memoryLogProvider.mjs"
+    },
+    "./writableLogFunction": {
+      "require": "./writableLogFunction.cjs",
+      "import": "./writableLogFunction.mjs"
+    }
+  }
+}

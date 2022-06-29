@@ -3,6 +3,8 @@ const Path = require('path')
 const { projectDir } = require('../util/findUps.cjs')
 const fs = require('../util/projectFs.cjs')
 const clean = require('./clean.cjs')
+const { promisify } = require('util')
+const glob = require('glob')
 
 exports.run = async function build(args = []) {
   await clean.run()
@@ -31,6 +33,30 @@ exports.run = async function build(args = []) {
       fs.copy(file, `dist/${file}`, { filter })
     )
   ).catch(ignoreEnoent)
+
+  const flowFiles = await promisify(glob)(Path.join('src', '**', '*.js.flow'), {
+    cwd: projectDir,
+  })
+  await Promise.all(
+    flowFiles.map(async (src) => {
+      const dest = Path.join('dist', Path.relative('src', src))
+      // eslint-disable-next-line no-console
+      console.error(src, '->', dest)
+      await fs.copy(src, dest)
+    })
+  )
+
+  const dtsFiles = await promisify(glob)(Path.join('src', '**', '*.d.ts'), {
+    cwd: projectDir,
+  })
+  await Promise.all(
+    dtsFiles.map(async (src) => {
+      const dest = Path.join('dist', Path.relative('src', src))
+      // eslint-disable-next-line no-console
+      console.error(src, '->', dest)
+      await fs.copy(src, dest)
+    })
+  )
 
   await getPluginsAsyncFunction('compile')(args)
   await getPluginsAsyncFunction('build')(args)
