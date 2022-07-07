@@ -53,28 +53,6 @@ module.exports = [
           { env: { ...process.env, JCOREIO_TOOLCHAIN_MJS: '1' } }
         )
       }
-      if (!packageJson.exports) {
-        const files = await promisify(glob)('**.{cjs,mjs}', { cwd: 'dist' })
-
-        const exportMap = {}
-        for (const file of files) {
-          const key = `./${file.replace(/\.[^.]*$/, '')}`
-          const forFile = exportMap[key] || (exportMap[key] = {})
-          forFile[/\.cjs$/.test(file) ? 'require' : 'import'] = `./${file}`
-        }
-
-        const distPackageJson = await fs.readJson(
-          path.join('dist', 'package.json')
-        )
-        await fs.writeJson(
-          path.join('dist', 'package.json'),
-          {
-            ...distPackageJson,
-            exports: exportMap,
-          },
-          { spaces: 2 }
-        )
-      }
     },
     { insteadOf: '@jcoreio/toolchain' },
   ],

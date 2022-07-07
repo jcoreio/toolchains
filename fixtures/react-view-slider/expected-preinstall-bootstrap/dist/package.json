@@ -27,6 +27,7 @@
     "react": "^16.8.0"
   },
   "exports": {
+    "./package.json": "./package.json",
     "./index": {
       "require": "./index.cjs",
       "import": "./index.mjs"

@@ -23,6 +23,7 @@
     "@babel/runtime": "^7.18.6"
   },
   "exports": {
+    "./package.json": "./package.json",
     "./index": {
       "require": "./index.cjs",
       "import": "./index.mjs"

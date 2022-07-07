@@ -10,9 +10,9 @@ const fs = require('fs-extra')
 const expectDirsEqual = require('./util/expectDirsEqual')
 const execa = require('execa')
 
-describe(`typescript/react project`, function() {
+describe(`<typescript/react>`, function () {
   this.timeout(120000)
-  it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function() {
+  it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function () {
     const linkdir = await copyFixture('react-view-slider-ts')
     const cwd = await fs.realpath(linkdir)
     await execa(
@@ -45,7 +45,7 @@ describe(`typescript/react project`, function() {
       Path.resolve(linkdir, '..', 'expected-preinstall-bootstrap')
     )
   })
-  it(`init`, async function() {
+  it(`init`, async function () {
     const linkdir = await copyFixture('react-view-slider-ts')
     const cwd = await fs.realpath(linkdir)
     await execa(

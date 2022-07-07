@@ -10,9 +10,9 @@ const expectDirsEqual = require('./util/expectDirsEqual')
 const execa = require('execa')
 const fs = require('fs-extra')
 
-describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function() {
+describe(`<typescript>`, function () {
   this.timeout(120000)
-  it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function() {
+  it(`preinstall && bootstrap && format && lint:fix && prepublish`, async function () {
     const linkdir = await copyFixture('log4jcore')
     const cwd = await fs.realpath(linkdir)
     await execa(
@@ -45,7 +45,7 @@ describe(`@jcoreio/toolchain-esnext and @jcoreio/toolchain-typescript`, function
       Path.resolve(linkdir, '..', 'expected-preinstall-bootstrap')
     )
   })
-  it(`init`, async function() {
+  it(`init`, async function () {
     const linkdir = await copyFixture('log4jcore')
     const cwd = await fs.realpath(linkdir)
     await execa(

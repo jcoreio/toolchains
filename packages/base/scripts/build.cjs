@@ -10,12 +10,6 @@ exports.run = async function build(args = []) {
   await clean.run()
   await fs.mkdirs('dist')
 
-  const packageJson = await fs.readJson('package.json')
-  await getPluginsAsyncFunction('buildDistPackageJson')(packageJson)
-  // eslint-disable-next-line no-console
-  console.error('package.json -> dist/package.json')
-  await fs.writeJson('dist/package.json', packageJson, { spaces: 2 })
-
   const ignoreEnoent = (err) => {
     if (err.code !== 'ENOENT') throw err
   }
@@ -70,5 +64,11 @@ exports.run = async function build(args = []) {
 
   await getPluginsAsyncFunction('compile')(args)
   await getPluginsAsyncFunction('build')(args)
+
+  const packageJson = await fs.readJson('package.json')
+  await getPluginsAsyncFunction('buildDistPackageJson')(packageJson)
+  // eslint-disable-next-line no-console
+  console.error('package.json -> dist/package.json')
+  await fs.writeJson('dist/package.json', packageJson, { spaces: 2 })
 }
 exports.description = 'build dist directory'
