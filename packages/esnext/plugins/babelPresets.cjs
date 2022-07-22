@@ -1,3 +1,5 @@
+const { toolchainConfig } = require('@jcoreio/toolchain/util/findUps.cjs')
+
 module.exports = [
   (api) => {
     const { JCOREIO_TOOLCHAIN_MJS } = process.env
@@ -7,12 +9,12 @@ module.exports = [
         require.resolve('@babel/preset-env'),
         {
           ...(JCOREIO_TOOLCHAIN_MJS
-            ? {
+            ? toolchainConfig.mjsBabelEnv || {
                 targets: {
                   node: 16,
                 },
               }
-            : { forceAllTransforms: true }),
+            : toolchainConfig.cjsBabelEnv || { forceAllTransforms: true }),
           modules: JCOREIO_TOOLCHAIN_MJS ? false : 'auto',
         },
       ],

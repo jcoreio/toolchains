@@ -30,3 +30,15 @@ exports.toolchainPackages = [
   ...Object.keys(packageJson.dependencies || {}),
   ...Object.keys(packageJson.devDependencies || {}),
 ].filter((dep) => dep.startsWith(name))
+
+let toolchainConfigFile
+try {
+  toolchainConfigFile = require.resolve(
+    Path.join(exports.projectDir, 'toolchain.config.cjs')
+  )
+} catch (error) {
+  // ignore
+}
+exports.toolchainConfig = toolchainConfigFile
+  ? require(toolchainConfigFile)
+  : {}
