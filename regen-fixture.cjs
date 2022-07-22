@@ -7,7 +7,12 @@ const glob = require('glob')
 const { promisify } = require('util')
 
 async function go() {
-  const [, , fixture, expName = 'expected-preinstall-bootstrap'] = process.argv
+  const [, , fixture, expName] = process.argv
+  if (!fixture || !expName) {
+    // eslint-disable-next-line no-console
+    console.error(`Usage: ./regen-fixture.cjs <fixture> <expected-name>`)
+    process.exit(1)
+  }
   const actual = Path.resolve(__dirname, 'fixtures', fixture, 'actual')
   const expected = Path.resolve(__dirname, 'fixtures', fixture, expName)
   await fs.mkdirs(expected)
@@ -21,7 +26,7 @@ async function go() {
   })
   const dirs = new Set()
   await Promise.all(
-    files.map(async f => {
+    files.map(async (f) => {
       const dir = Path.dirname(f)
       if (dir && !dirs.has(dir)) {
         dirs.add(dir)

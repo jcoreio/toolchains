@@ -100,7 +100,7 @@ function throttle<Args: Array<any>, Value>(
 }
 ;(throttle: any).CanceledError = CanceledError
 
-module.exports = ((throttle: any): {
+export default ((throttle: any): {
   <Args: Array<any>, Value>(
     fn: (...args: Args) => Promise<Value>,
     wait: ?number,

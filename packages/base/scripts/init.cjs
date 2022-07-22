@@ -13,7 +13,9 @@ async function init(args = []) {
   const isTS = isBabel && devDependencies.typescript != null
   const isFlow = isBabel && devDependencies['flow-bin'] != null
   const isReact = dependencies.react != null || devDependencies.react != null
+  const isMocha = devDependencies['mocha'] != null
 
+  if (isMocha) toolchains.push('@jcoreio/toolchain-mocha')
   if (isBabel) toolchains.push('@jcoreio/toolchain-esnext')
   if (isFlow) toolchains.push('@jcoreio/toolchain-flow')
   if (isTS) toolchains.push('@jcoreio/toolchain-typescript')

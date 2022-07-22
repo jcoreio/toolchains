@@ -54,6 +54,7 @@
     "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@jcoreio/toolchain": "link:../packages/base",
     "@jcoreio/toolchain-esnext": "link:../packages/esnext",
+    "@jcoreio/toolchain-mocha": "link:../packages/mocha",
     "@jcoreio/toolchain-react": "link:../packages/react",
     "@jcoreio/toolchain-typescript": "link:../packages/typescript",
     "@testing-library/react": "^13.3.0",

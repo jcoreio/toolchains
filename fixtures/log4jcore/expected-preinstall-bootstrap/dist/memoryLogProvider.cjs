@@ -24,3 +24,5 @@ function memoryLogProvider() {
   result.messages = messages;
   return result;
 }
+
+module.exports = exports.default;

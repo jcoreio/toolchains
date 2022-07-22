@@ -1,4 +1,4 @@
-const getPluginsArraySync = require('./util/getPluginsArraySync.cjs')
+const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 
 module.exports = {
   require: [require.resolve('./util/configureMocha.cjs')],

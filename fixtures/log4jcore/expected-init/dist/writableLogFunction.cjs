@@ -19,3 +19,5 @@ function writableLogFunction(writable) {
     writable.write(_util["default"].format.apply(_util["default"], [format].concat(args)) + '\n');
   };
 }
+
+module.exports = exports.default;

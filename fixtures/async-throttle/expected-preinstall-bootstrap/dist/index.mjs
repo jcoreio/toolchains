@@ -88,4 +88,4 @@ function throttle(fn, _wait, options = {}) {
 
 ;
 throttle.CanceledError = CanceledError;
-module.exports = throttle;
+export default throttle;

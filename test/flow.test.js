@@ -29,6 +29,7 @@ describe(`<flow>`, function () {
         '../packages/esnext',
         '../packages/flow',
         '../packages/typescript',
+        '../packages/mocha',
       ],
       { cwd, stdio: 'inherit' }
     )

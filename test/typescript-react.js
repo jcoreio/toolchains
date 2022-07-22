@@ -29,6 +29,7 @@ describe(`<typescript/react>`, function () {
         '../packages/esnext',
         '../packages/react',
         '../packages/typescript',
+        '../packages/mocha',
       ],
       {
         cwd,

@@ -21,10 +21,14 @@ describe(`<base>`, function () {
       [require.resolve('../packages/base/scripts/toolchain.cjs'), 'preinstall'],
       { cwd, stdio: 'inherit' }
     )
-    await execa('pnpm', ['add', '-D', '../packages/base'], {
-      cwd,
-      stdio: 'inherit',
-    })
+    await execa(
+      'pnpm',
+      ['add', '-D', '../packages/base', '../packages/mocha'],
+      {
+        cwd,
+        stdio: 'inherit',
+      }
+    )
     await execa('tc', ['bootstrap'], { cwd, stdio: 'inherit' })
     await execa('pnpm', ['i'], { cwd, stdio: 'inherit' })
     await execa('tc', ['format'], { cwd, stdio: 'inherit' })

@@ -5,7 +5,9 @@ import { expect, assert } from 'chai'
 import delay from 'waait'
 import sinon from 'sinon'
 
-import throttle, { CanceledError } from '../src/index'
+import throttle from '../src/index'
+
+const { CanceledError } = throttle
 
 const wrapPromise = <T>(
   promise: Promise<T>

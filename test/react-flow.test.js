@@ -29,6 +29,7 @@ describe(`<react/flow>`, function () {
         '../packages/esnext',
         '../packages/flow',
         '../packages/react',
+        '../packages/mocha',
       ],
       {
         cwd,

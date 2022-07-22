@@ -29,6 +29,7 @@ describe(`<typescript>`, function () {
         '../packages/esnext',
         '../packages/flow',
         '../packages/typescript',
+        '../packages/mocha',
       ],
       {
         cwd,

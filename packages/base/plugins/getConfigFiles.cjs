@@ -38,11 +38,9 @@ module.exports = [
       `,
     }
     for (const file of [
-      '.mocharc.cjs',
       'commitlint.config.cjs',
       'githooks.cjs',
       'lint-staged.config.cjs',
-      'nyc.config.cjs',
       'prettier.config.cjs',
     ]) {
       files[file] = dedent`

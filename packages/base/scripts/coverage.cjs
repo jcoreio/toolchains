@@ -1,6 +1,6 @@
-const execa = require('../util/execa.cjs')
+const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 
 exports.run = async function (args = []) {
-  await execa('nyc', ['mocha', ...args])
+  await getPluginsAsyncFunction('coverage')(args)
 }
 exports.description = 'run tests with code coverage'

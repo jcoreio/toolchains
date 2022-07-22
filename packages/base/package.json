@@ -31,7 +31,6 @@
     "json5": "^2.2.1",
     "lint-staged": "^12.1.4",
     "lodash": "^4.17.21",
-    "nyc": "^15.1.0",
     "open": "^8.4.0",
     "prettier": "^2.5.1",
     "resolve-bin": "^1.0.0",
@@ -39,8 +38,7 @@
     "toposort": "^2.0.2"
   },
   "peerDependencies": {
-    "eslint": "^8.0.0",
-    "mocha": "^9.1.3"
+    "eslint": "^8.0.0"
   },
   "bin": {
     "commitizen": "./bin/commitizen",
@@ -49,8 +47,6 @@
     "eslint": "./bin/eslint",
     "git-cz": "./bin/git-cz",
     "lint-staged": "./bin/lint-staged",
-    "mocha": "./bin/mocha",
-    "nyc": "./bin/nyc",
     "prettier": "./bin/prettier",
     "semantic-release": "./bin/semantic-release",
     "tc": "./scripts/toolchain.cjs",

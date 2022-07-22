@@ -1,4 +1,4 @@
 /* eslint-env node, es2018 */
 module.exports = {
-  ...require('@jcoreio/toolchain/.mocharc.cjs'),
+  ...require('@jcoreio/toolchain-mocha/.mocharc.cjs'),
 }

@@ -15,6 +15,7 @@
   "homepage": "https://github.com/jcoreio/toolchain#readme",
   "devDependencies": {
     "@jcoreio/toolchain": "workspace:*",
+    "@jcoreio/toolchain-mocha": "workspace:*",
     "chai": "^4.3.4",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",

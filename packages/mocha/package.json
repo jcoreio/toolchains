@@ -1,0 +1,29 @@
+{
+  "name": "@jcoreio/toolchain-mocha",
+  "version": "0.0.0-development",
+  "description": "Mocha build toolchain",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchain.git"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchain/issues"
+  },
+  "homepage": "https://github.com/jcoreio/toolchain#readme",
+  "bin": {
+    "mocha": "./bin/mocha",
+    "nyc": "./bin/nyc"
+  },
+  "dependencies": {
+    "dedent-js": "^1.0.1",
+    "mocha": "^9.1.3",
+    "nyc": "^15.1.0",
+    "resolve-bin": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@jcoreio/toolchain": "workspace:*",
+    "mocha": "^9.1.3"
+  }
+}
