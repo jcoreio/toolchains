@@ -7,5 +7,6 @@ module.exports = {
   plugins: ['@typescript-eslint/eslint-plugin'],
   rules: {
     '@typescript-eslint/member-delimiter-style': 0,
+    '@typescript-eslint/no-explicit-any': 0,
   },
 }
