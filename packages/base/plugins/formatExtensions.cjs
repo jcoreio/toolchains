@@ -2,7 +2,7 @@ const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
 
 module.exports = [
   () => [
-    ...getPluginsArraySync('sourceExtensions'),
+    ...getPluginsArraySync('lintExtensions'),
     'js',
     'cjs',
     'mjs',

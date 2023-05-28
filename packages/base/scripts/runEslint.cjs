@@ -12,7 +12,7 @@ async function eslintArgs() {
     '--ignore-pattern',
     'flow-typed/',
     '--ext',
-    getPluginsArraySync('sourceExtensions').join(','),
+    getPluginsArraySync('lintExtensions').join(','),
   ]
 }
 
