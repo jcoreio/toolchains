@@ -8,15 +8,24 @@ module.exports = [
   [
     async function buildDistPackageJson(packageJson) {
       const distDir = Path.join(projectDir, 'dist')
-      const files = await promisify(glob)('**.{js,cjs,mjs}', {
+      const files = await promisify(glob)('**.{js,cjs,mjs,d.ts}', {
         cwd: distDir,
       })
       const exportMap = { './package.json': './package.json' }
       let usesBabelRuntime = false
       for (const file of files) {
-        const key = `./${file.replace(/\.[^.]*$/, '')}`.replace(/\/index$/, '')
+        const key = `./${file.replace(/(\.[^/.]*)*$/, '')}`.replace(
+          /\/index$/,
+          ''
+        )
         const forFile = exportMap[key] || (exportMap[key] = {})
-        forFile[/\.c?js$/.test(file) ? 'require' : 'import'] = `./${file}`
+        forFile[
+          /\.d\.ts$/.test(file)
+            ? 'types'
+            : /\.c?js$/.test(file)
+            ? 'require'
+            : 'import'
+        ] = `./${file}`
         usesBabelRuntime =
           usesBabelRuntime ||
           // this could return false positives in rare cases, but keeps the test simple
