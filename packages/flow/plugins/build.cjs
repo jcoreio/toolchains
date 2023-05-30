@@ -4,6 +4,7 @@ const { promisify } = require('util')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const { projectDir } = require('@jcoreio/toolchain/util/findUps.cjs')
 const hasTSSourcesSync = require('@jcoreio/toolchain/util/hasTSSourcesSync.cjs')
+const resolveImportsCodemod = require('@jcoreio/toolchain-esnext/util/resolveImportsCodemod.cjs')
 
 module.exports = [
   [
@@ -15,9 +16,9 @@ module.exports = [
             cwd: projectDir,
           }
         )
-        for (const ext of ['.js.flow', '.cjs.flow', '.mjs.flow']) {
+        for (const ext of ['.js.flow', '.mjs.flow']) {
           await Promise.all(
-            jsFiles.map(async src => {
+            jsFiles.map(async (src) => {
               const dest = Path.join('dist', Path.relative('src', src)).replace(
                 /\.[cm]?js$/,
                 ext
@@ -28,6 +29,13 @@ module.exports = [
             })
           )
         }
+        const flowFiles = await promisify(glob)(
+          Path.join('dist', '**', '*.{js,cjs,mjs}.flow'),
+          {
+            cwd: projectDir,
+          }
+        )
+        await resolveImportsCodemod(flowFiles)
       }
     },
     { after: ['@jcoreio/toolchain', '@jcoreio/toolchain-esnext'] },

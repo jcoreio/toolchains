@@ -1,11 +1,16 @@
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
+const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const { promisify } = require('util')
 const path = require('path')
-const glob = require('glob')
-const fs = require('fs-extra')
+const _glob = require('glob')
+const glob = promisify(_glob)
 const dedent = require('dedent-js')
-const { packageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
+const {
+  packageJson,
+  projectDir,
+} = require('@jcoreio/toolchain/util/findUps.cjs')
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
+const resolveImportsCodemod = require('../util/resolveImportsCodemod.cjs')
 
 module.exports = [
   [
@@ -19,14 +24,17 @@ module.exports = [
         '--out-dir',
         'dist',
         '--out-file-extension',
-        '.cjs',
+        '.js',
       ])
+      const jsFiles = await glob(path.join('dist', '**.js'), {
+        cwd: projectDir,
+      })
+      await resolveImportsCodemod(jsFiles)
       if (config && config.esWrapper) {
-        const cjsFiles = await promisify(glob)(path.join('dist', '**.cjs'))
         await Promise.all(
-          cjsFiles.map((file) =>
+          jsFiles.map((file) =>
             fs.writeFile(
-              file.replace(/\.cjs$/, '.mjs'),
+              file.replace(/\.js$/, '.mjs'),
               dedent`
                 export * from './${path.basename(file)}'
                 import root from './${path.basename(file)}'
@@ -52,6 +60,10 @@ module.exports = [
           ],
           { env: { ...process.env, JCOREIO_TOOLCHAIN_MJS: '1' } }
         )
+        const mjsFiles = await glob(path.join('dist', '**.mjs'), {
+          cwd: projectDir,
+        })
+        await resolveImportsCodemod(mjsFiles)
       }
     },
     { insteadOf: '@jcoreio/toolchain' },
