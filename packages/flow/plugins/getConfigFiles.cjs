@@ -5,8 +5,7 @@ const INI = require('@jcoreio/toolchain/util/ini.cjs')
 const defaultFlowConfig = dedent`
   [ignore]
   <PROJECT_ROOT>/dist/.*
-  .*/node_modules/.*/test/.*/.*\\.json
-  .*/node_modules/.*/resolve/.*/.*\\.json
+  .*/malformed_package_json/.*
 
   [include]
   ./src
