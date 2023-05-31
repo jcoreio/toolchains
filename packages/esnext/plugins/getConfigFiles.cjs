@@ -13,7 +13,12 @@ module.exports = [
       `,
       '.babelrc.cjs': dedent`
         /* eslint-env node, es2018 */
-        module.exports = require('${name}/.babelrc.cjs')
+        module.exports = function (api) {
+          const base = require('${name}/.babelrc.cjs')(api)
+          return {
+            ...base,
+          }
+        }
       `,
     }
   },

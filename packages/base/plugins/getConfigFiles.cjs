@@ -45,8 +45,9 @@ module.exports = [
     ]) {
       files[file] = dedent`
         /* eslint-env node, es2018 */
+        const base = require('${name}/${file}')
         module.exports = {
-          ...require('${name}/${file}'),
+          ...base,
         }
   
       `
