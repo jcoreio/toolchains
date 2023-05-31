@@ -59,7 +59,7 @@ async function bootstrapProjectPackageJson() {
   if (peerDependencies) {
     for (const dep in peerDependencies) {
       const version = peerDependencies[dep]
-      if (version.startsWith('workspace')) continue
+      if (version.startsWith('workspace') || version === '*') continue
       packageJson.devDependencies[dep] = version
     }
   }
