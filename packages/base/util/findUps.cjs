@@ -11,7 +11,7 @@ const findGitDir = once(function findGitDir(
 })
 exports.findGitDir = findGitDir
 
-let cwd = process.env.INIT_CWD || process.cwd()
+let cwd = process.cwd()
 
 const nodeModulesMatch = /\/node_modules(\/|$)/.exec(cwd)
 if (nodeModulesMatch) cwd = cwd.substring(0, nodeModulesMatch.index)

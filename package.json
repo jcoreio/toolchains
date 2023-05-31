@@ -28,6 +28,7 @@
     }
   },
   "scripts": {
+    "init-fixture": "node test/util/initFixture.js",
     "toolchain": "toolchain",
     "tc": "toolchain",
     "test": "toolchain test",
