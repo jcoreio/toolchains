@@ -3,3 +3,5 @@
 node_modules
 /coverage
 /fixtures/*/actual
+/fixtures/material-ui-popup-state
+/fixtures/promisify-child-process
