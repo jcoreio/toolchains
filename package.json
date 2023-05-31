@@ -28,6 +28,7 @@
     }
   },
   "scripts": {
+    "clone-to-fixture": "node test/util/cloneToFixture.js",
     "init-fixture": "node test/util/initFixture.js",
     "toolchain": "toolchain",
     "tc": "toolchain",
