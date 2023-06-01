@@ -9,6 +9,7 @@ async function bootstrap(args = []) {
   const bootstrapProjectPackageJson = require('./bootstrap/bootstrapProjectPackageJson.cjs')
   const bootstrapEslintConfigs = require('./bootstrap/bootstrapEslintConfigs.cjs')
   const bootstrapConfigFiles = require('./bootstrap/bootstrapConfigFiles.cjs')
+  const bootstrapMoveTypeDefs = require('./bootstrap/bootstrapMoveTypeDefs.cjs')
   const bootstrapGitignore = require('./bootstrap/bootstrapGitignore.cjs')
   const bootstrapRemoveFiles = require('./bootstrap/bootstrapRemoveFiles.cjs')
 
@@ -27,6 +28,7 @@ async function bootstrap(args = []) {
   )
   await bootstrapConfigFiles()
   await bootstrapEslintConfigs()
+  await bootstrapMoveTypeDefs()
   await bootstrapGitignore()
   await getPluginsAsyncFunction('bootstrap')(args)
 }

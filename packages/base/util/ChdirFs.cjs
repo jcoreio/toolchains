@@ -17,6 +17,10 @@ function ChdirFs(cwd) {
     ensureFile: (path, ...args) => fs.ensureFile(resolve(cwd, path), ...args),
     ensureFileSync: (path, ...args) =>
       fs.ensureFileSync(resolve(cwd, path), ...args),
+    move: (src, dest, ...args) =>
+      fs.move(resolve(cwd, src), resolve(cwd, dest), ...args),
+    moveSync: (src, dest, ...args) =>
+      fs.moveSync(resolve(cwd, src), resolve(cwd, dest), ...args),
     readFile: (path, ...args) => fs.readFile(resolve(cwd, path), ...args),
     readFileSync: (path, ...args) =>
       fs.readFileSync(resolve(cwd, path), ...args),
