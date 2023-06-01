@@ -1,23 +1,18 @@
-const { promisify } = require('util')
-const glob = require('glob')
+const glob = require('@jcoreio/toolchain/util/glob.cjs')
 const Path = require('path')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const { projectDir } = require('@jcoreio/toolchain/util/findUps.cjs')
 
 module.exports = [
   [
     async function buildDistPackageJson(packageJson) {
-      const distDir = Path.join(projectDir, 'dist')
-      const files = await promisify(glob)('**.{js,cjs,mjs,d.ts}', {
-        cwd: distDir,
-      })
+      const files = await glob(Path.join('dist', '**', '*.{js,cjs,mjs,d.ts}'))
       const exportMap = { './package.json': './package.json' }
       let usesBabelRuntime = false
       for (const file of files) {
-        const key = `./${file.replace(/(\.[^/.]*)*$/, '')}`.replace(
-          /\/index$/,
+        const key = `./${Path.relative('dist', file).replace(
+          /(\.[^/.]*)*$/,
           ''
-        )
+        )}`.replace(/\/index$/, '')
         const forFile = exportMap[key] || (exportMap[key] = {})
         forFile[
           /\.d\.ts$/.test(file)
@@ -29,9 +24,7 @@ module.exports = [
         usesBabelRuntime =
           usesBabelRuntime ||
           // this could return false positives in rare cases, but keeps the test simple
-          (await fs.readFile(Path.join('dist', file))).includes(
-            '@babel/runtime'
-          )
+          (await fs.readFile(file)).includes('@babel/runtime')
       }
       if (!packageJson.exports) {
         packageJson.exports = exportMap

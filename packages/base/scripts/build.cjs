@@ -3,8 +3,7 @@ const Path = require('path')
 const { projectDir } = require('../util/findUps.cjs')
 const fs = require('../util/projectFs.cjs')
 const clean = require('./clean.cjs')
-const { promisify } = require('util')
-const glob = require('glob')
+const glob = require('../util/glob.cjs')
 
 exports.run = async function build(args = []) {
   await clean.run()
@@ -28,12 +27,7 @@ exports.run = async function build(args = []) {
     )
   ).catch(ignoreEnoent)
 
-  const flowFiles = await promisify(glob)(
-    Path.join('src', '**', '*.{js,mjs,cjs}.flow'),
-    {
-      cwd: projectDir,
-    }
-  )
+  const flowFiles = await glob(Path.join('src', '**', '*.{js,mjs,cjs}.flow'))
   await Promise.all(
     flowFiles.map(async (src) => {
       for (const ext of src.endsWith('.js.flow')
@@ -50,9 +44,7 @@ exports.run = async function build(args = []) {
     })
   )
 
-  const dtsFiles = await promisify(glob)(Path.join('src', '**', '*.d.ts'), {
-    cwd: projectDir,
-  })
+  const dtsFiles = await glob(Path.join('src', '**', '*.d.ts'))
   await Promise.all(
     dtsFiles.map(async (src) => {
       const dest = Path.join('dist', Path.relative('src', src))

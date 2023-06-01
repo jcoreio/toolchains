@@ -1,14 +1,9 @@
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const { promisify } = require('util')
+const glob = require('@jcoreio/toolchain/util/glob.cjs')
 const path = require('path')
-const _glob = require('glob')
-const glob = promisify(_glob)
 const dedent = require('dedent-js')
-const {
-  packageJson,
-  projectDir,
-} = require('@jcoreio/toolchain/util/findUps.cjs')
+const { packageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 const resolveImportsCodemod = require('../util/resolveImportsCodemod.cjs')
 
@@ -26,9 +21,7 @@ module.exports = [
         '--out-file-extension',
         '.js',
       ])
-      const jsFiles = await glob(path.join('dist', '**.js'), {
-        cwd: projectDir,
-      })
+      const jsFiles = await glob(path.join('dist', '**', '*.js'))
       await resolveImportsCodemod(jsFiles)
       if (config && config.esWrapper) {
         await Promise.all(
@@ -60,9 +53,7 @@ module.exports = [
           ],
           { env: { ...process.env, JCOREIO_TOOLCHAIN_MJS: '1' } }
         )
-        const mjsFiles = await glob(path.join('dist', '**.mjs'), {
-          cwd: projectDir,
-        })
+        const mjsFiles = await glob(path.join('dist', '**', '*.mjs'))
         await resolveImportsCodemod(mjsFiles)
       }
     },

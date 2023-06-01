@@ -1,15 +1,10 @@
-const { promisify } = require('util')
-const glob = require('glob')
+const glob = require('@jcoreio/toolchain/util/glob.cjs')
 const Path = require('path')
 const JSON5 = require('json5')
 const fs = require('../../util/projectFs.cjs')
-const { projectDir } = require('../../util/findUps.cjs')
 
 async function bootstrapEslintConfigs() {
-  for (const file of await promisify(glob)(
-    Path.join('**', '.eslintrc{,.json}'),
-    { cwd: projectDir }
-  )) {
+  for (const file of await glob(Path.join('**', '.eslintrc{,.json}'))) {
     const content = JSON5.parse(await fs.readFile(file, 'utf8'))
     if (content.extends) {
       delete content.extends

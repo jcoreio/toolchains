@@ -7,7 +7,9 @@ function ChdirFs(cwd) {
       fs.copy(resolve(cwd, src), resolve(cwd, dest), ...args),
     copySync: (src, dest, ...args) =>
       fs.copySync(resolve(cwd, src), resolve(cwd, dest), ...args),
+    lstat: (path, ...args) => fs.lstat(resolve(cwd, path), ...args),
     stat: (path, ...args) => fs.stat(resolve(cwd, path), ...args),
+    lstatSync: (path, ...args) => fs.lstatSync(resolve(cwd, path), ...args),
     statSync: (path, ...args) => fs.statSync(resolve(cwd, path), ...args),
     pathExists: (path, ...args) => fs.pathExists(resolve(cwd, path), ...args),
     pathExistsSync: (path, ...args) =>
@@ -33,6 +35,12 @@ function ChdirFs(cwd) {
     removeSync: (path, ...args) => fs.removeSync(resolve(cwd, path), ...args),
     readdir: (path, ...args) => fs.readdir(resolve(cwd, path), ...args),
     readdirSync: (path, ...args) => fs.readdirSync(resolve(cwd, path), ...args),
+    readlink: (path, ...args) => fs.readlink(resolve(cwd, path), ...args),
+    readlinkSync: (path, ...args) =>
+      fs.readlinkSync(resolve(cwd, path), ...args),
+    realpath: (path, ...args) => fs.realpath(resolve(cwd, path), ...args),
+    realpathSync: (path, ...args) =>
+      fs.realpathSync(resolve(cwd, path), ...args),
   }
 }
 module.exports = ChdirFs
