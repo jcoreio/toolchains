@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cimg/node:20.3.0
+
+    steps:
+      - checkout
+      - run:
+          name: Setup NPM Token
+          command: |
+            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+            echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+      - run:
+          name: Corepack enable
+          command: corepack enable
+      - run:
+          name: Install Dependencies
+          command: pnpm install --frozen-lockfile
+      - run:
+          name: prepublish
+          command: tc prepublish

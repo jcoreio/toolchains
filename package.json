@@ -2,6 +2,7 @@
   "name": "@jcoreio/toolchain-monorepo",
   "private": true,
   "version": "0.0.0-development",
+  "packageManager": "pnpm@8.3.1",
   "description": "JS/TS build toolchains",
   "repository": {
     "type": "git",
@@ -16,11 +17,15 @@
   "devDependencies": {
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-mocha": "workspace:*",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/github": "^8.0.4",
+    "@semantic-release/release-notes-generator": "^10.0.3",
     "chai": "^4.3.4",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "gitignore-fs": "^2.1.0",
-    "glob": "^7.2.0"
+    "glob": "^7.2.0",
+    "semantic-release": "^19.0.0"
   },
   "config": {
     "commitizen": {
