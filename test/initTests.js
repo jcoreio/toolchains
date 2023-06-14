@@ -51,7 +51,7 @@ const handleInitError = {
       cwd: await fs.realpath(linkdir),
       stdio: 'inherit',
     }
-    await execa('pnpm', ['i', '-D', '@babel/register@^7.22.5'], execaOpts)
+    await execa('pnpm', ['add', '-D', '@babel/register@^7.22.5'], execaOpts)
     await execa('pnpm', ['tc', 'prepublish'], execaOpts)
   },
 }

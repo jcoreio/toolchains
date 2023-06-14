@@ -33,7 +33,7 @@ async function init(args = []) {
       : toolchains),
   ])
   await execa('tc', ['bootstrap'])
-  await execa('pnpm', ['i'])
+  await execa('pnpm', ['i', '--no-frozen-lockfile'])
   await execa('tc', ['format'])
   await execa('tc', ['lint:fix'])
   await execa('tc', ['prepublish'])
