@@ -20,8 +20,6 @@
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0",
-    "@babel/plugin-syntax-typescript": "^7.14.5",
-    "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-esnext": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^5.29.0",

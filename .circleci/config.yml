@@ -9,17 +9,18 @@ jobs:
       - run:
           name: Setup NPM Token
           command: |
-            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-            echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+            npm config set \
+              "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \
+              "registry=https://registry.npmjs.org/"
       - run:
           name: Corepack enable
-          command: corepack enable
+          command: sudo corepack enable
       - run:
           name: Install Dependencies
           command: pnpm install --frozen-lockfile
       - run:
-          name:
-          command: tc prepublish
+          name: Prepublish
+          command: pnpm run tc prepublish
 
 workflows:
   build:

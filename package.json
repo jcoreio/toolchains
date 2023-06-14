@@ -37,8 +37,7 @@
     "init-fixture": "node test/util/initFixture.js",
     "toolchain": "toolchain",
     "tc": "toolchain",
-    "test": "toolchain test",
-    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
+    "test": "toolchain test"
   },
   "sideEffects": false
 }
