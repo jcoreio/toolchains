@@ -18,5 +18,13 @@ jobs:
           name: Install Dependencies
           command: pnpm install --frozen-lockfile
       - run:
-          name: prepublish
+          name:
           command: tc prepublish
+
+workflows:
+  build:
+    jobs:
+      - build:
+          context:
+            - npm-release
+            - github-release
