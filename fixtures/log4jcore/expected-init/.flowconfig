@@ -1,7 +1,7 @@
 [ignore]
 <PROJECT_ROOT>/node_modules/.*/resolve/.*
 <PROJECT_ROOT>/dist/.*
-<PROJECT_ROOT>/node_modules/.*/test/.*/.*\.json
+.*/malformed_package_json/.*
 
 [include]
 ./src

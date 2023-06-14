@@ -5,9 +5,13 @@
 
 const { it } = require('mocha')
 const Path = require('path')
-const initFixture = require('./util/initFixture')
+const execa = require('execa')
+const fs = require('fs-extra')
+const copyFixture = require('./util/copyFixture')
+const runInit = require('./util/runInit')
 const expectDirsEqual = require('./util/expectDirsEqual')
 const updateExpected = require('./util/updateExpected')
+const banner = require('./util/banner')
 
 for (const fixture of [
   'async-throttle',
@@ -19,8 +23,17 @@ for (const fixture of [
   it(`init ${fixture}`, async function () {
     this.timeout(120000)
     // eslint-disable-next-line no-console
-    console.error('\n' + block(fixture) + '\n')
-    const linkdir = await initFixture(fixture)
+    console.error('\n' + banner(fixture) + '\n')
+    const linkdir = await copyFixture(fixture)
+    try {
+      await runInit(linkdir)
+    } catch (error) {
+      if (handleInitError[fixture]) {
+        await handleInitError[fixture](linkdir, error)
+      } else {
+        throw error
+      }
+    }
     if (process.env.UPDATE_FIXTURES) {
       await updateExpected(fixture, 'expected-init')
     } else {
@@ -32,24 +45,13 @@ for (const fixture of [
   })
 }
 
-function centerPad(text, width = text.length, char = ' ') {
-  return text
-    .padStart(Math.floor((width + text.length) / 2), char)
-    .padEnd(width, char)
-}
-
-function block(name) {
-  function line(text = '') {
-    if (text) text = centerPad(text, 40)
-    return centerPad(text, 80, '/')
-  }
-  return [
-    line(),
-    line(),
-    line(' '),
-    line(name),
-    line(' '),
-    line(),
-    line(),
-  ].join('\n')
+const handleInitError = {
+  log4jcore: async (linkdir) => {
+    const execaOpts = {
+      cwd: await fs.realpath(linkdir),
+      stdio: 'inherit',
+    }
+    await execa('pnpm', ['i', '-D', '@babel/register@^7.22.5'], execaOpts)
+    await execa('pnpm', ['tc', 'prepublish'], execaOpts)
+  },
 }
