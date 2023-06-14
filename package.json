@@ -36,6 +36,7 @@
     "clone-to-fixture": "node test/util/cloneToFixture.js",
     "update-expected": "node test/util/updateExpected.js",
     "init-fixture": "node test/util/initFixture.js",
+    "copy-fixture": "node test/util/copyFixture.js",
     "toolchain": "toolchain",
     "tc": "toolchain",
     "test": "toolchain test"

@@ -4,13 +4,13 @@ const glob = require('glob')
 const { promisify } = require('util')
 const fixtures = Path.resolve(__dirname, '..', '..', 'fixtures')
 
-async function updateExpected(name, expectedName = 'expected-init') {
+async function updateSnapshot(name, snapshotName) {
   const actual = Path.join(fixtures, name, 'actual')
   if (!(await fs.pathExists(actual))) {
     throw new Error(`path not found: ${Path.relative(process.cwd(), actual)}`)
   }
-  const expected = Path.join(fixtures, name, expectedName)
-  await fs.remove(expected)
+  const snapshot = Path.join(fixtures, name, snapshotName)
+  await fs.remove(snapshot)
 
   const files = await promisify(glob)('{*,**/*}', {
     cwd: actual,
@@ -29,7 +29,7 @@ async function updateExpected(name, expectedName = 'expected-init') {
       await fs.copy(
         Path.join(actual, f),
         Path.join(
-          expected,
+          snapshot,
           Path.basename(f) === '.gitignore'
             ? Path.join(Path.dirname(f), '_.gitignore')
             : f
@@ -43,18 +43,23 @@ async function updateExpected(name, expectedName = 'expected-init') {
     `updated fixture: ${Path.relative(
       process.cwd(),
       actual
-    )} -> ${Path.relative(process.cwd(), expected)}`
+    )} -> ${Path.relative(process.cwd(), snapshot)}`
   )
 }
 
-module.exports = updateExpected
+module.exports = updateSnapshot
 
 if (require.main === module) {
   const name = process.argv[2]
-  if (!name) {
+  const snapshotName = process.argv[3]
+  if (!name || !snapshotName) {
     // eslint-disable-next-line no-console
-    console.error(`Usage: ${process.argv.slice(0, 2).join(' ')} <fixture>`)
+    console.error(
+      `Usage: ${process.argv
+        .slice(0, 2)
+        .join(' ')} <fixture name> <snapshot name>`
+    )
     process.exit(1)
   }
-  updateExpected(name)
+  updateSnapshot(name, snapshotName)
 }

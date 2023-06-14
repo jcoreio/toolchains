@@ -19,3 +19,13 @@ async function copyFixture(name) {
 }
 
 module.exports = copyFixture
+
+if (require.main === module) {
+  const name = process.argv[2]
+  if (!name) {
+    // eslint-disable-next-line no-console
+    console.error(`Usage: ${process.argv.slice(0, 2).join(' ')} <fixture-name>`)
+    process.exit(1)
+  }
+  copyFixture(name)
+}

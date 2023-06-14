@@ -10,7 +10,7 @@ const fs = require('fs-extra')
 const copyFixture = require('./util/copyFixture')
 const runInit = require('./util/runInit')
 const expectDirsEqual = require('./util/expectDirsEqual')
-const updateExpected = require('./util/updateExpected')
+const updateSnapshot = require('./util/updateSnapshot')
 const banner = require('./util/banner')
 
 for (const fixture of [
@@ -34,12 +34,12 @@ for (const fixture of [
         throw error
       }
     }
-    if (process.env.UPDATE_FIXTURES) {
-      await updateExpected(fixture, 'expected-init')
+    if (process.env.UPDATE_SNAPSHOTS) {
+      await updateSnapshot(fixture, 'init-snapshot')
     } else {
       await expectDirsEqual(
         linkdir,
-        Path.resolve(linkdir, '..', 'expected-init')
+        Path.resolve(linkdir, '..', 'init-snapshot')
       )
     }
   })
