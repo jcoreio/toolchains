@@ -20,7 +20,8 @@ jobs:
           command: pnpm install --frozen-lockfile
       - run:
           name: Prepublish
-          command: pnpm run tc prepublish
+          command: |
+            [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc prepublish
 
 workflows:
   build:
