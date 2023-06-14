@@ -28,13 +28,15 @@
   },
   "exports": {
     "./package.json": "./package.json",
-    "./index": {
-      "require": "./index.cjs",
-      "import": "./index.mjs"
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     },
     "./simple": {
-      "require": "./simple.cjs",
-      "import": "./simple.mjs"
+      "require": "./dist/simple.js",
+      "import": "./dist/simple.mjs"
     }
-  }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs"
 }

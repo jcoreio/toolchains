@@ -34,6 +34,7 @@
   },
   "scripts": {
     "clone-to-fixture": "node test/util/cloneToFixture.js",
+    "update-expected": "node test/util/updateExpected.js",
     "init-fixture": "node test/util/initFixture.js",
     "toolchain": "toolchain",
     "tc": "toolchain",

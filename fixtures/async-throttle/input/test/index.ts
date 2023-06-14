@@ -16,7 +16,7 @@ const throttled3 = throttle(fn, 2, {
 async function go() {
   const a = await throttled(2)
   const b = await throttled(3, 'a')
-  // @ts-expect-error
+  // @ts-expect-error second argument should be a string | undefined
   const c = await throttled(3, 4)
 
   await throttled.cancel()

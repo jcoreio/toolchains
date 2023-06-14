@@ -3,7 +3,7 @@ import _extends from "@babel/runtime/helpers/extends";
 /* eslint-env browser */
 import * as React from 'react';
 import Prefixer from 'inline-style-prefixer';
-import ViewSlider from './index';
+import ViewSlider from "./index.mjs";
 var bpfrpt_proptype_Props = {
   "children": PropTypes.any,
   "keepViewsMounted": PropTypes.bool,
@@ -138,8 +138,8 @@ export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderVie
   };
 }
 export default createSimpleViewSlider(ViewSlider);
-import { bpfrpt_proptype_Props as bpfrpt_proptype_ViewSliderProps } from "./index";
-import { bpfrpt_proptype_ViewProps } from "./index";
+import { bpfrpt_proptype_Props as bpfrpt_proptype_ViewSliderProps } from "./index.mjs";
+import { bpfrpt_proptype_ViewProps } from "./index.mjs";
 import PropTypes from "prop-types";
 export { bpfrpt_proptype_Props };
 export { bpfrpt_proptype_State };

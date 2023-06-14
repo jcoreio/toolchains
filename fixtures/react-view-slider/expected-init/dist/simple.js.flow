@@ -3,8 +3,8 @@
 
 import * as React from 'react'
 import Prefixer from 'inline-style-prefixer'
-import ViewSlider from './index'
-import type { Props as ViewSliderProps, ViewProps } from './index'
+import ViewSlider from "./index.js"
+import type { Props as ViewSliderProps, ViewProps } from "./index.js"
 
 export type Props = {
   children?: any,
