@@ -2,7 +2,7 @@
 .nyc_output
 node_modules
 /coverage
-/fixtures
+/fixtures/*
 !/fixtures/async-throttle
 !/fixtures/find-cycle
 !/fixtures/log4jcore

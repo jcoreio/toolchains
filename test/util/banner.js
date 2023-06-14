@@ -4,10 +4,10 @@ function centerPad(text, width = text.length, char = ' ') {
     .padEnd(width, char)
 }
 
-function banner(name) {
+function banner(name, width = 80) {
   function line(text = '') {
-    if (text) text = centerPad(text, 40)
-    return centerPad(text, 80, '/')
+    if (text) text = centerPad(text, width - 40)
+    return centerPad(text, width, '/')
   }
   return [
     line(),
