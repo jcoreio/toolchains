@@ -1,19 +1,19 @@
 {
-  "name": "@jcoreio/toolchain-monorepo",
+  "name": "@jcoreio/toolchains",
   "private": true,
   "version": "0.0.0-development",
   "packageManager": "pnpm@8.3.1",
   "description": "JS/TS build toolchains",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jcoreio/toolchain.git"
+    "url": "https://github.com/jcoreio/toolchains.git"
   },
   "author": "Andy Edwards",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jcoreio/toolchain/issues"
+    "url": "https://github.com/jcoreio/toolchains/issues"
   },
-  "homepage": "https://github.com/jcoreio/toolchain#readme",
+  "homepage": "https://github.com/jcoreio/toolchains#readme",
   "devDependencies": {
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-mocha": "workspace:*",

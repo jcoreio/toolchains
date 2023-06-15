@@ -4,14 +4,15 @@
   "description": "base JS build toolchain",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jcoreio/toolchain.git"
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "packages/base"
   },
   "author": "Andy Edwards",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jcoreio/toolchain/issues"
+    "url": "https://github.com/jcoreio/toolchains/issues"
   },
-  "homepage": "https://github.com/jcoreio/toolchain#readme",
+  "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/base",
   "dependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
