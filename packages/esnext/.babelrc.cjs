@@ -1,4 +1,4 @@
-const getPluginsArraySync = require('../base/util/getPluginsArraySync.cjs')
+const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 
 module.exports = function (api) {
   return {

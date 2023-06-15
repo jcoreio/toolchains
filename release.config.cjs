@@ -7,7 +7,7 @@ module.exports = {
       '@semantic-release/exec',
       {
         publishCmd:
-          'pnpm -r exec npm version ${nextRelease.version} && pnpm publish -r',
+          'pnpm -r exec npm version ${nextRelease.version} && pnpm publish -r --no-git-checks',
       },
     ],
     '@semantic-release/github',
