@@ -39,7 +39,8 @@
     "copy-fixture": "node test/util/copyFixture.js",
     "toolchain": "toolchain",
     "tc": "toolchain",
-    "test": "toolchain test"
+    "test": "toolchain test",
+    "semantic-release": "semantic-release"
   },
   "sideEffects": false
 }
