@@ -9,18 +9,17 @@ module.exports = [
       const exportMap = { './package.json': './package.json' }
       let usesBabelRuntime = false
       for (const file of files) {
-        const key = `./${Path.relative('dist', file).replace(
-          /(\.[^/.]*)*$/,
-          ''
-        )}`.replace(/\/index$/, '')
+        const fileInDist = `./${Path.relative('dist', file)}`
+        const key = fileInDist
+          .replace(/(\.[^/.]*)*$/, '')
+          .replace(/\/index$/, '')
         const forFile = exportMap[key] || (exportMap[key] = {})
-        forFile[
-          /\.d\.ts$/.test(file)
-            ? 'types'
-            : /\.c?js$/.test(file)
-            ? 'require'
-            : 'import'
-        ] = `./${file}`
+        const condition = /\.d\.ts$/.test(file)
+          ? 'types'
+          : /\.c?js$/.test(file)
+          ? 'require'
+          : 'import'
+        forFile[condition] = fileInDist
         usesBabelRuntime =
           usesBabelRuntime ||
           // this could return false positives in rare cases, but keeps the test simple

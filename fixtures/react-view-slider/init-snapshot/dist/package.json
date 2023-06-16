@@ -29,14 +29,14 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./index.js",
+      "import": "./index.mjs"
     },
     "./simple": {
-      "require": "./dist/simple.js",
-      "import": "./dist/simple.mjs"
+      "require": "./simple.js",
+      "import": "./simple.mjs"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs"
+  "main": "./index.js",
+  "module": "./index.mjs"
 }

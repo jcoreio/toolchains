@@ -25,12 +25,12 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "types": "./index.d.ts",
+      "require": "./index.js",
+      "import": "./index.mjs"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts"
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts"
 }

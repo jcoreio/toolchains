@@ -40,7 +40,7 @@ async function updateSnapshot(name, snapshotName) {
 
   // eslint-disable-next-line no-console
   console.error(
-    `updated fixture: ${Path.relative(
+    `updated snapshot: ${Path.relative(
       process.cwd(),
       actual
     )} -> ${Path.relative(process.cwd(), snapshot)}`

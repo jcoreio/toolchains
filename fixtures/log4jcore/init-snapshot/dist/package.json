@@ -2,7 +2,7 @@
   "name": "log4jcore",
   "version": "0.0.0-development",
   "description": "logging",
-  "types": "./dist/index.d.ts",
+  "types": "./index.d.ts",
   "engines": {
     "node": ">=8.0.0"
   },
@@ -26,21 +26,21 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "types": "./index.d.ts",
+      "require": "./index.js",
+      "import": "./index.mjs"
     },
     "./memoryLogProvider": {
-      "types": "./dist/memoryLogProvider.d.ts",
-      "require": "./dist/memoryLogProvider.js",
-      "import": "./dist/memoryLogProvider.mjs"
+      "types": "./memoryLogProvider.d.ts",
+      "require": "./memoryLogProvider.js",
+      "import": "./memoryLogProvider.mjs"
     },
     "./writableLogFunction": {
-      "types": "./dist/writableLogFunction.d.ts",
-      "require": "./dist/writableLogFunction.js",
-      "import": "./dist/writableLogFunction.mjs"
+      "types": "./writableLogFunction.d.ts",
+      "require": "./writableLogFunction.js",
+      "import": "./writableLogFunction.mjs"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs"
+  "main": "./index.js",
+  "module": "./index.mjs"
 }
