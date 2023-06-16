@@ -3,14 +3,13 @@ const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const glob = require('@jcoreio/toolchain/util/glob.cjs')
 const path = require('path')
 const dedent = require('dedent-js')
-const { packageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
+const { toolchainConfig } = require('@jcoreio/toolchain/util/findUps.cjs')
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 const resolveImportsCodemod = require('../util/resolveImportsCodemod.cjs')
 
 module.exports = [
   [
     async function compile(args = []) {
-      const config = packageJson['@jcoreio/toolchain']
       const extensions = getPluginsArraySync('babelExtensions')
 
       await execa('babel', [
@@ -23,7 +22,7 @@ module.exports = [
       ])
       const jsFiles = await glob(path.join('dist', '**', '*.js'))
       await resolveImportsCodemod(jsFiles)
-      if (config && config.esWrapper) {
+      if (toolchainConfig.esWrapper) {
         await Promise.all(
           jsFiles.map((file) =>
             fs.writeFile(

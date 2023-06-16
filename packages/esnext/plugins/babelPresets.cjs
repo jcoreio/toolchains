@@ -9,7 +9,7 @@ module.exports = [
         require.resolve('@babel/preset-env'),
         {
           ...(JCOREIO_TOOLCHAIN_MJS
-            ? toolchainConfig.mjsBabelEnv || {
+            ? toolchainConfig.esmBabelEnv || {
                 targets: {
                   node: 16,
                 },
