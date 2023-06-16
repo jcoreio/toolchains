@@ -3,6 +3,7 @@ const Path = require('path')
 const fs = require('fs-extra')
 const once = require('./once.cjs')
 const { name } = require('../package.json')
+const configSchema = require('./configSchema.cjs')
 
 const findGitDir = once(function findGitDir(
   cwd = process.env.INIT_CWD || process.cwd()
@@ -39,6 +40,22 @@ try {
 } catch (error) {
   // ignore
 }
-exports.toolchainConfig = toolchainConfigFile
-  ? require(toolchainConfigFile)
-  : {}
+
+let toolchainConfig
+try {
+  toolchainConfig = configSchema.parse(
+    toolchainConfigFile ? require(toolchainConfigFile) : packageJson[name] || {}
+  )
+} catch (error) {
+  const toolchainConfigLocation = toolchainConfigFile
+    ? Path.relative(cwd, toolchainConfigFile)
+    : `packageJson[${JSON.stringify(name)}]`
+
+  // eslint-disable-next-line no-console
+  console.error(`invalid ${toolchainConfigLocation}`)
+  // eslint-disable-next-line no-console
+  console.error(error.message)
+  process.exit(1)
+}
+
+exports.toolchainConfig = toolchainConfig
