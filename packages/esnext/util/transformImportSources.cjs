@@ -1,6 +1,7 @@
 const fs = require('fs-extra')
 const { parseAsync } = require('babel-parse-wild-code')
 const getImportSources = require('./getImportSources.cjs')
+const replaceRanges = require('@jcoreio/toolchain/util/replaceRanges.cjs')
 
 async function transformImportSources({ file, source, ast, transform }) {
   if (!source) source = await fs.readFile(file, 'utf8')
@@ -13,23 +14,8 @@ async function transformImportSources({ file, source, ast, transform }) {
       source: value,
     })
     if (replacement === value) continue
-    replacements.push({ value: replacement, start, end })
+    replacements.push({ value: JSON.stringify(replacement), start, end })
   }
-  replacements.sort((a, b) => a.start - b.start)
-
-  const parts = []
-  let end = 0
-  for (const r of replacements) {
-    if (r.start > end) {
-      parts.push(source.substring(end, r.start))
-    }
-    parts.push(JSON.stringify(r.value))
-    end = r.end
-  }
-  if (end < source.length) {
-    parts.push(source.substring(end))
-  }
-
-  return parts.join('')
+  return replaceRanges(source, replacements)
 }
 module.exports = transformImportSources
