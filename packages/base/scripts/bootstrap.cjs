@@ -12,10 +12,14 @@ async function bootstrap(args = []) {
   const bootstrapMoveTypeDefs = require('./bootstrap/bootstrapMoveTypeDefs.cjs')
   const bootstrapGitignore = require('./bootstrap/bootstrapGitignore.cjs')
   const bootstrapRemoveFiles = require('./bootstrap/bootstrapRemoveFiles.cjs')
+  const hasYarnOrNpmLockfile = require('../util/hasYarnOrNpmLockfile.cjs')
 
   await execa('git', ['init'])
   await installGitHooks()
   await bootstrapProjectPackageJson()
+  if (await hasYarnOrNpmLockfile()) {
+    await execa('pnpm', ['import'])
+  }
   await Promise.all(
     bootstrapRemoveFiles.map(async (file) => {
       const exists = await fs.pathExists(file)

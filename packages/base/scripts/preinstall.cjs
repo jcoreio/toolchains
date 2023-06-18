@@ -4,7 +4,12 @@ const fs = require('../util/projectFs.cjs')
 
 async function preinstall(args = []) {
   const preinstallUpdateProjectPackageJson = require('./preinstall/preinstallUpdateProjectPackageJson.cjs')
+  const execa = require('../util/execa.cjs')
+  const hasYarnOrNpmLockfile = require('../util/hasYarnOrNpmLockfile.cjs')
 
+  if (await hasYarnOrNpmLockfile()) {
+    await execa('pnpm', ['import'])
+  }
   await Promise.all(
     require('./preinstall/preinstallRemoveFiles.cjs').map(async (file) => {
       const exists = await fs.pathExists(file)
