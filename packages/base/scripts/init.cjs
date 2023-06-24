@@ -3,6 +3,7 @@
 const { packageJson } = require('../util/findUps.cjs')
 const preinstall = require('./preinstall.cjs')
 const execa = require('../util/execa.cjs')
+const hasTSFiles = require('../util/hasTSFiles.cjs')
 
 async function init(args = []) {
   const { dependencies = {}, devDependencies = {} } = packageJson
@@ -10,7 +11,7 @@ async function init(args = []) {
   const isBabel =
     devDependencies['@babel/core'] != null ||
     devDependencies['babel-core'] != null
-  const isTS = isBabel && devDependencies.typescript != null
+  const isTS = await hasTSFiles()
   const isFlow = isBabel && devDependencies['flow-bin'] != null
   const isReact = dependencies.react != null || devDependencies.react != null
   const isMocha = devDependencies['mocha'] != null
