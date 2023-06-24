@@ -23,7 +23,7 @@
     "@babel/core": "^7.0.0",
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-esnext": "workspace:*",
-    "eslint": "^8.0.0"
+    "eslint": "^8.43.0"
   },
   "toolchainManaged": {
     "devDependencies": {

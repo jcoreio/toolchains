@@ -60,7 +60,7 @@
     "@jcoreio/toolchain": "link:../packages/base",
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
     "chai": "^4.3.7",
-    "eslint": "^8.5.0",
+    "eslint": "^8.43.0",
     "flow-bin": "^0.64.0",
     "mocha": "^10.2.0"
   },
