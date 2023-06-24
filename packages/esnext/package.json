@@ -36,6 +36,11 @@
   "peerDependencies": {
     "@jcoreio/toolchain": "workspace:*"
   },
+  "toolchainManaged": {
+    "dependencies": {
+      "@babel/runtime": "*"
+    }
+  },
   "bin": {
     "babel": "./bin/babel",
     "babel-node": "./bin/babel-node"

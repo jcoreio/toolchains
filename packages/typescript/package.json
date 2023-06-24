@@ -24,13 +24,18 @@
     "@babel/core": "^7.0.0",
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-esnext": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.29.0",
     "eslint": "^8.0.0",
     "typescript": "^5.1.0"
   },
   "devDependencies": {
     "eslint": "^8.5.0",
     "typescript": "^5.1.0"
+  },
+  "toolchainManaged": {
+    "devDependencies": {
+      "@typescript-eslint/eslint-plugin": "*",
+      "@typescript-eslint/parser": "*",
+      "typescript": "*"
+    }
   }
 }

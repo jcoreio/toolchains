@@ -1,8 +1,9 @@
-const { name, peerDependencies: basePeerDeps } = require('../../package.json')
+const { name } = require('../../package.json')
 const { projectDir, toolchainPackages } = require('../../util/findUps.cjs')
 const getPluginsAsyncFunction = require('../../util/getPluginsAsyncFunction.cjs')
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
+const semver = require('semver')
 
 async function bootstrapProjectPackageJson() {
   const { merge, unset } = require('lodash')
@@ -11,13 +12,25 @@ async function bootstrapProjectPackageJson() {
   const devDependencies =
     packageJson.devDependencies || (packageJson.devDependencies = {})
 
-  const peerDependencies = { ...basePeerDeps }
+  const toolchainManaged = {}
   for (const pkg of toolchainPackages) {
-    Object.assign(
-      peerDependencies,
-      require(require.resolve(`${pkg}/package.json`, { paths: [projectDir] }))
-        .peerDependencies
-    )
+    const toolchainPkgJson = require(require.resolve(`${pkg}/package.json`, {
+      paths: [projectDir],
+    }))
+    const toolchainPkgDeps = toolchainPkgJson.dependencies || {}
+    const toolchainPkgDevDeps = toolchainPkgJson.devDependencies || {}
+    if (toolchainPkgJson.toolchainManaged) {
+      for (const section in toolchainPkgJson.toolchainManaged) {
+        const sectionDeps = toolchainPkgJson.toolchainManaged[section]
+        if (!toolchainManaged[section]) toolchainManaged[section] = {}
+        for (const dep in sectionDeps) {
+          let version = sectionDeps[dep]
+          if (version === '*')
+            version = toolchainPkgDevDeps[dep] || toolchainPkgDeps[dep]
+          if (version !== '*') toolchainManaged[section][dep] = version
+        }
+      }
+    }
   }
 
   for (const path of [
@@ -56,11 +69,26 @@ async function bootstrapProjectPackageJson() {
     },
   })
 
-  if (peerDependencies) {
-    for (const dep in peerDependencies) {
-      const version = peerDependencies[dep]
-      if (version.startsWith('workspace') || version === '*') continue
-      packageJson.devDependencies[dep] = version
+  for (const section in toolchainManaged) {
+    const managedSection = toolchainManaged[section]
+    const pkgSectionName = section.replace(/^optionalD/, 'd')
+    let pkgSection = packageJson[pkgSectionName]
+    if (!pkgSection) {
+      if (/^optional/.test(section)) continue
+      pkgSection = packageJson[pkgSectionName] = {}
+    }
+    for (const dep in managedSection) {
+      if (/^optional/.test(section) && !pkgSection[dep]) continue
+      const versionRange = managedSection[dep]
+      if (
+        !pkgSection[dep] ||
+        semver.gt(
+          versionRange.replace(/^\D+/, ''),
+          pkgSection[dep].replace(/^\D+/, '')
+        )
+      ) {
+        pkgSection[dep] = versionRange
+      }
     }
   }
 

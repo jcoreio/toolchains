@@ -36,11 +36,14 @@
     "prettier": "^2.5.1",
     "resolve-bin": "^1.0.0",
     "semantic-release": "^21.0.5",
+    "semver": "^7.5.3",
     "toposort": "^2.0.2",
     "zod": "^3.21.4"
   },
-  "peerDependencies": {
-    "eslint": "^8.0.0"
+  "toolchainManaged": {
+    "devDependencies": {
+      "eslint": "*"
+    }
   },
   "bin": {
     "commitizen": "./bin/commitizen",

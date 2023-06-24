@@ -59,10 +59,10 @@
   "devDependencies": {
     "@jcoreio/toolchain": "link:../packages/base",
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
-    "chai": "^4.1.2",
-    "eslint": "^8.0.0",
+    "chai": "^4.3.7",
+    "eslint": "^8.5.0",
     "flow-bin": "^0.64.0",
-    "mocha": "^9.1.3"
+    "mocha": "^10.2.0"
   },
   "sideEffects": false
 }
