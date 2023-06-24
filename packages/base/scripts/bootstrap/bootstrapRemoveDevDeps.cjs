@@ -89,6 +89,8 @@ module.exports = [
   'babel-types',
   'babylon',
   'codecov',
+  'commitizen',
+  'cz-conventional-changelog',
   'coveralls',
   'eslint-watch',
   'flow-copy-source',
