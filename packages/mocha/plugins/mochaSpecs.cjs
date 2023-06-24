@@ -1,5 +1,8 @@
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 
 module.exports = [
-  () => [`test/**/*.{${getPluginsArraySync('sourceExtensions').join(',')}}`],
+  () => [
+    `test/**/*.{${getPluginsArraySync('sourceExtensions').join(',')}}`,
+    `**/__tests__/*.{${getPluginsArraySync('sourceExtensions').join(',')}}`,
+  ],
 ]

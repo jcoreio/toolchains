@@ -38,7 +38,6 @@ module.exports = [
       `,
     }
     for (const file of [
-      'commitlint.config.cjs',
       'githooks.cjs',
       'lint-staged.config.cjs',
       'prettier.config.cjs',

@@ -14,15 +14,11 @@
   },
   "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/base",
   "dependencies": {
-    "@commitlint/cli": "^15.0.0",
-    "@commitlint/config-conventional": "^15.0.0",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/github": "^8.0.4",
     "@semantic-release/npm": "^10.0.4",
     "@semantic-release/release-notes-generator": "^10.0.3",
     "chalk": "^4.0.0",
-    "commitizen": "^4.2.4",
-    "cz-conventional-changelog": "^3.3.0",
     "dedent-js": "^1.0.1",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
@@ -46,8 +42,6 @@
     }
   },
   "bin": {
-    "commitizen": "./bin/commitizen",
-    "commitlint": "./bin/commitlint",
     "cz": "./bin/cz",
     "eslint": "./bin/eslint",
     "git-cz": "./bin/git-cz",
