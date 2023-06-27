@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Prefix as Prefixer } from 'inline-style-prefixer';
-type TransitionState = 'in' | 'out' | 'entering' | 'leaving';
-export type ViewProps = {
+declare type TransitionState = 'in' | 'out' | 'entering' | 'leaving';
+export declare type ViewProps = {
     index: number;
     active: boolean;
     transitionState: TransitionState;
 };
-export type DefaultProps = {
+export declare type DefaultProps = {
     animateHeight: boolean;
     keepViewsMounted: boolean;
     transitionDuration: number;
@@ -17,7 +17,7 @@ export type DefaultProps = {
     rtl: boolean;
     spacing: number;
 };
-export type Props = {
+export declare type Props = {
     activeView: number;
     numViews: number;
     renderView: (props: ViewProps) => React.ReactNode;
@@ -39,7 +39,7 @@ export type Props = {
     rtl?: boolean;
     spacing?: number;
 };
-type DefaultedProps = {
+declare type DefaultedProps = {
     activeView: number;
     numViews: number;
     renderView: (props: ViewProps) => React.ReactNode;
@@ -60,7 +60,7 @@ type DefaultedProps = {
     rtl: boolean;
     spacing: number;
 };
-export type State = {
+export declare type State = {
     height?: number;
     transitioning: boolean;
     activeView: number;

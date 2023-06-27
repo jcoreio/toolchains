@@ -14,10 +14,6 @@
   },
   "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/base",
   "dependencies": {
-    "@semantic-release/commit-analyzer": "^9.0.2",
-    "@semantic-release/github": "^8.0.4",
-    "@semantic-release/npm": "^10.0.4",
-    "@semantic-release/release-notes-generator": "^10.0.3",
     "chalk": "^4.0.0",
     "dedent-js": "^1.0.1",
     "eslint": "^8.43.0",
@@ -31,12 +27,14 @@
     "open": "^8.4.0",
     "prettier": "^2.5.1",
     "resolve-bin": "^1.0.0",
-    "semantic-release": "^21.0.5",
     "semver": "^7.5.3",
     "toposort": "^2.0.2",
     "zod": "^3.21.4"
   },
   "toolchainManaged": {
+    "engines": {
+      "node": ">=16"
+    },
     "devDependencies": {
       "eslint": "*"
     }
@@ -45,7 +43,6 @@
     "eslint": "./bin/eslint",
     "lint-staged": "./bin/lint-staged",
     "prettier": "./bin/prettier",
-    "semantic-release": "./bin/semantic-release",
     "tc": "./scripts/toolchain.cjs",
     "toolchain": "./scripts/toolchain.cjs"
   },

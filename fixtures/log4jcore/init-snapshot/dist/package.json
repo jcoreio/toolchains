@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jcoreio/log4jcore#readme",
   "sideEffects": false,
+  "node": ">=8.0.0",
   "dependencies": {
     "@babel/runtime": "^7.18.6"
   },

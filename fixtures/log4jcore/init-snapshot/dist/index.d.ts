@@ -1,4 +1,4 @@
-export type Level = 1 | 2 | 3 | 4 | 5 | 6;
+export declare type Level = 1 | 2 | 3 | 4 | 5 | 6;
 export interface Logger {
     trace(...args: Array<any>): void;
     debug(...args: Array<any>): void;
@@ -10,8 +10,8 @@ export interface Logger {
     levelEnabled(level: Level): boolean;
     inputLogProvider: LogProvider;
 }
-export type LogProvider = (loggerPath: string, level: Level, ...args: Array<any>) => void;
-export type LogFunctionProvider = (level: Level) => (...args: any[]) => any;
+export declare type LogProvider = (loggerPath: string, level: Level, ...args: Array<any>) => void;
+export declare type LogFunctionProvider = (level: Level) => (...args: any[]) => any;
 export declare const LOG_LEVEL_TRACE = 1;
 export declare const LOG_LEVEL_DEBUG = 2;
 export declare const LOG_LEVEL_INFO = 3;
@@ -42,7 +42,7 @@ export declare const defaultLogProvider: LogProvider;
  * @param provider
  */
 export declare function setLogProvider(provider: LogProvider): void;
-export type CreateLoggerOptions = {
+export declare type CreateLoggerOptions = {
     loggerPath: string;
     logProviders?: LogProvider[];
 };

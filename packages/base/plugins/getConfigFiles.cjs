@@ -30,12 +30,6 @@ module.exports = [
       }
         }
       `,
-      'release.config.js': dedent`
-        /* eslint-env node, es2018 */
-        module.exports = {
-          extends: [require.resolve('${name}/release.config.cjs')],
-        }
-      `,
     }
     for (const file of [
       'githooks.cjs',
