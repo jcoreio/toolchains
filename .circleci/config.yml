@@ -1,3 +1,5 @@
+# created by @jcoreio/toolchain-circle
+
 version: 2.1
 jobs:
   build:
@@ -25,7 +27,7 @@ jobs:
       - run:
           name: Release
           command: |
-            [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm semantic-release
+            [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
 
 workflows:
   build:

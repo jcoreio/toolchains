@@ -16,7 +16,9 @@
   "homepage": "https://github.com/jcoreio/toolchains#readme",
   "devDependencies": {
     "@jcoreio/toolchain": "workspace:*",
+    "@jcoreio/toolchain-circle": "workspace:*",
     "@jcoreio/toolchain-mocha": "workspace:*",
+    "@jcoreio/toolchain-semantic-release": "workspace:*",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/github": "^8.0.4",
@@ -25,8 +27,7 @@
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "gitignore-fs": "^2.1.0",
-    "glob": "^7.2.0",
-    "semantic-release": "^21.0.5"
+    "glob": "^7.2.0"
   },
   "config": {
     "commitizen": {
@@ -41,7 +42,8 @@
     "toolchain": "toolchain",
     "tc": "toolchain",
     "test": "toolchain test",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
   },
   "sideEffects": false
 }
