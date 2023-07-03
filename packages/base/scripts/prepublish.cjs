@@ -1,10 +1,10 @@
 const check = require('./check.cjs')
-const coverage = require('./coverage.cjs')
 const build = require('./build.cjs')
+const scripts = require('./toolchain.cjs')
 
 exports.run = async function (args = []) {
   await check.run()
-  await coverage.run()
+  if (scripts.coverage) await scripts.coverage.run()
   await build.run()
 }
 
