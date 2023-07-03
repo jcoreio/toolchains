@@ -1,10 +1,18 @@
 const dedent = require('dedent-js')
 const { name } = require('../package.json')
+const { scripts } = require('@jcoreio/toolchain/scripts/toolchain.cjs')
 
 module.exports = [
   async function getConfigFiles() {
     const dockerImageVersion = '20.3.0'
     const dockerImage = `cimg/node:${dockerImageVersion}`
+
+    const releaseStep = dedent`
+      - run:
+          name: Release
+          command: |
+            [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
+    `
 
     const defaultConfig = dedent`
       # created by ${name}
@@ -33,10 +41,11 @@ module.exports = [
                 name: Prepublish
                 command: |
                   [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc prepublish
-            - run:
-                name: Release
-                command: |
-                  [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
+            ${
+              scripts.release
+                ? releaseStep.replace(/^/gm, ' '.repeat(6)).replace(/^ {6}/, '')
+                : ''
+            }
 
       workflows:
         build:

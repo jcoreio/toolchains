@@ -60,6 +60,7 @@
     "@jcoreio/toolchain": "link:../packages/base",
     "@jcoreio/toolchain-circle": "link:../packages/circle",
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
+    "@jcoreio/toolchain-semantic-release": "link:../packages/semantic-release",
     "chai": "^4.1.2",
     "flow-bin": "^0.64.0"
   },

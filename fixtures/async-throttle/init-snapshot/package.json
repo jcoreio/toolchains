@@ -52,6 +52,7 @@
     "@jcoreio/toolchain-esnext": "link:../packages/esnext",
     "@jcoreio/toolchain-flow": "link:../packages/flow",
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
+    "@jcoreio/toolchain-semantic-release": "link:../packages/semantic-release",
     "@jcoreio/toolchain-typescript": "link:../packages/typescript",
     "chai": "^4.2.0",
     "copy": "^0.3.2",

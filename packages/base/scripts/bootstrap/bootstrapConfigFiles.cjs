@@ -1,10 +1,10 @@
 const fs = require('../../util/projectFs.cjs')
 const path = require('path')
-const getPluginsObject = require('../../util/getPluginsObject.cjs')
+const getPluginsObjectAsync = require('../../util/getPluginsObjectAsync.cjs')
 const { name } = require('../../package.json')
 
 async function bootstrapConfigFiles() {
-  const files = await getPluginsObject('getConfigFiles')
+  const files = await getPluginsObjectAsync('getConfigFiles')
   for (const file in files) {
     const value = files[file]
     let content, overwrite

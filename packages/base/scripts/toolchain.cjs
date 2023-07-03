@@ -2,6 +2,7 @@
 
 const { name, version } = require('../package.json')
 const chalk = require('chalk')
+const getPluginsObjectSync = require('../util/getPluginsObjectSync.cjs')
 
 const scripts = {
   bootstrap: require('./bootstrap.cjs'),
@@ -24,6 +25,7 @@ const scripts = {
       console.log(`${name}@${version}`)
     },
   },
+  ...getPluginsObjectSync('scripts'),
 }
 
 exports.scripts = scripts

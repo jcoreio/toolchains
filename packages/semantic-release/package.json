@@ -20,6 +20,7 @@
     "@semantic-release/npm": "^10.0.4",
     "@semantic-release/release-notes-generator": "^10.0.3",
     "dedent-js": "^1.0.1",
+    "resolve-bin": "^1.0.0",
     "semantic-release": "^21.0.5"
   },
   "bin": {

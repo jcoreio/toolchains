@@ -17,6 +17,7 @@ async function init(args = []) {
   const isReact = dependencies.react != null || devDependencies.react != null
   const isMocha = devDependencies['mocha'] != null
   const isCircle = true // might be false someday
+  const isSemanticRelease = devDependencies['semantic-release'] != null
 
   if (isMocha) toolchains.push('@jcoreio/toolchain-mocha')
   if (isBabel) toolchains.push('@jcoreio/toolchain-esnext')
@@ -24,6 +25,7 @@ async function init(args = []) {
   if (isTS) toolchains.push('@jcoreio/toolchain-typescript')
   if (isReact) toolchains.push('@jcoreio/toolchain-react')
   if (isCircle) toolchains.push('@jcoreio/toolchain-circle')
+  if (isSemanticRelease) toolchains.push('@jcoreio/toolchain-semantic-release')
 
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
 
