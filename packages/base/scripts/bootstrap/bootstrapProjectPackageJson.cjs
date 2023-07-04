@@ -1,9 +1,9 @@
-const { name } = require('../../package.json')
 const { toolchainManaged } = require('../../util/findUps.cjs')
 const getPluginsAsyncFunction = require('../../util/getPluginsAsyncFunction.cjs')
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 const semver = require('semver')
+const isEmpty = require('lodash/isEmpty')
 
 async function bootstrapProjectPackageJson() {
   const { merge, unset } = require('lodash')
@@ -13,19 +13,51 @@ async function bootstrapProjectPackageJson() {
     packageJson.devDependencies || (packageJson.devDependencies = {})
 
   for (const path of [
-    'exports',
+    'commitlint',
+    'config.commitizen',
+    'config.eslint',
+    'config.lint',
+    'config.mocha',
+    'config.prettier',
     'eslintConfig',
+    'exports',
     'files',
     'husky',
+    'husky',
+    'lint-staged',
     'main',
     'module',
-    'renovate',
-    'prettier',
-    'commitlint',
-    'lint-staged',
     'nyc',
-    'husky',
-    'config.mocha',
+    'prettier',
+    'renovate',
+    'scripts.build:cjs',
+    'scripts.build:js',
+    'scripts.build:mjs',
+    'scripts.build:types',
+    'scripts.build',
+    'scripts.clean',
+    'scripts.codecov',
+    'scripts.coverage',
+    'scripts.commitmsg',
+    'scripts.flow:coverage',
+    'scripts.flow:watch',
+    'scripts.flow',
+    'scripts.lint:fix',
+    'scripts.lint:watch',
+    'scripts.lint',
+    'scripts.open:coverage',
+    'scripts.precommit',
+    'scripts.prepublishOnly',
+    'scripts.prepush',
+    'scripts.prettier:check',
+    'scripts.prettier',
+    'scripts.semantic-release',
+    'scripts.test:debug',
+    'scripts.test:watch',
+    'scripts.test',
+    'scripts.travis-deploy-once',
+    'scripts.tsc:wath',
+    'scripts.tsc',
   ]) {
     unset(packageJson, path)
   }
@@ -46,13 +78,11 @@ async function bootstrapProjectPackageJson() {
         prepublishOnly:
           'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
       },
-      config: {
-        commitizen: { path: `${name}/commitizen.cjs` },
-      },
     },
     toolchainManaged.engines,
     packageJson.engines
   )
+  if (isEmpty(packageJson.config)) delete packageJson.config
 
   for (const section in toolchainManaged) {
     const managedSection = toolchainManaged[section]

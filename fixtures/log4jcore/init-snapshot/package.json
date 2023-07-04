@@ -7,16 +7,10 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1",
-    "semantic-release": "semantic-release",
     "tc": "toolchain",
     "toolchain": "toolchain",
-    "test": "toolchain test"
-  },
-  "config": {
-    "commitizen": {
-      "path": "@jcoreio/toolchain/commitizen.cjs"
-    }
+    "test": "toolchain test",
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
   },
   "repository": {
     "type": "git",
