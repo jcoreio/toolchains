@@ -32,13 +32,13 @@
   },
   "homepage": "https://github.com/jcoreio/log4jcore#readme",
   "devDependencies": {
-    "@babel/register": "^7.22.5",
     "@babel/runtime": "^7.7.1",
     "@jcoreio/toolchain": "link:../packages/base",
     "@jcoreio/toolchain-circle": "link:../packages/circle",
     "@jcoreio/toolchain-esnext": "link:../packages/esnext",
     "@jcoreio/toolchain-flow": "link:../packages/flow",
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
+    "@jcoreio/toolchain-semantic-release": "link:../packages/semantic-release",
     "@jcoreio/toolchain-typescript": "link:../packages/typescript",
     "@types/chai": "^4.2.6",
     "@types/fs-extra": "^8.0.1",
@@ -68,6 +68,7 @@
     "typescript": "^3.7.2"
   },
   "sideEffects": false,
+  "packageManager": "pnpm@^8.6.6",
   "node": ">=8.0.0",
   "dependencies": {
     "@babel/runtime": "^7.18.6"

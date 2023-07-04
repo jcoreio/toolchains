@@ -38,6 +38,7 @@ async function bootstrapProjectPackageJson() {
     {
       version: '0.0.0-development',
       sideEffects: false,
+      packageManager: 'pnpm@^8.6.6',
       scripts: {
         tc: 'toolchain',
         toolchain: 'toolchain',

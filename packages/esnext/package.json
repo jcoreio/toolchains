@@ -23,6 +23,7 @@
     "@babel/register": "^7.16.5",
     "@babel/runtime": "^7.18.6",
     "@babel/traverse": "^7.22.1",
+    "@jcoreio/toolchain": "workspace:*",
     "babel-parse-wild-code": "^2.1.3",
     "babel-plugin-add-module-exports": "^1.0.4",
     "babel-plugin-istanbul": "^6.1.1",
