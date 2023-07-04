@@ -28,6 +28,10 @@
     "react": "^16.8.0"
   },
   "packageManager": "pnpm@^8.6.6",
+  "node": ">=16",
+  "engines": {
+    "node": ">=16"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

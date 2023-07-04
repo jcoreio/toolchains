@@ -4,7 +4,7 @@
   "description": "logging",
   "types": "index.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=16"
   },
   "scripts": {
     "tc": "toolchain",
@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/jcoreio/log4jcore#readme",
   "devDependencies": {
+    "@babel/plugin-syntax-flow": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@babel/runtime": "^7.7.1",
     "@jcoreio/toolchain": "link:../packages/base",
     "@jcoreio/toolchain-circle": "link:../packages/circle",
@@ -34,23 +36,28 @@
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
     "@jcoreio/toolchain-semantic-release": "link:../packages/semantic-release",
     "@jcoreio/toolchain-typescript": "link:../packages/typescript",
-    "@types/chai": "^4.2.6",
+    "@types/chai": "^4.3.5",
     "@types/fs-extra": "^8.0.1",
     "@types/glob": "^7.2.0",
     "@types/lodash": "^4.14.182",
-    "@types/mocha": "^8.2.2",
+    "@types/mocha": "^10.0.1",
     "@types/sinon": "^10.0.2",
     "@types/touch": "^3.1.1",
-    "chai": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "chai": "^4.3.7",
     "chalk": "^2.4.2",
     "copy": "^0.3.2",
     "cross-env": "^5.2.0",
     "defaultenv": "^4.0.0",
+    "eslint": "^8.43.0",
     "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-flowtype": "^8.0.3",
     "flow-bin": "^0.180.0",
     "fs-extra": "^8.1.0",
     "glob": "^8.0.3",
     "lodash": "^4.17.21",
+    "mocha": "^10.2.0",
     "p-event": "^4.2.0",
     "promake": "^3.1.2",
     "promisify-child-process": "^3.1.1",
@@ -59,7 +66,7 @@
     "sinon": "^11.1.1",
     "touch": "^3.1.0",
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.2"
+    "typescript": "^5.1.0"
   },
   "sideEffects": false,
   "packageManager": "pnpm@^8.6.6",

@@ -1,5 +1,5 @@
 import { Level, LogProvider } from './index';
-export declare type MemoryLogMessage = {
+export type MemoryLogMessage = {
     loggerPath: string;
     level: Level;
     time: number;

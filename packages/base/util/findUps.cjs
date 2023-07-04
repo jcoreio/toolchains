@@ -68,7 +68,7 @@ try {
 exports.toolchainConfig = toolchainConfig
 
 const toolchainManaged = (exports.toolchainManaged = {})
-for (const toolchainPkgJson of Object.entries(toolchainPackageJsons)) {
+for (const toolchainPkgJson of Object.values(toolchainPackageJsons)) {
   const toolchainPkgDeps = toolchainPkgJson.dependencies || {}
   const toolchainPkgDevDeps = toolchainPkgJson.devDependencies || {}
   if (toolchainPkgJson.toolchainManaged) {

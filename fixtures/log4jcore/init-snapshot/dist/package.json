@@ -4,7 +4,7 @@
   "description": "logging",
   "types": "./index.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=16"
   },
   "repository": {
     "type": "git",

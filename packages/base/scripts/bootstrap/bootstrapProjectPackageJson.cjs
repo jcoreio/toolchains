@@ -97,10 +97,7 @@ async function bootstrapProjectPackageJson() {
       const versionRange = managedSection[dep]
       if (
         !pkgSection[dep] ||
-        semver.gt(
-          versionRange.replace(/^\D+/, ''),
-          pkgSection[dep].replace(/^\D+/, '')
-        )
+        !semver.satisfies(semver.minVersion(pkgSection[dep]), versionRange)
       ) {
         pkgSection[dep] = versionRange
       }
