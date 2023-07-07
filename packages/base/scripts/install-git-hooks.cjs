@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const execa = require('../../util/execa.cjs')
+const execa = require('../util/execa.cjs')
 const Path = require('path')
 const dedent = require('dedent-js')
-const { findGitDir } = require('../../util/findUps.cjs')
+const { findGitDir } = require('../util/findUps.cjs')
 const fs = require('fs-extra')
 
 const githooksDir = Path.resolve(__dirname, '..', '..', 'githooks')
@@ -15,7 +15,7 @@ async function installGitHooks() {
     console.warn(dedent`
       .git directory not found!
       git hooks could not be installed.
-      after you run \`git init\`, try \`pnpm exec install-git-hooks\`.
+      after you run \`git init\`, try \`pnpm tc install-git-hooks\`.
     `)
   } else {
     // chmod in case pnpm doesn't preserve mode of hooks scripts
@@ -34,4 +34,6 @@ async function installGitHooks() {
   }
 }
 
-module.exports = installGitHooks
+exports.description = 'install git hooks'
+
+exports.run = installGitHooks

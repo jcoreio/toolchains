@@ -2,7 +2,7 @@ const Path = require('path')
 const { findGitDir } = require('../util/findUps.cjs')
 const execa = require('../util/execa.cjs')
 
-module.exports = async function runHook(hook) {
+module.exports = async function runHook(hookName) {
   try {
     const gitDir = findGitDir()
     if (!gitDir) {
@@ -16,9 +16,13 @@ module.exports = async function runHook(hook) {
     } catch (error) {
       hooks = require('../githooks.cjs')
     }
+    const hook = hooks[hookName]
+    if (!hook) return
 
-    if (hooks[hook]) {
-      await execa(hooks[hook], {
+    if (typeof hook === 'function') {
+      await hook()
+    } else if (hook) {
+      await execa(hook, {
         cwd: projDir,
         shell: true,
       })

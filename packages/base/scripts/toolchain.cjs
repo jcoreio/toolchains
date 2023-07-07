@@ -23,6 +23,7 @@ const scripts = {
       console.log(`${name}@${version}`)
     },
   },
+  'install-git-hooks': require('./install-git-hooks.cjs'),
   ...getPluginsObjectSync('scripts'),
 }
 

@@ -4,6 +4,7 @@ const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 const semver = require('semver')
 const isEmpty = require('lodash/isEmpty')
+const pick = require('lodash/pick')
 
 async function bootstrapProjectPackageJson() {
   const { merge, unset } = require('lodash')
@@ -70,7 +71,6 @@ async function bootstrapProjectPackageJson() {
     {
       version: '0.0.0-development',
       sideEffects: false,
-      packageManager: 'pnpm@^8.6.6',
       scripts: {
         tc: 'toolchain',
         toolchain: 'toolchain',
@@ -79,12 +79,13 @@ async function bootstrapProjectPackageJson() {
           'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
       },
     },
-    toolchainManaged.engines,
-    packageJson.engines
+    pick(toolchainManaged, 'engines', 'packageManager'),
+    pick(packageJson, 'engines')
   )
   if (isEmpty(packageJson.config)) delete packageJson.config
 
   for (const section in toolchainManaged) {
+    if (!section.endsWith('ependencies')) continue
     const managedSection = toolchainManaged[section]
     const pkgSectionName = section.replace(/^optionalD/, 'd')
     let pkgSection = packageJson[pkgSectionName]
