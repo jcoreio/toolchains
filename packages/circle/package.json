@@ -1,0 +1,20 @@
+{
+  "name": "@jcoreio/toolchain-circle",
+  "version": "0.0.0-development",
+  "description": "toolchain for CircleCI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "packages/circle"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchains/issues"
+  },
+  "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/circle",
+  "dependencies": {
+    "@jcoreio/toolchain": "workspace:*",
+    "dedent-js": "^1.0.1"
+  }
+}

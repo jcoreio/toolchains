@@ -6,8 +6,8 @@ const {
 module.exports = [
   () => {
     const { devDependencies } = packageJson
-    require(devDependencies && devDependencies['global-jsdom']
-      ? require.resolve('global-jsdom/register', { paths: [projectDir] })
-      : 'global-jsdom/register')
+    if (devDependencies['global-jsdom']) {
+      require(require.resolve('global-jsdom/register', { paths: [projectDir] }))
+    }
   },
 ]

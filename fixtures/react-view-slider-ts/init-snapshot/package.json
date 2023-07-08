@@ -4,34 +4,14 @@
   "description": "animates horizontal slide transitions between steps of a wizard or levels of a drilldown",
   "sideEffects": false,
   "scripts": {
-    "lint": "eslint src test --cache",
-    "lint:fix": "eslint --fix src test --cache",
-    "lint:watch": "esw --watch src test --cache",
-    "prettier": "prettier --write *.json *.md *.js src/**/*.js test/**/*.js",
-    "prettier:check": "prettier --list-different *.json *.md *.js src/**/*.js test/**/*.js",
-    "flow": "flow",
-    "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
-    "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore es/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
-    "clean": "rimraf es lib $(cd src; ls) *.js.flow",
-    "build": "npm run clean && cross-env BABEL_ENV=production babel src --out-dir es && flow-copy-source -v src/ es && cross-env BABEL_ENV=es5 babel src --out-dir . && flow-copy-source -v src/ .",
-    "test": "toolchain test",
-    "test:watch": "cross-env NODE_ENV=production BABEL_ENV=test mocha --watch $npm_package_config_mocha",
-    "test:debug": "cross-env NODE_ENV=production BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
-    "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1",
-    "open:coverage": "open coverage/lcov-report/index.html",
-    "semantic-release": "semantic-release",
     "demo:dev": "webpack-dev-server",
     "build:demo": "cross-env NODE_ENV=production BABEL_ENV=es5 webpack",
     "predeploy": "yarn build:demo",
     "deploy": "gh-pages -d demo",
     "tc": "toolchain",
-    "toolchain": "toolchain"
-  },
-  "config": {
-    "commitizen": {
-      "path": "@jcoreio/toolchain/commitizen.cjs"
-    }
+    "toolchain": "toolchain",
+    "test": "toolchain test",
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
   },
   "repository": {
     "type": "git",
@@ -49,11 +29,15 @@
   },
   "homepage": "https://github.com/jcoreio/react-view-slider#readme",
   "devDependencies": {
+    "@babel/plugin-syntax-flow": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@jcoreio/toolchain": "link:../packages/base",
+    "@jcoreio/toolchain-circle": "link:../packages/circle",
     "@jcoreio/toolchain-esnext": "link:../packages/esnext",
     "@jcoreio/toolchain-flow": "link:../packages/flow",
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
     "@jcoreio/toolchain-react": "link:../packages/react",
+    "@jcoreio/toolchain-semantic-release": "link:../packages/semantic-release",
     "@jcoreio/toolchain-typescript": "link:../packages/typescript",
     "@testing-library/react": "^13.3.0",
     "@types/inline-style-prefixer": "^5.0.0",
@@ -72,7 +56,6 @@
     "flow-bin": "^0.113.0",
     "get-node-dimensions": "^1.2.0",
     "gh-pages": "^2.0.1",
-    "global-jsdom": "^9.0.1",
     "jsdom": "^22.1.0",
     "mocha": "^10.2.0",
     "react": "^18.0.0",
@@ -89,5 +72,9 @@
   },
   "peerDependencies": {
     "react": "^16.8.0"
-  }
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@8.3.1"
 }

@@ -16,6 +16,11 @@
   "dependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-flow": "^7.16.5",
+    "@babel/plugin-syntax-flow": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@jcoreio/toolchain": "workspace:*",
+    "@jcoreio/toolchain-esnext": "workspace:*",
+    "eslint": "^8.43.0",
     "eslint-plugin-flowtype": "^8.0.3",
     "glob": "^7.2.0"
   },
@@ -27,7 +32,9 @@
   },
   "toolchainManaged": {
     "devDependencies": {
-      "eslint-plugin-flowtype": "*"
+      "eslint-plugin-flowtype": "*",
+      "@babel/plugin-syntax-flow": "*",
+      "@babel/plugin-transform-react-jsx": "*"
     }
   }
 }

@@ -5,7 +5,7 @@ const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 
 async function bootstrap(args = []) {
   const execa = require('../util/execa.cjs')
-  const installGitHooks = require('./bootstrap/installGitHooks.cjs')
+  const installGitHooks = require('./install-git-hooks.cjs')
   const bootstrapProjectPackageJson = require('./bootstrap/bootstrapProjectPackageJson.cjs')
   const bootstrapEslintConfigs = require('./bootstrap/bootstrapEslintConfigs.cjs')
   const bootstrapConfigFiles = require('./bootstrap/bootstrapConfigFiles.cjs')
@@ -15,7 +15,7 @@ async function bootstrap(args = []) {
   const hasYarnOrNpmLockfile = require('../util/hasYarnOrNpmLockfile.cjs')
 
   await execa('git', ['init'])
-  await installGitHooks()
+  await installGitHooks.run()
   await bootstrapProjectPackageJson()
   if (await hasYarnOrNpmLockfile()) {
     await execa('pnpm', ['import'])

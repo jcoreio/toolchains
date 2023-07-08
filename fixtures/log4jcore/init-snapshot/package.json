@@ -4,19 +4,13 @@
   "description": "logging",
   "types": "index.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=16"
   },
   "scripts": {
-    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1",
-    "semantic-release": "semantic-release",
     "tc": "toolchain",
     "toolchain": "toolchain",
-    "test": "toolchain test"
-  },
-  "config": {
-    "commitizen": {
-      "path": "@jcoreio/toolchain/commitizen.cjs"
-    }
+    "test": "toolchain test",
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
   },
   "repository": {
     "type": "git",
@@ -32,12 +26,15 @@
   },
   "homepage": "https://github.com/jcoreio/log4jcore#readme",
   "devDependencies": {
-    "@babel/register": "^7.22.5",
+    "@babel/plugin-syntax-flow": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@babel/runtime": "^7.7.1",
     "@jcoreio/toolchain": "link:../packages/base",
+    "@jcoreio/toolchain-circle": "link:../packages/circle",
     "@jcoreio/toolchain-esnext": "link:../packages/esnext",
     "@jcoreio/toolchain-flow": "link:../packages/flow",
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
+    "@jcoreio/toolchain-semantic-release": "link:../packages/semantic-release",
     "@jcoreio/toolchain-typescript": "link:../packages/typescript",
     "@types/chai": "^4.3.5",
     "@types/fs-extra": "^8.0.1",
@@ -72,6 +69,7 @@
     "typescript": "^5.1.0"
   },
   "sideEffects": false,
+  "packageManager": "pnpm@8.3.1",
   "dependencies": {
     "@babel/runtime": "^7.18.6"
   }

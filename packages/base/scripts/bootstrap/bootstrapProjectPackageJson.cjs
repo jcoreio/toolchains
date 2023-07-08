@@ -1,9 +1,10 @@
-const { name } = require('../../package.json')
-const { projectDir, toolchainPackages } = require('../../util/findUps.cjs')
+const { toolchainManaged } = require('../../util/findUps.cjs')
 const getPluginsAsyncFunction = require('../../util/getPluginsAsyncFunction.cjs')
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 const semver = require('semver')
+const isEmpty = require('lodash/isEmpty')
+const pick = require('lodash/pick')
 
 async function bootstrapProjectPackageJson() {
   const { merge, unset } = require('lodash')
@@ -12,41 +13,52 @@ async function bootstrapProjectPackageJson() {
   const devDependencies =
     packageJson.devDependencies || (packageJson.devDependencies = {})
 
-  const toolchainManaged = {}
-  for (const pkg of toolchainPackages) {
-    const toolchainPkgJson = require(require.resolve(`${pkg}/package.json`, {
-      paths: [projectDir],
-    }))
-    const toolchainPkgDeps = toolchainPkgJson.dependencies || {}
-    const toolchainPkgDevDeps = toolchainPkgJson.devDependencies || {}
-    if (toolchainPkgJson.toolchainManaged) {
-      for (const section in toolchainPkgJson.toolchainManaged) {
-        const sectionDeps = toolchainPkgJson.toolchainManaged[section]
-        if (!toolchainManaged[section]) toolchainManaged[section] = {}
-        for (const dep in sectionDeps) {
-          let version = sectionDeps[dep]
-          if (version === '*')
-            version = toolchainPkgDevDeps[dep] || toolchainPkgDeps[dep]
-          if (version !== '*') toolchainManaged[section][dep] = version
-        }
-      }
-    }
-  }
-
   for (const path of [
-    'exports',
+    'commitlint',
+    'config.commitizen',
+    'config.eslint',
+    'config.lint',
+    'config.mocha',
+    'config.prettier',
     'eslintConfig',
+    'exports',
     'files',
     'husky',
+    'husky',
+    'lint-staged',
     'main',
     'module',
-    'renovate',
-    'prettier',
-    'commitlint',
-    'lint-staged',
     'nyc',
-    'husky',
-    'config.mocha',
+    'prettier',
+    'renovate',
+    'scripts.build:cjs',
+    'scripts.build:js',
+    'scripts.build:mjs',
+    'scripts.build:types',
+    'scripts.build',
+    'scripts.clean',
+    'scripts.codecov',
+    'scripts.coverage',
+    'scripts.commitmsg',
+    'scripts.flow:coverage',
+    'scripts.flow:watch',
+    'scripts.flow',
+    'scripts.lint:fix',
+    'scripts.lint:watch',
+    'scripts.lint',
+    'scripts.open:coverage',
+    'scripts.precommit',
+    'scripts.prepublishOnly',
+    'scripts.prepush',
+    'scripts.prettier:check',
+    'scripts.prettier',
+    'scripts.semantic-release',
+    'scripts.test:debug',
+    'scripts.test:watch',
+    'scripts.test',
+    'scripts.travis-deploy-once',
+    'scripts.tsc:wath',
+    'scripts.tsc',
   ]) {
     unset(packageJson, path)
   }
@@ -54,22 +66,26 @@ async function bootstrapProjectPackageJson() {
     delete devDependencies[dep]
   }
 
-  merge(packageJson, {
-    version: '0.0.0-development',
-    sideEffects: false,
-    scripts: {
-      tc: 'toolchain',
-      toolchain: 'toolchain',
-      test: 'toolchain test',
-      prepublishOnly:
-        'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
+  merge(
+    packageJson,
+    {
+      version: '0.0.0-development',
+      sideEffects: false,
+      scripts: {
+        tc: 'toolchain',
+        toolchain: 'toolchain',
+        test: 'toolchain test',
+        prepublishOnly:
+          'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
+      },
     },
-    config: {
-      commitizen: { path: `${name}/commitizen.cjs` },
-    },
-  })
+    pick(toolchainManaged, 'engines', 'packageManager'),
+    pick(packageJson, 'engines')
+  )
+  if (isEmpty(packageJson.config)) delete packageJson.config
 
   for (const section in toolchainManaged) {
+    if (!section.endsWith('ependencies')) continue
     const managedSection = toolchainManaged[section]
     const pkgSectionName = section.replace(/^optionalD/, 'd')
     let pkgSection = packageJson[pkgSectionName]
@@ -82,10 +98,7 @@ async function bootstrapProjectPackageJson() {
       const versionRange = managedSection[dep]
       if (
         !pkgSection[dep] ||
-        semver.gt(
-          versionRange.replace(/^\D+/, ''),
-          pkgSection[dep].replace(/^\D+/, '')
-        )
+        !semver.satisfies(semver.minVersion(pkgSection[dep]), versionRange)
       ) {
         pkgSection[dep] = versionRange
       }

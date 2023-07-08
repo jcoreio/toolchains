@@ -16,10 +16,11 @@
   "dependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
+    "@jcoreio/toolchain": "workspace:*",
+    "@jcoreio/toolchain-esnext": "workspace:*",
     "babel-plugin-flow-react-proptypes": "^26.0.0",
-    "eslint-plugin-react": "^7.32.2",
-    "global-jsdom": "^9.0.1",
-    "jsdom": "^22.1.0"
+    "eslint": "^8.43.0",
+    "eslint-plugin-react": "^7.32.2"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0",
@@ -30,9 +31,11 @@
   },
   "toolchainManaged": {
     "devDependencies": {
-      "eslint-plugin-react": "*",
-      "global-jsdom": "*",
-      "jsdom": "*"
+      "eslint-plugin-react": "*"
+    },
+    "optionalDevDependencies": {
+      "global-jsdom": "^9.0.1",
+      "jsdom": "^22.1.0"
     }
   }
 }

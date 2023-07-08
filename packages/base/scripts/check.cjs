@@ -8,8 +8,9 @@ const fs = require('../util/projectFs.cjs')
 exports.run = async function check(args = []) {
   await require('../scripts/runPrettier.cjs').prettierCheck(args)
   await require('../scripts/runEslint.cjs').eslintCheck(args)
+  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
   if (devDependencies['flow-bin'] && (await fs.pathExists('.flowconfig'))) {
-    await execa('flow')
+    await execa('flow', isTest ? ['check'] : [])
   }
   if (devDependencies['typescript'] && (await fs.pathExists('tsconfig.json'))) {
     await execa('tsc', ['--noEmit'])

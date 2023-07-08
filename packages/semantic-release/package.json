@@ -1,0 +1,29 @@
+{
+  "name": "@jcoreio/toolchain-semantic-release",
+  "version": "0.0.0-development",
+  "description": "toolchain for running semantic-release",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "packages/semantic-release"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchains/issues"
+  },
+  "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/semantic-release",
+  "dependencies": {
+    "@jcoreio/toolchain": "workspace:*",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/github": "^8.0.4",
+    "@semantic-release/npm": "^10.0.4",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "dedent-js": "^1.0.1",
+    "resolve-bin": "^1.0.0",
+    "semantic-release": "^21.0.5"
+  },
+  "bin": {
+    "semantic-release": "./bin/semantic-release"
+  }
+}
