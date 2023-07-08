@@ -15,6 +15,7 @@
   "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/circle",
   "dependencies": {
     "@jcoreio/toolchain": "workspace:*",
-    "dedent-js": "^1.0.1"
+    "dedent-js": "^1.0.1",
+    "open": "^8.4.0"
   }
 }

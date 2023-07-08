@@ -106,6 +106,9 @@ importers:
       dedent-js:
         specifier: ^1.0.1
         version: 1.0.1
+      open:
+        specifier: ^8.4.0
+        version: 8.4.0
 
   packages/esnext:
     dependencies:
