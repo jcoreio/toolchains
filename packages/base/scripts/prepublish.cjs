@@ -1,9 +1,9 @@
 const check = require('./check.cjs')
 const build = require('./build.cjs')
-const scripts = require('./toolchain.cjs')
 
 exports.run = async function (args = []) {
   await check.run()
+  const { scripts } = require('./toolchain.cjs')
   if (scripts.coverage) await scripts.coverage.run()
   await build.run()
 }
