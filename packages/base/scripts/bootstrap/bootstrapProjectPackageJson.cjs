@@ -13,6 +13,8 @@ async function bootstrapProjectPackageJson() {
   const devDependencies =
     packageJson.devDependencies || (packageJson.devDependencies = {})
 
+  await getPluginsAsyncFunction('bootstrapProjectPackageJson')(packageJson)
+
   for (const path of [
     'commitlint',
     'config.commitizen',
@@ -104,8 +106,6 @@ async function bootstrapProjectPackageJson() {
       }
     }
   }
-
-  await getPluginsAsyncFunction('bootstrapProjectPackageJson')(packageJson)
 
   sortDeps(packageJson)
 
