@@ -56,7 +56,6 @@
     "flow-bin": "^0.113.0",
     "get-node-dimensions": "^1.2.0",
     "gh-pages": "^2.0.1",
-    "global-jsdom": "^9.0.1",
     "jsdom": "^22.1.0",
     "mocha": "^10.2.0",
     "react": "^18.0.0",
@@ -74,9 +73,8 @@
   "peerDependencies": {
     "react": "^16.8.0"
   },
-  "packageManager": "pnpm@^8.6.6",
-  "node": ">=16",
   "engines": {
     "node": ">=16"
-  }
+  },
+  "packageManager": "pnpm@8.3.1"
 }

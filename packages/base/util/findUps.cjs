@@ -1,6 +1,7 @@
 const findUp = require('find-up')
 const Path = require('path')
 const fs = require('fs-extra')
+const merge = require('lodash/merge')
 const once = require('./once.cjs')
 const { name } = require('../package.json')
 const configSchema = require('./configSchema.cjs')
@@ -75,16 +76,20 @@ for (const toolchainPkgJson of Object.values(toolchainPackageJsons)) {
     for (const section in toolchainPkgJson.toolchainManaged) {
       if (!toolchainManaged[section]) toolchainManaged[section] = {}
       const sectionCfg = toolchainPkgJson.toolchainManaged[section]
-      if (section === 'engines') {
-        Object.assign(toolchainManaged.engines, sectionCfg)
+      if (section.endsWith('ependencies')) {
+        for (const dep in sectionCfg) {
+          let version = sectionCfg[dep]
+          if (version === '*')
+            version = toolchainPkgDevDeps[dep] || toolchainPkgDeps[dep]
+          if (version !== '*') toolchainManaged[section][dep] = version
+        }
         continue
       }
-      for (const dep in sectionCfg) {
-        let version = sectionCfg[dep]
-        if (version === '*')
-          version = toolchainPkgDevDeps[dep] || toolchainPkgDeps[dep]
-        if (version !== '*') toolchainManaged[section][dep] = version
+      if (sectionCfg && typeof sectionCfg === 'object') {
+        toolchainManaged[section] = merge(toolchainManaged[section], sectionCfg)
+        continue
       }
+      toolchainManaged[section] = sectionCfg
     }
   }
 }
