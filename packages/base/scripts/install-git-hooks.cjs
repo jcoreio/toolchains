@@ -6,7 +6,7 @@ const dedent = require('dedent-js')
 const { findGitDir } = require('../util/findUps.cjs')
 const fs = require('fs-extra')
 
-const githooksDir = Path.resolve(__dirname, '..', '..', 'githooks')
+const githooksDir = Path.resolve(__dirname, '..', 'githooks')
 
 async function installGitHooks() {
   const gitDir = findGitDir()
