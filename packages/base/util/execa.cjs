@@ -72,17 +72,15 @@ function logSuccess(command) {
 }
 
 function defaultExeca(command, args, options, ...rest) {
-  const child = execa(...getExecaArgs(command, args, options, ...rest))
-
-  child.then(
+  return execa(...getExecaArgs(command, args, options, ...rest)).then(
     (result) => {
       logSuccess(command)
+      return result
     },
     (error) => {
       throw convertExecaError(command, error)
     }
   )
-  return child
 }
 
 function defaultExecaSync(command, args, options, ...rest) {
