@@ -13,6 +13,7 @@ module.exports = [
   'commitlint.config.js',
   '.eslintignore',
   '.gitignore',
+  'husky.config.js',
   '.lintstagedrc',
   'lint-staged.config.js',
   '.npmignore',
