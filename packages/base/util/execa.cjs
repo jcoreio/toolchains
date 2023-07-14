@@ -14,7 +14,7 @@ function extractCommand(command) {
   return match ? match[0] : command
 }
 
-module.exports = async function defaultExeca(command, args, options, ...rest) {
+function getExecaArgs(command, args, options, ...rest) {
   if (args instanceof Object && !Array.isArray(args)) {
     options = args
     args = []
@@ -46,27 +46,55 @@ module.exports = async function defaultExeca(command, args, options, ...rest) {
     },
   }
 
-  const child = execa(command, args, opts, ...rest)
+  return [command, args, opts, ...rest]
+}
+
+function convertExecaError(command, error) {
+  const { code, signal } = error
+  if (code) {
+    error.message = chalk`{red ✖} {bold ${extractCommand(
+      command
+    )}} exited with code ${code}`
+  }
+  if (signal) {
+    error.message = chalk`{red ✖} {bold ${extractCommand(
+      command
+    )}} was killed with signal ${signal}`
+  }
+  return error
+}
+
+function logSuccess(command) {
+  // eslint-disable-next-line no-console
+  console.error(
+    chalk`{green ✔} {bold ${extractCommand(command)}} exited with code 0`
+  )
+}
+
+function defaultExeca(command, args, options, ...rest) {
+  const child = execa(...getExecaArgs(command, args, options, ...rest))
+
   child.then(
     (result) => {
-      // eslint-disable-next-line no-console
-      console.error(
-        chalk`{green ✔} {bold ${extractCommand(command)}} exited with code 0`
-      )
+      logSuccess(command)
     },
     (error) => {
-      const { code, signal } = error
-      if (code) {
-        error.message = chalk`{red ✖} {bold ${extractCommand(
-          command
-        )}} exited with code ${code}`
-      }
-      if (signal) {
-        error.message = chalk`{red ✖} {bold ${extractCommand(
-          command
-        )}} was killed with signal ${signal}`
-      }
+      throw convertExecaError(command, error)
     }
   )
   return child
 }
+
+function defaultExecaSync(command, args, options, ...rest) {
+  try {
+    const result = execa.sync(...getExecaArgs(command, args, options, ...rest))
+    logSuccess(command)
+    return result
+  } catch (error) {
+    throw convertExecaError(command, error)
+  }
+}
+
+defaultExeca.sync = defaultExecaSync
+
+module.exports = defaultExeca
