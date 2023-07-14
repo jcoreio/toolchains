@@ -1,5 +1,6 @@
 /* eslint-env node, es2018 */
 module.exports = {
+  ...require('@jcoreio/toolchain-semantic-release/release.config.cjs'),
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
