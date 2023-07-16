@@ -3,7 +3,7 @@ const path = require('path')
 const getPluginsObjectAsync = require('../../util/getPluginsObjectAsync.cjs')
 const { name } = require('../../package.json')
 
-async function bootstrapConfigFiles() {
+async function migrateConfigFiles() {
   const files = await getPluginsObjectAsync('getConfigFiles')
   for (const file in files) {
     const value = files[file]
@@ -30,4 +30,4 @@ async function bootstrapConfigFiles() {
   }
 }
 
-module.exports = bootstrapConfigFiles
+module.exports = migrateConfigFiles

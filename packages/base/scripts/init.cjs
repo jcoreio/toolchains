@@ -38,15 +38,11 @@ async function init(args = []) {
       ? toolchains.map((t) => t.replace(/@jcoreio\/toolchain-/, '../packages/'))
       : toolchains),
   ])
-  await execa('tc', ['bootstrap'])
-  await execa('pnpm', ['i', '--no-frozen-lockfile'])
-  await execa('tc', ['format'])
-  await execa('tc', ['lint:fix'])
-  await execa('tc', ['prepublish'])
+  await execa('tc', ['migrate'])
 }
 
 exports.description =
-  'install toolchains, bootstrap, format, lint:fix and prepublish'
+  'install toolchains, migrate, format, lint:fix and prepublish'
 exports.run = init
 
 if (require.main === module) {

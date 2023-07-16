@@ -25,8 +25,14 @@ for (const fixture of [
     // eslint-disable-next-line no-console
     console.error('\n' + banner(fixture) + '\n')
     const linkdir = await copyFixture(fixture)
+    const execaOpts = {
+      cwd: await fs.realpath(linkdir),
+      stdio: 'inherit',
+      env: { ...process.env, JCOREIO_TOOLCHAIN_TEST: '1' },
+    }
     try {
       await runInit(linkdir)
+      await execa('pnpm', ['tc', 'prepublish'], execaOpts)
     } catch (error) {
       if (handleInitError[fixture]) {
         await handleInitError[fixture](linkdir, error)

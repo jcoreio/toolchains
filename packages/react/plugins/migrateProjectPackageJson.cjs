@@ -1,7 +1,7 @@
 const { toolchainManaged } = require('@jcoreio/toolchain/util/findUps.cjs')
 
 module.exports = [
-  async function bootstrapProjectPackageJson(packageJson) {
+  async function migrateProjectPackageJson(packageJson) {
     const { devDependencies } = packageJson
     if (!devDependencies) return
     const globalJsdomVersion = (toolchainManaged.optionalDevDependencies || {})[

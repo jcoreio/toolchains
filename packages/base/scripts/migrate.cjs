@@ -3,25 +3,25 @@
 const fs = require('../util/projectFs.cjs')
 const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 
-async function bootstrap(args = []) {
+async function migrate(args = []) {
   const execa = require('../util/execa.cjs')
   const installGitHooks = require('./install-git-hooks.cjs')
-  const bootstrapProjectPackageJson = require('./bootstrap/bootstrapProjectPackageJson.cjs')
-  const bootstrapEslintConfigs = require('./bootstrap/bootstrapEslintConfigs.cjs')
-  const bootstrapConfigFiles = require('./bootstrap/bootstrapConfigFiles.cjs')
-  const bootstrapMoveTypeDefs = require('./bootstrap/bootstrapMoveTypeDefs.cjs')
-  const bootstrapGitignore = require('./bootstrap/bootstrapGitignore.cjs')
-  const bootstrapRemoveFiles = require('./bootstrap/bootstrapRemoveFiles.cjs')
+  const migrateProjectPackageJson = require('./migrate/migrateProjectPackageJson.cjs')
+  const migrateEslintConfigs = require('./migrate/migrateEslintConfigs.cjs')
+  const migrateConfigFiles = require('./migrate/migrateConfigFiles.cjs')
+  const migrateMoveTypeDefs = require('./migrate/migrateMoveTypeDefs.cjs')
+  const migrateGitignore = require('./migrate/migrateGitignore.cjs')
+  const migrateRemoveFiles = require('./migrate/migrateRemoveFiles.cjs')
   const hasYarnOrNpmLockfile = require('../util/hasYarnOrNpmLockfile.cjs')
 
   await execa('git', ['init'])
   await installGitHooks.run()
-  await bootstrapProjectPackageJson()
+  await migrateProjectPackageJson()
   if (await hasYarnOrNpmLockfile()) {
     await execa('pnpm', ['import'])
   }
   await Promise.all(
-    bootstrapRemoveFiles.map(async (file) => {
+    migrateRemoveFiles.map(async (file) => {
       const exists = await fs.pathExists(file)
       if (exists) {
         await fs.remove(file)
@@ -30,18 +30,24 @@ async function bootstrap(args = []) {
       }
     })
   )
-  await bootstrapConfigFiles()
-  await bootstrapEslintConfigs()
-  await bootstrapMoveTypeDefs()
-  await bootstrapGitignore()
-  await getPluginsAsyncFunction('bootstrap')(args)
+  await migrateConfigFiles()
+  await migrateEslintConfigs()
+  await migrateMoveTypeDefs()
+  await migrateGitignore()
+  await getPluginsAsyncFunction('migrate')(args)
+
+  if (!args.includes('--config-only')) {
+    await execa('pnpm', ['i', '--no-frozen-lockfile'])
+    await execa('tc', ['lint:fix'])
+    await execa('tc', ['format'])
+  }
 }
 
 exports.description = 'set up project'
-exports.run = bootstrap
+exports.run = migrate
 
 if (require.main === module) {
-  bootstrap().then(
+  migrate().then(
     () => process.exit(0),
     (error) => {
       // eslint-disable-next-line no-console

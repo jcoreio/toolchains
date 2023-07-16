@@ -5,7 +5,7 @@ const chalk = require('chalk')
 const getPluginsObjectSync = require('../util/getPluginsObjectSync.cjs')
 
 const scripts = {
-  bootstrap: require('./bootstrap.cjs'),
+  migrate: require('./migrate.cjs'),
   build: require('./build.cjs'),
   check: require('./check.cjs'),
   clean: require('./clean.cjs'),

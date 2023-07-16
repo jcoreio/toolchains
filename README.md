@@ -31,6 +31,7 @@ This does a bunch of things:
 - Adds config files for managed dev tools to the project
 - Removes obsolete dev dependencies, config files, and things in package.json
   that have been common in projects before `@jcoreio/toolchain`
+- Formats files and autofixes eslint errors
 
 ### Installing `@jcoreio/toolchain` in an empty project
 
@@ -38,20 +39,14 @@ I plan to make `tc init` work better for this use case, but right now the
 process is:
 
 - Manually install the relevant `@jcoreio/toolchain*` packages
-- Run `tc bootstrap`
-- Run `pnpm install` to install new versions set by `tc bootstrap`
-- Run `tc format`
-- Run `tc lint:fix`
+- Run `tc migrate`
 
 ### Upgrading `@jcoreio/toolchain`
 
 I plan to create a `tc upgrade` command, but right now the process is:
 
 - Upgrade `@jcoreio/toolchain*` to the new version
-- Run `tc bootstrap`
-- Run `pnpm install` to install new versions set by `tc bootstrap`
-- Run `tc format`
-- Run `tc lint:fix`
+- Run `tc migrate`
 
 ### Run build scripts
 
@@ -64,13 +59,13 @@ $ pnpm toolchain
 Usage: toolchain <command> <arguments...>
 
 Available commands:
-  bootstrap           set up project
+  migrate             set up project
   build               build dist directory
   check               check format, types (if applicable), and lint
   clean               remove build output
   coverage            run tests with code coverage
   format              format files with prettier
-  init                install toolchains, bootstrap, format, lint:fix and prepublish
+  init                install toolchains, migrate, format, lint:fix and prepublish
   lint                check files with eslint
   lint:fix            autofix eslint errors
   open:coverage       open code coverage report

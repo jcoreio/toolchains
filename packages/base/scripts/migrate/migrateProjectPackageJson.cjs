@@ -6,14 +6,14 @@ const semver = require('semver')
 const isEmpty = require('lodash/isEmpty')
 const pick = require('lodash/pick')
 
-async function bootstrapProjectPackageJson() {
+async function migrateProjectPackageJson() {
   const { merge, unset } = require('lodash')
 
   const packageJson = await fs.readJson('package.json')
   const devDependencies =
     packageJson.devDependencies || (packageJson.devDependencies = {})
 
-  await getPluginsAsyncFunction('bootstrapProjectPackageJson')(packageJson)
+  await getPluginsAsyncFunction('migrateProjectPackageJson')(packageJson)
 
   for (const path of [
     'commitlint',
@@ -64,7 +64,7 @@ async function bootstrapProjectPackageJson() {
   ]) {
     unset(packageJson, path)
   }
-  for (const dep of require('./bootstrapRemoveDevDeps.cjs')) {
+  for (const dep of require('./migrateRemoveDevDeps.cjs')) {
     delete devDependencies[dep]
   }
 
@@ -114,4 +114,4 @@ async function bootstrapProjectPackageJson() {
   console.error('updated package.json')
 }
 
-module.exports = bootstrapProjectPackageJson
+module.exports = migrateProjectPackageJson
