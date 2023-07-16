@@ -41,8 +41,7 @@ async function init(args = []) {
   await execa('tc', ['migrate'])
 }
 
-exports.description =
-  'install toolchains, migrate, format, lint:fix and prepublish'
+exports.description = 'install toolchains and migrate'
 exports.run = init
 
 if (require.main === module) {

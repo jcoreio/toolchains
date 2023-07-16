@@ -43,7 +43,8 @@ async function migrate(args = []) {
   }
 }
 
-exports.description = 'set up project'
+exports.description =
+  'update dependencies and config, fix lint errors and format'
 exports.run = migrate
 
 if (require.main === module) {

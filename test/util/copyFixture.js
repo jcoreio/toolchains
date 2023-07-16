@@ -4,8 +4,8 @@ const fixtures = Path.resolve(__dirname, '..', '..', 'fixtures')
 const packages = Path.resolve(__dirname, '..', '..', 'packages')
 const os = require('os')
 
-async function copyFixture(name) {
-  const src = Path.join(fixtures, name, 'input')
+async function copyFixture(name, inputDir = 'input') {
+  const src = Path.join(fixtures, name, inputDir)
   const dest = Path.join(os.tmpdir(), 'toolchains', name)
   const destlink = Path.join(fixtures, name, 'actual')
   await Promise.all([fs.remove(dest), fs.remove(destlink)])
@@ -21,11 +21,13 @@ async function copyFixture(name) {
 module.exports = copyFixture
 
 if (require.main === module) {
-  const name = process.argv[2]
+  const [, , name, inputDir] = process.argv
   if (!name) {
     // eslint-disable-next-line no-console
-    console.error(`Usage: ${process.argv.slice(0, 2).join(' ')} <fixture-name>`)
+    console.error(
+      `Usage: ${process.argv.slice(0, 2).join(' ')} <fixture-name> [input-dir]`
+    )
     process.exit(1)
   }
-  copyFixture(name)
+  copyFixture(name, inputDir)
 }

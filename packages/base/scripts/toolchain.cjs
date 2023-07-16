@@ -16,6 +16,7 @@ const scripts = {
   'lint:fix': require('./lint-fix.cjs'),
   'open:coverage': require('./open-coverage.cjs'),
   prepublish: require('./prepublish.cjs'),
+  upgrade: require('./upgrade.cjs'),
   version: {
     description: `print version of ${name}`,
     run: () => {

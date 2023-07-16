@@ -1,0 +1,63 @@
+{
+  "name": "@jcoreio/async-throttle",
+  "version": "0.0.0-development",
+  "description": "throttle async and promise-returning functions.  Other packages don't do it right.",
+  "sideEffects": false,
+  "scripts": {
+    "tc": "toolchain",
+    "toolchain": "toolchain",
+    "test": "toolchain test",
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/async-throttle.git"
+  },
+  "keywords": [
+    "async",
+    "async-await",
+    "throttle",
+    "promise"
+  ],
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/async-throttle/issues"
+  },
+  "homepage": "https://github.com/jcoreio/async-throttle#readme",
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.12.13",
+    "@babel/node": "^7.20.7",
+    "@babel/plugin-syntax-flow": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@jcoreio/toolchain": "1.0.0-beta.10",
+    "@jcoreio/toolchain-circle": "1.0.0-beta.10",
+    "@jcoreio/toolchain-esnext": "1.0.0-beta.10",
+    "@jcoreio/toolchain-flow": "1.0.0-beta.10",
+    "@jcoreio/toolchain-mocha": "1.0.0-beta.10",
+    "@jcoreio/toolchain-semantic-release": "1.0.0-beta.10",
+    "@jcoreio/toolchain-typescript": "1.0.0-beta.10",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "copy": "^0.3.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "flow-bin": "^0.143.1",
+    "mocha": "^10.2.0",
+    "rimraf": "^3.0.2",
+    "sinon": "^9.0.3",
+    "typescript": "^5.1.0",
+    "waait": "^1.0.5"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.18.6"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@8.3.1"
+}

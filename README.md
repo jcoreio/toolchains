@@ -43,10 +43,7 @@ process is:
 
 ### Upgrading `@jcoreio/toolchain`
 
-I plan to create a `tc upgrade` command, but right now the process is:
-
-- Upgrade `@jcoreio/toolchain*` to the new version
-- Run `tc migrate`
+- Run `tc upgrade [version]`
 
 ### Run build scripts
 
@@ -59,19 +56,23 @@ $ pnpm toolchain
 Usage: toolchain <command> <arguments...>
 
 Available commands:
-  migrate             set up project
   build               build dist directory
   check               check format, types (if applicable), and lint
+  ci:browse           open CircleCI page in browser
   clean               remove build output
   coverage            run tests with code coverage
   format              format files with prettier
-  init                install toolchains, migrate, format, lint:fix and prepublish
+  init                install toolchains and migrate
+  install-git-hooks   install git hooks
   lint                check files with eslint
   lint:fix            autofix eslint errors
+  migrate             update dependencies and config, fix lint errors and format
   open:coverage       open code coverage report
   preinstall          run this script before installing toolchains in a project
   prepublish          run check, coverage, and build
+  release             run automated release
   test                run tests
+  upgrade             upgrade toolchains and migrate
   version             print version of @jcoreio/toolchain
 ```
 
