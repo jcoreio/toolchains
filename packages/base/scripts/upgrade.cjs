@@ -2,17 +2,18 @@
 
 const { packageJson } = require('../util/findUps.cjs')
 const execa = require('../util/execa.cjs')
+const { name } = require('../package.json')
 
 async function upgrade([version] = []) {
   const { devDependencies = {} } = packageJson
   const toolchains = Object.keys(devDependencies).filter((pkg) =>
-    pkg.startsWith('@jcoreio/toolchain-')
+    pkg.startsWith(`${name}-`)
   )
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
 
   if (!isTest && !version) {
     version = (
-      await execa('npm', ['view', '@jcoreio/toolchain', 'version'], {
+      await execa('npm', ['view', name, 'version'], {
         stdio: 'pipe',
       })
     ).stdout.trim()
@@ -21,9 +22,9 @@ async function upgrade([version] = []) {
   await execa('pnpm', [
     'add',
     '-D',
-    isTest ? '../packages/base' : `@jcoreio/toolchain@^${version}`,
+    isTest ? '../packages/base' : `${name}@^${version}`,
     ...(isTest
-      ? toolchains.map((t) => t.replace(/@jcoreio\/toolchain-/, '../packages/'))
+      ? toolchains.map((t) => t.replace(`${name}-`, '../packages/'))
       : toolchains.map((t) => `${t}@^${version}`)),
   ])
   await execa('tc', ['migrate'])
