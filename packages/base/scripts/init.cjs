@@ -6,7 +6,7 @@ const execa = require('../util/execa.cjs')
 const hasTSFiles = require('../util/hasTSFiles.cjs')
 
 async function init(args = []) {
-  const { dependencies = {}, devDependencies = {} } = packageJson
+  const { version, dependencies = {}, devDependencies = {} } = packageJson
   const toolchains = []
   const isBabel =
     devDependencies['@babel/core'] != null ||
@@ -33,10 +33,10 @@ async function init(args = []) {
   await execa('pnpm', [
     'add',
     '-D',
-    isTest ? '../packages/base' : '@jcoreio/toolchain',
+    isTest ? '../packages/base' : `@jcoreio/toolchain@^${version}`,
     ...(isTest
       ? toolchains.map((t) => t.replace(/@jcoreio\/toolchain-/, '../packages/'))
-      : toolchains),
+      : toolchains.map((t) => `${t}@^${version}`)),
   ])
   await execa('tc', ['migrate'])
 }
