@@ -2,9 +2,14 @@ const { projectDir } = require('@jcoreio/toolchain/util/findUps.cjs')
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const path = require('path')
 
-const hasMain =
-  execa.sync('git', ['rev-parse', '--verify', 'main'], { stdio: 'pipe' })
-    .exitCode === 0
+let hasMain
+try {
+  hasMain =
+    execa.sync('git', ['rev-parse', '--verify', 'main'], { stdio: 'pipe' })
+      .exitCode === 0
+} catch (error) {
+  hasMain = false
+}
 
 module.exports = {
   branches: [
