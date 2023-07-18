@@ -20,9 +20,8 @@ async function expectDirsEqual(actual, expected) {
       entries.map(async (entry) => {
         const path = Path.join(dir, entry)
         const stat = await fs.stat(path)
-        if (
-          !(await gitignore.ignores(path + (stat.isDirectory() ? '/' : '')))
-        ) {
+        const ignorePath = path + (stat.isDirectory() ? '/' : '')
+        if (!(await gitignore.ignores(ignorePath))) {
           result.push(entry + (stat.isDirectory() ? '/' : ''))
         }
       })
@@ -30,7 +29,7 @@ async function expectDirsEqual(actual, expected) {
     return result
   }
 
-  const actualEntries = await readdir(actual)
+  const actualEntries = await readdir(await fs.realpath(actual))
   const expectedEntries = await readdir(expected)
   expect(actualEntries.sort(), `contents of ${actual}`).to.have.members(
     expectedEntries.map((e) => e.replace(/_\.gitignore$/, '.gitignore')).sort()

@@ -1,5 +1,5 @@
 /**
- * @flow
+ * ow
  * @prettier
  */
 
@@ -8,32 +8,30 @@ const Path = require('path')
 const execa = require('execa')
 const fs = require('fs-extra')
 const copyFixture = require('./util/copyFixture')
-const runUpgrade = require('./util/runUpgrade')
 const expectDirsEqual = require('./util/expectDirsEqual')
 const updateSnapshot = require('./util/updateSnapshot')
 const banner = require('./util/banner')
 
 for (const fixture of ['async-throttle']) {
-  it(`upgrade ${fixture}`, async function () {
+  it(`outputEsm: false with ${fixture}`, async function () {
     this.timeout(120000)
     // eslint-disable-next-line no-console
-    console.error('\n' + banner(fixture + ' (upgrade)') + '\n')
-    const linkdir = await copyFixture(fixture, 'input-upgrade')
+    console.error('\n' + banner(fixture + ' (outputEsm: false)') + '\n')
+    const linkdir = await copyFixture(fixture, 'input-noesm')
     const execaOpts = {
       cwd: await fs.realpath(linkdir),
       stdio: 'inherit',
       env: { ...process.env, JCOREIO_TOOLCHAIN_TEST: '1' },
     }
     await execa('pnpm', ['i'], execaOpts)
-    await runUpgrade(linkdir)
-    await execa('pnpm', ['tc', 'prepublish'], execaOpts)
+    await execa('pnpm', ['tc', 'build'], execaOpts)
 
     if (process.env.UPDATE_SNAPSHOTS) {
-      await updateSnapshot(fixture, 'upgrade-snapshot')
+      await updateSnapshot(fixture, 'noesm-snapshot')
     } else {
       await expectDirsEqual(
         linkdir,
-        Path.resolve(linkdir, '..', 'upgrade-snapshot')
+        Path.resolve(linkdir, '..', 'noesm-snapshot')
       )
     }
   })

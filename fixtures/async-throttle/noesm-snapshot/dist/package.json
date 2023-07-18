@@ -1,0 +1,31 @@
+{
+  "name": "@jcoreio/async-throttle",
+  "version": "0.0.0-development",
+  "description": "throttle async and promise-returning functions.  Other packages don't do it right.",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/async-throttle.git"
+  },
+  "keywords": [
+    "async",
+    "async-await",
+    "throttle",
+    "promise"
+  ],
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/async-throttle/issues"
+  },
+  "homepage": "https://github.com/jcoreio/async-throttle#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.18.6"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@8.3.1",
+  "main": "./index.js",
+  "types": "./index.d.ts"
+}
