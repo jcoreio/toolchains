@@ -22,38 +22,40 @@ module.exports = [
       ])
       const jsFiles = await glob(path.join('dist', '**', '*.js'))
       await resolveImportsCodemod(jsFiles)
-      if (toolchainConfig.esWrapper) {
-        await Promise.all(
-          jsFiles.map((file) =>
-            fs.writeFile(
-              file.replace(/\.js$/, '.mjs'),
-              dedent`
+      if (toolchainConfig.outputEsm !== false) {
+        if (toolchainConfig.esWrapper) {
+          await Promise.all(
+            jsFiles.map((file) =>
+              fs.writeFile(
+                file.replace(/\.js$/, '.mjs'),
+                dedent`
                 export * from './${path.basename(file)}'
                 import root from './${path.basename(file)}'
                 export default root
 
               `,
-              'utf8'
+                'utf8'
+              )
             )
           )
-        )
-      } else {
-        await execa(
-          'babel',
-          [
-            'src',
-            ...(extensions.length
-              ? ['--extensions', extensions.join(',')]
-              : []),
-            '--out-dir',
-            'dist',
-            '--out-file-extension',
-            '.mjs',
-          ],
-          { env: { ...process.env, JCOREIO_TOOLCHAIN_MJS: '1' } }
-        )
-        const mjsFiles = await glob(path.join('dist', '**', '*.mjs'))
-        await resolveImportsCodemod(mjsFiles)
+        } else {
+          await execa(
+            'babel',
+            [
+              'src',
+              ...(extensions.length
+                ? ['--extensions', extensions.join(',')]
+                : []),
+              '--out-dir',
+              'dist',
+              '--out-file-extension',
+              '.mjs',
+            ],
+            { env: { ...process.env, JCOREIO_TOOLCHAIN_MJS: '1' } }
+          )
+          const mjsFiles = await glob(path.join('dist', '**', '*.mjs'))
+          await resolveImportsCodemod(mjsFiles)
+        }
       }
     },
     { insteadOf: '@jcoreio/toolchain' },

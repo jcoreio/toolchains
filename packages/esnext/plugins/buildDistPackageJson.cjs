@@ -1,6 +1,7 @@
 const glob = require('@jcoreio/toolchain/util/glob.cjs')
 const Path = require('path')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
+const { toolchainConfig } = require('@jcoreio/toolchain/util/findUps.cjs')
 
 module.exports = [
   [
@@ -25,8 +26,10 @@ module.exports = [
           // this could return false positives in rare cases, but keeps the test simple
           (await fs.readFile(file)).includes('@babel/runtime')
       }
-      if (!packageJson.exports) {
-        packageJson.exports = exportMap
+      if (toolchainConfig.outputEsm !== false) {
+        if (!packageJson.exports) {
+          packageJson.exports = exportMap
+        }
       }
       const indexExport = exportMap['.']
       if (indexExport) {
