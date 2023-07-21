@@ -7,6 +7,9 @@ function ChdirFs(cwd) {
       fs.copy(resolve(cwd, src), resolve(cwd, dest), ...args),
     copySync: (src, dest, ...args) =>
       fs.copySync(resolve(cwd, src), resolve(cwd, dest), ...args),
+    emptyDir: (path, ...args) => fs.emptyDir(resolve(cwd, path), ...args),
+    emptyDirSync: (path, ...args) =>
+      fs.emptyDirSync(resolve(cwd, path), ...args),
     lstat: (path, ...args) => fs.lstat(resolve(cwd, path), ...args),
     stat: (path, ...args) => fs.stat(resolve(cwd, path), ...args),
     lstatSync: (path, ...args) => fs.lstatSync(resolve(cwd, path), ...args),
