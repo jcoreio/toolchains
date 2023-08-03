@@ -17,7 +17,8 @@ function hasTSSources(haystack, depth) {
     return true
   // if there were no TS files in this directory, recursively check subdirectories
   return files.some(
-    (f) => f.isDirectory() && hasTSSources(path.join(haystack, f.name), depth + 1)
+    (f) =>
+      f.isDirectory() && hasTSSources(path.join(haystack, f.name), depth + 1)
   )
 }
 
