@@ -2,9 +2,9 @@ const path = require('path')
 const fs = require('./projectFs.cjs')
 const once = require('./once.cjs')
 
-function hasTSSources(path, depth) {
+function hasTSSources(haystack, depth) {
   if (depth > 10) return false
-  const files = fs.readdirSync(path, { withFileTypes: true })
+  const files = fs.readdirSync(haystack, { withFileTypes: true })
   // first check files in this directory
   if (
     files.some(
@@ -17,7 +17,7 @@ function hasTSSources(path, depth) {
     return true
   // if there were no TS files in this directory, recursively check subdirectories
   return files.some(
-    (f) => f.isDirectory() && hasTSSources(path.join(path, f.name), depth + 1)
+    (f) => f.isDirectory() && hasTSSources(path.join(haystack, f.name), depth + 1)
   )
 }
 
