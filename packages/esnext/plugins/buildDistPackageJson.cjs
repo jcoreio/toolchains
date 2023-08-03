@@ -37,7 +37,6 @@ module.exports = [
         if (indexExport.import) packageJson.module = indexExport.import
         if (indexExport.types) packageJson.types = indexExport.types
       }
-      packageJson.main = indexExport.require
       if (!usesBabelRuntime) {
         const { dependencies } = packageJson
         if (dependencies) delete dependencies['@babel/runtime']
