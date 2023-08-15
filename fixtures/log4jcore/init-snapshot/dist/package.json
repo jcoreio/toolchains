@@ -2,7 +2,7 @@
   "name": "log4jcore",
   "version": "0.0.0-development",
   "description": "logging",
-  "types": "./index.d.ts",
+  "types": "index.d.ts",
   "engines": {
     "node": ">=16"
   },
@@ -19,29 +19,11 @@
     "url": "https://github.com/jcoreio/log4jcore/issues"
   },
   "homepage": "https://github.com/jcoreio/log4jcore#readme",
+  "main": "index.js",
+  "module": "index.mjs",
   "sideEffects": false,
   "packageManager": "pnpm@8.3.1",
   "dependencies": {
     "@babel/runtime": "^7.18.6"
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./index.d.ts",
-      "require": "./index.js",
-      "import": "./index.mjs"
-    },
-    "./memoryLogProvider": {
-      "types": "./memoryLogProvider.d.ts",
-      "require": "./memoryLogProvider.js",
-      "import": "./memoryLogProvider.mjs"
-    },
-    "./writableLogFunction": {
-      "types": "./writableLogFunction.d.ts",
-      "require": "./writableLogFunction.js",
-      "import": "./writableLogFunction.mjs"
-    }
-  },
-  "main": "./index.js",
-  "module": "./index.mjs"
+  }
 }

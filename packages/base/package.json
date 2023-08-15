@@ -26,6 +26,7 @@
     "lodash": "^4.17.21",
     "open": "^8.4.0",
     "prettier": "^2.5.1",
+    "prompts": "^2.4.2",
     "resolve-bin": "^1.0.0",
     "semver": "^7.5.3",
     "toposort": "^2.0.2",

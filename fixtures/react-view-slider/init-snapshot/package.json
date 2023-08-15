@@ -67,6 +67,8 @@
   "peerDependencies": {
     "react": "^16.8.0"
   },
+  "main": "index.js",
+  "module": "index.mjs",
   "engines": {
     "node": ">=16"
   },

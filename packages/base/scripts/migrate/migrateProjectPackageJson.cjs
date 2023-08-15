@@ -5,6 +5,9 @@ const sortDeps = require('../../util/sortDeps.cjs')
 const semver = require('semver')
 const isEmpty = require('lodash/isEmpty')
 const pick = require('lodash/pick')
+const Path = require('path')
+const { toolchainConfig } = require('../../util/findUps.cjs')
+const confirm = require('../../util/confirm.cjs')
 
 async function migrateProjectPackageJson() {
   const { merge, unset } = require('lodash')
@@ -23,13 +26,10 @@ async function migrateProjectPackageJson() {
     'config.mocha',
     'config.prettier',
     'eslintConfig',
-    'exports',
     'files',
     'husky',
     'husky',
     'lint-staged',
-    'main',
-    'module',
     'nyc',
     'prettier',
     'renovate',
@@ -64,8 +64,53 @@ async function migrateProjectPackageJson() {
   ]) {
     unset(packageJson, path)
   }
+  if (!packageJson.main && !packageJson.exports && !packageJson.module) {
+    const hasIndexTypes =
+      (await fs.pathExists(Path.join('src', 'index.ts'))) ||
+      (await fs.pathExists(Path.join('src', 'index.tsx'))) ||
+      (await fs.pathExists(Path.join('src', 'index.d.ts')))
+    const hasIndex =
+      hasIndexTypes || (await fs.pathExists(Path.join('src', 'index.js')))
+    if (hasIndex) {
+      packageJson.main = 'index.js'
+      packageJson.module = 'index.mjs'
+    }
+    if (hasIndexTypes) {
+      packageJson.types = 'index.d.ts'
+    }
+  }
   for (const dep of require('./migrateRemoveDevDeps.cjs')) {
     delete devDependencies[dep]
+  }
+
+  if (
+    !packageJson.exports &&
+    (await confirm({
+      type: 'confirm',
+      initial: true,
+      ifNotInteractive: false,
+      message: 'Add ./* exports map to package.json?',
+    }))
+  ) {
+    packageJson.exports = {
+      './package.json': './package.json',
+      ...(packageJson.main
+        ? {
+            '.': {
+              ...(packageJson.types ? { types: packageJson.types } : {}),
+              ...(toolchainConfig.outputEsm !== false && packageJson.module
+                ? { import: packageJson.module }
+                : {}),
+              default: packageJson.main,
+            },
+          }
+        : {}),
+      './*': {
+        types: './*.d.ts',
+        ...(toolchainConfig.outputEsm !== false ? { import: './*.mjs' } : {}),
+        default: './*.js',
+      },
+    }
   }
 
   merge(

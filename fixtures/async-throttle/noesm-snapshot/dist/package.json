@@ -25,7 +25,5 @@
   "engines": {
     "node": ">=16"
   },
-  "packageManager": "pnpm@8.3.1",
-  "main": "./index.js",
-  "types": "./index.d.ts"
+  "packageManager": "pnpm@8.3.1"
 }
