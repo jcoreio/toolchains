@@ -6,6 +6,7 @@ const preinstall = require('./preinstall.cjs')
 const execa = require('../util/execa.cjs')
 const hasTSFiles = require('../util/hasTSFiles.cjs')
 const { name, version } = require('../package.json')
+const isInteractive = require('../util/isInteractive.cjs')
 
 async function init(args = []) {
   const { dependencies = {}, devDependencies = {} } = packageJson
@@ -33,6 +34,28 @@ async function init(args = []) {
   if (isCircle) toolchains.add(`${name}-circle`)
   if (isSemanticRelease) toolchains.add(`${name}-semantic-release`)
 
+  let selectedToolchains = [...toolchains]
+  if (isInteractive) {
+    ;({ selectedToolchains } = await require('prompts')({
+      name: 'selectedToolchains',
+      type: 'multiselect',
+      message: 'Select toolchains to install',
+      choices: [
+        'mocha',
+        'esnext',
+        'flow',
+        'typescript',
+        'react',
+        'circle',
+        'semantic-release',
+      ].map((value) => ({
+        title: `${name}-${value}`,
+        value: `${name}-${value}`,
+        selected: toolchains.has(`${name}-${value}`),
+      })),
+    }))
+  }
+
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
 
   await preinstall.run()
@@ -41,8 +64,10 @@ async function init(args = []) {
     '-D',
     isTest ? '../packages/base' : `${name}@^${version}`,
     ...(isTest
-      ? [...toolchains].map((t) => t.replace(`${name}-`, '../packages/'))
-      : [...toolchains].map((t) => `${t}@^${version}`)),
+      ? [...selectedToolchains].map((t) =>
+          t.replace(`${name}-`, '../packages/')
+        )
+      : [...selectedToolchains].map((t) => `${t}@^${version}`)),
   ])
   await execa('tc', ['migrate'])
 }
