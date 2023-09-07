@@ -27,20 +27,23 @@ exports.run = async function build(args = []) {
     )
   ).catch(ignoreEnoent)
 
-  const flowFiles = await glob(Path.join('src', '**', '*.{js,mjs,cjs}.flow'))
+  const flowFiles = await glob(Path.join('src', '**', '*.{js,mjs}.flow'))
+  const flowFilesSet = new Set(flowFiles)
   await Promise.all(
     flowFiles.map(async (src) => {
-      for (const ext of [
-        '.js.flow',
-        ...(toolchainConfig.outputEsm !== false ? ['.mjs.flow'] : []),
-      ]) {
-        const dest = Path.join(
-          'dist',
-          Path.relative('src', src.replace(/\.(js|mjs|cjs)\.flow$/, ext))
-        )
+      const dest = Path.join('dist', Path.relative('src', src))
+      // eslint-disable-next-line no-console
+      console.error(src, '->', dest)
+      await fs.copy(src, dest)
+
+      if (
+        src.endsWith('.js.flow') &&
+        !flowFilesSet.has(src.replace(/\.js\.flow$/, '.mjs.flow'))
+      ) {
+        const mjsDest = dest.replace(/\.js\.flow$/, '.mjs.flow')
         // eslint-disable-next-line no-console
-        console.error(src, '->', dest)
-        await fs.copy(src, dest)
+        console.error(src, '->', mjsDest)
+        await fs.copy(src, mjsDest)
       }
     })
   )
