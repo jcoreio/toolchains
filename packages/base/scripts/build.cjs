@@ -1,6 +1,6 @@
 const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 const Path = require('path')
-const { projectDir, toolchainConfig } = require('../util/findUps.cjs')
+const { projectDir } = require('../util/findUps.cjs')
 const fs = require('../util/projectFs.cjs')
 const clean = require('./clean.cjs')
 const glob = require('../util/glob.cjs')
