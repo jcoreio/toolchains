@@ -1,6 +1,6 @@
 const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 const Path = require('path')
-const { projectDir } = require('../util/findUps.cjs')
+const { projectDir, toolchainConfig } = require('../util/findUps.cjs')
 const fs = require('../util/projectFs.cjs')
 const clean = require('./clean.cjs')
 const glob = require('../util/glob.cjs')
@@ -30,9 +30,10 @@ exports.run = async function build(args = []) {
   const flowFiles = await glob(Path.join('src', '**', '*.{js,mjs,cjs}.flow'))
   await Promise.all(
     flowFiles.map(async (src) => {
-      for (const ext of src.endsWith('.js.flow')
-        ? ['.js.flow', '.cjs.flow', '.mjs.flow']
-        : /\.(js|mjs|cjs)\.flow$/.exec(ext)[0]) {
+      for (const ext of [
+        '.js.flow',
+        ...(toolchainConfig.outputEsm !== false ? ['.mjs.flow'] : []),
+      ]) {
         const dest = Path.join(
           'dist',
           Path.relative('src', src.replace(/\.(js|mjs|cjs)\.flow$/, ext))
