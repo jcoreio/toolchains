@@ -7,6 +7,7 @@ const isEmpty = require('lodash/isEmpty')
 const pick = require('lodash/pick')
 const Path = require('path')
 const { toolchainConfig } = require('../../util/findUps.cjs')
+const confirmOutputEsm = require('./confirmOutputEsm.cjs')
 const confirm = require('../../util/confirm.cjs')
 
 async function migrateProjectPackageJson() {
@@ -83,33 +84,38 @@ async function migrateProjectPackageJson() {
     delete devDependencies[dep]
   }
 
-  if (
-    !packageJson.exports &&
-    (await confirm({
+  if (!packageJson.exports) {
+    const dotStar = await confirm({
       type: 'confirm',
       initial: true,
       ifNotInteractive: false,
       message: 'Add ./* exports map to package.json?',
-    }))
-  ) {
+    })
+    const outputEsm = await confirmOutputEsm()
     packageJson.exports = {
       './package.json': './package.json',
       ...(packageJson.main
         ? {
             '.': {
               ...(packageJson.types ? { types: packageJson.types } : {}),
-              ...(toolchainConfig.outputEsm !== false && packageJson.module
+              ...(outputEsm !== false && packageJson.module
                 ? { import: packageJson.module }
                 : {}),
               default: packageJson.main,
             },
           }
         : {}),
-      './*': {
-        types: './*.d.ts',
-        ...(toolchainConfig.outputEsm !== false ? { import: './*.mjs' } : {}),
-        default: './*.js',
-      },
+      ...(dotStar
+        ? {
+            './*': {
+              types: './*.d.ts',
+              ...(toolchainConfig.outputEsm !== false
+                ? { import: './*.mjs' }
+                : {}),
+              default: './*.js',
+            },
+          }
+        : {}),
     }
   }
 
