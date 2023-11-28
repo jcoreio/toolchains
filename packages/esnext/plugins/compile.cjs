@@ -24,24 +24,22 @@ module.exports = [
         '--out-file-extension',
         '.js',
       ])
-      if (!extensions.includes('.js')) {
-        const srcJsFiles = await glob(path.join('**', '*.js'), {
-          cwd: path.join(projectDir, 'src'),
-        })
-        for (const file of srcJsFiles) {
-          // eslint-disable-next-line no-console
-          console.error(path.join('src', file), '->', path.join('dist', file))
-          await fs.copy(path.join('src', file), path.join('dist', file))
-        }
-      }
-      if (!extensions.includes('.mjs')) {
-        const srcMjsFiles = await glob(path.join('**', '*.mjs'), {
-          cwd: path.join(projectDir, 'src'),
-        })
-        for (const file of srcMjsFiles) {
-          // eslint-disable-next-line no-console
-          console.error(path.join('src', file), '->', path.join('dist', file))
-          await fs.copy(path.join('src', file), path.join('dist', file))
+      if (extensions.length) {
+        for (const ext of ['.js', '.mjs']) {
+          if (!extensions.includes(ext)) {
+            const srcFiles = await glob(path.join('**', '*' + ext), {
+              cwd: path.join(projectDir, 'src'),
+            })
+            for (const file of srcFiles) {
+              // eslint-disable-next-line no-console
+              console.error(
+                path.join('src', file),
+                '->',
+                path.join('dist', file)
+              )
+              await fs.copy(path.join('src', file), path.join('dist', file))
+            }
+          }
         }
       }
       const jsFiles = await glob(path.join('dist', '**', '*.js'))
