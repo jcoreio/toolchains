@@ -3,7 +3,10 @@ const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const glob = require('@jcoreio/toolchain/util/glob.cjs')
 const path = require('path')
 const dedent = require('dedent-js')
-const { toolchainConfig } = require('@jcoreio/toolchain/util/findUps.cjs')
+const {
+  toolchainConfig,
+  projectDir,
+} = require('@jcoreio/toolchain/util/findUps.cjs')
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 const resolveImportsCodemod = require('../util/resolveImportsCodemod.cjs')
 
@@ -15,11 +18,32 @@ module.exports = [
       await execa('babel', [
         'src',
         ...(extensions.length ? ['--extensions', extensions.join(',')] : []),
+        ...(extensions.includes('.ts') ? ['--ignore', '**/*.d.ts'] : []),
         '--out-dir',
         'dist',
         '--out-file-extension',
         '.js',
       ])
+      if (!extensions.includes('.js')) {
+        const srcJsFiles = await glob(path.join('**', '*.js'), {
+          cwd: path.join(projectDir, 'src'),
+        })
+        for (const file of srcJsFiles) {
+          // eslint-disable-next-line no-console
+          console.error(path.join('src', file), '->', path.join('dist', file))
+          await fs.copy(path.join('src', file), path.join('dist', file))
+        }
+      }
+      if (!extensions.includes('.mjs')) {
+        const srcMjsFiles = await glob(path.join('**', '*.mjs'), {
+          cwd: path.join(projectDir, 'src'),
+        })
+        for (const file of srcMjsFiles) {
+          // eslint-disable-next-line no-console
+          console.error(path.join('src', file), '->', path.join('dist', file))
+          await fs.copy(path.join('src', file), path.join('dist', file))
+        }
+      }
       const jsFiles = await glob(path.join('dist', '**', '*.js'))
       await resolveImportsCodemod(jsFiles)
       if (toolchainConfig.outputEsm !== false) {
