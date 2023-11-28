@@ -84,7 +84,7 @@ async function migrateProjectPackageJson() {
     delete devDependencies[dep]
   }
 
-  if (!packageJson.exports) {
+  if (!packageJson.exports && packageJson.main) {
     const dotStar = await confirm({
       type: 'confirm',
       initial: true,
@@ -94,17 +94,13 @@ async function migrateProjectPackageJson() {
     const outputEsm = await confirmOutputEsm()
     packageJson.exports = {
       './package.json': './package.json',
-      ...(packageJson.main
-        ? {
-            '.': {
-              ...(packageJson.types ? { types: packageJson.types } : {}),
-              ...(outputEsm !== false && packageJson.module
-                ? { import: packageJson.module }
-                : {}),
-              default: packageJson.main,
-            },
-          }
-        : {}),
+      '.': {
+        ...(packageJson.types ? { types: packageJson.types } : {}),
+        ...(outputEsm !== false && packageJson.module
+          ? { import: packageJson.module }
+          : {}),
+        default: packageJson.main,
+      },
       ...(dotStar
         ? {
             './*': {
