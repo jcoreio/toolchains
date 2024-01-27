@@ -60,7 +60,15 @@
     "node": ">=16"
   },
   "packageManager": "pnpm@8.3.1",
-  "main": "index.js",
-  "module": "index.mjs",
-  "types": "index.d.ts"
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
+    }
+  }
 }

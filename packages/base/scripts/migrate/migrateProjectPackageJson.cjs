@@ -73,11 +73,11 @@ async function migrateProjectPackageJson() {
     const hasIndex =
       hasIndexTypes || (await fs.pathExists(Path.join('src', 'index.js')))
     if (hasIndex) {
-      packageJson.main = 'index.js'
-      packageJson.module = 'index.mjs'
+      packageJson.main = 'dist/index.js'
+      packageJson.module = 'dist/index.mjs'
     }
     if (hasIndexTypes) {
-      packageJson.types = 'index.d.ts'
+      packageJson.types = 'dist/index.d.ts'
     }
   }
   for (const dep of require('./migrateRemoveDevDeps.cjs')) {
@@ -85,6 +85,8 @@ async function migrateProjectPackageJson() {
   }
 
   if (!packageJson.exports && packageJson.main) {
+    const relativize = (p) => (p.startsWith('.') ? p : `./${p}`)
+
     const dotStar = await confirm({
       type: 'confirm',
       initial: true,
@@ -95,11 +97,11 @@ async function migrateProjectPackageJson() {
     packageJson.exports = {
       './package.json': './package.json',
       '.': {
-        ...(packageJson.types ? { types: packageJson.types } : {}),
+        ...(packageJson.types ? { types: relativize(packageJson.types) } : {}),
         ...(outputEsm !== false && packageJson.module
-          ? { import: packageJson.module }
+          ? { import: relativize(packageJson.module) }
           : {}),
-        default: packageJson.main,
+        default: relativize(packageJson.main),
       },
       ...(dotStar
         ? {

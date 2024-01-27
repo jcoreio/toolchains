@@ -28,6 +28,13 @@
   },
   "main": "index.js",
   "module": "index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./index.mjs",
+      "default": "./index.js"
+    }
+  },
   "engines": {
     "node": ">=16"
   },
