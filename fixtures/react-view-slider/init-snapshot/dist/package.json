@@ -28,8 +28,15 @@
   },
   "main": "index.js",
   "module": "index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./index.mjs",
+      "default": "./index.js"
+    }
+  },
   "engines": {
     "node": ">=16"
   },
-  "packageManager": "pnpm@8.3.1"
+  "packageManager": "pnpm@8.11.0"
 }

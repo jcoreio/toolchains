@@ -2,7 +2,7 @@
   "name": "@jcoreio/toolchains",
   "private": true,
   "version": "0.0.0-development",
-  "packageManager": "pnpm@8.3.1",
+  "packageManager": "pnpm@8.11.0",
   "description": "JS/TS build toolchains",
   "repository": {
     "type": "git",

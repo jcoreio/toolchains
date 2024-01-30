@@ -7,6 +7,7 @@ const isEmpty = require('lodash/isEmpty')
 const pick = require('lodash/pick')
 const Path = require('path')
 const { toolchainConfig } = require('../../util/findUps.cjs')
+const confirmOutputEsm = require('./confirmOutputEsm.cjs')
 const confirm = require('../../util/confirm.cjs')
 
 async function migrateProjectPackageJson() {
@@ -72,44 +73,47 @@ async function migrateProjectPackageJson() {
     const hasIndex =
       hasIndexTypes || (await fs.pathExists(Path.join('src', 'index.js')))
     if (hasIndex) {
-      packageJson.main = 'index.js'
-      packageJson.module = 'index.mjs'
+      packageJson.main = 'dist/index.js'
+      packageJson.module = 'dist/index.mjs'
     }
     if (hasIndexTypes) {
-      packageJson.types = 'index.d.ts'
+      packageJson.types = 'dist/index.d.ts'
     }
   }
   for (const dep of require('./migrateRemoveDevDeps.cjs')) {
     delete devDependencies[dep]
   }
 
-  if (
-    !packageJson.exports &&
-    (await confirm({
+  if (!packageJson.exports && packageJson.main) {
+    const relativize = (p) => (p.startsWith('.') ? p : `./${p}`)
+
+    const dotStar = await confirm({
       type: 'confirm',
       initial: true,
       ifNotInteractive: false,
       message: 'Add ./* exports map to package.json?',
-    }))
-  ) {
+    })
+    const outputEsm = await confirmOutputEsm()
     packageJson.exports = {
       './package.json': './package.json',
-      ...(packageJson.main
+      '.': {
+        ...(packageJson.types ? { types: relativize(packageJson.types) } : {}),
+        ...(outputEsm !== false && packageJson.module
+          ? { import: relativize(packageJson.module) }
+          : {}),
+        default: relativize(packageJson.main),
+      },
+      ...(dotStar
         ? {
-            '.': {
-              ...(packageJson.types ? { types: packageJson.types } : {}),
-              ...(toolchainConfig.outputEsm !== false && packageJson.module
-                ? { import: packageJson.module }
+            './*': {
+              types: './*.d.ts',
+              ...(toolchainConfig.outputEsm !== false
+                ? { import: './*.mjs' }
                 : {}),
-              default: packageJson.main,
+              default: './*.js',
             },
           }
         : {}),
-      './*': {
-        types: './*.d.ts',
-        ...(toolchainConfig.outputEsm !== false ? { import: './*.mjs' } : {}),
-        default: './*.js',
-      },
     }
   }
 
