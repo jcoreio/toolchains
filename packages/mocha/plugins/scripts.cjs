@@ -5,7 +5,7 @@ module.exports = [
     coverage: {
       description: 'run tests with code coverage',
       run: async (args = []) => {
-        await execa('nyc', ['mocha', ...args])
+        await execa('nyc', ['tc', 'test', ...args])
       },
     },
     test: {
