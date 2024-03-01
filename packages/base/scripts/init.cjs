@@ -2,7 +2,6 @@
 
 const { packageJson } = require('../util/findUps.cjs')
 const fs = require('../util/projectFs.cjs')
-const preinstall = require('./preinstall.cjs')
 const execa = require('../util/execa.cjs')
 const hasTSFiles = require('../util/hasTSFiles.cjs')
 const { name, version } = require('../package.json')
@@ -58,7 +57,7 @@ async function init(args = []) {
 
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
 
-  await preinstall.run()
+  await execa('tc', ['preinstall'])
   await execa('pnpm', [
     'add',
     '-D',

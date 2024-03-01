@@ -76,6 +76,30 @@ Available commands:
   version             print version of @jcoreio/toolchain
 ```
 
+### Disable ESM build
+
+Set `outputEsm: false` in `toolchain.config.cjs`:
+
+```js
+/* eslint-env node, es2018 */
+module.exports = {
+  cjsBabelEnv: { forceAllTransforms: true },
+  outputEsm: false,
+}
+```
+
+### Configure transpilation options
+
+You can put options for `@babel/preset-env` in `cjsBabelEnv`/`esmBabelEnv` in `toolchain.config.cjs`. The default options are:
+
+```js
+/* eslint-env node, es2018 */
+module.exports = {
+  cjsBabelEnv: { forceAllTransforms: true },
+  esmBabelEnv: { targets: { node: 16 } },
+}
+```
+
 ### Run scripts before or after toolchain scripts
 
 Similar to `package.json` scripts, you can add `pre*` and `post*` scripts to your
@@ -96,6 +120,19 @@ module.exports = {
       },
     },
   },
+}
+```
+
+### Load chai plugins, customize mocha, etc.
+
+Edit `.mocharc.cjs`. For example to add your own configuration script that loads chai plugins:
+
+```js
+/* eslint-env node, es2018 */
+const base = require('@jcoreio/toolchain-mocha/.mocharc.cjs')
+module.exports = {
+  ...base,
+  require: [...base.require, 'test/configure.js'],
 }
 ```
 

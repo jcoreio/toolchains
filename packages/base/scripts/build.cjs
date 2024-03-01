@@ -2,11 +2,11 @@ const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 const Path = require('path')
 const { projectDir } = require('../util/findUps.cjs')
 const fs = require('../util/projectFs.cjs')
-const clean = require('./clean.cjs')
+const execa = require('../util/execa.cjs')
 const glob = require('../util/glob.cjs')
 
 exports.run = async function build(args = []) {
-  await clean.run()
+  await execa('tc', ['clean'])
   await fs.mkdirs('dist')
 
   const ignoreEnoent = (err) => {

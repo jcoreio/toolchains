@@ -1,11 +1,10 @@
-const check = require('./check.cjs')
-const build = require('./build.cjs')
+const execa = require('../util/execa.cjs')
 
 exports.run = async function (args = []) {
-  await check.run()
   const { scripts } = require('./toolchain.cjs')
-  if (scripts.coverage) await scripts.coverage.run()
-  await build.run()
+  await execa('tc', ['check'])
+  if (scripts.coverage) await execa('tc', ['coverage'])
+  await execa('tc', ['build'])
 }
 
 exports.description = 'run check, coverage, and build'

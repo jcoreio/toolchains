@@ -62,7 +62,7 @@ async function toolchain(command, args) {
     process.exit(1)
   }
 
-  if (script !== scripts.version) {
+  if (require.main === module && script !== scripts.version) {
     console.error(chalk`{bold ${name}@${version}}`) // eslint-disable-line no-console
   }
 
