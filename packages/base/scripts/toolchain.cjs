@@ -3,6 +3,8 @@
 const { name, version } = require('../package.json')
 const chalk = require('chalk')
 const getPluginsObjectSync = require('../util/getPluginsObjectSync.cjs')
+const { toolchainConfig } = require('../util/findUps.cjs')
+const execa = require('../util/execa.cjs')
 
 const scripts = {
   migrate: require('./migrate.cjs'),
@@ -26,6 +28,15 @@ const scripts = {
   },
   'install-git-hooks': require('./install-git-hooks.cjs'),
   ...getPluginsObjectSync('scripts'),
+  ...Object.fromEntries(
+    Object.entries(toolchainConfig.scripts || {}).map(([name, script]) => [
+      name,
+      {
+        run: () => execa(script, { shell: true }),
+        description: script,
+      },
+    ])
+  ),
 }
 
 exports.scripts = scripts
@@ -54,7 +65,13 @@ async function toolchain(command, args) {
   }
 
   try {
+    if (!command.startsWith('pre' && scripts[`pre${command}`])) {
+      await (scripts[`pre${command}`] && scripts[`pre${command}`].run(args))
+    }
     await script.run(args)
+    if (!command.startsWith('post')) {
+      await (scripts[`post${command}`] && scripts[`post${command}`].run(args))
+    }
   } catch (error) {
     const { exitCode } = error
     if (typeof exitCode === 'number' && exitCode !== 0) {
