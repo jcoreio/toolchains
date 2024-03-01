@@ -31,10 +31,12 @@ const scripts = {
   ...Object.fromEntries(
     Object.entries(toolchainConfig.scripts || {}).map(([name, script]) => [
       name,
-      {
-        run: () => execa(script, { shell: true }),
-        description: script,
-      },
+      typeof script === 'string'
+        ? {
+            run: () => execa(script, { shell: true }),
+            description: script,
+          }
+        : script,
     ])
   ),
 }

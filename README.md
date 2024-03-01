@@ -76,6 +76,29 @@ Available commands:
   version             print version of @jcoreio/toolchain
 ```
 
+### Run scripts before or after toolchain scripts
+
+Similar to `package.json` scripts, you can add `pre*` and `post*` scripts to your
+`toolchain.config.cjs`. However, the script can be a shell command string or an
+object with props `{ description: string, run: () => any }`:
+
+```js
+/* eslint-env node, es2018 */
+module.exports = {
+  cjsBabelEnv: { forceAllTransforms: true },
+  esmBabelEnv: { targets: { node: 16 } },
+  scripts: {
+    pretest: 'echo test',
+    postbuild: {
+      description: 'runs after build',
+      run: async () => {
+        // do something...
+      },
+    },
+  },
+}
+```
+
 ## Current limitations
 
 ### ESM output
