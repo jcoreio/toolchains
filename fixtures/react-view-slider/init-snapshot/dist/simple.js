@@ -7,7 +7,6 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.bpfrpt_proptype_State = exports.bpfrpt_proptype_Props = void 0;
 exports.createSimpleViewSlider = createSimpleViewSlider;
 exports["default"] = void 0;
 
@@ -35,9 +34,7 @@ var React = _interopRequireWildcard(require("react"));
 
 var _inlineStylePrefixer = _interopRequireDefault(require("inline-style-prefixer"));
 
-var _index = _interopRequireWildcard(require("./index.js"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _index = _interopRequireDefault(require("./index.js"));
 
 var _excluded = ["children", "spacing", "rtl", "keepViewsMounted", "keepPrecedingViewsMounted"];
 
@@ -49,46 +46,14 @@ function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflec
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } } /* eslint-env browser */
 
-var bpfrpt_proptype_Props = {
-  "children": _propTypes["default"].any,
-  "keepViewsMounted": _propTypes["default"].bool,
-  "keepPrecedingViewsMounted": _propTypes["default"].bool,
-  "animateHeight": _propTypes["default"].bool,
-  "transitionDuration": _propTypes["default"].number,
-  "transitionTimingFunction": _propTypes["default"].string,
-  "onSlideTransitionEnd": _propTypes["default"].func,
-  "prefixer": function prefixer() {
-    return (typeof _inlineStylePrefixer["default"] === "function" ? _propTypes["default"].instanceOf(_inlineStylePrefixer["default"]) : _propTypes["default"].any).apply(this, arguments);
-  },
-  "fillParent": _propTypes["default"].bool,
-  "className": _propTypes["default"].string,
-  "style": _propTypes["default"].object,
-  "viewportClassName": _propTypes["default"].string,
-  "viewportStyle": _propTypes["default"].object,
-  "viewStyle": _propTypes["default"].object,
-  "innerViewWrapperStyle": _propTypes["default"].object,
-  "rootRef": _propTypes["default"].func,
-  "viewportRef": _propTypes["default"].func,
-  "rtl": _propTypes["default"].bool,
-  "spacing": _propTypes["default"].number
-};
-exports.bpfrpt_proptype_Props = bpfrpt_proptype_Props;
-var bpfrpt_proptype_State = {
-  "views": _propTypes["default"].node.isRequired,
-  "activeView": _propTypes["default"].number.isRequired
-};
-exports.bpfrpt_proptype_State = bpfrpt_proptype_State;
-
 function defaultRenderView(_ref) {
   var index = _ref.index;
   return this.state.views[index];
 }
 
 function createSimpleViewSlider(ViewSlider) {
-  var _class;
-
   var renderView = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultRenderView;
-  return _class = /*#__PURE__*/function (_React$Component) {
+  return /*#__PURE__*/function (_React$Component) {
     (0, _inherits2["default"])(SimpleViewSlider, _React$Component);
 
     var _super = _createSuper(SimpleViewSlider);
@@ -167,29 +132,7 @@ function createSimpleViewSlider(ViewSlider) {
       }
     }]);
     return SimpleViewSlider;
-  }(React.Component), (0, _defineProperty2["default"])(_class, "propTypes", {
-    "children": _propTypes["default"].any,
-    "keepViewsMounted": _propTypes["default"].bool,
-    "keepPrecedingViewsMounted": _propTypes["default"].bool,
-    "animateHeight": _propTypes["default"].bool,
-    "transitionDuration": _propTypes["default"].number,
-    "transitionTimingFunction": _propTypes["default"].string,
-    "onSlideTransitionEnd": _propTypes["default"].func,
-    "prefixer": function prefixer() {
-      return (typeof _inlineStylePrefixer["default"] === "function" ? _propTypes["default"].instanceOf(_inlineStylePrefixer["default"]) : _propTypes["default"].any).apply(this, arguments);
-    },
-    "fillParent": _propTypes["default"].bool,
-    "className": _propTypes["default"].string,
-    "style": _propTypes["default"].object,
-    "viewportClassName": _propTypes["default"].string,
-    "viewportStyle": _propTypes["default"].object,
-    "viewStyle": _propTypes["default"].object,
-    "innerViewWrapperStyle": _propTypes["default"].object,
-    "rootRef": _propTypes["default"].func,
-    "viewportRef": _propTypes["default"].func,
-    "rtl": _propTypes["default"].bool,
-    "spacing": _propTypes["default"].number
-  }), _class;
+  }(React.Component);
 }
 
 var _default = createSimpleViewSlider(_index["default"]);

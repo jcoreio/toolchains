@@ -151,6 +151,9 @@ export function setLogProvider(provider) {
 const loggersByPath = {};
 
 class LoggerImpl {
+  loggerPath;
+  _logProviders;
+
   constructor({
     loggerPath,
     logProviders

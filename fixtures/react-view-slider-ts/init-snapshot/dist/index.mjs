@@ -50,9 +50,12 @@ export default class ViewSlider extends React.Component {
     // this is used to determine the correct transitionState for the previous active view.
     prevActiveView: undefined
   };
+  root;
+  viewport;
   views = [];
   timeouts = {};
   lastProps = this.props;
+  lastDefaultedProps;
   getDefaultedProps = () => {
     if (this.lastProps !== this.props || !this.lastDefaultedProps) {
       this.lastProps = this.props;

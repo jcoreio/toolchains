@@ -100,9 +100,12 @@ var ViewSlider = /*#__PURE__*/function (_React$Component) {
       // this is used to determine the correct transitionState for the previous active view.
       prevActiveView: undefined
     });
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "root", void 0);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "viewport", void 0);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "views", []);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "timeouts", {});
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "lastProps", _this.props);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "lastDefaultedProps", void 0);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "getDefaultedProps", function () {
       if (_this.lastProps !== _this.props || !_this.lastDefaultedProps) {
         _this.lastProps = _this.props;

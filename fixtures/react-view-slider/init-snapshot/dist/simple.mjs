@@ -4,33 +4,6 @@ import _extends from "@babel/runtime/helpers/extends";
 import * as React from 'react';
 import Prefixer from 'inline-style-prefixer';
 import ViewSlider from "./index.mjs";
-var bpfrpt_proptype_Props = {
-  "children": PropTypes.any,
-  "keepViewsMounted": PropTypes.bool,
-  "keepPrecedingViewsMounted": PropTypes.bool,
-  "animateHeight": PropTypes.bool,
-  "transitionDuration": PropTypes.number,
-  "transitionTimingFunction": PropTypes.string,
-  "onSlideTransitionEnd": PropTypes.func,
-  "prefixer": function () {
-    return (typeof Prefixer === "function" ? PropTypes.instanceOf(Prefixer) : PropTypes.any).apply(this, arguments);
-  },
-  "fillParent": PropTypes.bool,
-  "className": PropTypes.string,
-  "style": PropTypes.object,
-  "viewportClassName": PropTypes.string,
-  "viewportStyle": PropTypes.object,
-  "viewStyle": PropTypes.object,
-  "innerViewWrapperStyle": PropTypes.object,
-  "rootRef": PropTypes.func,
-  "viewportRef": PropTypes.func,
-  "rtl": PropTypes.bool,
-  "spacing": PropTypes.number
-};
-var bpfrpt_proptype_State = {
-  "views": PropTypes.node.isRequired,
-  "activeView": PropTypes.number.isRequired
-};
 
 function defaultRenderView({
   index
@@ -112,34 +85,6 @@ export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderVie
       }));
     }
 
-    static propTypes = {
-      "children": PropTypes.any,
-      "keepViewsMounted": PropTypes.bool,
-      "keepPrecedingViewsMounted": PropTypes.bool,
-      "animateHeight": PropTypes.bool,
-      "transitionDuration": PropTypes.number,
-      "transitionTimingFunction": PropTypes.string,
-      "onSlideTransitionEnd": PropTypes.func,
-      "prefixer": function () {
-        return (typeof Prefixer === "function" ? PropTypes.instanceOf(Prefixer) : PropTypes.any).apply(this, arguments);
-      },
-      "fillParent": PropTypes.bool,
-      "className": PropTypes.string,
-      "style": PropTypes.object,
-      "viewportClassName": PropTypes.string,
-      "viewportStyle": PropTypes.object,
-      "viewStyle": PropTypes.object,
-      "innerViewWrapperStyle": PropTypes.object,
-      "rootRef": PropTypes.func,
-      "viewportRef": PropTypes.func,
-      "rtl": PropTypes.bool,
-      "spacing": PropTypes.number
-    };
   };
 }
 export default createSimpleViewSlider(ViewSlider);
-import { bpfrpt_proptype_Props as bpfrpt_proptype_ViewSliderProps } from "./index.mjs";
-import { bpfrpt_proptype_ViewProps } from "./index.mjs";
-import PropTypes from "prop-types";
-export { bpfrpt_proptype_Props };
-export { bpfrpt_proptype_State };

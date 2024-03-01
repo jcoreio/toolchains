@@ -218,6 +218,8 @@ var LoggerImpl = /*#__PURE__*/(0, _createClass2["default"])(function LoggerImpl(
   var loggerPath = _ref.loggerPath,
       logProviders = _ref.logProviders;
   (0, _classCallCheck2["default"])(this, LoggerImpl);
+  (0, _defineProperty2["default"])(this, "loggerPath", void 0);
+  (0, _defineProperty2["default"])(this, "_logProviders", void 0);
   (0, _defineProperty2["default"])(this, "logAtLevel", function (level) {
     if (level >= logLevel(_this.loggerPath)) {
       for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {

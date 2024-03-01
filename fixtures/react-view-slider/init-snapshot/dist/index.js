@@ -7,7 +7,7 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.defaultProps = exports["default"] = exports.bpfrpt_proptype_ViewProps = exports.bpfrpt_proptype_State = exports.bpfrpt_proptype_Props = exports.bpfrpt_proptype_DefaultProps = void 0;
+exports.defaultProps = exports["default"] = void 0;
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -27,8 +27,6 @@ var React = _interopRequireWildcard(require("react"));
 
 var _inlineStylePrefixer = _interopRequireDefault(require("inline-style-prefixer"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -41,59 +39,6 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; } /* eslint-env browser */
 
-var bpfrpt_proptype_ViewProps = {
-  "index": _propTypes["default"].number.isRequired,
-  "active": _propTypes["default"].bool.isRequired,
-  "transitionState": _propTypes["default"].oneOf(["in", "out", "entering", "leaving"]).isRequired
-};
-exports.bpfrpt_proptype_ViewProps = bpfrpt_proptype_ViewProps;
-var bpfrpt_proptype_DefaultProps = {
-  "animateHeight": _propTypes["default"].bool.isRequired,
-  "keepViewsMounted": _propTypes["default"].bool.isRequired,
-  "transitionDuration": _propTypes["default"].number.isRequired,
-  "transitionTimingFunction": _propTypes["default"].string.isRequired,
-  "prefixer": function prefixer() {
-    return (typeof _inlineStylePrefixer["default"] === "function" ? _propTypes["default"].instanceOf(_inlineStylePrefixer["default"]).isRequired : _propTypes["default"].any.isRequired).apply(this, arguments);
-  },
-  "style": _propTypes["default"].object.isRequired,
-  "viewportStyle": _propTypes["default"].object.isRequired,
-  "rtl": _propTypes["default"].bool.isRequired,
-  "spacing": _propTypes["default"].number.isRequired
-};
-exports.bpfrpt_proptype_DefaultProps = bpfrpt_proptype_DefaultProps;
-var bpfrpt_proptype_Props = {
-  "activeView": _propTypes["default"].number.isRequired,
-  "numViews": _propTypes["default"].number.isRequired,
-  "renderView": _propTypes["default"].func.isRequired,
-  "keepViewsMounted": _propTypes["default"].bool,
-  "animateHeight": _propTypes["default"].bool,
-  "transitionDuration": _propTypes["default"].number,
-  "transitionTimingFunction": _propTypes["default"].string,
-  "onSlideTransitionEnd": _propTypes["default"].func,
-  "prefixer": function prefixer() {
-    return (typeof _inlineStylePrefixer["default"] === "function" ? _propTypes["default"].instanceOf(_inlineStylePrefixer["default"]) : _propTypes["default"].any).apply(this, arguments);
-  },
-  "fillParent": _propTypes["default"].bool,
-  "className": _propTypes["default"].string,
-  "style": _propTypes["default"].object,
-  "viewportClassName": _propTypes["default"].string,
-  "viewportStyle": _propTypes["default"].object,
-  "viewStyle": _propTypes["default"].object,
-  "innerViewWrapperStyle": _propTypes["default"].object,
-  "rootRef": _propTypes["default"].func,
-  "viewportRef": _propTypes["default"].func,
-  "rtl": _propTypes["default"].bool,
-  "spacing": _propTypes["default"].number
-};
-exports.bpfrpt_proptype_Props = bpfrpt_proptype_Props;
-var bpfrpt_proptype_State = {
-  "height": _propTypes["default"].number,
-  "transitioning": _propTypes["default"].bool.isRequired,
-  "activeView": _propTypes["default"].number.isRequired,
-  "numViews": _propTypes["default"].number.isRequired,
-  "prevActiveView": _propTypes["default"].number
-};
-exports.bpfrpt_proptype_State = bpfrpt_proptype_State;
 var fillStyle = {
   position: 'absolute',
   top: 0,
@@ -409,27 +354,3 @@ var ViewSlider = /*#__PURE__*/function (_React$Component) {
 }(React.Component);
 
 exports["default"] = ViewSlider;
-(0, _defineProperty2["default"])(ViewSlider, "propTypes", {
-  "activeView": _propTypes["default"].number.isRequired,
-  "numViews": _propTypes["default"].number.isRequired,
-  "renderView": _propTypes["default"].func.isRequired,
-  "keepViewsMounted": _propTypes["default"].bool,
-  "animateHeight": _propTypes["default"].bool,
-  "transitionDuration": _propTypes["default"].number,
-  "transitionTimingFunction": _propTypes["default"].string,
-  "onSlideTransitionEnd": _propTypes["default"].func,
-  "prefixer": function prefixer() {
-    return (typeof _inlineStylePrefixer["default"] === "function" ? _propTypes["default"].instanceOf(_inlineStylePrefixer["default"]) : _propTypes["default"].any).apply(this, arguments);
-  },
-  "fillParent": _propTypes["default"].bool,
-  "className": _propTypes["default"].string,
-  "style": _propTypes["default"].object,
-  "viewportClassName": _propTypes["default"].string,
-  "viewportStyle": _propTypes["default"].object,
-  "viewStyle": _propTypes["default"].object,
-  "innerViewWrapperStyle": _propTypes["default"].object,
-  "rootRef": _propTypes["default"].func,
-  "viewportRef": _propTypes["default"].func,
-  "rtl": _propTypes["default"].bool,
-  "spacing": _propTypes["default"].number
-});

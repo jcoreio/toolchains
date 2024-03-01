@@ -1,55 +1,6 @@
 /* eslint-env browser */
 import * as React from 'react';
 import Prefixer from 'inline-style-prefixer';
-var bpfrpt_proptype_ViewProps = {
-  "index": PropTypes.number.isRequired,
-  "active": PropTypes.bool.isRequired,
-  "transitionState": PropTypes.oneOf(["in", "out", "entering", "leaving"]).isRequired
-};
-var bpfrpt_proptype_DefaultProps = {
-  "animateHeight": PropTypes.bool.isRequired,
-  "keepViewsMounted": PropTypes.bool.isRequired,
-  "transitionDuration": PropTypes.number.isRequired,
-  "transitionTimingFunction": PropTypes.string.isRequired,
-  "prefixer": function () {
-    return (typeof Prefixer === "function" ? PropTypes.instanceOf(Prefixer).isRequired : PropTypes.any.isRequired).apply(this, arguments);
-  },
-  "style": PropTypes.object.isRequired,
-  "viewportStyle": PropTypes.object.isRequired,
-  "rtl": PropTypes.bool.isRequired,
-  "spacing": PropTypes.number.isRequired
-};
-var bpfrpt_proptype_Props = {
-  "activeView": PropTypes.number.isRequired,
-  "numViews": PropTypes.number.isRequired,
-  "renderView": PropTypes.func.isRequired,
-  "keepViewsMounted": PropTypes.bool,
-  "animateHeight": PropTypes.bool,
-  "transitionDuration": PropTypes.number,
-  "transitionTimingFunction": PropTypes.string,
-  "onSlideTransitionEnd": PropTypes.func,
-  "prefixer": function () {
-    return (typeof Prefixer === "function" ? PropTypes.instanceOf(Prefixer) : PropTypes.any).apply(this, arguments);
-  },
-  "fillParent": PropTypes.bool,
-  "className": PropTypes.string,
-  "style": PropTypes.object,
-  "viewportClassName": PropTypes.string,
-  "viewportStyle": PropTypes.object,
-  "viewStyle": PropTypes.object,
-  "innerViewWrapperStyle": PropTypes.object,
-  "rootRef": PropTypes.func,
-  "viewportRef": PropTypes.func,
-  "rtl": PropTypes.bool,
-  "spacing": PropTypes.number
-};
-var bpfrpt_proptype_State = {
-  "height": PropTypes.number,
-  "transitioning": PropTypes.bool.isRequired,
-  "activeView": PropTypes.number.isRequired,
-  "numViews": PropTypes.number.isRequired,
-  "prevActiveView": PropTypes.number
-};
 const fillStyle = {
   position: 'absolute',
   top: 0,
@@ -331,33 +282,4 @@ export default class ViewSlider extends React.Component {
     }, views));
   }
 
-  static propTypes = {
-    "activeView": PropTypes.number.isRequired,
-    "numViews": PropTypes.number.isRequired,
-    "renderView": PropTypes.func.isRequired,
-    "keepViewsMounted": PropTypes.bool,
-    "animateHeight": PropTypes.bool,
-    "transitionDuration": PropTypes.number,
-    "transitionTimingFunction": PropTypes.string,
-    "onSlideTransitionEnd": PropTypes.func,
-    "prefixer": function () {
-      return (typeof Prefixer === "function" ? PropTypes.instanceOf(Prefixer) : PropTypes.any).apply(this, arguments);
-    },
-    "fillParent": PropTypes.bool,
-    "className": PropTypes.string,
-    "style": PropTypes.object,
-    "viewportClassName": PropTypes.string,
-    "viewportStyle": PropTypes.object,
-    "viewStyle": PropTypes.object,
-    "innerViewWrapperStyle": PropTypes.object,
-    "rootRef": PropTypes.func,
-    "viewportRef": PropTypes.func,
-    "rtl": PropTypes.bool,
-    "spacing": PropTypes.number
-  };
 }
-import PropTypes from "prop-types";
-export { bpfrpt_proptype_ViewProps };
-export { bpfrpt_proptype_DefaultProps };
-export { bpfrpt_proptype_Props };
-export { bpfrpt_proptype_State };
