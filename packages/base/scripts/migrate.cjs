@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('../util/projectFs.cjs')
 const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 
 async function migrate(args = []) {
@@ -11,7 +10,6 @@ async function migrate(args = []) {
   const migrateConfigFiles = require('./migrate/migrateConfigFiles.cjs')
   const migrateMoveTypeDefs = require('./migrate/migrateMoveTypeDefs.cjs')
   const migrateGitignore = require('./migrate/migrateGitignore.cjs')
-  const migrateRemoveFiles = require('./migrate/migrateRemoveFiles.cjs')
   const hasYarnOrNpmLockfile = require('../util/hasYarnOrNpmLockfile.cjs')
 
   await execa('git', ['init'])
@@ -20,16 +18,6 @@ async function migrate(args = []) {
   if (await hasYarnOrNpmLockfile()) {
     await execa('pnpm', ['import'])
   }
-  await Promise.all(
-    migrateRemoveFiles.map(async (file) => {
-      const exists = await fs.pathExists(file)
-      if (exists) {
-        await fs.remove(file)
-        // eslint-disable-next-line no-console
-        console.error('removed', file)
-      }
-    })
-  )
   await migrateConfigFiles()
   await migrateEslintConfigs()
   await migrateMoveTypeDefs()
