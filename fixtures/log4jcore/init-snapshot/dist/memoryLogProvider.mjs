@@ -1,6 +1,5 @@
 export default function memoryLogProvider() {
   const messages = [];
-
   const result = (loggerPath, level, ...args) => {
     messages.push({
       loggerPath,
@@ -9,7 +8,6 @@ export default function memoryLogProvider() {
       args
     });
   };
-
   result.messages = messages;
   return result;
 }

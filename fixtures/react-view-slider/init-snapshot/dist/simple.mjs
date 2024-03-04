@@ -1,16 +1,13 @@
 import _extends from "@babel/runtime/helpers/extends";
-
 /* eslint-env browser */
 import * as React from 'react';
 import Prefixer from 'inline-style-prefixer';
 import ViewSlider from "./index.mjs";
-
 function defaultRenderView({
   index
 }) {
   return this.state.views[index];
 }
-
 export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderView) {
   return class SimpleViewSlider extends React.Component {
     constructor(props) {
@@ -24,7 +21,6 @@ export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderVie
         activeView
       };
     }
-
     componentDidUpdate(prevProps) {
       if (prevProps.children !== this.props.children) {
         const child = React.Children.only(this.props.children);
@@ -37,7 +33,6 @@ export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderVie
         });
       }
     }
-
     renderView = renderView.bind(this);
     handleSlideTransitionEnd = () => {
       if (!this.props.keepViewsMounted) {
@@ -45,7 +40,6 @@ export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderVie
           views,
           activeView
         } = this.state;
-
         if (activeView < views.length - 1) {
           this.setState({
             views: views.slice(0, activeView + 1)
@@ -58,7 +52,6 @@ export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderVie
         }
       }
     };
-
     render() {
       const {
         children,
@@ -84,7 +77,6 @@ export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderVie
         onSlideTransitionEnd: this.handleSlideTransitionEnd
       }));
     }
-
   };
 }
 export default createSimpleViewSlider(ViewSlider);

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const LOG_LEVEL_TRACE = 1;
 export const LOG_LEVEL_DEBUG = 2;
 export const LOG_LEVEL_INFO = 3;
@@ -17,7 +18,6 @@ export const logLevelToName = {
   [LOG_LEVEL_ERROR]: 'ERROR',
   [LOG_LEVEL_FATAL]: 'FATAL'
 };
-
 function assertValidLogLevel(level) {
   switch (level) {
     case LOG_LEVEL_TRACE:
@@ -27,29 +27,22 @@ function assertValidLogLevel(level) {
     case LOG_LEVEL_ERROR:
     case LOG_LEVEL_FATAL:
       return;
-
     default:
       throw new Error(`invalid log level: ${level}`);
   }
 }
-
 const configuredLogLevels = {};
 const envLogLevels = {};
-
 const logLevelAtPath = path => configuredLogLevels[path] || envLogLevels[path];
-
 const envVar = varName => typeof process !== 'undefined' && process.env ? process.env[varName] : undefined; // eslint-disable-line no-undef
 
-
 let calcedEnvLogLevels = false;
-
 function calcEnvLogLevels() {
-  if (calcedEnvLogLevels) return; // walk log levels from least to most verbose, so that the most verbose setting wins if
+  if (calcedEnvLogLevels) return;
+  // walk log levels from least to most verbose, so that the most verbose setting wins if
   // the user sets DEBUG=foo and TRACE=foo, foo will be set to TRACE
-
   for (let logLevel = LOG_LEVEL_MAX; logLevel >= LOG_LEVEL_MIN; --logLevel) {
     const envForLevel = envVar(logLevelToName[logLevel]);
-
     if (envForLevel && typeof envForLevel === 'string') {
       const targetsForLevel = envForLevel.split(',').filter(Boolean);
       targetsForLevel.forEach(target => {
@@ -57,78 +50,63 @@ function calcEnvLogLevels() {
       });
     }
   }
-
   calcedEnvLogLevels = true;
 }
-
 let logLevelsCache = {};
 export function resetLogLevels() {
   logLevelsCache = {};
-
   for (const path in configuredLogLevels) delete configuredLogLevels[path];
 }
 export function setLogLevel(path, level) {
   assertValidLogLevel(level);
-
   if (level !== configuredLogLevels[path]) {
-    configuredLogLevels[path] = level; // Bust the cache
-
+    configuredLogLevels[path] = level;
+    // Bust the cache
     logLevelsCache = {};
   }
 }
-
 function calcLogLevel(path) {
   calcEnvLogLevels();
   const levelAtExactPath = logLevelAtPath(path);
   if (levelAtExactPath != null) return levelAtExactPath;
   const exactPathSplit = path.split(PATH_SEPARATOR);
-
   for (let compareLen = exactPathSplit.length - 1; compareLen >= 0; --compareLen) {
     const subPath = exactPathSplit.slice(0, compareLen).join(PATH_SEPARATOR);
     const levelAtSubPath = logLevelAtPath(subPath);
     if (levelAtSubPath != null) return levelAtSubPath;
   }
-
   return DEFAULT_LOG_LEVEL;
 }
-
 function logLevel(path) {
   let levelForPath = logLevelsCache[path];
-
   if (levelForPath == null) {
     logLevelsCache[path] = levelForPath = calcLogLevel(path);
   }
-
   return levelForPath;
 }
-
 const hasDate = !envVar('LOG_NO_DATE');
 export const defaultLogFunctionProvider = level => level >= LOG_LEVEL_ERROR ? console.error : console.log; // eslint-disable-line no-console
 
 let _logFunctionProvider = defaultLogFunctionProvider;
+
 /**
  * Simple hook to override the logging function. For example, to always log to console.error,
  * call setLogFunctionProvider(() => console.error)
  * @param provider function that returns the log function based on the message's log level
  */
-
 export function setLogFunctionProvider(provider) {
   _logFunctionProvider = provider;
 }
-
 function formatDate(d) {
   function part(n, width = 2) {
     return String(n).padStart(width, '0');
   }
-
   return `${part(d.getFullYear(), 4)}-${part(d.getMonth() + 1)}-${part(d.getDate())} ${part(d.getHours())}:${part(d.getMinutes())}:${part(d.getSeconds())}`;
 }
-
 function defaultLogFormat(loggerPath, level) {
   const date = hasDate ? formatDate(new Date()) + ' ' : '';
   return `[${date}${loggerPath}] ${logLevelToName[level]}`;
 }
-
 export function createDefaultLogProvider(logFunc) {
   return (loggerPath, level, ...args) => {
     logFunc(defaultLogFormat(loggerPath, level), ...args);
@@ -136,24 +114,21 @@ export function createDefaultLogProvider(logFunc) {
 }
 export const defaultLogProvider = (loggerPath, level, ...args) => {
   const logFunc = _logFunctionProvider(level);
-
   logFunc(defaultLogFormat(loggerPath, level), ...args);
 };
 let _logProvider = defaultLogProvider;
+
 /**
  * Hook to provide a complete replacement for the log provider.
  * @param provider
  */
-
 export function setLogProvider(provider) {
   _logProvider = provider;
 }
 const loggersByPath = {};
-
 class LoggerImpl {
   loggerPath;
   _logProviders;
-
   constructor({
     loggerPath,
     logProviders
@@ -161,11 +136,9 @@ class LoggerImpl {
     this.loggerPath = loggerPath;
     this._logProviders = logProviders;
   }
-
   logAtLevel = (level, ...args) => {
     if (level >= logLevel(this.loggerPath)) {
       let argsToLogger = args;
-
       if (args.length === 1 && typeof args[0] === 'function') {
         // A single function was passed. Execute that function and log the result.
         // This allows debug text to only be calculated when the relevant debug level is
@@ -173,7 +146,6 @@ class LoggerImpl {
         const resolvedArgs = args[0]();
         argsToLogger = Array.isArray(resolvedArgs) ? resolvedArgs : [resolvedArgs];
       }
-
       for (const provider of this._logProviders || [_logProvider]) {
         provider(this.loggerPath, level, ...argsToLogger);
       }
@@ -204,7 +176,6 @@ class LoggerImpl {
     this.logAtLevel(LOG_LEVEL_FATAL, ...args);
   };
 }
-
 export function createLogger(options) {
   return new LoggerImpl(options);
 }
