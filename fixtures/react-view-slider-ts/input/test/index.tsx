@@ -6,7 +6,7 @@ import sinon from 'sinon'
 
 import ViewSlider from '../src'
 
-let clock
+let clock: sinon.SinonFakeTimers
 beforeEach(() => {
   clock = sinon.useFakeTimers()
 })
@@ -17,7 +17,7 @@ afterEach(() => {
 
 describe('ViewSlider', () => {
   it('single transition works', async () => {
-    const renderView = ({ index }) => <div>Child {index}</div>
+    const renderView = ({ index }: {index: number}) => <div>Child {index}</div>
 
     const { container, rerender } = render(
       <ViewSlider numViews={3} renderView={renderView} activeView={0} />

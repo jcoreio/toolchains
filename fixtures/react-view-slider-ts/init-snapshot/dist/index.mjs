@@ -1,6 +1,6 @@
 /* @flow */
-
 /* eslint-env browser */
+
 import * as React from 'react';
 import { prefix } from 'inline-style-prefixer';
 const fillStyle = {
@@ -27,20 +27,17 @@ export const defaultProps = {
   rtl: false,
   spacing: 1
 };
-
 function applyDefaults(props) {
-  const result = { ...props
+  const result = {
+    ...props
   };
-
   for (const key in defaultProps) {
     if (Object.prototype.hasOwnProperty.call(defaultProps, key) && props[key] == null) {
       result[key] = defaultProps[key];
     }
   }
-
   return result;
 }
-
 export default class ViewSlider extends React.Component {
   state = {
     height: undefined,
@@ -61,19 +58,16 @@ export default class ViewSlider extends React.Component {
       this.lastProps = this.props;
       this.lastDefaultedProps = applyDefaults(this.props);
     }
-
     return this.lastDefaultedProps;
   };
   measureHeight = node => {
     if (!node) return undefined;
     return node.clientHeight;
   };
-
   setTimeout(name, callback, delay) {
     if (this.timeouts[name]) clearTimeout(this.timeouts[name]);
     this.timeouts[name] = setTimeout(callback, delay);
   }
-
   componentDidUpdate() {
     const {
       activeView,
@@ -81,7 +75,6 @@ export default class ViewSlider extends React.Component {
       keepViewsMounted
     } = this.getDefaultedProps();
     let newState;
-
     if (activeView !== this.state.activeView && this.state.height === undefined) {
       if (keepViewsMounted) {
         // scroll all views except the current back to the top
@@ -90,9 +83,8 @@ export default class ViewSlider extends React.Component {
           const view = this.views[i];
           if (view) view.scrollTop = 0;
         }
-      } // phase 1: set current height
-
-
+      }
+      // phase 1: set current height
       newState = {
         height: this.measureHeight(this.views[this.state.activeView])
       };
@@ -110,10 +102,10 @@ export default class ViewSlider extends React.Component {
         height: this.measureHeight(this.views[activeView])
       };
     }
-
     const finalNewState = newState;
     if (!finalNewState) return;
-    this.setState({ ...this.state,
+    this.setState({
+      ...this.state,
       ...finalNewState
     }, () => {
       if (finalNewState.activeView != null) {
@@ -121,11 +113,10 @@ export default class ViewSlider extends React.Component {
       }
     });
   }
-
   onTransitionEnd = event => {
     // ignore transitionend events from deeper components
-    if (event && event.target !== this.viewport) return; // phase 0: unset height and disable transitions
-
+    if (event && event.target !== this.viewport) return;
+    // phase 0: unset height and disable transitions
     this.setState({
       height: undefined,
       numViews: this.props.numViews,
@@ -138,11 +129,9 @@ export default class ViewSlider extends React.Component {
       if (onSlideTransitionEnd) onSlideTransitionEnd();
     });
   };
-
   componentWillUnmount() {
     for (const name in this.timeouts) clearTimeout(this.timeouts[name]);
   }
-
   getTransitionState = childIndex => {
     const {
       activeView,
@@ -167,27 +156,26 @@ export default class ViewSlider extends React.Component {
       activeView,
       transitioning
     } = this.state;
-    const style = { ...baseViewStyle,
+    const style = {
+      ...baseViewStyle,
       ...viewStyle
     };
-
     if (fillParent) {
       Object.assign(style, fillStyle);
       style.overflow = 'auto';
       if (rtl) style.right = `${index * spacing * 100}%`;else style.left = `${index * spacing * 100}%`;
     } else if (index > 0) {
       if (rtl) style.marginRight = `${(spacing - 1) * 100}%`;else style.marginLeft = `${(spacing - 1) * 100}%`;
-    } // when not transitioning, render empty placeholder divs before the active view to push it into the right
+    }
+
+    // when not transitioning, render empty placeholder divs before the active view to push it into the right
     // horizontal position
-
-
     if (!transitioning && activeView !== index && !keepViewsMounted) {
       return /*#__PURE__*/React.createElement("div", {
         key: index,
         style: prefixer(style)
       });
     }
-
     return /*#__PURE__*/React.createElement("div", {
       key: index,
       style: prefixer(style),
@@ -225,7 +213,6 @@ export default class ViewSlider extends React.Component {
     } = this.getDefaultedProps();
     if (viewportRef) viewportRef(node);
   };
-
   render() {
     const {
       style,
@@ -264,20 +251,17 @@ export default class ViewSlider extends React.Component {
       transition: transitioning ? `transform ${transitionTimingFunction} ${transitionDuration}ms` : undefined,
       ...viewportStyle
     };
-
     if (fillParent) {
       Object.assign(finalOuterStyle, fillStyle);
       Object.assign(finalViewportStyle, fillStyle);
-    } // when not transitioning, render empty placeholder divs before the active view to push it into the right
+    }
+
+    // when not transitioning, render empty placeholder divs before the active view to push it into the right
     // horizontal position
-
-
     const views = [];
-
     for (let i = 0; i < (transitioning || keepViewsMounted ? numViews : activeView + 1); i++) {
       views[i] = this.renderView(i);
     }
-
     return /*#__PURE__*/React.createElement("div", {
       style: prefixer(finalOuterStyle),
       className: className,
@@ -289,5 +273,4 @@ export default class ViewSlider extends React.Component {
       onTransitionEnd: this.onTransitionEnd
     }, views));
   }
-
 }

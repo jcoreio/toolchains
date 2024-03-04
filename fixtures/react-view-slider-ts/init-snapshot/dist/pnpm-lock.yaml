@@ -8,6 +8,9 @@ dependencies:
   '@babel/runtime':
     specifier: ^7.18.6
     version: 7.24.0
+  '@types/mocha':
+    specifier: ^10.0.0
+    version: 10.0.6
   '@types/react':
     specifier: ^18.0.14
     version: 18.2.61
@@ -52,12 +55,15 @@ devDependencies:
   '@testing-library/react':
     specifier: ^13.3.0
     version: 13.4.0(react-dom@18.2.0)(react@18.2.0)
+  '@types/chai':
+    specifier: ^4.3.5
+    version: 4.3.12
   '@types/inline-style-prefixer':
     specifier: ^5.0.0
     version: 5.0.3
   '@types/sinon':
-    specifier: ^10.0.11
-    version: 10.0.20
+    specifier: ^17.0.0
+    version: 17.0.3
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.60.0
     version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.57.0)(typescript@5.3.3)
@@ -506,6 +512,10 @@ packages:
     resolution: {integrity: sha512-rfT93uj5s0PRL7EzccGMs3brplhcrghnDoV26NqKhCAS1hVo+WdNsPvE/yb6ilfr5hi2MEk6d5EWJTKdxg8jVw==}
     dev: true
 
+  /@types/chai@4.3.12:
+    resolution: {integrity: sha512-zNKDHG/1yxm8Il6uCCVsm+dRdEsJlFoDu73X17y09bId6UwoYww+vFBsAcRzl8knM1sab3Dp1VRikFQwDOtDDw==}
+    dev: true
+
   /@types/inline-style-prefixer@5.0.3:
     resolution: {integrity: sha512-GOiSoBwH2U8LmbCnOLU6ZRPtm+qycO9sNXCvP+ahG0abpHrYTd1rm6ZPX4qYTFf1mTB6tqTQ9fYaJPcQWGFMSQ==}
     dev: true
@@ -513,6 +523,10 @@ packages:
   /@types/json-schema@7.0.15:
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
     dev: true
+
+  /@types/mocha@10.0.6:
+    resolution: {integrity: sha512-dJvrYWxP/UcXm36Qn36fxhUKu8A/xMRXVT2cliFF1Z7UA9liG5Psj3ezNSZw+5puH2czDXRLcXQxf8JbJt0ejg==}
+    dev: false
 
   /@types/prop-types@15.7.0:
     resolution: {integrity: sha512-eItQyV43bj4rR3JPV0Skpl1SncRCdziTEK9/v8VwXmV6d/qOUO8/EuWeHBbCZcsfSHfzI5UyMJLCSXtxxznyZg==}
@@ -537,8 +551,8 @@ packages:
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
     dev: true
 
-  /@types/sinon@10.0.20:
-    resolution: {integrity: sha512-2APKKruFNCAZgx3daAyACGzWuJ028VVCUDk6o2rw/Z4PXT0ogwdV4KUegW0MwVs0Zu59auPXbbuBJHF12Sx1Eg==}
+  /@types/sinon@17.0.3:
+    resolution: {integrity: sha512-j3uovdn8ewky9kRBG19bOwaZbexJu/XjtkHyjvUgt4xfPFz18dcORIMqnYh66Fx3Powhcr85NT5+er3+oViapw==}
     dependencies:
       '@types/sinonjs__fake-timers': 8.1.5
     dev: true

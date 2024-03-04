@@ -24,7 +24,7 @@ module.exports = [
           {
             extends:
               './node_modules/@jcoreio/toolchain-typescript/tsconfig.json',
-            include: ['./src'],
+            include: ['./src', './test'],
             exclude: ['node_modules'],
             ...(lib && { compilerOptions: { lib } }),
           },
