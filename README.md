@@ -136,6 +136,22 @@ module.exports = {
 }
 ```
 
+### Change mocha default specs
+
+Edit `.mocharc.cjs`. It's recommended to use the `cliSpecs` helper to avoid running
+all specs by default if specific specs are passed on the command line. It's kind of
+a bug that the Mocha CLI doesn't override the specs from config by default...
+
+```js
+/* eslint-env node, es2018 */
+const base = require('@jcoreio/toolchain-mocha/.mocharc.cjs')
+const cliSpecs = require('@jcoreio/toolchain-mocha/cliSpecs.cjs')
+module.exports = {
+  ...base,
+  spec: [...base.spec, ...(cliSpecs.length ? cliSpecs : ['src/**/*.spec.js'])],
+}
+```
+
 ## Current limitations
 
 ### ESM output
