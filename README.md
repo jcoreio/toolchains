@@ -76,6 +76,31 @@ Available commands:
   version             print version of @jcoreio/toolchain
 ```
 
+### Customize Git hooks
+
+Edit `githooks.cjs`. The default added by `toolchain init` is:
+
+```js
+/* eslint-env node, es2018 */
+module.exports = {
+  ...require('@jcoreio/toolchain/githooks.cjs'),
+}
+```
+
+If you jump to `@jcoreio/toolchain/githooks.cjs`, you'll see:
+
+```js
+module.exports = {
+  'pre-commit': 'lint-staged',
+}
+```
+
+Each hook can be a shell command string or a (possibly async) function.
+
+`toolchain init`/`toolchain install-git-hooks` essentially does
+`git config core.hooksPath node_modules/@jcoreio/toolchain/githooks`,
+which contains the scripts that invoke what's configured in your `githooks.cjs`.
+
 ### Disable ESM build
 
 Set `outputEsm: false` in `toolchain.config.cjs`:
