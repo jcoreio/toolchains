@@ -45,6 +45,29 @@ process is:
 
 - Run `tc upgrade [version]`
 
+### Specify `main`, `module`, `exports`, and `bin` and link package locally
+
+Since the build output is in the `dist` directory, you should have relative paths
+to `./dist` in your `package.json`:
+
+```json
+{
+  "main": "./dist/index.js",
+  "bin": "./dist/index.js"
+```
+
+That way, if you link your package root to another project locally, requiring/running
+it will work.
+
+`tc build` strips the `./dist/` out of these paths in the output `dist/package.json`
+that actually gets published:
+
+```json
+{
+  "main": "./index.js",
+  "bin": "./index.js"
+```
+
 ### Run build scripts
 
 `@jcoreio/toolchain` adds a `toolchain` script to your `package.json` (also `tc`
