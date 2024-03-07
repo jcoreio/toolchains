@@ -54,6 +54,14 @@ async function init(args = []) {
       })),
     }))
   }
+  if (
+    ['flow', 'typescript', 'react'].some((value) =>
+      selectedToolchains.includes(`${name}-${value}`)
+    ) &&
+    !selectedToolchains.includes(`${name}-esnext`)
+  ) {
+    selectedToolchains.push(`${name}-esnext`)
+  }
 
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
 

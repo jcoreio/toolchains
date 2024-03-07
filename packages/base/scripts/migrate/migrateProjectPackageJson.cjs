@@ -1,4 +1,5 @@
 const { toolchainManaged } = require('../../util/findUps.cjs')
+const { name } = require('../../package.json')
 const getPluginsAsyncFunction = require('../../util/getPluginsAsyncFunction.cjs')
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
@@ -6,7 +7,6 @@ const semver = require('semver')
 const isEmpty = require('lodash/isEmpty')
 const pick = require('lodash/pick')
 const Path = require('path')
-const { toolchainConfig } = require('../../util/findUps.cjs')
 const confirmOutputEsm = require('./confirmOutputEsm.cjs')
 const confirm = require('../../util/confirm.cjs')
 
@@ -133,6 +133,8 @@ async function migrateProjectPackageJson() {
   )
   if (isEmpty(packageJson.config)) delete packageJson.config
 
+  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
+
   for (const section in toolchainManaged) {
     if (!section.endsWith('ependencies')) continue
     const managedSection = toolchainManaged[section]
@@ -145,7 +147,9 @@ async function migrateProjectPackageJson() {
     for (const dep in managedSection) {
       if (/^optional/.test(section) && !pkgSection[dep]) continue
       const versionRange = managedSection[dep]
-      if (
+      if (isTest && dep.startsWith(`${name}-`)) {
+        pkgSection[dep] = `link:${dep.replace(`${name}-`, '../packages/')}`
+      } else if (
         !pkgSection[dep] ||
         !semver.satisfies(semver.minVersion(pkgSection[dep]), versionRange)
       ) {

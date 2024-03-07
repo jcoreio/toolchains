@@ -30,6 +30,7 @@
   },
   "toolchainManaged": {
     "devDependencies": {
+      "@jcoreio/toolchain-esnext": "*",
       "eslint-plugin-react": "*"
     },
     "optionalDevDependencies": {

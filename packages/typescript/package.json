@@ -33,6 +33,7 @@
   },
   "toolchainManaged": {
     "devDependencies": {
+      "@jcoreio/toolchain-esnext": "*",
       "@typescript-eslint/eslint-plugin": "*",
       "@typescript-eslint/parser": "*",
       "typescript": "*"
