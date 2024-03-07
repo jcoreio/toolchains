@@ -107,9 +107,7 @@ async function migrateProjectPackageJson() {
         ? {
             './*': {
               types: './*.d.ts',
-              ...(toolchainConfig.outputEsm !== false
-                ? { import: './*.mjs' }
-                : {}),
+              ...(outputEsm !== false ? { import: './*.mjs' } : {}),
               default: './*.js',
             },
           }
