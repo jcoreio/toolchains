@@ -33,7 +33,8 @@ const scripts = {
       name,
       typeof script === 'string'
         ? {
-            run: () => execa(script, { shell: true }),
+            run: (args = []) =>
+              execa([script, ...args].join(' '), { shell: true }),
             description: script,
           }
         : script,
@@ -48,9 +49,13 @@ async function toolchain(command, args) {
     /* eslint-disable no-console */
     console.error('Usage: toolchain <command> <arguments...>\n')
     console.error('Available commands:')
+    const scriptColWidth =
+      Math.max(...Object.keys(scripts).map((s) => s.length)) + 1
     for (const script of Object.keys(scripts).sort()) {
       console.error(
-        chalk`  {bold ${script.padEnd(20)}}${scripts[script].description}`
+        chalk`  {bold ${script.padEnd(scriptColWidth)}}${
+          scripts[script].description
+        }`
       )
     }
     /* eslint-enable no-console */

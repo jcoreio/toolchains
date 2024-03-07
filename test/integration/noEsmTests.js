@@ -7,10 +7,10 @@ const { it } = require('mocha')
 const Path = require('path')
 const execa = require('execa')
 const fs = require('fs-extra')
-const copyFixture = require('./util/copyFixture')
-const expectDirsEqual = require('./util/expectDirsEqual')
-const updateSnapshot = require('./util/updateSnapshot')
-const banner = require('./util/banner')
+const copyFixture = require('../util/copyFixture')
+const expectDirsEqual = require('../util/expectDirsEqual')
+const updateSnapshot = require('../util/updateSnapshot')
+const banner = require('../util/banner')
 
 for (const fixture of ['async-throttle']) {
   it(`outputEsm: false with ${fixture}`, async function () {

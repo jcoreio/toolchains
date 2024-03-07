@@ -17,6 +17,7 @@
     "mocha": "./bin/mocha",
     "nyc": "./bin/nyc"
   },
+  "main": "./index.cjs",
   "dependencies": {
     "@jcoreio/toolchain": "workspace:*",
     "dedent-js": "^1.0.1",

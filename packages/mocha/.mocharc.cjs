@@ -1,12 +1,9 @@
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 const extensions = getPluginsArraySync('sourceExtensions')
-const cliSpecs = require('./cliSpecs.cjs')
+const getSpecs = require('./getSpecs.cjs')
 
 module.exports = {
   require: [require.resolve('./util/configureMocha.cjs')],
   reporter: 'spec',
-  spec: [
-    require.resolve('./util/mochaWatchClearConsole.cjs'),
-    ...(cliSpecs.length ? cliSpecs : getPluginsArraySync('mochaSpecs')),
-  ],
+  spec: getSpecs(getPluginsArraySync('mochaSpecs')),
 }

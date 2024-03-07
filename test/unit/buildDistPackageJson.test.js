@@ -8,7 +8,7 @@ const { expect } = require('chai')
 
 const [
   buildDistPackageJson,
-] = require('../packages/base/plugins/buildDistPackageJson.cjs')
+] = require('../../packages/base/plugins/buildDistPackageJson.cjs')
 
 describe(`base/buildDistPackageJson`, function () {
   it(`works`, async function () {

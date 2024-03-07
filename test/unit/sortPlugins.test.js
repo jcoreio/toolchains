@@ -5,7 +5,7 @@
 
 const { describe, it } = require('mocha')
 const { expect } = require('chai')
-const sortPlugins = require('../packages/base/util/sortPlugins.cjs')
+const sortPlugins = require('../../packages/base/util/sortPlugins.cjs')
 
 describe(`sortPlugins`, function () {
   it(`works`, async function () {

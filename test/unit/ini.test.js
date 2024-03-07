@@ -5,7 +5,7 @@
 
 const { describe, it } = require('mocha')
 const { expect } = require('chai')
-const INI = require('../packages/base/util/ini.cjs')
+const INI = require('../../packages/base/util/ini.cjs')
 const dedent = require('dedent-js')
 
 describe(`<ini>`, function () {

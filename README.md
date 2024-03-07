@@ -138,17 +138,49 @@ module.exports = {
 
 ### Change mocha default specs
 
-Edit `.mocharc.cjs`. It's recommended to use the `cliSpecs` helper to avoid running
+Edit `.mocharc.cjs`. It's recommended to use the `getSpecs` helper to avoid running
 all specs by default if specific specs are passed on the command line. It's kind of
 a bug that the Mocha CLI doesn't override the specs from config by default...
 
 ```js
 /* eslint-env node, es2018 */
 const base = require('@jcoreio/toolchain-mocha/.mocharc.cjs')
-const cliSpecs = require('@jcoreio/toolchain-mocha/cliSpecs.cjs')
+const { getSpecs } = require('@jcoreio/toolchain-mocha')
 module.exports = {
   ...base,
-  spec: [...base.spec, ...(cliSpecs.length ? cliSpecs : ['src/**/*.spec.js'])],
+  spec: getSpecs(['src/**/*.spec.js']),
+}
+```
+
+### Define multiple test targets
+
+If you define `test:unit`, `test:integration` etc scripts, `@jcoreio/toolchain-mocha`
+will automatically create `coverage:*` scripts for them, and reconfigure the `test`
+script to run the `test:*` scripts in sequence.
+
+To be precise, it looks for scripts matching `/^test\W/`, so the names `test-unit` and
+`test/foo` etc. would also work.
+
+Example `toolchain.config.cjs`:
+
+```js
+/* eslint-env node, es2018 */
+const execa = require('@jcoreio/toolchain/util/execa.cjs')
+
+module.exports = {
+  scripts: {
+    'test:unit': {
+      description: 'run unit tests',
+      run: (args = []) =>
+        execa('mocha', ['--config', '.mocharc-unit.cjs', ...args]),
+    },
+    'pretest:integration': 'docker compose up -d',
+    'test:integration': {
+      description: 'run integration tests',
+      run: (args = []) =>
+        execa('mocha', ['--config', '.mocharc-integration.cjs', ...args]),
+    },
+  },
 }
 ```
 
