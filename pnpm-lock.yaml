@@ -104,6 +104,10 @@ importers:
       zod:
         specifier: ^3.21.4
         version: 3.21.4
+    devDependencies:
+      glob:
+        specifier: ^7.2.0
+        version: 7.2.3
 
   packages/circle:
     dependencies:
@@ -167,9 +171,6 @@ importers:
       fs-extra:
         specifier: ^10.0.0
         version: 10.1.0
-      glob:
-        specifier: ^7.2.0
-        version: 7.2.3
       resolve:
         specifier: ^1.22.2
         version: 1.22.2
@@ -203,9 +204,6 @@ importers:
       eslint-plugin-flowtype:
         specifier: ^8.0.3
         version: 8.0.3(@babel/plugin-syntax-flow@7.18.6)(@babel/plugin-transform-react-jsx@7.18.6)(eslint@8.43.0)
-      glob:
-        specifier: ^7.2.0
-        version: 7.2.3
 
   packages/mocha:
     dependencies:
@@ -2696,6 +2694,7 @@ packages:
   /braces@3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dependencies:
       fill-range: 7.0.1
 
@@ -3798,6 +3797,7 @@ packages:
   /glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
+    requiresBuild: true
     dependencies:
       is-glob: 4.0.3
 
@@ -4903,6 +4903,7 @@ packages:
   /normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dev: false
 
   /normalize-url@8.0.0:
@@ -5344,6 +5345,7 @@ packages:
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+    requiresBuild: true
 
   /pidtree@0.5.0:
     resolution: {integrity: sha512-9nxspIM7OpZuhBxPg73Zvyq7j1QMPMPsGKTqRc2XOaFQauDvoNz9fM1Wdkjmeo7l9GXOZiRs97sPkuayl39wjA==}
