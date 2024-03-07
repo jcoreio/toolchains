@@ -74,6 +74,9 @@ importers:
       fs-extra:
         specifier: ^10.0.0
         version: 10.1.0
+      glob:
+        specifier: ^7.2.0
+        version: 7.2.3
       json5:
         specifier: ^2.2.1
         version: 2.2.1
@@ -104,10 +107,6 @@ importers:
       zod:
         specifier: ^3.21.4
         version: 3.21.4
-    devDependencies:
-      glob:
-        specifier: ^7.2.0
-        version: 7.2.3
 
   packages/circle:
     dependencies:
