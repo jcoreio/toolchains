@@ -4,6 +4,6 @@ module.exports = {
   include: ['src/**'],
   extension: getPluginsArraySync('sourceExtensions').map((ext) => '.' + ext),
   reporter: ['lcov', 'text'],
-  sourceMap: true,
-  instrument: true,
+  sourceMap: false,
+  instrument: false,
 }

@@ -12,7 +12,12 @@ module.exports = [
         testScripts.length ? 'all tests' : 'tests'
       } with code coverage`,
       run: async (args = []) => {
-        await execa('nyc', ['tc', 'test', ...args])
+        await execa('nyc', ['tc', 'test', ...args], {
+          env: {
+            ...process.env,
+            JCOREIO_TOOLCHAIN_COVERAGE: '1',
+          },
+        })
       },
     },
     ...Object.fromEntries(
@@ -25,7 +30,12 @@ module.exports = [
               : `run ${name}`
           } with code coverage`,
           run: async (args = []) => {
-            await execa('nyc', ['tc', name, ...args])
+            await execa('nyc', ['tc', name, ...args], {
+              env: {
+                ...process.env,
+                JCOREIO_TOOLCHAIN_COVERAGE: '1',
+              },
+            })
           },
         },
       ])
