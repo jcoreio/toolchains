@@ -30,6 +30,21 @@ module.exports = [
       }
         }
       `,
+      'toolchain.config.cjs': async (existing) => {
+        if (existing) return existing
+        return dedent`
+          /* eslint-env node, es2018 */
+          module.exports = {
+            // scripts: {
+            //   pretest: 'docker compose up -d',
+            //   jsExample: {
+            //     description: 'example of running a JS script',
+            //     run: async (args = []) => console.log('TEST', ...args),
+            //   },
+            // }
+          }
+        `
+      },
     }
     for (const file of [
       'githooks.cjs',
