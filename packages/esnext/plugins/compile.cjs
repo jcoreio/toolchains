@@ -73,7 +73,7 @@ module.exports = [
               '--out-file-extension',
               '.mjs',
             ],
-            { env: { ...process.env, JCOREIO_TOOLCHAIN_MJS: '1' } }
+            { env: { ...process.env, JCOREIO_TOOLCHAIN_ESM: '1' } }
           )
           const mjsFiles = await glob(path.join('dist', '**', '*.mjs'))
           await resolveImportsCodemod(mjsFiles)
