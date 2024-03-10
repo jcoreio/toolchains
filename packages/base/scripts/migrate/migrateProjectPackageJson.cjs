@@ -133,7 +133,7 @@ async function migrateProjectPackageJson() {
   )
   if (isEmpty(packageJson.config)) delete packageJson.config
 
-  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
+  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_SELF_TEST)
 
   for (const section in toolchainManaged) {
     if (!section.endsWith('ependencies')) continue

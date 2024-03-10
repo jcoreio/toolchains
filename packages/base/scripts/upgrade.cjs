@@ -9,7 +9,7 @@ async function upgrade([version] = []) {
   const toolchains = Object.keys(devDependencies).filter((pkg) =>
     pkg.startsWith(`${name}-`)
   )
-  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
+  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_SELF_TEST)
 
   if (!isTest && !version) {
     version = (

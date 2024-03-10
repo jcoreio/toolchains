@@ -13,7 +13,7 @@ module.exports = async function runUpgrade(dir, version) {
     {
       cwd,
       stdio: 'inherit',
-      env: { ...process.env, JCOREIO_TOOLCHAIN_TEST: '1' },
+      env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '1' },
     }
   )
 }

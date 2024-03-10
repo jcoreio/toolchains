@@ -28,7 +28,7 @@ for (const fixture of [
     const execaOpts = {
       cwd: await fs.realpath(linkdir),
       stdio: 'inherit',
-      env: { ...process.env, JCOREIO_TOOLCHAIN_TEST: '1' },
+      env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '1' },
     }
     try {
       await runInit(linkdir)

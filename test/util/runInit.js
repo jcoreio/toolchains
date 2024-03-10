@@ -9,7 +9,7 @@ module.exports = async function runInit(dir) {
     {
       cwd,
       stdio: 'inherit',
-      env: { ...process.env, JCOREIO_TOOLCHAIN_TEST: '1' },
+      env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '1' },
     }
   )
 }

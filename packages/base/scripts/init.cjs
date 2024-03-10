@@ -63,7 +63,7 @@ async function init(args = []) {
     selectedToolchains.push(`${name}-esnext`)
   }
 
-  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_TEST)
+  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_SELF_TEST)
 
   await execa('tc', ['preinstall'])
   await execa('pnpm', [
