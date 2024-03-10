@@ -232,19 +232,20 @@ module.exports = {
 }
 ```
 
+### Create dual CJS+ESM packages
+
+As long as you use `@jcoreio/toolchain-esnext` and don't have `outputEsm: false` in
+your `toolchain.config.cjs`, `tc build` will output both `.cjs` and `.mjs` files.
+
+There will be a `tc test:esm` command available that runs all your tests in ESM mode
+so you can make sure the ESM works.
+
+Although ESM requires explicit file extensions for relative imports, you should still
+omit them from your source and test code so that the build and test scripts work for
+both CJS and ESM. The toolchain will use a babel plugin to add the necessary extensions
+to your import paths when building and testing.
+
 ## Current limitations
-
-### ESM output
-
-`@jcoreio/toolchain-esnext` builds dual CJS+ESM packages, but doesn't handle
-certain cases yet. For example imports from lodash may not work in the transpiled
-ESM right now.
-
-### Export maps
-
-Right now `@jcoreio/toolchain-esnext` adds all files to the export map. I may
-want to change this to wildcard entries and/or support limiting what gets
-exported in the future.
 
 ### Source maps
 

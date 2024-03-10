@@ -1,8 +1,8 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { spawn } from 'child_process'
-import { pick } from 'lodash/fp'
-import Path from 'path'
+import lodashFp from 'lodash/fp'
+const { pick } = lodashFp
 import emitted from 'p-event'
 import {
   setLogProvider,
@@ -217,17 +217,13 @@ describe(`writableLogFunction`, function () {
 it(`sets log levels from env vars`, async function () {
   this.timeout(5000)
 
-  const child = spawn(
-    process.execPath,
-    [Path.resolve(__dirname, 'envVarEntrypoint.js')],
-    {
-      stdio: [0, 1, 2, 'ipc'],
-      env: {
-        DEBUG: 'foo',
-        TRACE: 'foo.bar,baz',
-      },
-    }
-  )
+  const child = spawn(process.execPath, ['test/envVarEntrypoint.js'], {
+    stdio: [0, 1, 2, 'ipc'],
+    env: {
+      DEBUG: 'foo',
+      TRACE: 'foo.bar,baz',
+    },
+  })
   const [message] = await Promise.all([
     emitted(child, 'message'),
     emitted(child, 'close'),

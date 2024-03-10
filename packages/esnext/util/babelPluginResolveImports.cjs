@@ -28,11 +28,11 @@ module.exports = function babelPluginResolveImports({ types: t }) {
       },
       CallExpression(path, state) {
         if (
-          path.get('callee').isImport() ||
-          (path.get('callee').isIdentifier() &&
-            path.node.callee.name === 'require' &&
-            path.node.arguments.length === 1 &&
-            path.get('arguments')[0].isStringLiteral())
+          (path.get('callee').isImport() ||
+            (path.get('callee').isIdentifier() &&
+              path.node.callee.name === 'require')) &&
+          path.node.arguments.length === 1 &&
+          path.get('arguments')[0].isStringLiteral()
         ) {
           handleSource(path.get('arguments')[0], state)
         }

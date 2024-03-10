@@ -1,8 +1,8 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { spawn } from 'child_process'
-import { pick } from 'lodash/fp'
-import Path from 'path'
+import lodashFp from 'lodash/fp'
+const { pick } = lodashFp
 import emitted from 'p-event'
 import {
   setLogProvider,
