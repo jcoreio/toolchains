@@ -8,22 +8,25 @@ const {
   projectDir,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
-const resolveImportsCodemod = require('../util/resolveImportsCodemod.cjs')
 
 module.exports = [
   [
     async function compile(args = []) {
       const extensions = getPluginsArraySync('babelExtensions')
 
-      await execa('babel', [
-        'src',
-        ...(extensions.length ? ['--extensions', extensions.join(',')] : []),
-        ...(extensions.includes('.ts') ? ['--ignore', '**/*.d.ts'] : []),
-        '--out-dir',
-        'dist',
-        '--out-file-extension',
-        '.js',
-      ])
+      await execa(
+        'babel',
+        [
+          'src',
+          ...(extensions.length ? ['--extensions', extensions.join(',')] : []),
+          ...(extensions.includes('.ts') ? ['--ignore', '**/*.d.ts'] : []),
+          '--out-dir',
+          'dist',
+          '--out-file-extension',
+          '.js',
+        ],
+        { env: { ...process.env, JCOREIO_TOOLCHAIN_CJS: '1' } }
+      )
       if (extensions.length) {
         for (const ext of ['.js', '.mjs']) {
           if (!extensions.includes(ext)) {
@@ -43,7 +46,6 @@ module.exports = [
         }
       }
       const jsFiles = await glob(path.join('dist', '**', '*.js'))
-      await resolveImportsCodemod(jsFiles)
       if (toolchainConfig.outputEsm !== false) {
         if (toolchainConfig.esWrapper) {
           await Promise.all(
@@ -75,8 +77,6 @@ module.exports = [
             ],
             { env: { ...process.env, JCOREIO_TOOLCHAIN_ESM: '1' } }
           )
-          const mjsFiles = await glob(path.join('dist', '**', '*.mjs'))
-          await resolveImportsCodemod(mjsFiles)
         }
       }
     },

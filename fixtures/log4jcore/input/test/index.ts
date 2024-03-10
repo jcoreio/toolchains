@@ -219,7 +219,7 @@ it(`sets log levels from env vars`, async function() {
 
   const child = spawn(
     process.execPath,
-    [Path.resolve(__dirname, 'envVarEntrypoint.js')],
+    ['test/envVarEntrypoint.js'],
     {
       stdio: [0, 1, 2, 'ipc'],
       env: {
