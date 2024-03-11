@@ -72,6 +72,7 @@ const toolchainManaged = (exports.toolchainManaged = {})
 for (const toolchainPkgJson of Object.values(toolchainPackageJsons)) {
   const toolchainPkgDeps = toolchainPkgJson.dependencies || {}
   const toolchainPkgDevDeps = toolchainPkgJson.devDependencies || {}
+  const toolchainPkgPeerDeps = toolchainPkgJson.peerDependencies || {}
   if (toolchainPkgJson.toolchainManaged) {
     for (const section in toolchainPkgJson.toolchainManaged) {
       if (!toolchainManaged[section]) toolchainManaged[section] = {}
@@ -79,9 +80,15 @@ for (const toolchainPkgJson of Object.values(toolchainPackageJsons)) {
       if (section.endsWith('ependencies')) {
         for (const dep in sectionCfg) {
           let version = sectionCfg[dep]
-          if (version === '*')
-            version = toolchainPkgDevDeps[dep] || toolchainPkgDeps[dep]
-          if (version !== '*') toolchainManaged[section][dep] = version
+          if (version === '*') {
+            version =
+              toolchainPkgDevDeps[dep] ||
+              toolchainPkgDeps[dep] ||
+              toolchainPkgPeerDeps[dep]
+          }
+          if (version && version !== '*') {
+            toolchainManaged[section][dep] = version
+          }
         }
         continue
       }

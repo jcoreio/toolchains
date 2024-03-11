@@ -22,10 +22,6 @@
     "eslint-plugin-react": "^7.32.2"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0",
-    "@jcoreio/toolchain": "workspace:*",
-    "@jcoreio/toolchain-esnext": "workspace:*",
-    "eslint": "^8.43.0",
     "react": "*"
   },
   "toolchainManaged": {

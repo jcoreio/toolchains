@@ -34,9 +34,6 @@
     "resolve": "^1.22.2",
     "resolve-bin": "^1.0.0"
   },
-  "peerDependencies": {
-    "@jcoreio/toolchain": "workspace:*"
-  },
   "toolchainManaged": {
     "dependencies": {
       "@babel/runtime": "*"

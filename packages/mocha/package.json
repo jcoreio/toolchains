@@ -26,9 +26,6 @@
     "nyc": "^15.1.0",
     "resolve-bin": "^1.0.0"
   },
-  "peerDependencies": {
-    "@jcoreio/toolchain": "workspace:*"
-  },
   "toolchainManaged": {
     "devDependencies": {
       "mocha": "*"
