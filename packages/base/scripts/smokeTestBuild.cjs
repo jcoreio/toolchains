@@ -18,7 +18,7 @@ exports.run = async function smokeTestBuild() {
       '--input-type',
       'module',
       '-e',
-      `import(${JSON.stringify(relpath(file))})`,
+      `import ${JSON.stringify(relpath(file))}`,
     ])
   }
 }
