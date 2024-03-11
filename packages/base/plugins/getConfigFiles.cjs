@@ -64,7 +64,7 @@ module.exports = [
     const tasks = await getPluginsArraySync('vscodeTasks')
     const launch = await getPluginsArraySync('vscodeLaunch')
 
-    if (tasks) {
+    if (tasks.length) {
       files['.vscode/tasks.json'] = JSON.stringify(
         {
           version: '2.0.0',
@@ -74,7 +74,7 @@ module.exports = [
         2
       )
     }
-    if (launch) {
+    if (launch.length) {
       files['.vscode/launch.json'] = JSON.stringify(
         {
           version: '0.2.0',
