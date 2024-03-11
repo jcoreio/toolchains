@@ -6,6 +6,8 @@ module.exports = async function getModules(packageJsonFile) {
   const cjs = new Set()
   const esm = new Set()
 
+  const cwd = path.dirname(packageJsonFile)
+
   const {
     type = 'commonjs',
     main,
@@ -42,9 +44,10 @@ module.exports = async function getModules(packageJsonFile) {
   async function checkExport(exp, type) {
     if (typeof exp === 'string') {
       if (exp.includes('*')) {
-        const files = await glob(exp.replace('*', '**'), {
-          cwd: path.dirname(packageJsonFile),
-        })
+        const files = [
+          ...(await glob(exp, { cwd })),
+          ...(await glob(exp.replace(/\/?\*/g, '/**/*'), { cwd })),
+        ]
         for (const file of files) checkFile(file, type)
       } else {
         checkFile(exp, type)
@@ -66,7 +69,10 @@ module.exports = async function getModules(packageJsonFile) {
 
   await checkExport(exports)
 
-  const resolvePath = (f) => path.resolve(path.dirname(packageJsonFile), f)
+  const resolvePath = (f) => path.resolve(cwd, f)
 
-  return { cjs: [...cjs].map(resolvePath), esm: [...esm].map(resolvePath) }
+  return {
+    cjs: [...new Set([...cjs].map(resolvePath))],
+    esm: [...new Set([...esm].map(resolvePath))],
+  }
 }
