@@ -1,6 +1,6 @@
 // @flow
 
-class CanceledError extends Error {
+export class CanceledError extends Error {
   constructor() {
     super('throttled invocation was canceled')
     this.name = 'CanceledError'
@@ -47,19 +47,27 @@ class Delay {
   }
 }
 
+type $Resolve<V> = $Call<
+  {
+    <V>(Promise<V>): $Resolve<V>;
+    <V>(V): V;
+  },
+  V
+>
+
 export type ThrottledFunction<Args: Array<any>, Value> = {
-  (...args: Args): Promise<Value>,
+  (...args: Args): Promise<$Resolve<Value>>,
   invokeIgnoreResult: (...args: Args) => void,
   cancel: () => Promise<void>,
   flush: () => Promise<void>,
 }
 
 function throttle<Args: Array<any>, Value>(
-  fn: (...args: Args) => Value | Promise<Value>,
+  fn: (...args: Args) => Value,
   _wait: ?number,
-  options: {
+  options: {|
     getNextArgs?: (args0: Args, args1: Args) => Args,
-  } = {}
+  |} = {/* :: ...null */}
 ): ThrottledFunction<Args, Value> {
   const wait = _wait != null && Number.isFinite(_wait) ? Math.max(_wait, 0) : 0
   const getNextArgs = options.getNextArgs || ((prev, next) => next)
@@ -155,15 +163,15 @@ function throttle<Args: Array<any>, Value>(
 
   return wrapper
 }
-;(throttle: any).CanceledError = CanceledError
 
-module.exports = ((throttle: any): {
+const defaultExport: {|
   <Args: Array<any>, Value>(
-    fn: (...args: Args) => Promise<Value>,
+    fn: (...args: Args) => Value,
     wait: ?number,
-    options?: {
+    options?: {|
       getNextArgs?: (args0: Args, args1: Args) => Args,
-    }
+    |}
   ): ThrottledFunction<Args, Value>,
-  CanceledError: typeof CanceledError,
-})
+|} = Object.assign(throttle, { CanceledError })
+
+export default defaultExport

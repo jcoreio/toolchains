@@ -1,4 +1,4 @@
-class CanceledError extends Error {
+export class CanceledError extends Error {
   constructor() {
     super('throttled invocation was canceled');
     this.name = 'CanceledError';
@@ -31,7 +31,9 @@ class Delay {
     });
   }
 }
-function throttle(fn, _wait, options = {}) {
+function throttle(fn, _wait, options = {
+  /* :: ...null */
+}) {
   const wait = _wait != null && Number.isFinite(_wait) ? Math.max(_wait, 0) : 0;
   const getNextArgs = options.getNextArgs || ((prev, next) => next);
   let nextArgs;
@@ -119,6 +121,7 @@ function throttle(fn, _wait, options = {}) {
   };
   return wrapper;
 }
-;
-throttle.CanceledError = CanceledError;
-module.exports = throttle;
+const defaultExport = Object.assign(throttle, {
+  CanceledError
+});
+export default defaultExport;

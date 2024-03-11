@@ -1,6 +1,10 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = exports.CanceledError = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
@@ -25,6 +29,7 @@ var CanceledError = /*#__PURE__*/function (_Error) {
   }
   return (0, _createClass2["default"])(CanceledError);
 }( /*#__PURE__*/(0, _wrapNativeSuper2["default"])(Error));
+exports.CanceledError = CanceledError;
 var Delay = /*#__PURE__*/function () {
   function Delay(lastInvocationDone, wait) {
     var _this2 = this;
@@ -68,7 +73,9 @@ var Delay = /*#__PURE__*/function () {
   return Delay;
 }();
 function throttle(fn, _wait) {
-  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+    /* :: ...null */
+  };
   var wait = _wait != null && Number.isFinite(_wait) ? Math.max(_wait, 0) : 0;
   var getNextArgs = options.getNextArgs || function (prev, next) {
     return next;
@@ -187,6 +194,8 @@ function throttle(fn, _wait) {
   }));
   return wrapper;
 }
-;
-throttle.CanceledError = CanceledError;
-module.exports = throttle;
+var defaultExport = Object.assign(throttle, {
+  CanceledError: CanceledError
+});
+var _default = defaultExport;
+exports["default"] = _default;
