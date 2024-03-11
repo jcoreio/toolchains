@@ -21,6 +21,7 @@ module.exports = function resolveImportSource({
     const resolved = resolve(source, {
       basedir,
       extensions: [
+        path.extname(file.replace(/\.flow$/, '')),
         '.mjs',
         '.cjs',
         '.js',
