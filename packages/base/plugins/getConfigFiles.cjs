@@ -2,6 +2,7 @@ const { name } = require('../package.json')
 const dedent = require('dedent-js')
 const fs = require('../util/projectFs.cjs')
 const JSON5 = require('json5')
+const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
 
 async function getRootEslintConfig() {
   if (await fs.pathExists('.eslintrc.json')) {
@@ -60,6 +61,30 @@ module.exports = [
   
       `
     }
+    const tasks = await getPluginsArraySync('vscodeTasks')
+    const launch = await getPluginsArraySync('vscodeLaunch')
+
+    if (tasks) {
+      files['.vscode/tasks.json'] = JSON.stringify(
+        {
+          version: '2.0.0',
+          tasks,
+        },
+        null,
+        2
+      )
+    }
+    if (launch) {
+      files['.vscode/launch.json'] = JSON.stringify(
+        {
+          version: '0.2.0',
+          configurations: launch,
+        },
+        null,
+        2
+      )
+    }
+
     return files
   },
 ]
