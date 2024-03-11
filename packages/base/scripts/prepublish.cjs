@@ -6,6 +6,7 @@ exports.run = async function (args = []) {
   if (scripts.coverage) await execa('tc', ['coverage'])
   if (scripts['test:esm']) await execa('tc', ['test:esm'])
   await execa('tc', ['build'])
+  await execa('tc', ['build:smoke-test'])
 }
 
 exports.description = 'run check, coverage, and build'

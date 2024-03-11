@@ -9,6 +9,7 @@ const execa = require('../util/execa.cjs')
 const scripts = {
   migrate: require('./migrate.cjs'),
   build: require('./build.cjs'),
+  'build:smoke-test': require('./smokeTestBuild.cjs'),
   check: require('./check.cjs'),
   clean: require('./clean.cjs'),
   format: require('./format.cjs'),
