@@ -1,6 +1,15 @@
 module.exports = {
   extends: ['eslint:recommended'],
+  plugins: ['@jcoreio/eslint-plugin-implicit-dependencies'],
   rules: {
+    '@jcoreio/implicit-dependencies/no-implicit': [
+      'error',
+      {
+        dev: true,
+        peer: true,
+        optional: true,
+      },
+    ],
     'arrow-spacing': 'error',
     'comma-spacing': 'error',
     'computed-property-spacing': ['error', 'never'],
@@ -51,4 +60,20 @@ module.exports = {
     ],
     'rest-spread-spacing': ['error', 'never'],
   },
+  overrides: [
+    {
+      files: ['src/**'],
+      excludedFiles: ['**/__tests__/**'],
+      rules: {
+        '@jcoreio/implicit-dependencies/no-implicit': [
+          'error',
+          {
+            dev: false,
+            peer: true,
+            optional: true,
+          },
+        ],
+      },
+    },
+  ],
 }

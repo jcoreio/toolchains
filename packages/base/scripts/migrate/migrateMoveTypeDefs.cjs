@@ -1,5 +1,5 @@
-const glob = require('@jcoreio/toolchain/util/glob.cjs')
-const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
+const glob = require('../../util/glob.cjs')
+const fs = require('../../util/projectFs.cjs')
 const path = require('path')
 
 async function migrateMoveTypeDefs() {

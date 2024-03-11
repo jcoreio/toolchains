@@ -1,4 +1,4 @@
-const glob = require('@jcoreio/toolchain/util/glob.cjs')
+const glob = require('../../util/glob.cjs')
 const Path = require('path')
 const JSON5 = require('json5')
 const fs = require('../../util/projectFs.cjs')

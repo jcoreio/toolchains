@@ -19,6 +19,9 @@ devDependencies:
   '@babel/register':
     specifier: ^7.22.5
     version: 7.23.7(@babel/core@7.7.4)
+  '@jcoreio/eslint-plugin-implicit-dependencies':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@jcoreio/toolchain':
     specifier: link:../packages/base
     version: link:../packages/base
@@ -106,6 +109,9 @@ devDependencies:
   mocha:
     specifier: ^10.2.0
     version: 10.3.0
+  opn:
+    specifier: ^6.0.0
+    version: 6.0.0
   p-event:
     specifier: ^4.2.0
     version: 4.2.0
@@ -395,6 +401,14 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.2:
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
+    dev: true
+
+  /@jcoreio/eslint-plugin-implicit-dependencies@1.0.2:
+    resolution: {integrity: sha512-OganBFqjZwqFekJzyvzeAf6ohi4HsIlIhG/rRARNkjcAO4vU9oKgeQ4ARBRGocyF1DS/MsqikkKEJUUHcvUHbA==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@babel/runtime': 7.24.0
+      pkg-up: 3.1.0
     dev: true
 
   /@jcoreio/kexec@4.0.0:
@@ -1728,6 +1742,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /is-wsl@1.1.0:
+    resolution: {integrity: sha512-gfygJYZ2gLTDlmbWMI0CE2MwnFzSN/2SZfkMlItC4K/JBlsWVDB0bO6XhqcY13YXE7iMcAJnzTCJjPiTeJJ0Mw==}
+    engines: {node: '>=4'}
+    dev: true
+
   /isarray@0.0.1:
     resolution: {integrity: sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==}
     dev: true
@@ -2066,6 +2085,14 @@ packages:
       wrappy: 1.0.2
     dev: true
 
+  /opn@6.0.0:
+    resolution: {integrity: sha512-I9PKfIZC+e4RXZ/qr1RhgyCnGgYX0UEIlXgWnCOVACIvFgaC9rz6Won7xbdhoHrd8IIhV7YEpHjreNUNkqCGkQ==}
+    engines: {node: '>=8'}
+    deprecated: The package has been renamed to `open`
+    dependencies:
+      is-wsl: 1.1.0
+    dev: true
+
   /optionator@0.9.3:
     resolution: {integrity: sha512-JjCoypp+jKn1ttEFExxhetCKeJt9zhAgAve5FXHixTvFDW/5aEktX9bufBKLRRMdU7bNtpLfcGu94B3cdEJgjg==}
     engines: {node: '>= 0.8.0'}
@@ -2095,8 +2122,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /p-limit@2.3.0:
-    resolution: {integrity: sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==}
+  /p-limit@2.2.1:
+    resolution: {integrity: sha512-85Tk+90UCVWvbDavCLKPOLC9vvY8OwEX/RtKF+/1OADJMVlFfEHOiMTPVyxg7mk/dKa+ipdHm0OUkTvCpMTuwg==}
     engines: {node: '>=6'}
     dependencies:
       p-try: 2.2.0
@@ -2113,7 +2140,7 @@ packages:
     resolution: {integrity: sha512-x+12w/To+4GFfgJhBEpiDcLozRJGegY+Ei7/z0tSLkMmxGZNybVMSfWj9aJn8Z5Fc7dBUNJOOVgPv2H7IwulSQ==}
     engines: {node: '>=6'}
     dependencies:
-      p-limit: 2.3.0
+      p-limit: 2.2.1
     dev: true
 
   /p-locate@5.0.0:
@@ -2209,6 +2236,13 @@ packages:
   /pkg-dir@3.0.0:
     resolution: {integrity: sha512-/E57AYkoeQ25qkxMj5PBOVgF8Kiu/h7cYS30Z5+R7WaiCCBfLq58ZI/dSeaEKb9WVJV5n/03QwrN3IeWIFllvw==}
     engines: {node: '>=6'}
+    dependencies:
+      find-up: 3.0.0
+    dev: true
+
+  /pkg-up@3.1.0:
+    resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
+    engines: {node: '>=8'}
     dependencies:
       find-up: 3.0.0
     dev: true

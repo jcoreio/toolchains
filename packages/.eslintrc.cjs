@@ -4,4 +4,14 @@ module.exports = {
     node: true,
     es2018: true,
   },
+  rules: {
+    '@jcoreio/implicit-dependencies/no-implicit': [
+      'error',
+      {
+        dev: false,
+        peer: true,
+        optional: true,
+      },
+    ],
+  },
 }

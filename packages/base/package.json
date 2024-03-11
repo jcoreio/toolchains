@@ -14,6 +14,7 @@
   },
   "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/base",
   "dependencies": {
+    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.0.2",
     "chalk": "^4.0.0",
     "dedent-js": "^1.0.1",
     "eslint": "^8.43.0",
@@ -39,7 +40,8 @@
     },
     "packageManager": "pnpm@8.11.0",
     "devDependencies": {
-      "eslint": "*"
+      "eslint": "*",
+      "@jcoreio/eslint-plugin-implicit-dependencies": "*"
     }
   },
   "bin": {
