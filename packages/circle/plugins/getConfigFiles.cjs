@@ -1,6 +1,7 @@
 const dedent = require('dedent-js')
 const { name } = require('../package.json')
 const { scripts } = require('@jcoreio/toolchain/scripts/toolchain.cjs')
+const semver = require('semver')
 
 module.exports = [
   async function getConfigFiles() {
@@ -58,7 +59,9 @@ module.exports = [
     return {
       '.circleci/config.yml': (prev) =>
         prev && prev.includes(name)
-          ? prev.replace(/\bcimg\/node:[0-9.]+/, dockerImage)
+          ? prev.replace(/\bcimg\/node:([0-9.]+)/, (m, version) =>
+              semver.lt(version, dockerImageVersion) ? dockerImage : m
+            )
           : defaultConfig,
     }
   },

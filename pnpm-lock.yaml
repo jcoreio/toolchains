@@ -131,6 +131,9 @@ importers:
       open:
         specifier: ^8.4.0
         version: 8.4.0
+      semver:
+        specifier: ^7.5.3
+        version: 7.5.3
 
   packages/esnext:
     dependencies:
