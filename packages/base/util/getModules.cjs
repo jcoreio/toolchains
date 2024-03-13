@@ -12,7 +12,6 @@ module.exports = async function getModules(packageJsonFile) {
     type = 'commonjs',
     main,
     module,
-    bin,
     exports,
   } = await fs.readJson(packageJsonFile)
 
@@ -36,10 +35,6 @@ module.exports = async function getModules(packageJsonFile) {
 
   checkFile(main)
   checkFile(module)
-  if (typeof bin === 'string') checkFile(bin)
-  else if (bin instanceof Object) {
-    for (const file of Object.values(bin)) checkFile(file)
-  }
 
   async function checkExport(exp, type) {
     if (typeof exp === 'string') {
