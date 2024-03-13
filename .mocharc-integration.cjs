@@ -3,6 +3,6 @@
 const { getSpecs } = require('@jcoreio/toolchain-mocha')
 
 module.exports = {
-  ...require('@jcoreio/toolchain-mocha/.mocharc.cjs'),
+  ...require('./.mocharc.cjs'),
   spec: getSpecs(['test/integration/**/*.js']),
 }
