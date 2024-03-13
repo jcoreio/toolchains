@@ -27,24 +27,7 @@ module.exports = [
         ],
         { env: { ...process.env, JCOREIO_TOOLCHAIN_CJS: '1' } }
       )
-      if (extensions.length) {
-        for (const ext of ['.js', '.mjs']) {
-          if (!extensions.includes(ext)) {
-            const srcFiles = await glob(path.join('**', '*' + ext), {
-              cwd: path.join(projectDir, 'src'),
-            })
-            for (const file of srcFiles) {
-              // eslint-disable-next-line no-console
-              console.error(
-                path.join('src', file),
-                '->',
-                path.join('dist', file)
-              )
-              await fs.copy(path.join('src', file), path.join('dist', file))
-            }
-          }
-        }
-      }
+
       const jsFiles = await glob(path.join('dist', '**', '*.js'))
       if (toolchainConfig.outputEsm !== false) {
         if (toolchainConfig.esWrapper) {
@@ -77,6 +60,25 @@ module.exports = [
             ],
             { env: { ...process.env, JCOREIO_TOOLCHAIN_ESM: '1' } }
           )
+        }
+      }
+
+      if (extensions.length) {
+        for (const ext of ['.js', '.mjs']) {
+          if (!extensions.includes(ext)) {
+            const srcFiles = await glob(path.join('**', '*' + ext), {
+              cwd: path.join(projectDir, 'src'),
+            })
+            for (const file of srcFiles) {
+              // eslint-disable-next-line no-console
+              console.error(
+                path.join('src', file),
+                '->',
+                path.join('dist', file)
+              )
+              await fs.copy(path.join('src', file), path.join('dist', file))
+            }
+          }
         }
       }
     },
