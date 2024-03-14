@@ -45,8 +45,7 @@ module.exports = function resolveImportSource({
   try {
     const packageJsonFile = resolve(`${pkg}/package.json`, { basedir })
     const packageJson = fs.readJsonSync(packageJsonFile)
-    const exportMap = packageJson ? packageJson.exports : undefined
-    if (exportMap && exportMap[`./${subpath}`]) return source
+    if (packageJson && packageJson.exports) return source
     const resolved = resolve(source, {
       basedir,
       extensions: [path.extname(file), '.mjs', '.cjs', '.js'],
