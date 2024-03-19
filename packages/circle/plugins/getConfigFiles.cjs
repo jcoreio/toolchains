@@ -5,7 +5,7 @@ const semver = require('semver')
 
 module.exports = [
   async function getConfigFiles() {
-    const dockerImageVersion = '20.3.0'
+    const dockerImageVersion = '20.10.0'
     const dockerImage = `cimg/node:${dockerImageVersion}`
 
     const releaseStep = dedent`
