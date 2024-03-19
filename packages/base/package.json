@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/base",
   "dependencies": {
-    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.0.2",
+    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
     "chalk": "^4.0.0",
     "dedent-js": "^1.0.1",
     "eslint": "^8.43.0",

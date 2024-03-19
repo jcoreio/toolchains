@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/jcoreio/toolchains#readme",
   "devDependencies": {
-    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.0.2",
+    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-circle": "workspace:*",
     "@jcoreio/toolchain-mocha": "workspace:*",
