@@ -12,58 +12,62 @@ const confirm = require('../../util/confirm.cjs')
 const unset = require('../../util/unset.cjs')
 const merge = require('../../util/merge.cjs')
 
-async function migrateProjectPackageJson() {
+async function migrateProjectPackageJson({ fromVersion }) {
   const packageJson = await fs.readJson('package.json')
   const devDependencies =
     packageJson.devDependencies || (packageJson.devDependencies = {})
 
-  await getPluginsAsyncFunction('migrateProjectPackageJson')(packageJson)
+  await getPluginsAsyncFunction('migrateProjectPackageJson')(packageJson, {
+    fromVersion,
+  })
 
-  for (const path of [
-    'commitlint',
-    'config.commitizen',
-    'config.eslint',
-    'config.lint',
-    'config.mocha',
-    'config.prettier',
-    'eslintConfig',
-    'files',
-    'husky',
-    'husky',
-    'lint-staged',
-    'nyc',
-    'prettier',
-    'renovate',
-    'scripts.build:cjs',
-    'scripts.build:js',
-    'scripts.build:mjs',
-    'scripts.build:types',
-    'scripts.build',
-    'scripts.clean',
-    'scripts.codecov',
-    'scripts.coverage',
-    'scripts.commitmsg',
-    'scripts.flow:coverage',
-    'scripts.flow:watch',
-    'scripts.flow',
-    'scripts.lint:fix',
-    'scripts.lint:watch',
-    'scripts.lint',
-    'scripts.open:coverage',
-    'scripts.precommit',
-    'scripts.prepublishOnly',
-    'scripts.prepush',
-    'scripts.prettier:check',
-    'scripts.prettier',
-    'scripts.semantic-release',
-    'scripts.test:debug',
-    'scripts.test:watch',
-    'scripts.test',
-    'scripts.travis-deploy-once',
-    'scripts.tsc:watch',
-    'scripts.tsc',
-  ]) {
-    unset(packageJson, path)
+  if (!fromVersion) {
+    for (const path of [
+      'commitlint',
+      'config.commitizen',
+      'config.eslint',
+      'config.lint',
+      'config.mocha',
+      'config.prettier',
+      'eslintConfig',
+      'files',
+      'husky',
+      'husky',
+      'lint-staged',
+      'nyc',
+      'prettier',
+      'renovate',
+      'scripts.build:cjs',
+      'scripts.build:js',
+      'scripts.build:mjs',
+      'scripts.build:types',
+      'scripts.build',
+      'scripts.clean',
+      'scripts.codecov',
+      'scripts.coverage',
+      'scripts.commitmsg',
+      'scripts.flow:coverage',
+      'scripts.flow:watch',
+      'scripts.flow',
+      'scripts.lint:fix',
+      'scripts.lint:watch',
+      'scripts.lint',
+      'scripts.open:coverage',
+      'scripts.precommit',
+      'scripts.prepublishOnly',
+      'scripts.prepush',
+      'scripts.prettier:check',
+      'scripts.prettier',
+      'scripts.semantic-release',
+      'scripts.test:debug',
+      'scripts.test:watch',
+      'scripts.test',
+      'scripts.travis-deploy-once',
+      'scripts.tsc:watch',
+      'scripts.tsc',
+    ]) {
+      unset(packageJson, path)
+    }
   }
   if (!packageJson.main && !packageJson.exports && !packageJson.module) {
     const hasIndexTypes =
@@ -76,62 +80,78 @@ async function migrateProjectPackageJson() {
       packageJson.main = 'dist/index.js'
       packageJson.module = 'dist/index.mjs'
     }
-    if (hasIndexTypes) {
-      packageJson.types = 'dist/index.d.ts'
+    if (!packageJson.main && !packageJson.exports && !packageJson.module) {
+      const hasIndexTypes =
+        (await fs.pathExists(Path.join('src', 'index.ts'))) ||
+        (await fs.pathExists(Path.join('src', 'index.tsx'))) ||
+        (await fs.pathExists(Path.join('src', 'index.d.ts')))
+      const hasIndex =
+        hasIndexTypes || (await fs.pathExists(Path.join('src', 'index.js')))
+      if (hasIndex) {
+        packageJson.main = 'dist/index.js'
+        packageJson.module = 'dist/index.mjs'
+      }
+      if (hasIndexTypes) {
+        packageJson.types = 'dist/index.d.ts'
+      }
     }
-  }
-  for (const dep of require('./migrateRemoveDevDeps.cjs')) {
-    delete devDependencies[dep]
-  }
+    for (const dep of require('./migrateRemoveDevDeps.cjs')) {
+      delete devDependencies[dep]
+    }
 
-  if (!packageJson.exports && packageJson.main) {
-    const relativize = (p) => (p.startsWith('.') ? p : `./${p}`)
+    if (!packageJson.exports && packageJson.main) {
+      const relativize = (p) => (p.startsWith('.') ? p : `./${p}`)
 
-    const dotStar = await confirm({
-      type: 'confirm',
-      initial: true,
-      ifNotInteractive: false,
-      message: 'Add ./* exports map to package.json?',
-    })
-    const outputEsm = await confirmOutputEsm()
-    packageJson.exports = {
-      './package.json': './package.json',
-      '.': {
-        ...(packageJson.types ? { types: relativize(packageJson.types) } : {}),
-        ...(outputEsm !== false && packageJson.module
-          ? { import: relativize(packageJson.module) }
+      const dotStar = await confirm({
+        type: 'confirm',
+        initial: true,
+        ifNotInteractive: false,
+        message: 'Add ./* exports map to package.json?',
+      })
+      const outputEsm = await confirmOutputEsm()
+      packageJson.exports = {
+        './package.json': './package.json',
+        '.': {
+          ...(packageJson.types
+            ? { types: relativize(packageJson.types) }
+            : {}),
+          ...(outputEsm !== false && packageJson.module
+            ? { import: relativize(packageJson.module) }
+            : {}),
+          default: relativize(packageJson.main),
+        },
+        ...(dotStar
+          ? {
+              './*': {
+                types: './*.d.ts',
+                ...(outputEsm !== false ? { import: './*.mjs' } : {}),
+                default: './*.js',
+              },
+            }
           : {}),
-        default: relativize(packageJson.main),
-      },
-      ...(dotStar
-        ? {
-            './*': {
-              types: './*.d.ts',
-              ...(outputEsm !== false ? { import: './*.mjs' } : {}),
-              default: './*.js',
-            },
-          }
-        : {}),
+      }
     }
   }
 
   merge(
     packageJson,
-    {
-      version: '0.0.0-development',
-      sideEffects: false,
-      scripts: {
-        tc: 'toolchain',
-        toolchain: 'toolchain',
-        test: 'toolchain test',
-        prepublishOnly:
-          'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
-      },
-    },
+    fromVersion
+      ? {}
+      : {
+          version: '0.0.0-development',
+          sideEffects: false,
+          scripts: {
+            tc: 'toolchain',
+            toolchain: 'toolchain',
+            test: 'toolchain test',
+            prepublishOnly:
+              'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
+          },
+        },
     pick(toolchainManaged, 'engines', 'packageManager'),
     pick(packageJson, 'engines')
   )
-  if (isEmpty(packageJson.config)) delete packageJson.config
+  if (!fromVersion && isEmpty(packageJson.config)) delete packageJson.config
 
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_SELF_TEST)
 

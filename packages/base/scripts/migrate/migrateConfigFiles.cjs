@@ -3,8 +3,8 @@ const path = require('path')
 const getPluginsObjectAsync = require('../../util/getPluginsObjectAsync.cjs')
 const { name } = require('../../package.json')
 
-async function migrateConfigFiles() {
-  const files = await getPluginsObjectAsync('getConfigFiles')
+async function migrateConfigFiles({ fromVersion }) {
+  const files = await getPluginsObjectAsync('getConfigFiles', { fromVersion })
   for (const file in files) {
     const value = files[file]
     let content, overwrite

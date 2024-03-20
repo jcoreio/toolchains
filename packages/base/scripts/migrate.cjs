@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const { packageJson } = require('../util/findUps.cjs')
+const { name } = require('../package.json')
 const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 
 async function migrate(args = []) {
@@ -16,20 +18,26 @@ async function migrate(args = []) {
   const migrateMoveTypeDefs = require('./migrate/migrateMoveTypeDefs.cjs')
   const migrateGitignore = require('./migrate/migrateGitignore.cjs')
   const hasYarnOrNpmLockfile = require('../util/hasYarnOrNpmLockfile.cjs')
+  const writeMigratedVersion = require('../util/writeMigratedVersion.cjs')
 
-  if (!isMonorepoSubpackage && !findGitDir()) {
+  const fromVersion = packageJson[name]
+    ? packageJson[name].migratedVersion
+    : undefined
+  if (!fromVersion && !isMonorepoSubpackage && !findGitDir()) {
     await execa('git', ['init'])
     await installGitHooks.run()
   }
-  await migrateProjectPackageJson()
+  await migrateProjectPackageJson({ fromVersion })
   if (await hasYarnOrNpmLockfile()) {
     await execa('pnpm', ['import'])
   }
-  await migrateConfigFiles()
-  await migrateEslintConfigs()
-  await migrateMoveTypeDefs()
-  await migrateGitignore()
-  await getPluginsAsyncFunction('migrate')(args)
+  await migrateConfigFiles({ fromVersion })
+  await migrateEslintConfigs({ fromVersion })
+  if (!fromVersion) await migrateMoveTypeDefs()
+  await migrateGitignore({ fromVersion })
+  await getPluginsAsyncFunction('migrate')(args, { fromVersion })
+
+  await writeMigratedVersion()
 
   if (!args.includes('--config-only')) {
     await execa('pnpm', [

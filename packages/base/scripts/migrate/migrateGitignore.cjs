@@ -1,7 +1,7 @@
 const execa = require('../../util/execa.cjs')
 const fs = require('../../util/projectFs.cjs')
 
-async function migrateGitignore() {
+async function migrateGitignore({ fromVersion }) {
   const paths = {
     '/dist': 'dist',
     '.nyc_output': '.nyc_output',
