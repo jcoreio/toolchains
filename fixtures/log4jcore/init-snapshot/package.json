@@ -30,7 +30,7 @@
     "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@babel/register": "^7.22.5",
     "@babel/runtime": "^7.7.1",
-    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.0.2",
+    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
     "@jcoreio/toolchain": "link:../packages/base",
     "@jcoreio/toolchain-circle": "link:../packages/circle",
     "@jcoreio/toolchain-esnext": "link:../packages/esnext",

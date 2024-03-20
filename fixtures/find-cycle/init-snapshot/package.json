@@ -38,7 +38,7 @@
     "node": ">=16"
   },
   "devDependencies": {
-    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.0.2",
+    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
     "@jcoreio/toolchain": "link:../packages/base",
     "@jcoreio/toolchain-circle": "link:../packages/circle",
     "@jcoreio/toolchain-mocha": "link:../packages/mocha",
