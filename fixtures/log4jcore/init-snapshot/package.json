@@ -55,6 +55,7 @@
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-no-only-tests": "^3.1.0",
     "flow-bin": "^0.180.0",
     "fs-extra": "^8.1.0",
     "glob": "^8.0.3",

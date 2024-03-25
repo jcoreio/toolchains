@@ -26,6 +26,9 @@ devDependencies:
   eslint:
     specifier: ^8.43.0
     version: 8.57.0
+  eslint-plugin-no-only-tests:
+    specifier: ^3.1.0
+    version: 3.1.0
   flow-bin:
     specifier: ^0.64.0
     version: 0.64.0
@@ -375,6 +378,11 @@ packages:
   /escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+    dev: true
+
+  /eslint-plugin-no-only-tests@3.1.0:
+    resolution: {integrity: sha512-Lf4YW/bL6Un1R6A76pRZyE1dl1vr31G/ev8UzIc/geCgFWyrKil8hVjYqWVKGB/UIGmb6Slzs9T0wNezdSVegw==}
+    engines: {node: '>=5.0.0'}
     dev: true
 
   /eslint-scope@7.2.2:

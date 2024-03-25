@@ -54,6 +54,7 @@
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-no-only-tests": "^3.1.0",
     "eslint-plugin-react": "^7.32.2",
     "flow-bin": "^0.113.0",
     "get-node-dimensions": "^1.2.0",
