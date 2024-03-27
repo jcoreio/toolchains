@@ -5,6 +5,7 @@ const getSpecs = require('./getSpecs.cjs')
 module.exports = {
   require: [require.resolve('./util/configureMocha.cjs')],
   reporter: 'spec',
+  recursive: true,
   spec: getSpecs(getPluginsArraySync('mochaSpecs')),
   ...(process.env.JCOREIO_TOOLCHAIN_ESM
     ? {
