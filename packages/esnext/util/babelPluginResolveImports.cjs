@@ -19,7 +19,6 @@ module.exports = function babelPluginResolveImports({ types: t }) {
     visitor: {
       ImportDeclaration(path, state) {
         if (
-          process.env.JCOREIO_TOOLCHAIN_ESM &&
           path.node.source.value === 'lodash' &&
           path.node.specifiers?.some((s) => s.type === 'ImportSpecifier')
         ) {
