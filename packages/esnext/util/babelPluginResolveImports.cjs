@@ -18,7 +18,22 @@ module.exports = function babelPluginResolveImports({ types: t }) {
   return {
     visitor: {
       ImportDeclaration(path, state) {
-        handleSource(path.get('source'), state)
+        if (
+          process.env.JCOREIO_TOOLCHAIN_ESM &&
+          path.node.source.value === 'lodash' &&
+          path.node.specifiers?.some((s) => s.type === 'ImportSpecifier')
+        ) {
+          path.replaceWithMultiple(
+            path.node.specifiers.map((s) =>
+              t.importDeclaration(
+                [t.importDefaultSpecifier(s.local)],
+                t.stringLiteral(`lodash/${s.local.name}.js`)
+              )
+            )
+          )
+        } else {
+          handleSource(path.get('source'), state)
+        }
       },
       ExportNamedDeclaration(path, state) {
         handleSource(path.get('source'), state)
