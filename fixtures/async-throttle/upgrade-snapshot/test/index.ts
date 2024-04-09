@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import throttle, { CanceledError } from '../src'
 
 function fn(x: number, y?: string): string {
