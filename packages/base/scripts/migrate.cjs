@@ -25,9 +25,9 @@ async function migrate(args = []) {
   await getPluginsAsyncFunction('migrate')(args)
 
   if (!args.includes('--config-only')) {
-    await execa('pnpm', ['i', '--no-frozen-lockfile'])
-    await execa('tc', ['lint:fix'])
+    await execa('pnpm', ['i', '--fix-lockfile'])
     await execa('tc', ['format'])
+    await execa('tc', ['lint:fix'])
   }
 }
 
