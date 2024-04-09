@@ -8,10 +8,7 @@ module.exports = [
   () => {
     const { dependencies = {}, devDependencies = {} } = packageJson
     if (
-      semver.satisifies(
-        '4.9999.9999',
-        dependencies.chai || devDependencies.chai
-      )
+      semver.satisfies('4.9999.9999', dependencies.chai || devDependencies.chai)
     ) {
       const chai = require(require.resolve('chai', { paths: [projectDir] }))
       chai.config.includeStack = true
