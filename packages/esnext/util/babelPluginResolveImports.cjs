@@ -20,7 +20,8 @@ module.exports = function babelPluginResolveImports({ types: t }) {
       ImportDeclaration(path, state) {
         if (
           path.node.source.value === 'lodash' &&
-          path.node.specifiers?.some((s) => s.type === 'ImportSpecifier')
+          path.node.specifiers &&
+          path.node.specifiers.some((s) => s.type === 'ImportSpecifier')
         ) {
           path.replaceWithMultiple(
             path.node.specifiers.map((s) =>
