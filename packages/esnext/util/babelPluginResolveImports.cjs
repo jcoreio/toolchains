@@ -20,17 +20,22 @@ module.exports = function babelPluginResolveImports({ types: t }) {
       ImportDeclaration(path, state) {
         if (
           path.node.source.value === 'lodash' &&
-          path.node.specifiers &&
           path.node.specifiers.some((s) => s.type === 'ImportSpecifier')
         ) {
-          path.replaceWithMultiple(
-            path.node.specifiers.map((s) =>
+          const nonNamed = path.node.specifiers.filter(
+            (s) => s.type !== 'ImportSpecifier'
+          )
+          path.replaceWithMultiple([
+            ...(nonNamed.length
+              ? [t.importDeclaration(nonNamed, t.stringLiteral('lodash'))]
+              : []),
+            ...path.node.specifiers.map((s) =>
               t.importDeclaration(
                 [t.importDefaultSpecifier(s.local)],
                 t.stringLiteral(`lodash/${s.local.name}.js`)
               )
-            )
-          )
+            ),
+          ])
         } else {
           handleSource(path.get('source'), state)
         }
