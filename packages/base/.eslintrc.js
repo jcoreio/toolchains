@@ -1,5 +1,5 @@
 module.exports = {
-  extends: [require.resolve('./eslint.config.cjs')],
+  extends: [require.resolve('./eslintConfig.cjs')],
   env: {
     node: true,
   },

@@ -18,26 +18,57 @@ let cwd = process.cwd()
 const nodeModulesMatch = /\/node_modules(\/|$)/.exec(cwd)
 if (nodeModulesMatch) cwd = cwd.substring(0, nodeModulesMatch.index)
 
-const packageJsonFile = findUp.sync('package.json', { cwd, type: 'file' })
+const packageJsonFile = (exports.packageJsonFile = findUp.sync('package.json', {
+  cwd,
+  type: 'file',
+}))
 if (!packageJsonFile) {
   throw new Error(
     `failed to find project package.json in a parent directory of ${cwd}`
   )
 }
-exports.packageJsonFile = packageJsonFile
 const packageJson = (exports.packageJson = fs.readJsonSync(packageJsonFile))
 const projectDir = (exports.projectDir = Path.dirname(packageJsonFile))
 
+const pnpmWorkspaceFile = (exports.pnpmWorkspaceFile = findUp.sync(
+  'pnpm-workspace.yaml',
+  {
+    cwd,
+    type: 'file',
+  }
+))
+
+const monorepoProjectDir = (exports.monorepoProjectDir = pnpmWorkspaceFile
+  ? Path.dirname(pnpmWorkspaceFile)
+  : undefined)
+
+const monorepoPackageJsonFile = (exports.monorepoPackageJsonFile =
+  monorepoProjectDir
+    ? Path.join(monorepoProjectDir, 'package.json')
+    : undefined)
+exports.monorepoPackageJson = monorepoPackageJsonFile
+  ? fs.readJsonSync(monorepoPackageJsonFile)
+  : undefined
+
+exports.isMonorepoSubpackage =
+  monorepoPackageJsonFile != null && packageJsonFile !== monorepoPackageJsonFile
+exports.isMonorepoRoot =
+  monorepoPackageJsonFile != null && packageJsonFile === monorepoPackageJsonFile
+
 const toolchainPackages = (exports.toolchainPackages = [
+  packageJson.name,
   ...Object.keys(packageJson.dependencies || {}),
   ...Object.keys(packageJson.devDependencies || {}),
 ].filter((dep) => dep.startsWith(name)))
 
 const toolchainPackageJsons = (exports.toolchainPackageJsons = {})
 for (const pkg of toolchainPackages) {
-  toolchainPackageJsons[pkg] = require(require.resolve(`${pkg}/package.json`, {
-    paths: [projectDir],
-  }))
+  toolchainPackageJsons[pkg] =
+    pkg === packageJson.name
+      ? packageJson
+      : require(require.resolve(`${pkg}/package.json`, {
+          paths: [projectDir],
+        }))
 }
 
 let toolchainConfigFile

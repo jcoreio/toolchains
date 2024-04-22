@@ -4,6 +4,7 @@ const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 
 async function migrate(args = []) {
   const execa = require('../util/execa.cjs')
+  const { findGitDir, isMonorepoSubpackage } = require('../util/findUps.cjs')
   const installGitHooks = require('./install-git-hooks.cjs')
   const migrateProjectPackageJson = require('./migrate/migrateProjectPackageJson.cjs')
   const migrateEslintConfigs = require('./migrate/migrateEslintConfigs.cjs')
@@ -12,8 +13,10 @@ async function migrate(args = []) {
   const migrateGitignore = require('./migrate/migrateGitignore.cjs')
   const hasYarnOrNpmLockfile = require('../util/hasYarnOrNpmLockfile.cjs')
 
-  await execa('git', ['init'])
-  await installGitHooks.run()
+  if (!isMonorepoSubpackage && !findGitDir()) {
+    await execa('git', ['init'])
+    await installGitHooks.run()
+  }
   await migrateProjectPackageJson()
   if (await hasYarnOrNpmLockfile()) {
     await execa('pnpm', ['import'])

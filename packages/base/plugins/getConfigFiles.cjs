@@ -17,18 +17,33 @@ module.exports = [
   async function getConfigFiles() {
     const { env, rules } = (await getRootEslintConfig()) || {}
     const files = {
-      '.eslintrc.cjs': dedent`
+      '.eslintrc.cjs': (prev) =>
+        prev
+          ? prev.replace(
+              new RegExp(
+                `${name}/eslint.config.cjs`.replace(/\//g, '\\/'),
+                'g'
+              ),
+              `${name}/eslintConfig.cjs`
+            )
+          : dedent`
         /* eslint-env node, es2018 */
         module.exports = {
-          extends: [require.resolve('${name}/eslint.config.cjs')],${
-        env
-          ? `\nenv: ${JSON.stringify(env, null, 2).replace(/\n/gm, '\n  ')},`
-          : ''
-      }${
-        rules
-          ? `\nrules: ${JSON.stringify(rules, null, 2).replace(/\n/gm, '\n  ')}`
-          : ''
-      }
+          extends: [require.resolve('${name}/eslintConfig.cjs')],${
+              env
+                ? `\nenv: ${JSON.stringify(env, null, 2).replace(
+                    /\n/gm,
+                    '\n  '
+                  )},`
+                : ''
+            }${
+              rules
+                ? `\nrules: ${JSON.stringify(rules, null, 2).replace(
+                    /\n/gm,
+                    '\n  '
+                  )}`
+                : ''
+            }
         }
       `,
       'toolchain.config.cjs': async (existing) => {
