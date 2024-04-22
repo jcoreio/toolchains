@@ -37,10 +37,26 @@ const pnpmWorkspaceFile = (exports.pnpmWorkspaceFile = findUp.sync(
     type: 'file',
   }
 ))
+const pnpmWorkspace = pnpmWorkspaceFile
+  ? require('yaml').parse(fs.readFileSync(pnpmWorkspaceFile, 'utf8'))
+  : undefined
 
-const monorepoProjectDir = (exports.monorepoProjectDir = pnpmWorkspaceFile
-  ? Path.dirname(pnpmWorkspaceFile)
-  : undefined)
+const isMonorepoSubpackage = (exports.isMonorepoSubpackage =
+  pnpmWorkspace && Array.isArray(pnpmWorkspace.packages)
+    ? pnpmWorkspace.packages.some((p) =>
+        new RegExp(`^${p.replace(/\*/g, '[^/]+')}$`).test(
+          Path.relative(Path.dirname(pnpmWorkspaceFile), projectDir)
+        )
+      )
+    : false)
+
+const isMonorepoRoot = (exports.isMonorepoRoot =
+  pnpmWorkspaceFile != null && Path.dirname(pnpmWorkspaceFile) === projectDir)
+
+const monorepoProjectDir = (exports.monorepoProjectDir =
+  isMonorepoSubpackage || isMonorepoRoot
+    ? Path.dirname(pnpmWorkspaceFile)
+    : undefined)
 
 const monorepoPackageJsonFile = (exports.monorepoPackageJsonFile =
   monorepoProjectDir
@@ -49,11 +65,6 @@ const monorepoPackageJsonFile = (exports.monorepoPackageJsonFile =
 exports.monorepoPackageJson = monorepoPackageJsonFile
   ? fs.readJsonSync(monorepoPackageJsonFile)
   : undefined
-
-exports.isMonorepoSubpackage =
-  monorepoPackageJsonFile != null && packageJsonFile !== monorepoPackageJsonFile
-exports.isMonorepoRoot =
-  monorepoPackageJsonFile != null && packageJsonFile === monorepoPackageJsonFile
 
 const toolchainPackages = (exports.toolchainPackages = [
   packageJson.name,

@@ -20,10 +20,7 @@ module.exports = [
       '.eslintrc.cjs': (prev) =>
         prev
           ? prev.replace(
-              new RegExp(
-                `${name}/eslint.config.cjs`.replace(/\//g, '\\/'),
-                'g'
-              ),
+              new RegExp(`${name}/eslint\\.config\\.cjs`, 'g'),
               `${name}/eslintConfig.cjs`
             )
           : dedent`
