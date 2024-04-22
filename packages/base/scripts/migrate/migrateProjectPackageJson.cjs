@@ -149,12 +149,17 @@ async function migrateProjectPackageJson() {
       const versionRange = managedSection[dep]
       if (isTest && dep.startsWith(`${name}-`)) {
         pkgSection[dep] = `link:${dep.replace(`${name}-`, '../packages/')}`
-      } else if (
-        !pkgSection[dep] ||
-        (semver.valid(pkgSection[dep]) &&
-          !semver.satisfies(semver.minVersion(pkgSection[dep]), versionRange))
-      ) {
-        pkgSection[dep] = versionRange
+      } else {
+        try {
+          if (
+            !pkgSection[dep] ||
+            !semver.satisfies(semver.minVersion(pkgSection[dep]), versionRange)
+          ) {
+            pkgSection[dep] = versionRange
+          }
+        } catch (error) {
+          // ignore; package.json probably has a version like workspace:* etc
+        }
       }
     }
   }
