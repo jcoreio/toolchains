@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { packageJson } = require('../util/findUps.cjs')
+const { packageJson, isMonorepoRoot } = require('../util/findUps.cjs')
 const fs = require('../util/projectFs.cjs')
 const execa = require('../util/execa.cjs')
 const hasTSFiles = require('../util/hasTSFiles.cjs')
@@ -69,6 +69,7 @@ async function init(args = []) {
   await execa('pnpm', [
     'add',
     '-D',
+    ...(isMonorepoRoot ? ['-w'] : []),
     isTest ? '../packages/base' : `${name}@^${version}`,
     ...(isTest
       ? [...selectedToolchains].map((t) =>

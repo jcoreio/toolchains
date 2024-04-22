@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { packageJson } = require('../util/findUps.cjs')
+const { packageJson, isMonorepoRoot } = require('../util/findUps.cjs')
 const execa = require('../util/execa.cjs')
 const { name } = require('../package.json')
 
@@ -22,6 +22,7 @@ async function upgrade([version] = []) {
   await execa('pnpm', [
     'add',
     '-D',
+    ...(isMonorepoRoot ? ['-w'] : []),
     isTest ? '../packages/base' : `${name}@^${version}`,
     ...(isTest
       ? toolchains.map((t) => t.replace(`${name}-`, '../packages/'))

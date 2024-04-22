@@ -4,7 +4,11 @@ const getPluginsAsyncFunction = require('../util/getPluginsAsyncFunction.cjs')
 
 async function migrate(args = []) {
   const execa = require('../util/execa.cjs')
-  const { findGitDir, isMonorepoSubpackage } = require('../util/findUps.cjs')
+  const {
+    findGitDir,
+    isMonorepoSubpackage,
+    isMonorepoRoot,
+  } = require('../util/findUps.cjs')
   const installGitHooks = require('./install-git-hooks.cjs')
   const migrateProjectPackageJson = require('./migrate/migrateProjectPackageJson.cjs')
   const migrateEslintConfigs = require('./migrate/migrateEslintConfigs.cjs')
@@ -28,7 +32,11 @@ async function migrate(args = []) {
   await getPluginsAsyncFunction('migrate')(args)
 
   if (!args.includes('--config-only')) {
-    await execa('pnpm', ['i', '--fix-lockfile'])
+    await execa('pnpm', [
+      'i',
+      '--fix-lockfile',
+      ...(isMonorepoRoot ? ['-w'] : []),
+    ])
     await execa('tc', ['format'])
     await execa('tc', ['lint:fix'])
   }
