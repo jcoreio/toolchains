@@ -151,7 +151,8 @@ async function migrateProjectPackageJson() {
         pkgSection[dep] = `link:${dep.replace(`${name}-`, '../packages/')}`
       } else if (
         !pkgSection[dep] ||
-        !semver.satisfies(semver.minVersion(pkgSection[dep]), versionRange)
+        (semver.valid(pkgSection[dep]) &&
+          !semver.satisfies(semver.minVersion(pkgSection[dep]), versionRange))
       ) {
         pkgSection[dep] = versionRange
       }
