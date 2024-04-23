@@ -59,9 +59,7 @@ exports.monorepoPackageJson = monorepoPackageJsonFile
   ? fs.readJsonSync(monorepoPackageJsonFile)
   : undefined
 
-const findGitDir = once(function findGitDir(
-  cwd = process.env.INIT_CWD || process.cwd()
-) {
+const findGitDir = once(function findGitDir(cwd = process.cwd()) {
   let stopAt = Path.dirname(monorepoProjectDir || projectDir)
   if (stopAt === '/') stopAt = undefined
   return findUp.sync((dir) => (dir === stopAt ? findUp.stop : '.git'), {

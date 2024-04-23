@@ -4,7 +4,7 @@ const execa = require('../util/execa.cjs')
 
 module.exports = async function runHook(hookName) {
   try {
-    const gitDir = findGitDir()
+    const gitDir = findGitDir(process.env.INIT_CWD)
     if (!gitDir) {
       throw new Error(`failed to find .git directory`)
     }
