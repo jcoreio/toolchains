@@ -6,13 +6,6 @@ const once = require('./once.cjs')
 const { name } = require('../package.json')
 const configSchema = require('./configSchema.cjs')
 
-const findGitDir = once(function findGitDir(
-  cwd = process.env.INIT_CWD || process.cwd()
-) {
-  return findUp.sync('.git', { cwd, type: 'directory' })
-})
-exports.findGitDir = findGitDir
-
 let cwd = process.cwd()
 
 const nodeModulesMatch = /\/node_modules(\/|$)/.exec(cwd)
@@ -65,6 +58,18 @@ const monorepoPackageJsonFile = (exports.monorepoPackageJsonFile =
 exports.monorepoPackageJson = monorepoPackageJsonFile
   ? fs.readJsonSync(monorepoPackageJsonFile)
   : undefined
+
+const findGitDir = once(function findGitDir(
+  cwd = process.env.INIT_CWD || process.cwd()
+) {
+  let stopAt = Path.dirname(monorepoProjectDir || projectDir)
+  if (stopAt === '/') stopAt = undefined
+  return findUp.sync((dir) => (dir === stopAt ? findUp.stop : '.git'), {
+    cwd,
+    type: 'directory',
+  })
+})
+exports.findGitDir = findGitDir
 
 const toolchainPackages = (exports.toolchainPackages = [
   packageJson.name,
