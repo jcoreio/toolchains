@@ -4,15 +4,15 @@ const getPluginsAsyncFunction = require('../../util/getPluginsAsyncFunction.cjs'
 const fs = require('../../util/projectFs.cjs')
 const sortDeps = require('../../util/sortDeps.cjs')
 const semver = require('semver')
-const isEmpty = require('lodash/isEmpty')
-const pick = require('lodash/pick')
+const isEmpty = require('../../util/isEmpty.cjs')
+const pick = require('../../util/pick.cjs')
 const Path = require('path')
 const confirmOutputEsm = require('./confirmOutputEsm.cjs')
 const confirm = require('../../util/confirm.cjs')
+const unset = require('../../util/unset.cjs')
+const merge = require('../../util/merge.cjs')
 
 async function migrateProjectPackageJson() {
-  const { merge, unset } = require('lodash')
-
   const packageJson = await fs.readJson('package.json')
   const devDependencies =
     packageJson.devDependencies || (packageJson.devDependencies = {})
@@ -60,7 +60,7 @@ async function migrateProjectPackageJson() {
     'scripts.test:watch',
     'scripts.test',
     'scripts.travis-deploy-once',
-    'scripts.tsc:wath',
+    'scripts.tsc:watch',
     'scripts.tsc',
   ]) {
     unset(packageJson, path)

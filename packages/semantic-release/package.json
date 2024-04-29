@@ -15,13 +15,15 @@
   "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/semantic-release",
   "dependencies": {
     "@jcoreio/toolchain": "workspace:*",
-    "@semantic-release/commit-analyzer": "^9.0.2",
-    "@semantic-release/github": "^8.0.4",
-    "@semantic-release/npm": "^10.0.4",
-    "@semantic-release/release-notes-generator": "^10.0.3",
     "dedent-js": "^1.0.1",
-    "resolve-bin": "^1.0.0",
-    "semantic-release": "^21.0.5"
+    "resolve-bin": "^1.0.0"
+  },
+  "optionalDependencies": {
+    "@semantic-release/commit-analyzer": "^12.0.0",
+    "@semantic-release/github": "^10.0.3",
+    "@semantic-release/npm": "^12.0.0",
+    "@semantic-release/release-notes-generator": "^13.0.0",
+    "semantic-release": "^23.0.8"
   },
   "bin": {
     "semantic-release": "./bin/semantic-release"

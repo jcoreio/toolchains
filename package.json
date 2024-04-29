@@ -20,18 +20,13 @@
     "@jcoreio/toolchain-circle": "workspace:*",
     "@jcoreio/toolchain-mocha": "workspace:*",
     "@jcoreio/toolchain-semantic-release": "workspace:*",
-    "@semantic-release/commit-analyzer": "^9.0.2",
-    "@semantic-release/exec": "^6.0.3",
-    "@semantic-release/github": "^8.0.4",
-    "@semantic-release/release-notes-generator": "^10.0.3",
     "chai": "^4.3.4",
     "dedent-js": "^1.0.1",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "gitignore-fs": "^2.1.0",
     "glob": "^7.2.0",
-    "mocha": "^10.2.0",
-    "semantic-release": "^21.0.5"
+    "mocha": "^10.2.0"
   },
   "config": {
     "commitizen": {
@@ -46,7 +41,6 @@
     "toolchain": "toolchain",
     "tc": "toolchain",
     "test": "toolchain test",
-    "semantic-release": "semantic-release",
     "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
   },
   "sideEffects": false

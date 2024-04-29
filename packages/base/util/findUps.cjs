@@ -1,7 +1,7 @@
 const findUp = require('find-up')
 const Path = require('path')
 const fs = require('fs-extra')
-const merge = require('lodash/merge')
+const merge = require('./merge.cjs')
 const once = require('./once.cjs')
 const { name } = require('../package.json')
 const configSchema = require('./configSchema.cjs')

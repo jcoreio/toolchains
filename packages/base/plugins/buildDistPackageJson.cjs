@@ -1,9 +1,10 @@
+const mapValues = require('../util/mapValues.cjs')
+
 module.exports = [
   async function buildDistPackageJson(packageJson) {
     delete packageJson.devDependencies
     delete packageJson.scripts
     delete packageJson.config
-    const mapValues = require('lodash/mapValues')
 
     function replaceDist(path) {
       return path.replace(/^(\.\/)?dist\//, '$1')

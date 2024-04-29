@@ -1,8 +1,7 @@
 const fs = require('../../util/projectFs.cjs')
+const unset = require('../../util/unset.cjs')
 
 async function preinstallUpdateProjectPackageJson() {
-  const { unset } = require('lodash')
-
   const packageJson = await fs.readJson('package.json')
   const { devDependencies } = packageJson
 
