@@ -18,14 +18,16 @@
     "dedent-js": "^1.0.1",
     "resolve-bin": "^1.0.0"
   },
-  "optionalDependencies": {
-    "@semantic-release/commit-analyzer": "^12.0.0",
-    "@semantic-release/github": "^10.0.3",
-    "@semantic-release/npm": "^12.0.0",
-    "@semantic-release/release-notes-generator": "^13.0.0",
-    "semantic-release": "^23.0.8"
-  },
   "bin": {
     "semantic-release": "./bin/semantic-release"
+  },
+  "toolchainManaged": {
+    "optionalDevDependencies": {
+      "@semantic-release/commit-analyzer": "^12.0.0",
+      "@semantic-release/github": "^10.0.3",
+      "@semantic-release/npm": "^12.0.0",
+      "@semantic-release/release-notes-generator": "^13.0.0",
+      "semantic-release": "^23.0.8"
+    }
   }
 }

@@ -10,15 +10,17 @@ module.exports = [
       run: async (args = []) => {
         try {
           resolveBin.sync('semantic-release')
-          for (const key in packageJson.optionalDependencies) require(key)
+          for (const key in packageJson.toolchainManaged
+            .optionalDevDependencies)
+            require(key)
         } catch (error) {
           await execa('pnpm', [
             'install',
             '-D',
             ...(isMonorepoRoot ? ['-w'] : []),
-            ...Object.entries(packageJson.optionalDependencies).map(
-              ([key, value]) => `${key}@${value}`
-            ),
+            ...Object.entries(
+              packageJson.toolchainManaged.optionalDevDependencies
+            ).map(([key, value]) => `${key}@${value}`),
           ])
         }
         await execa('semantic-release', args)
