@@ -20,6 +20,7 @@
     "@jcoreio/toolchain-circle": "workspace:*",
     "@jcoreio/toolchain-mocha": "workspace:*",
     "@jcoreio/toolchain-semantic-release": "workspace:*",
+    "@semantic-release/exec": "^6.0.3",
     "chai": "^4.3.4",
     "dedent-js": "^1.0.1",
     "execa": "^5.0.0",
