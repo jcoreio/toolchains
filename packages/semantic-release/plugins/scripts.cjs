@@ -10,6 +10,7 @@ module.exports = [
       run: async (args = []) => {
         try {
           resolveBin.sync('semantic-release')
+          for (const key in packageJson.optionalDependencies) require(key)
         } catch (error) {
           await execa('pnpm', [
             'install',
