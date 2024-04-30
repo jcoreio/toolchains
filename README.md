@@ -15,6 +15,14 @@ A system for managing JS/TS project dev tools
 
 ## How-to
 
+### Creating a new project
+
+In the parent dir of where you want to create your project directory, run:
+
+```sh
+pnpm --package=@jcoreio/toolchain@<version> dlx tc create
+```
+
 ### Migrating an existing project to `@jcoreio/toolchain`
 
 In your project dir, run:

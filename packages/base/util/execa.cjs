@@ -1,7 +1,6 @@
 const Path = require('path')
 const execa = require('execa')
 const chalk = require('chalk')
-const { projectDir, toolchainPackages } = require('./findUps.cjs')
 
 function formatArg(arg) {
   if (/^[-_a-z0-9=./]+$/i.test(arg)) return arg
@@ -15,6 +14,13 @@ function extractCommand(command) {
 }
 
 function getExecaArgs(command, args, options, ...rest) {
+  let projectDir, toolchainPackages
+  try {
+    ;({ projectDir, toolchainPackages } = require('./findUps.cjs'))
+  } catch (error) {
+    projectDir = process.cwd()
+    toolchainPackages = []
+  }
   if (args instanceof Object && !Array.isArray(args)) {
     options = args
     args = []

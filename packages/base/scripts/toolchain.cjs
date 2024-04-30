@@ -3,45 +3,56 @@
 const { name, version } = require('../package.json')
 const chalk = require('chalk')
 const getPluginsObjectSync = require('../util/getPluginsObjectSync.cjs')
-const { toolchainConfig } = require('../util/findUps.cjs')
 const execa = require('../util/execa.cjs')
 
-const scripts = {
-  migrate: require('./migrate.cjs'),
-  build: require('./build.cjs'),
-  'build:smoke-test': require('./smokeTestBuild.cjs'),
-  check: require('./check.cjs'),
-  clean: require('./clean.cjs'),
-  format: require('./format.cjs'),
-  init: require('./init.cjs'),
-  preinstall: require('./preinstall.cjs'),
-  lint: require('./lint.cjs'),
-  'lint:fix': require('./lint-fix.cjs'),
-  'open:coverage': require('./open-coverage.cjs'),
-  prepublish: require('./prepublish.cjs'),
-  upgrade: require('./upgrade.cjs'),
-  version: {
-    description: `print version of ${name}`,
-    run: () => {
-      // eslint-disable-next-line no-console
-      console.log(`${name}@${version}`)
-    },
-  },
-  'install-git-hooks': require('./install-git-hooks.cjs'),
-  ...getPluginsObjectSync('scripts'),
-  ...Object.fromEntries(
-    Object.entries(toolchainConfig.scripts || {}).map(([name, script]) => [
-      name,
-      typeof script === 'string'
-        ? {
-            run: (args = []) =>
-              execa([script, ...args].join(' '), { shell: true }),
-            description: script,
-          }
-        : script,
-    ])
-  ),
+let toolchainConfig
+try {
+  ;({ toolchainConfig } = require('../util/findUps.cjs'))
+} catch (error) {
+  if (!error.message.startsWith('failed to find project package.json')) {
+    throw error
+  }
 }
+const scripts = toolchainConfig
+  ? {
+      migrate: require('./migrate.cjs'),
+      build: require('./build.cjs'),
+      'build:smoke-test': require('./smokeTestBuild.cjs'),
+      check: require('./check.cjs'),
+      clean: require('./clean.cjs'),
+      format: require('./format.cjs'),
+      init: require('./init.cjs'),
+      preinstall: require('./preinstall.cjs'),
+      lint: require('./lint.cjs'),
+      'lint:fix': require('./lint-fix.cjs'),
+      'open:coverage': require('./open-coverage.cjs'),
+      prepublish: require('./prepublish.cjs'),
+      upgrade: require('./upgrade.cjs'),
+      version: {
+        description: `print version of ${name}`,
+        run: () => {
+          // eslint-disable-next-line no-console
+          console.log(`${name}@${version}`)
+        },
+      },
+      'install-git-hooks': require('./install-git-hooks.cjs'),
+      ...getPluginsObjectSync('scripts'),
+      ...Object.fromEntries(
+        Object.entries(toolchainConfig.scripts || {}).map(([name, script]) => [
+          name,
+          typeof script === 'string'
+            ? {
+                run: (args = []) =>
+                  execa([script, ...args].join(' '), { shell: true }),
+                description: script,
+              }
+            : script,
+        ])
+      ),
+    }
+  : {
+      create: require('./create.cjs'),
+    }
 
 exports.scripts = scripts
 

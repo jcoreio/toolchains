@@ -1,8 +1,8 @@
 const Path = require('path')
 const sortPlugins = require('./sortPlugins.cjs')
-const { projectDir, toolchainPackages } = require('./findUps.cjs')
 
 function getPlugins(name) {
+  const { projectDir, toolchainPackages } = require('./findUps.cjs')
   const plugins = {}
   for (const pkg of toolchainPackages) {
     let path
