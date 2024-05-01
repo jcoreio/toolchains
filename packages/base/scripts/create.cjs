@@ -1,25 +1,41 @@
 const path = require('path')
 const execa = require('../util/execa.cjs')
 const ChdirFs = require('../util/ChdirFs.cjs')
-const pkgName = require('../package.json').name
+const pkg = require('../package.json')
 const dedent = require('dedent-js')
+const parseRepositoryUrl = require('../util/parseRepositoryUrl.cjs')
 
 async function create(args = []) {
   const prompt = require('prompts')
 
+  let monorepoPackageJson, monorepoProjectDir
+  try {
+    ;({
+      monorepoPackageJson,
+      monorepoProjectDir,
+    } = require('../util/findUps.cjs'))
+  } catch (error) {
+    if (!error.message.startsWith('failed to find project package.json')) {
+      throw error
+    }
+  }
+
   const required = (s) => Boolean(s) || 'required'
 
   let defaultAuthor
-  try {
-    defaultAuthor = (
-      await execa('git', ['config', 'user.name'], {
-        stdio: 'pipe',
-        maxBuffer: 1024,
-        encoding: 'utf8',
-      })
-    ).stdout.trim()
-  } catch (error) {
-    // ignore
+  if (monorepoPackageJson) defaultAuthor = monorepoPackageJson.author
+  else {
+    try {
+      defaultAuthor = (
+        await execa('git', ['config', 'user.name'], {
+          stdio: 'pipe',
+          maxBuffer: 1024,
+          encoding: 'utf8',
+        })
+      ).stdout.trim()
+    } catch (error) {
+      // ignore
+    }
   }
 
   const questions = [
@@ -53,25 +69,29 @@ async function create(args = []) {
       type: 'text',
       name: 'keywords',
       message: 'Package keywords:',
-      format: (text) => text.split(/\s*,\s*|\s+/g),
+      format: (text) => (text || '').split(/\s*,\s*|\s+/g),
     },
-    {
-      type: 'text',
-      name: 'organization',
-      initial: (prev, { name }) => {
-        const match = /^@(.*?)\//.exec(name)
-        if (match) return match[1]
-      },
-      message: 'GitHub organization:',
-      validate: required,
-    },
-    {
-      type: 'text',
-      name: 'repo',
-      message: 'GitHub repo:',
-      initial: (prev, { name }) => name.replace(/^@(.*?)\//, ''),
-      validate: required,
-    },
+    ...(monorepoPackageJson
+      ? []
+      : [
+          {
+            type: 'text',
+            name: 'organization',
+            initial: (prev, { name }) => {
+              const match = /^@(.*?)\//.exec(name)
+              if (match) return match[1]
+            },
+            message: 'GitHub organization:',
+            validate: required,
+          },
+          {
+            type: 'text',
+            name: 'repo',
+            message: 'GitHub repo:',
+            initial: (prev, { name }) => name.replace(/^@(.*?)\//, ''),
+            validate: required,
+          },
+        ]),
     {
       type: 'select',
       name: 'license',
@@ -116,9 +136,11 @@ async function create(args = []) {
     keywords,
     license,
     copyrightHolder,
-    organization,
-    repo,
   } = answers
+
+  const { organization, repo } = monorepoPackageJson
+    ? parseRepositoryUrl(monorepoPackageJson.repository.url)
+    : answers
 
   const cwd = path.resolve(directory)
 
@@ -126,16 +148,33 @@ async function create(args = []) {
 
   const fs = ChdirFs(cwd)
 
+  const subpackagePath = monorepoProjectDir
+    ? path.relative(monorepoProjectDir, cwd)
+    : undefined
+
+  const branch = subpackagePath
+    ? (
+        await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+          stdio: 'pipe',
+          encoding: 'utf8',
+          maxBuffer: 1024,
+        })
+      ).stdout.trim()
+    : ''
+
   const packageJson = {
     name,
     description,
     repository: {
       type: 'git',
       url: `https://github.com/${organization}/${repo}.git`,
+      ...(subpackagePath ? { directory: subpackagePath } : {}),
     },
-    homepage: `https://github.com/${organization}/${repo}`,
+    homepage: `https://github.com/${organization}/${repo}${
+      subpackagePath ? `/tree/${branch}/${subpackagePath}` : ''
+    }`,
     bugs: {
-      url: `https://github.com/${organization}/${repo}`,
+      url: `https://github.com/${organization}/${repo}/issues`,
     },
     author,
     license,
@@ -173,21 +212,42 @@ async function create(args = []) {
     })
   )
 
-  await execa('git', ['init'], { cwd })
-  await execa('git', ['remote', 'add', 'origin', packageJson.repository.url], {
-    cwd,
-  })
+  if (!monorepoPackageJson) {
+    await execa('git', ['init'], { cwd })
+    await execa(
+      'git',
+      ['remote', 'add', 'origin', packageJson.repository.url],
+      {
+        cwd,
+      }
+    )
+  }
+
+  const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_SELF_TEST)
+
   await execa(
     'pnpm',
-    ['add', '-D', '--prefer-offline', '--no-optional', pkgName],
+    [
+      'add',
+      '-D',
+      '--prefer-offline',
+      '--no-optional',
+      `${pkg.name}@${isTest ? 'workspace:*' : pkg.version}`,
+    ],
     { cwd }
   )
   await execa('pnpm', ['exec', 'tc', 'init'], { cwd })
 
-  await execa('git', ['add', '.'], { cwd })
-  await execa('git', ['commit', '-m', 'chore: initial commit from tc create'], {
-    cwd,
-  })
+  if (!monorepoPackageJson) {
+    await execa('git', ['add', '.'], { cwd })
+    await execa(
+      'git',
+      ['commit', '-m', 'chore: initial commit from tc create'],
+      {
+        cwd,
+      }
+    )
+  }
 }
 
 exports.description = 'create a new toolchain project'

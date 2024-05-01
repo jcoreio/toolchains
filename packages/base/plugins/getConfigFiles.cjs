@@ -2,6 +2,7 @@ const { name } = require('../package.json')
 const dedent = require('dedent-js')
 const fs = require('../util/projectFs.cjs')
 const JSON5 = require('json5')
+const { isMonorepoSubpackage } = require('../util/findUps.cjs')
 const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
 
 async function getRootEslintConfig() {
@@ -60,7 +61,7 @@ module.exports = [
       },
     }
     for (const file of [
-      'githooks.cjs',
+      ...(isMonorepoSubpackage ? [] : ['githooks.cjs']),
       'lint-staged.config.cjs',
       'prettier.config.cjs',
     ]) {

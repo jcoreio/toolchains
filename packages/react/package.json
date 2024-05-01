@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/jcoreio/toolchains/issues"
   },
-  "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/react",
+  "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/react",
   "dependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-react": "^7.16.5",

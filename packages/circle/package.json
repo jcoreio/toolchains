@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/jcoreio/toolchains/issues"
   },
-  "homepage": "https://github.com/jcoreio/toolchains/tree/beta/packages/circle",
+  "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/circle",
   "dependencies": {
     "@jcoreio/toolchain": "workspace:*",
     "dedent-js": "^1.0.1",
