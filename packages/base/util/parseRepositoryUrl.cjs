@@ -1,5 +1,3 @@
-// @flow
-
 const { parse: parseUrl } = require('url')
 
 const repoRegExp = new RegExp('^/(.+?)/([^/.]+)')
