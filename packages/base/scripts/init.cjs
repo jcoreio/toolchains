@@ -69,7 +69,6 @@ async function init(args = []) {
   await execa('pnpm', [
     'add',
     '-D',
-    '--no-optional',
     '--prefer-offline',
     ...(isMonorepoRoot ? ['-w'] : []),
     isTest ? '../packages/base' : `${name}@^${version}`,

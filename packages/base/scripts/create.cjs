@@ -231,7 +231,6 @@ async function create(args = []) {
       'add',
       '-D',
       '--prefer-offline',
-      '--no-optional',
       `${pkg.name}@${isTest ? 'workspace:*' : pkg.version}`,
     ],
     { cwd }

@@ -34,7 +34,6 @@ async function migrate(args = []) {
   if (!args.includes('--config-only')) {
     await execa('pnpm', [
       'i',
-      '--no-optional',
       '--prefer-offline',
       '--fix-lockfile',
       ...(isMonorepoRoot ? ['-w'] : []),
