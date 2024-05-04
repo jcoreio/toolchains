@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { packageJson, isMonorepoRoot } = require('../util/findUps.cjs')
+const { packageJson, monorepoProjectDir } = require('../util/findUps.cjs')
 const execa = require('../util/execa.cjs')
 const { name } = require('../package.json')
 
@@ -19,17 +19,27 @@ async function upgrade([version] = []) {
     ).stdout.trim()
   }
 
-  await execa('pnpm', [
-    'add',
-    '-D',
-    '--prefer-offline',
-    ...(isMonorepoRoot ? ['-w'] : []),
-    isTest ? '../packages/base' : `${name}@^${version}`,
-    ...(isTest
-      ? toolchains.map((t) => t.replace(`${name}-`, '../packages/'))
-      : toolchains.map((t) => `${t}@^${version}`)),
-  ])
-  await execa('tc', ['migrate'])
+  await execa(
+    'pnpm',
+    isTest
+      ? [
+          ...(monorepoProjectDir ? ['-r'] : []),
+          'add',
+          '-D',
+          '--prefer-offline',
+          '../packages/base',
+          ...toolchains.map((t) => t.replace(`${name}-`, '../packages/')),
+        ]
+      : [
+          ...(monorepoProjectDir ? ['-r'] : []),
+          'update',
+          '--prefer-offline',
+          `${name}@^${version}`,
+          toolchains.map((t) => `${t}@^${version}`),
+        ]
+  )
+  if (monorepoProjectDir) await execa('pnpm', ['-r', 'run', 'tc', 'migrate'])
+  else await execa('tc', ['migrate'])
 }
 
 exports.description = 'upgrade toolchains and migrate'
