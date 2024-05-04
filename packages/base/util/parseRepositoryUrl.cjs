@@ -9,5 +9,5 @@ module.exports = function parseRepositoryUrl(url) {
   const match = repoRegExp.exec(parsed.path || '')
   if (!match) throw new Error(`unsupported source repository url: ${url}`)
   const [organization, repo] = match.slice(1)
-  return Object.assign(parsed, { organization, repo })
+  return { ...parsed, organization, repo }
 }
