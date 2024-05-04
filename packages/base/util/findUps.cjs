@@ -1,6 +1,7 @@
 const findUp = require('find-up')
 const Path = require('path')
 const fs = require('fs-extra')
+const glob = require('glob')
 const merge = require('./merge.cjs')
 const once = require('./once.cjs')
 const { name } = require('../package.json')
@@ -57,6 +58,16 @@ const monorepoPackageJsonFile = (exports.monorepoPackageJsonFile =
     : undefined)
 exports.monorepoPackageJson = monorepoPackageJsonFile
   ? fs.readJsonSync(monorepoPackageJsonFile)
+  : undefined
+
+exports.monorepoSubpackageJsonFiles = pnpmWorkspace
+  ? [
+      ...new Set(
+        pnpmWorkspace.packages.flatMap((p) =>
+          glob.sync(Path.join(p, 'package.json'), { cwd: monorepoProjectDir })
+        )
+      ),
+    ].map((f) => Path.resolve(monorepoProjectDir, f))
   : undefined
 
 const findGitDir = once(function findGitDir(cwd = process.cwd()) {
