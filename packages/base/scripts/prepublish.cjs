@@ -1,8 +1,8 @@
 const execa = require('../util/execa.cjs')
-const { isMonorepoRoot } = require('../util/findUps.cjs')
+const { isMonorepoRoot, packageJson } = require('../util/findUps.cjs')
 
 exports.run = async function (args = []) {
-  if (isMonorepoRoot) {
+  if (isMonorepoRoot && packageJson.name !== '@jcoreio/toolchains') {
     await execa('pnpm', ['run', '-r', 'prepublish'])
   } else {
     const { scripts } = require('./toolchain.cjs')
