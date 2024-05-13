@@ -1,0 +1,30 @@
+{
+  "name": "@jcoreio/toolchain-aws-lambda",
+  "version": "0.0.0-development",
+  "description": "AWS Lambda function build toolchain",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "packages/aws-lambda"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchains/issues"
+  },
+  "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/aws-lambda",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.575.0",
+    "@aws-sdk/client-sts": "^3.575.0",
+    "@jcoreio/cloudformation-tools": "^5.1.1",
+    "@jcoreio/pack-lambda": "^2.0.0",
+    "@jcoreio/toolchain": "workspace:*",
+    "dotenv": "^16.4.5",
+    "resolve-bin": "^1.0.0"
+  },
+  "toolchainManaged": {
+    "devDependencies": {
+      "aws-lambda": "^1.0.7"
+    }
+  }
+}

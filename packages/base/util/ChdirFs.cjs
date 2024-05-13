@@ -10,6 +10,10 @@ function ChdirFs(cwd) {
     emptyDir: (path, ...args) => fs.emptyDir(resolve(cwd, path), ...args),
     emptyDirSync: (path, ...args) =>
       fs.emptyDirSync(resolve(cwd, path), ...args),
+    ensureSymlink: (src, dest, ...args) =>
+      fs.ensureSymlink(resolve(cwd, src), resolve(cwd, dest), ...args),
+    ensureSymlinkSync: (src, dest, ...args) =>
+      fs.ensureSymlinkSync(resolve(cwd, src), resolve(cwd, dest), ...args),
     lstat: (path, ...args) => fs.lstat(resolve(cwd, path), ...args),
     stat: (path, ...args) => fs.stat(resolve(cwd, path), ...args),
     lstatSync: (path, ...args) => fs.lstatSync(resolve(cwd, path), ...args),

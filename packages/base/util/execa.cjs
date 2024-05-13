@@ -37,8 +37,8 @@ function getExecaArgs(command, args, options, ...rest) {
 
   const opts = {
     stdio: 'inherit',
-    cwd: projectDir,
     ...options,
+    cwd: options.cwd ? Path.resolve(projectDir, options.cwd) : projectDir,
     env: {
       ...process.env,
       ...options.env,
