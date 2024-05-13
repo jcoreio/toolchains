@@ -121,11 +121,13 @@ module.exports = async function deploy() {
 
   if (!Properties.FunctionName) {
     Properties.FunctionName = packageJson.name
+      .replace(/[^-a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
   }
 
   if (!StackName) {
-    StackName = Properties.FunctionName.replace(/[^-a-z0-9]+/, '-').replace(
-      /^-+|-+$/,
+    StackName = Properties.FunctionName.replace(/[^-a-z0-9]+/g, '-').replace(
+      /^-+|-+$/g,
       ''
     )
   }
