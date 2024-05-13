@@ -19,6 +19,7 @@
     "@jcoreio/cloudformation-tools": "^5.1.1",
     "@jcoreio/pack-lambda": "^2.0.0",
     "@jcoreio/toolchain": "workspace:*",
+    "@semantic-release/exec": "^6.0.3",
     "dotenv": "^16.4.5",
     "resolve-bin": "^1.0.0"
   },
