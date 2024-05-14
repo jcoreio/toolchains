@@ -1,5 +1,5 @@
 const dedent = require('dedent-js')
-const { toolchainPackages } = require('../util/findUps.cjs')
+const { toolchainPackages } = require('@jcoreio/toolchain/util/findUps.cjs')
 
 module.exports = [
   async function getConfigFiles() {
