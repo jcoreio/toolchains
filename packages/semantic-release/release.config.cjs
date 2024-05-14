@@ -93,10 +93,12 @@ module.exports =
           ...(private
             ? []
             : [
-                require.resolve('@semantic-release/npm'),
-                {
-                  pkgRoot: path.join(__dirname, 'dist'),
-                },
+                [
+                  require.resolve('@semantic-release/npm'),
+                  {
+                    pkgRoot: path.join(__dirname, 'dist'),
+                  },
+                ],
               ]),
           require.resolve('@semantic-release/github'),
           ...getPluginsArraySync('semanticReleasePlugins'),
@@ -110,10 +112,12 @@ module.exports =
           ...(private
             ? []
             : [
-                require.resolve('@semantic-release/npm'),
-                {
-                  pkgRoot: path.join(projectDir, 'dist'),
-                },
+                [
+                  require.resolve('@semantic-release/npm'),
+                  {
+                    pkgRoot: path.join(projectDir, 'dist'),
+                  },
+                ],
               ]),
           require.resolve('@semantic-release/github'),
           ...getPluginsArraySync('semanticReleasePlugins'),
