@@ -3,12 +3,8 @@ const {
   toolchainPackages,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const { uploadToS3 } = require('@jcoreio/pack-lambda')
 const path = require('path')
 const { inspect } = require('util')
-const { S3Client, CreateBucketCommand } = require('@aws-sdk/client-s3')
-const { STSClient, GetCallerIdentityCommand } = require('@aws-sdk/client-sts')
-const { deployCloudFormationStack } = require('@jcoreio/cloudformation-tools')
 const z = require('zod').default
 
 const TemplateModuleSchema = z.strictObject({
@@ -51,6 +47,11 @@ module.exports = async function deploy() {
   const packageJsonFile = path.join(projectDir, 'dist', 'package.json')
   const packageJson = await fs.readJson(packageJsonFile)
   require('dotenv').config()
+
+  const { uploadToS3 } = require('@jcoreio/pack-lambda')
+  const { S3Client, CreateBucketCommand } = require('@aws-sdk/client-s3')
+  const { STSClient, GetCallerIdentityCommand } = require('@aws-sdk/client-sts')
+  const { deployCloudFormationStack } = require('@jcoreio/cloudformation-tools')
 
   if (toolchainPackages.includes('@jcoreio/toolchain-esnext')) {
     // eslint-disable-next-line @jcoreio/implicit-dependencies/no-implicit
