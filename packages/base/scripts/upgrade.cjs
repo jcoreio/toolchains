@@ -35,7 +35,7 @@ async function upgrade([version] = []) {
           'update',
           '--prefer-offline',
           `${name}@^${version}`,
-          toolchains.map((t) => `${t}@^${version}`),
+          ...toolchains.map((t) => `${t}@^${version}`),
         ]
   )
   if (monorepoProjectDir) await execa('pnpm', ['-r', 'run', 'tc', 'migrate'])
