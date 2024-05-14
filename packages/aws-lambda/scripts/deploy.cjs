@@ -114,29 +114,69 @@ module.exports = async function deploy() {
     Properties.Handler = packageJson.main.replace(/\.[^.]+$/, '.handler')
   }
 
-  if (!Properties.CodeUri) Properties.CodeUri = {}
-  const { CodeUri } = Properties
+  const isServerless = lambdaResource.Type === 'AWS::Serverless::Function'
 
-  if (!CodeUri.Bucket) {
+  // Adapt between janky difference between AWS::Serverless::Function and AWS::Lambda::Function
+  const adapter = isServerless
+    ? {
+        get Code() {
+          const { CodeUri } = lambdaResource
+          return CodeUri
+            ? {
+                get S3Bucket() {
+                  return CodeUri.Bucket
+                },
+                set S3Bucket(value) {
+                  CodeUri.Bucket = value
+                },
+                get S3Key() {
+                  return CodeUri.Key
+                },
+                set S3Key(value) {
+                  CodeUri.Key = value
+                },
+              }
+            : undefined
+        },
+        set Code(value) {
+          lambdaResource.CodeUri = {
+            Bucket: value.S3Bucket,
+            Key: value.S3Key,
+          }
+        },
+      }
+    : lambdaResource.Properties
+
+  if (!adapter.Code) adapter.Code = {}
+  const { Code } = Properties
+
+  if (!Code.S3Bucket) {
     const sts = new STSClient()
     const { Account } = await sts.send(new GetCallerIdentityCommand({}))
     // eslint-disable-next-line no-console
-    console.error(`Defaulting Lambda CodeUri.Bucket to AWS Account: ${Account}`)
-    CodeUri.Bucket = Account
+    console.error(
+      `Defaulting Lambda ${
+        isServerless ? 'CodeUri.Bucket' : 'Code.S3Bucket'
+      } to AWS Account: ${Account}`
+    )
+    Code.S3Bucket = Account
   }
 
-  let Bucket = CodeUri.Bucket
-  if (CodeUri.Bucket instanceof Object) {
-    if (CodeUri.Bucket.Ref) {
+  let Bucket = Code.S3Bucket
+  if (Code.S3Bucket instanceof Object) {
+    if (Code.S3Bucket.Ref) {
       Bucket =
-        Parameters[CodeUri.Bucket.Ref] ||
-        (Template.Parameters[CodeUri.Bucket.Ref] || {}).Default
+        Parameters[Code.S3Bucket.Ref] ||
+        (Template.Parameters[Code.S3Bucket.Ref] || {}).Default
     }
     throw new Error(
-      `Lambda CodeUri.Bucket format not supported: ${inspect(Bucket)}`
+      `Lambda ${
+        isServerless ? 'CodeUri.Bucket' : 'Code.S3Bucket'
+      } format not supported: ${inspect(Bucket)}`
     )
   }
-  let Key = CodeUri.Key
+
+  let Key = Code.S3Key
 
   const s3 = new S3Client()
   try {
@@ -154,8 +194,9 @@ module.exports = async function deploy() {
     packageDir: path.resolve(projectDir, 'dist'),
     Bucket,
     Key,
+    useHash: true,
   }))
-  CodeUri.Key = Key
+  Code.S3Key = Key
 
   if (!Properties.Runtime) {
     Properties.Runtime = `nodejs20.x`
