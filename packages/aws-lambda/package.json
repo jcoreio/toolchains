@@ -27,7 +27,8 @@
   },
   "toolchainManaged": {
     "devDependencies": {
-      "@types/aws-lambda": "^8.10.137"
+      "@types/aws-lambda": "^8.10.137",
+      "@jcoreio/cloudformation-template-types": "^1.1.0"
     }
   }
 }

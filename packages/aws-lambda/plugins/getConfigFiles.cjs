@@ -14,23 +14,27 @@ module.exports = [
         }
       `,
       [`scripts/cloudFormationTemplate.${isTS ? 'ts' : 'js'}`]: dedent`
+        import type {
+          CloudFormationTemplate,
+          CloudFormationTemplateParameterValues,
+        } from '@jcoreio/cloudformation-template-types'
+
         // export const StackName = 'StackName'
 
         export const Template = {
           AWSTemplateFormatVersion: '2010-09-09',
           // Description: 'Template Descrption',
-          Transform: 'AWS::Serverless-2016-10-31',
           Parameters: {
 
           },
           Resources: {
             LambdaFunction: {
-              Type: 'AWS::Serverless::Function',
+              Type: 'AWS::Lambda::Function',
               Properties: {
                 MemorySize: 128,
                 Timeout: 60,
-                // CodeUri: {
-                //   Bucket: 'BucketName',
+                // Code: {
+                //   S3Bucket: 'BucketName',
                 // },
               },
             },
@@ -38,11 +42,11 @@ module.exports = [
           Outputs: {
             LambdaFunction: { Value: { Ref: 'LambdaFunction' } },
           },
-        }
+        } satisfies CloudFormationTemplate
         
         export const Parameters = {
 
-        }
+        } satisfies CloudFormationTemplateParameterValues<typeof Template>
         
         export const Capabilities = ['CAPABILITY_IAM']
 
