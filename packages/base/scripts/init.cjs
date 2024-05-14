@@ -47,6 +47,7 @@ async function init(args = []) {
         'react',
         'circle',
         'semantic-release',
+        'aws-lambda',
       ].map((value) => ({
         title: `${name}-${value}`,
         value: `${name}-${value}`,

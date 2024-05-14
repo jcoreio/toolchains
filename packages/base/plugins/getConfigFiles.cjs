@@ -18,6 +18,9 @@ module.exports = [
   async function getConfigFiles() {
     const { env, rules } = (await getRootEslintConfig()) || {}
     const files = {
+      '.npmrc': dedent`
+        optional=false
+      `,
       '.eslintrc.cjs': (prev) =>
         prev
           ? prev.replace(

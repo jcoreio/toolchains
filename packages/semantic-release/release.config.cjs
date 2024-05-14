@@ -1,9 +1,10 @@
 const {
   projectDir,
-  packageJson: { name: pkg },
+  packageJson: { name: pkg, private },
   monorepoSubpackageJsonFiles,
   monorepoPackageJson,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
+const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const path = require('path')
 
@@ -89,13 +90,16 @@ module.exports =
               },
             },
           ],
-          [
-            require.resolve('@semantic-release/npm'),
-            {
-              pkgRoot: path.join(__dirname, 'dist'),
-            },
-          ],
+          ...(private
+            ? []
+            : [
+                require.resolve('@semantic-release/npm'),
+                {
+                  pkgRoot: path.join(__dirname, 'dist'),
+                },
+              ]),
           require.resolve('@semantic-release/github'),
+          ...getPluginsArraySync('semanticReleasePlugins'),
         ],
       }
     : {
@@ -103,12 +107,15 @@ module.exports =
         plugins: [
           require.resolve('@semantic-release/commit-analyzer'),
           require.resolve('@semantic-release/release-notes-generator'),
-          [
-            require.resolve('@semantic-release/npm'),
-            {
-              pkgRoot: path.join(projectDir, 'dist'),
-            },
-          ],
+          ...(private
+            ? []
+            : [
+                require.resolve('@semantic-release/npm'),
+                {
+                  pkgRoot: path.join(projectDir, 'dist'),
+                },
+              ]),
           require.resolve('@semantic-release/github'),
+          ...getPluginsArraySync('semanticReleasePlugins'),
         ],
       }
