@@ -20,12 +20,14 @@
     "@jcoreio/pack-lambda": "^2.0.0",
     "@jcoreio/toolchain": "workspace:*",
     "@semantic-release/exec": "^6.0.3",
+    "dedent-js": "^1.0.1",
     "dotenv": "^16.4.5",
-    "resolve-bin": "^1.0.0"
+    "resolve-bin": "^1.0.0",
+    "zod": "^3.21.4"
   },
   "toolchainManaged": {
     "devDependencies": {
-      "aws-lambda": "^1.0.7"
+      "@types/aws-lambda": "^8.10.137"
     }
   }
 }

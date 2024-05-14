@@ -9,6 +9,43 @@ const { inspect } = require('util')
 const { S3Client, CreateBucketCommand } = require('@aws-sdk/client-s3')
 const { STSClient, GetCallerIdentityCommand } = require('@aws-sdk/client-sts')
 const { deployCloudFormationStack } = require('@jcoreio/cloudformation-tools')
+const z = require('zod').default
+
+const TemplateModuleSchema = z.strictObject({
+  StackName: z.string().optional(),
+  Parameters: z.record(z.any()).optional(),
+  Template: z
+    .object({
+      Parameters: z
+        .record(
+          z
+            .object({
+              Type: z.string(),
+              Description: z.string().optional(),
+              Default: z.any().optional(),
+            })
+            .passthrough()
+        )
+        .optional(),
+      Resources: z.record(z.object({ Type: z.string() }).passthrough()),
+    })
+    .passthrough(),
+  Capabilities: z
+    .array(
+      z.enum([
+        'CAPABILITY_IAM',
+        'CAPABILITY_NAMED_IAM',
+        'CAPABILITY_AUTO_EXPAND',
+      ])
+    )
+    .optional(),
+  Tags: z
+    .union([
+      z.record(z.string()),
+      z.array(z.object({ Tag: z.string(), Value: z.string() })),
+    ])
+    .optional(0),
+})
 
 module.exports = async function deploy() {
   const packageJsonFile = path.join(projectDir, 'dist', 'package.json')
@@ -27,9 +64,11 @@ module.exports = async function deploy() {
     'scripts',
     'cloudFormationTemplate'
   )
-  const templateModule = require(templatePath)
+  const templateModule = TemplateModuleSchema.parse(require(templatePath))
   const { Template, Parameters, Capabilities, Tags } = templateModule
   let { StackName } = templateModule
+
+  if (!Template.Description) Template.Description = packageJson.Description
 
   const [lambda, ...excessLambdas] = Object.entries(
     Template.Resources || {}
@@ -40,7 +79,7 @@ module.exports = async function deploy() {
   )
   if (!lambda) {
     throw new Error(
-      `Missing lambda function in template export in ${path.relative(
+      `Missing lambda function in Template export in ${path.relative(
         process.cwd(),
         templatePath
       )}`
@@ -59,7 +98,7 @@ module.exports = async function deploy() {
 
   const { Properties } = lambdaResource
   if (!Properties) {
-    throw new Error(`missing Properties on ${lambdaResourceName} resource`)
+    throw new Error(`Missing Properties on ${lambdaResourceName} resource`)
   }
 
   if (!Properties.Handler) {
@@ -81,7 +120,7 @@ module.exports = async function deploy() {
     const sts = new STSClient()
     const { Account } = await sts.send(new GetCallerIdentityCommand({}))
     // eslint-disable-next-line no-console
-    console.error(`Defaulting to S3 Bucket for account number: ${Account}`)
+    console.error(`Defaulting Lambda CodeUri.Bucket to AWS Account: ${Account}`)
     CodeUri.Bucket = Account
   }
 
@@ -92,7 +131,9 @@ module.exports = async function deploy() {
         Parameters[CodeUri.Bucket.Ref] ||
         (Template.Parameters[CodeUri.Bucket.Ref] || {}).Default
     }
-    throw new Error(`Bucket format not supported: ${inspect(Bucket)}`)
+    throw new Error(
+      `Lambda CodeUri.Bucket format not supported: ${inspect(Bucket)}`
+    )
   }
   let Key = CodeUri.Key
 
@@ -117,12 +158,18 @@ module.exports = async function deploy() {
 
   if (!Properties.Runtime) {
     Properties.Runtime = `nodejs20.x`
+    // eslint-disable-next-line no-console
+    console.error(`Defaulting Lambda Runtime to ${Properties.Runtime}`)
   }
 
   if (!Properties.FunctionName) {
     Properties.FunctionName = packageJson.name
       .replace(/[^-a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '')
+    // eslint-disable-next-line no-console
+    console.error(
+      `Defaulting Lambda FunctionName to ${Properties.FunctionName}`
+    )
   }
 
   if (!StackName) {
@@ -130,6 +177,8 @@ module.exports = async function deploy() {
       /^-+|-+$/g,
       ''
     )
+    // eslint-disable-next-line no-console
+    console.error(`Defaulting StackName to ${StackName}`)
   }
 
   await deployCloudFormationStack({
