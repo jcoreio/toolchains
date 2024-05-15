@@ -45,6 +45,10 @@ module.exports =
             {
               preset: 'conventionalcommits',
               releaseRules: [
+                ...otherPackages.flatMap((scope) => ({
+                  scope,
+                  release: false,
+                })),
                 ...[pkg, undefined].flatMap((scope) => [
                   { breaking: true, scope, release: 'major' },
                   { revert: true, scope, release: 'patch' },

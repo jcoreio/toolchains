@@ -28,7 +28,7 @@
       "@jcoreio/semantic-release-npm": "^12.0.2",
       "@semantic-release/release-notes-generator": "^13.0.0",
       "conventional-changelog-conventionalcommits": "^7.0.2",
-      "semantic-release": "^23.0.8"
+      "semantic-release": "^23.1.1"
     }
   }
 }
