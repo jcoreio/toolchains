@@ -94,7 +94,7 @@ module.exports =
             ? []
             : [
                 [
-                  require.resolve('@semantic-release/npm'),
+                  require.resolve('@jcoreio/semantic-release-npm'),
                   {
                     pkgRoot: path.join(__dirname, 'dist'),
                   },
@@ -113,7 +113,7 @@ module.exports =
             ? []
             : [
                 [
-                  require.resolve('@semantic-release/npm'),
+                  require.resolve('@jcoreio/semantic-release-npm'),
                   {
                     pkgRoot: path.join(projectDir, 'dist'),
                   },
