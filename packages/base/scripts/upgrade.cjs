@@ -1,14 +1,21 @@
 #!/usr/bin/env node
 
-const { packageJson, monorepoProjectDir } = require('../util/findUps.cjs')
+const {
+  packageJson,
+  isMonorepoRoot,
+  monorepoSubpackageJsons,
+} = require('../util/findUps.cjs')
 const execa = require('../util/execa.cjs')
 const { name } = require('../package.json')
 
 async function upgrade([version] = []) {
-  const { devDependencies = {} } = packageJson
-  const toolchains = Object.keys(devDependencies).filter((pkg) =>
-    pkg.startsWith(`${name}-`)
-  )
+  const toolchains = [
+    ...new Set(
+      [packageJson, ...(isMonorepoRoot ? monorepoSubpackageJsons || [] : [])]
+        .flatMap((p) => Object.keys(p.devDependencies || {}))
+        .filter((pkg) => pkg.startsWith(`${name}-`))
+    ),
+  ]
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_SELF_TEST)
 
   if (!isTest && !version) {
@@ -23,7 +30,7 @@ async function upgrade([version] = []) {
     'pnpm',
     isTest
       ? [
-          ...(monorepoProjectDir ? ['-r'] : []),
+          ...(isMonorepoRoot ? ['-r'] : []),
           'add',
           '-D',
           '--prefer-offline',
@@ -31,14 +38,14 @@ async function upgrade([version] = []) {
           ...toolchains.map((t) => t.replace(`${name}-`, '../packages/')),
         ]
       : [
-          ...(monorepoProjectDir ? ['-r'] : []),
+          ...(isMonorepoRoot ? ['-r'] : []),
           'update',
           '--prefer-offline',
           `${name}@^${version}`,
           ...toolchains.map((t) => `${t}@^${version}`),
         ]
   )
-  if (monorepoProjectDir) await execa('pnpm', ['run', '-r', 'tc', 'migrate'])
+  if (isMonorepoRoot) await execa('pnpm', ['run', '-r', 'tc', 'migrate'])
   else await execa('tc', ['migrate'])
 }
 

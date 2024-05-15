@@ -70,6 +70,10 @@ exports.monorepoSubpackageJsonFiles = pnpmWorkspace
     ].map((f) => Path.resolve(monorepoProjectDir, f))
   : undefined
 
+exports.monorepoSubpackageJsons = exports.monorepoSubpackageJsonFiles
+  ? exports.monorepoSubpackageJsonFiles.map((f) => fs.readJsonSync(f))
+  : undefined
+
 const findGitDir = once(function findGitDir(cwd = process.cwd()) {
   let stopAt = Path.dirname(monorepoProjectDir || projectDir)
   if (stopAt === '/') stopAt = undefined
