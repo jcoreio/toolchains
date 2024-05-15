@@ -38,7 +38,7 @@ async function upgrade([version] = []) {
           ...toolchains.map((t) => `${t}@^${version}`),
         ]
   )
-  if (monorepoProjectDir) await execa('pnpm', ['-r', 'run', 'tc', 'migrate'])
+  if (monorepoProjectDir) await execa('pnpm', ['run', '-r', 'tc', 'migrate'])
   else await execa('tc', ['migrate'])
 }
 
