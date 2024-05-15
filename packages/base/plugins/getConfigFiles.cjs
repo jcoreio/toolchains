@@ -77,8 +77,12 @@ module.exports = [
   
       `
     }
-    const tasks = await getPluginsArraySync('vscodeTasks')
-    const launch = await getPluginsArraySync('vscodeLaunch')
+    const tasks = isMonorepoSubpackage
+      ? []
+      : await getPluginsArraySync('vscodeTasks')
+    const launch = isMonorepoSubpackage
+      ? []
+      : await getPluginsArraySync('vscodeLaunch')
 
     if (tasks.length) {
       files['.vscode/tasks.json'] = JSON.stringify(
