@@ -16,8 +16,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.575.0",
     "@aws-sdk/client-sts": "^3.575.0",
-    "@jcoreio/cloudformation-tools": "^5.1.1",
-    "@jcoreio/pack-lambda": "^3.0.0",
+    "@jcoreio/cloudformation-tools": "^7.1.0",
+    "@jcoreio/pack-lambda": "^3.0.1",
     "@jcoreio/toolchain": "workspace:*",
     "@semantic-release/exec": "^6.0.3",
     "dedent-js": "^1.0.1",
