@@ -2,6 +2,27 @@
 
 A system for managing JS/TS project dev tools
 
+- [@jcoreio/toolchain](#jcoreiotoolchain)
+  - [Project goals](#project-goals)
+  - [How-to](#how-to)
+    - [Creating a new project](#creating-a-new-project)
+    - [Migrating an existing project to `@jcoreio/toolchain`](#migrating-an-existing-project-to-jcoreiotoolchain)
+    - [Installing `@jcoreio/toolchain` in an empty project](#installing-jcoreiotoolchain-in-an-empty-project)
+    - [Upgrading `@jcoreio/toolchain`](#upgrading-jcoreiotoolchain)
+    - [Specify `main`, `module`, `exports`, and `bin` and link package locally](#specify-main-module-exports-and-bin-and-link-package-locally)
+    - [Run build scripts](#run-build-scripts)
+    - [Customize Git hooks](#customize-git-hooks)
+    - [Disable ESM build](#disable-esm-build)
+    - [Disable source map output](#disable-source-map-output)
+    - [Configure transpilation options](#configure-transpilation-options)
+    - [Run scripts before or after toolchain scripts](#run-scripts-before-or-after-toolchain-scripts)
+    - [Load chai plugins, customize mocha, etc.](#load-chai-plugins-customize-mocha-etc)
+    - [Change mocha default specs](#change-mocha-default-specs)
+    - [Define multiple test targets](#define-multiple-test-targets)
+    - [Create dual CJS+ESM packages](#create-dual-cjsesm-packages)
+  - [Current limitations](#current-limitations)
+    - [Source maps](#source-maps)
+
 ## Project goals
 
 - Make it easy to keep standalone project dev dependencies and configuration
@@ -143,6 +164,20 @@ module.exports = {
   outputEsm: false,
 }
 ```
+
+### Disable source map output
+
+Add `sourceMaps: false` to `toolchain.config.cjs`:
+
+```js
+/* eslint-env node, es2018 */
+module.exports = {
+  sourceMaps: false,
+  // ...
+}
+```
+
+This will also prevent the published package from including `src/**`.
 
 ### Configure transpilation options
 

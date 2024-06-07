@@ -71,3 +71,4 @@ function throttle(fn, _wait, options = {}) {
 ;
 throttle.CanceledError = CanceledError;
 export default throttle;
+//# sourceMappingURL=index.mjs.map

@@ -10,3 +10,4 @@ export interface MemoryLogProvider extends LogProvider {
     messages: MemoryLogMessage[];
 }
 export default function memoryLogProvider(): MemoryLogProvider;
+//# sourceMappingURL=memoryLogProvider.d.ts.map

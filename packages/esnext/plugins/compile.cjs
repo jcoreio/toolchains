@@ -8,6 +8,7 @@ const {
   projectDir,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
+const fixSourceMaps = require('../util/fixSourceMaps.cjs')
 
 module.exports = [
   [
@@ -24,6 +25,9 @@ module.exports = [
           'dist',
           '--out-file-extension',
           '.js',
+          ...(toolchainConfig.sourceMaps
+            ? ['--source-maps', toolchainConfig.sourceMaps]
+            : []),
         ],
         { env: { ...process.env, JCOREIO_TOOLCHAIN_CJS: '1' } }
       )
@@ -57,6 +61,9 @@ module.exports = [
               'dist',
               '--out-file-extension',
               '.mjs',
+              ...(toolchainConfig.sourceMaps
+                ? ['--source-maps', toolchainConfig.sourceMaps]
+                : []),
             ],
             { env: { ...process.env, JCOREIO_TOOLCHAIN_ESM: '1' } }
           )
@@ -80,6 +87,21 @@ module.exports = [
             }
           }
         }
+      }
+
+      if (toolchainConfig.sourceMaps) {
+        const srcFiles = await glob(path.join('src', '**'))
+        await Promise.all(
+          srcFiles.map(async (src) => {
+            if (src === 'src') return
+            const dest = path.join('dist', src)
+            // eslint-disable-next-line no-console
+            console.error(src, '->', dest)
+            await fs.copy(src, dest)
+          })
+        )
+
+        await fixSourceMaps()
       }
     },
     { insteadOf: '@jcoreio/toolchain' },

@@ -16,3 +16,4 @@ function writableLogFunction(writable) {
   };
 }
 module.exports = exports.default;
+//# sourceMappingURL=writableLogFunction.js.map

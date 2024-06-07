@@ -265,3 +265,4 @@ export default class ViewSlider extends React.Component {
     }, views));
   }
 }
+//# sourceMappingURL=index.mjs.map

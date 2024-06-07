@@ -21,3 +21,4 @@ function memoryLogProvider() {
   return result;
 }
 module.exports = exports.default;
+//# sourceMappingURL=memoryLogProvider.js.map

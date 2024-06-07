@@ -80,3 +80,4 @@ export function createSimpleViewSlider(ViewSlider, renderView = defaultRenderVie
   };
 }
 export default createSimpleViewSlider(ViewSlider);
+//# sourceMappingURL=simple.mjs.map

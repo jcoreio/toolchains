@@ -125,3 +125,4 @@ const defaultExport = Object.assign(throttle, {
   CanceledError
 });
 export default defaultExport;
+//# sourceMappingURL=index.mjs.map

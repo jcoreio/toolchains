@@ -11,3 +11,4 @@ export default function memoryLogProvider() {
   result.messages = messages;
   return result;
 }
+//# sourceMappingURL=memoryLogProvider.mjs.map

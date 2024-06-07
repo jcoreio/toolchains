@@ -109,6 +109,9 @@ try {
   // ignore
 }
 
+const toolchainConfigDeclared =
+  toolchainConfigFile != null || name in packageJson
+
 let toolchainConfig
 try {
   toolchainConfig = configSchema.parse(

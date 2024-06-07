@@ -5,3 +5,4 @@ export default function writableLogFunction(writable) {
     writable.write(util.format(format, ...args) + '\n');
   };
 }
+//# sourceMappingURL=writableLogFunction.mjs.map

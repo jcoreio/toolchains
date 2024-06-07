@@ -18,6 +18,7 @@ module.exports = [
               outputEsm ? '// ' : ''
             }outputEsm: false, // disables ESM output (default: true)
             // esWrapper: true, // outputs ES module wrappers for CJS modules (default: false)
+            // sourceMaps: false, // default is true (outputs .map files, also accepts 'inline' or 'both')
             // scripts: {
             //   pretest: 'docker compose up -d',
             //   jsExample: {

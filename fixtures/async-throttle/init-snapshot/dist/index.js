@@ -157,3 +157,4 @@ throttle.CanceledError = CanceledError;
 var _default = throttle;
 exports["default"] = _default;
 module.exports = exports.default;
+//# sourceMappingURL=index.js.map

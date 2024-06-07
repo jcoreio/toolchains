@@ -107,3 +107,4 @@ function createSimpleViewSlider(ViewSlider) {
 }
 var _default = createSimpleViewSlider(_index["default"]);
 exports["default"] = _default;
+//# sourceMappingURL=simple.js.map

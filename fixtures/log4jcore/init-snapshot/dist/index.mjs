@@ -187,3 +187,4 @@ export function logger(loggerPath = '') {
   return logger;
 }
 export default logger;
+//# sourceMappingURL=index.mjs.map

@@ -92,3 +92,4 @@ export default class ViewSlider extends React.Component<Props, State> {
     render(): React.ReactElement<'div'>;
 }
 export {};
+//# sourceMappingURL=index.d.ts.map

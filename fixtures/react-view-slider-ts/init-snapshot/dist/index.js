@@ -306,3 +306,4 @@ var ViewSlider = /*#__PURE__*/function (_React$Component) {
   return ViewSlider;
 }(React.Component);
 exports["default"] = ViewSlider;
+//# sourceMappingURL=index.js.map

@@ -49,3 +49,4 @@ export type CreateLoggerOptions = {
 export declare function createLogger(options: CreateLoggerOptions): Logger;
 export declare function logger(loggerPath?: string): Logger;
 export default logger;
+//# sourceMappingURL=index.d.ts.map

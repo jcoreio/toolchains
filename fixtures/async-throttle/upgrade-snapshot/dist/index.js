@@ -199,3 +199,4 @@ var defaultExport = Object.assign(throttle, {
 });
 var _default = defaultExport;
 exports["default"] = _default;
+//# sourceMappingURL=index.js.map
