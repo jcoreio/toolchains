@@ -109,7 +109,7 @@ try {
   // ignore
 }
 
-const toolchainConfigDeclared =
+exports.toolchainConfigDeclared =
   toolchainConfigFile != null || name in packageJson
 
 let toolchainConfig
