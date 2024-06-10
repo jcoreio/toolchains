@@ -4,7 +4,7 @@ const fs = require('fs-extra')
 const banner = require('../util/banner')
 const copyFixture = require('../util/copyFixture')
 
-it.skip(`monorepo semantic-release`, async function () {
+it(`monorepo semantic-release`, async function () {
   this.timeout(120000)
   // eslint-disable-next-line no-console
   console.error('\n' + banner('monorepo semantic-release') + '\n')
@@ -19,4 +19,5 @@ it.skip(`monorepo semantic-release`, async function () {
   await execa('git', ['init'], execaOpts)
   await execa('git', ['add', '.'], execaOpts)
   await execa('git', ['commit', '-m', 'feat: initial commit'], execaOpts)
+  await execa('pnpm', ['-r', 'run', 'tc', 'release'], execaOpts)
 })

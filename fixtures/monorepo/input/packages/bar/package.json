@@ -3,12 +3,8 @@
   "description": "bar subpackage for @jcoreio/toolchain-monorepo-test",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jcoreio/toolchains.git",
+    "url": "https://github.com/jcoreio/toolchain-monorepo-test.git",
     "directory": "packages/bar"
-  },
-  "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/bar",
-  "bugs": {
-    "url": "https://github.com/jcoreio/toolchains/issues"
   },
   "author": "Andy Edwards",
   "license": "MIT",
