@@ -17,9 +17,6 @@ importers:
       '@babel/runtime':
         specifier: ^7.18.6
         version: 7.24.7
-      '@jcoreio/toolchain-monorepo-test-foo':
-        specifier: workspace:*
-        version: link:../foo
     devDependencies:
       '@jcoreio/eslint-plugin-implicit-dependencies':
         specifier: ^1.1.1

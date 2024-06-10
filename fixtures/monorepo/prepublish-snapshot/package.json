@@ -3,12 +3,7 @@
   "description": "test monorepo for @jcoreio/toolchain",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jcoreio/toolchains.git",
-    "directory": "fixtures/monorepo/input"
-  },
-  "homepage": "https://github.com/jcoreio/toolchains/tree/main/fixtures/monorepo/input",
-  "bugs": {
-    "url": "https://github.com/jcoreio/toolchains/issues"
+    "url": "https://github.com/jcoreio/toolchain-monorepo-test.git"
   },
   "author": "Andy Edwards",
   "license": "MIT",
