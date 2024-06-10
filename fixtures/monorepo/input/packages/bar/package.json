@@ -42,7 +42,6 @@
   },
   "packageManager": "pnpm@8.11.0",
   "dependencies": {
-    "@babel/runtime": "^7.18.6",
-    "@jcoreio/toolchain-monorepo-test-foo": "workspace:*"
+    "@babel/runtime": "^7.18.6"
   }
 }
