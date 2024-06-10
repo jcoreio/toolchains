@@ -1,9 +1,6 @@
 {
-  "extends": [
-    "@jedwards1211/eslint-config"
-  ],
-  "env": {
-    "commonjs": true,
-    "es6": true
-  }
+  env: {
+    commonjs: true,
+    es6: true,
+  },
 }

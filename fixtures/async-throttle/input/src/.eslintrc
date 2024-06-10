@@ -1,6 +1,5 @@
 {
-  "extends": "../.eslintrc",
-  "env": {
-    "es6": true
-  }
+  env: {
+    es6: true,
+  },
 }

@@ -9,7 +9,9 @@ async function copyFixture(name, inputDir = 'input') {
   const dest = Path.join(os.tmpdir(), 'toolchains', name)
   const destlink = Path.join(fixtures, name, 'actual')
   await Promise.all([fs.remove(dest), fs.remove(destlink)])
-  await fs.copy(src, dest)
+  await fs.copy(src, dest, {
+    filter: (src) => !/node_modules/.test(src),
+  })
   await fs.ensureSymlink(
     packages,
     Path.join(os.tmpdir(), 'toolchains', 'packages')

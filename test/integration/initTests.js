@@ -1,8 +1,3 @@
-/**
- * @flow
- * @prettier
- */
-
 const { it } = require('mocha')
 const Path = require('path')
 const execa = require('execa')

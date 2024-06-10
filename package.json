@@ -16,23 +16,25 @@
   "homepage": "https://github.com/jcoreio/toolchains#readme",
   "devDependencies": {
     "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
-    "@jcoreio/toolchain": "workspace:*",
-    "@jcoreio/toolchain-circle": "workspace:*",
-    "@jcoreio/toolchain-mocha": "workspace:*",
-    "@jcoreio/toolchain-semantic-release": "workspace:*",
+    "@jcoreio/toolchain": "*",
+    "@jcoreio/toolchain-circle": "*",
+    "@jcoreio/toolchain-esnext": "^4.6.0",
+    "@jcoreio/toolchain-mocha": "*",
+    "@jcoreio/toolchain-semantic-release": "*",
+    "@jcoreio/toolchain-typescript": "^4.6.0",
     "@semantic-release/exec": "^6.0.3",
-    "chai": "^4.3.4",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
+    "chai": "^4.3.7",
     "dedent-js": "^1.0.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-no-only-tests": "^3.1.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "gitignore-fs": "^2.1.0",
     "glob": "^7.2.0",
-    "mocha": "^10.2.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "@jcoreio/toolchain/commitizen.cjs"
-    }
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.0"
   },
   "scripts": {
     "clone-to-fixture": "node test/util/cloneToFixture.js",
@@ -44,5 +46,11 @@
     "test": "toolchain test",
     "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.18.6"
+  }
 }
