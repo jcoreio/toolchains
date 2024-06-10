@@ -1,0 +1,6 @@
+/dist
+.nyc_output
+node_modules
+/coverage
+flow-typed
+/fixtures

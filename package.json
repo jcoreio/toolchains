@@ -18,13 +18,9 @@
     "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
     "@jcoreio/toolchain": "*",
     "@jcoreio/toolchain-circle": "*",
-    "@jcoreio/toolchain-esnext": "^4.6.0",
     "@jcoreio/toolchain-mocha": "*",
     "@jcoreio/toolchain-semantic-release": "*",
-    "@jcoreio/toolchain-typescript": "^4.6.0",
     "@semantic-release/exec": "^6.0.3",
-    "@typescript-eslint/eslint-plugin": "^7.6.0",
-    "@typescript-eslint/parser": "^7.6.0",
     "chai": "^4.3.7",
     "dedent-js": "^1.0.1",
     "eslint": "^8.56.0",
@@ -33,8 +29,7 @@
     "fs-extra": "^10.0.0",
     "gitignore-fs": "^2.1.0",
     "glob": "^7.2.0",
-    "mocha": "^10.2.0",
-    "typescript": "^5.1.0"
+    "mocha": "^10.2.0"
   },
   "scripts": {
     "clone-to-fixture": "node test/util/cloneToFixture.js",
