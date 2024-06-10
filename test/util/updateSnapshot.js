@@ -16,7 +16,12 @@ async function updateSnapshot(name, snapshotName) {
     cwd: actual,
     dot: true,
     nodir: true,
-    ignore: ['.nyc_output/**', 'coverage/**', 'node_modules/**', '.git/**'],
+    ignore: [
+      '**/.nyc_output/**',
+      '**/coverage/**',
+      '**/node_modules/**',
+      '**/.git/**',
+    ],
   })
   const dirs = new Set()
   await Promise.all(

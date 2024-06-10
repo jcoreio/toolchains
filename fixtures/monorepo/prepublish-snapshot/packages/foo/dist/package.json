@@ -1,0 +1,25 @@
+{
+  "name": "@jcoreio/toolchain-monorepo-test-foo",
+  "description": "foo subpackage for @jcoreio/toolchain monorepo test",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "packages/foo"
+  },
+  "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/foo",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchains/issues"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "keywords": [
+    ""
+  ],
+  "version": "0.0.0-development",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@8.11.0",
+  "dependencies": {}
+}

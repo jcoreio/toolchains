@@ -1,0 +1,27 @@
+{
+  "name": "@jcoreio/toolchain-monorepo-test-bar",
+  "description": "bar subpackage for @jcoreio/toolchain-monorepo-test",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "packages/bar"
+  },
+  "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/bar",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchains/issues"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "keywords": [
+    ""
+  ],
+  "version": "0.0.0-development",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@8.11.0",
+  "dependencies": {
+    "@jcoreio/toolchain-monorepo-test-foo": "workspace:*"
+  }
+}
