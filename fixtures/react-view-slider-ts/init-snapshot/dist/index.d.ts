@@ -87,8 +87,8 @@ export default class ViewSlider extends React.Component<Props, State> {
     getTransitionState: (childIndex: number) => TransitionState;
     renderView: (index: number) => React.ReactNode;
     animateHeight: () => boolean;
-    rootRef: (node: React.ElementRef<'div'> | null) => void;
-    viewportRef: (node: React.ElementRef<'div'> | null) => void;
+    rootRef: (node: React.ElementRef<"div"> | null) => void;
+    viewportRef: (node: React.ElementRef<"div"> | null) => void;
     render(): React.ReactElement<'div'>;
 }
 export {};
