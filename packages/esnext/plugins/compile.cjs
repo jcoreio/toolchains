@@ -90,7 +90,7 @@ module.exports = [
       }
 
       if (toolchainConfig.sourceMaps) {
-        const srcFiles = await glob(path.join('src', '**'))
+        const srcFiles = await glob(path.join('src', '**'), { nodir: true })
         await Promise.all(
           srcFiles.map(async (src) => {
             if (src === 'src') return
