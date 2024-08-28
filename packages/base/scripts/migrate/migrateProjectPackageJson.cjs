@@ -80,21 +80,10 @@ async function migrateProjectPackageJson({ fromVersion }) {
       packageJson.main = 'dist/index.js'
       packageJson.module = 'dist/index.mjs'
     }
-    if (!packageJson.main && !packageJson.exports && !packageJson.module) {
-      const hasIndexTypes =
-        (await fs.pathExists(Path.join('src', 'index.ts'))) ||
-        (await fs.pathExists(Path.join('src', 'index.tsx'))) ||
-        (await fs.pathExists(Path.join('src', 'index.d.ts')))
-      const hasIndex =
-        hasIndexTypes || (await fs.pathExists(Path.join('src', 'index.js')))
-      if (hasIndex) {
-        packageJson.main = 'dist/index.js'
-        packageJson.module = 'dist/index.mjs'
-      }
-      if (hasIndexTypes) {
-        packageJson.types = 'dist/index.d.ts'
-      }
+    if (hasIndexTypes) {
+      packageJson.types = 'dist/index.d.ts'
     }
+
     for (const dep of require('./migrateRemoveDevDeps.cjs')) {
       delete devDependencies[dep]
     }
