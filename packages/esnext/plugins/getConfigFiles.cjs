@@ -4,7 +4,7 @@ const dedent = require('dedent-js')
 
 module.exports = [
   [
-    async function getConfigFiles() {
+    async function getConfigFiles({ fromVersion }) {
       return {
         'toolchain.config.cjs': async (existing) => {
           if (existing) return existing
@@ -30,14 +30,14 @@ module.exports = [
         `
         },
         '.babelrc.cjs': dedent`
-        /* eslint-env node, es2018 */
-        module.exports = function (api) {
-          const base = require('${name}/.babelrc.cjs')(api)
-          return {
-            ...base,
+          /* eslint-env node, es2018 */
+          module.exports = function (api) {
+            const base = require('${name}/.babelrc.cjs')(api)
+            return {
+              ...base,
+            }
           }
-        }
-      `,
+        `,
       }
     },
     { after: '@jcoreio/toolchain' },

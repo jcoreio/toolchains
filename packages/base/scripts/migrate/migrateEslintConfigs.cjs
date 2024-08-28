@@ -3,7 +3,11 @@ const Path = require('path')
 const JSON5 = require('json5')
 const fs = require('../../util/projectFs.cjs')
 
-async function migrateEslintConfigs() {
+async function migrateEslintConfigs({ fromVersion }) {
+  if (fromVersion) {
+    // only do this migration on init
+    return
+  }
   for (const file of await glob(Path.join('**', '.eslintrc{,.json}'))) {
     const content = JSON5.parse(await fs.readFile(file, 'utf8'))
     if (content.extends) {

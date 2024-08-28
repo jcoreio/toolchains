@@ -8,7 +8,8 @@ async function getRootTsconfig() {
 }
 
 module.exports = [
-  async function getConfigFiles() {
+  async function getConfigFiles({ fromVersion }) {
+    if (fromVersion) return {}
     const rootTsconfig = await getRootTsconfig()
     const lib =
       rootTsconfig &&

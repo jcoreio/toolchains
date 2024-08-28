@@ -6,6 +6,7 @@ const {
   monorepoSubpackageJsons,
 } = require('../util/findUps.cjs')
 const execa = require('../util/execa.cjs')
+const writeMigratedVersion = require('../util/writeMigratedVersion.cjs')
 const { name } = require('../package.json')
 
 async function upgrade([version] = []) {
@@ -16,6 +17,9 @@ async function upgrade([version] = []) {
         .filter((pkg) => pkg.startsWith(`${name}-`))
     ),
   ]
+  if (!packageJson[name] || !packageJson[name].migratedVersion) {
+    await writeMigratedVersion()
+  }
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_SELF_TEST)
 
   if (!isTest && !version) {

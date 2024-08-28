@@ -17,10 +17,11 @@ const defaultFlowConfig = dedent`
 `
 
 module.exports = [
-  async function getConfigFiles() {
+  async function getConfigFiles({ fromVersion }) {
     let flowconfig
     if (await fs.pathExists('.flowconfig')) {
       flowconfig = await fs.readFile('.flowconfig', 'utf8')
+      if (fromVersion) return { '.flowconfig': flowconfig }
       const parsed = INI.parse(flowconfig)
       const parsedDefault = INI.parse(defaultFlowConfig)
 

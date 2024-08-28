@@ -15,7 +15,7 @@ async function getRootEslintConfig() {
 }
 
 module.exports = [
-  async function getConfigFiles() {
+  async function getConfigFiles({ fromVersion }) {
     const { env, rules } = (await getRootEslintConfig()) || {}
     const files = {
       ...(isMonorepoSubpackage
@@ -25,12 +25,9 @@ module.exports = [
               optional=false
             `,
           }),
-      '.eslintrc.cjs': (prev) =>
-        prev
-          ? prev.replace(
-              new RegExp(`${name}/eslint\\.config\\.cjs`, 'g'),
-              `${name}/eslintConfig.cjs`
-            )
+      '.eslintrc.cjs': async (existing) =>
+        existing && fromVersion
+          ? existing
           : dedent`
         /* eslint-env node, es2018 */
         module.exports = {
@@ -72,7 +69,10 @@ module.exports = [
       'lint-staged.config.cjs',
       'prettier.config.cjs',
     ]) {
-      files[file] = dedent`
+      files[file] = async (existing) =>
+        existing && fromVersion
+          ? existing
+          : dedent`
         /* eslint-env node, es2018 */
         const base = require('${name}/${file}')
         module.exports = {
@@ -89,24 +89,30 @@ module.exports = [
       : await getPluginsArraySync('vscodeLaunch')
 
     if (tasks.length) {
-      files['.vscode/tasks.json'] = JSON.stringify(
-        {
-          version: '2.0.0',
-          tasks,
-        },
-        null,
-        2
-      )
+      files['.vscode/tasks.json'] = async (existing) =>
+        existing && fromVersion
+          ? existing
+          : JSON.stringify(
+              {
+                version: '2.0.0',
+                tasks,
+              },
+              null,
+              2
+            )
     }
     if (launch.length) {
-      files['.vscode/launch.json'] = JSON.stringify(
-        {
-          version: '0.2.0',
-          configurations: launch,
-        },
-        null,
-        2
-      )
+      files['.vscode/launch.json'] = async (existing) =>
+        existing && fromVersion
+          ? existing
+          : JSON.stringify(
+              {
+                version: '0.2.0',
+                configurations: launch,
+              },
+              null,
+              2
+            )
     }
 
     return files
