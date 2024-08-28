@@ -4,7 +4,7 @@ const { scripts } = require('@jcoreio/toolchain/scripts/toolchain.cjs')
 const semver = require('semver')
 
 module.exports = [
-  async function getConfigFiles() {
+  async function getConfigFiles({ fromVersion }) {
     const dockerImageVersion = '20.10.0'
     const dockerImage = `cimg/node:${dockerImageVersion}`
 
@@ -15,10 +15,16 @@ module.exports = [
             [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
     `
 
+    const codecovVersion = '4.1.0'
+
     const defaultConfig = dedent`
       # created by ${name}
 
       version: 2.1
+
+      orbs:
+        codecov: codecov/codecov@${codecovVersion}
+
       jobs:
         build:
           docker:
@@ -42,6 +48,7 @@ module.exports = [
                 name: Prepublish
                 command: |
                   [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc prepublish
+            - codecov/upload
             ${
               scripts.release
                 ? releaseStep.replace(/^/gm, ' '.repeat(6)).replace(/^ {6}/, '')
@@ -57,12 +64,38 @@ module.exports = [
                   - github-release
     `
     return {
-      '.circleci/config.yml': (prev) =>
-        prev && prev.includes(name)
-          ? prev.replace(/\bcimg\/node:([0-9.]+)/, (m, version) =>
-              semver.lt(version, dockerImageVersion) ? dockerImage : m
+      '.circleci/config.yml': (config) => {
+        if (
+          !config ||
+          (semver.lt(fromVersion || '0.0.0', '3.0.0') && !config.includes(name))
+        ) {
+          return defaultConfig
+        }
+        config = config.replace(/\bcimg\/node:([0-9.]+)/, (m, version) =>
+          semver.lt(version, dockerImageVersion) ? dockerImage : m
+        )
+        if (
+          semver.lt(fromVersion || '0.0.0', '4.7.0') &&
+          !config.includes('codecov')
+        ) {
+          if (/^orbs:/m.test(config)) {
+            config = config.replace(
+              /^orbs:/m,
+              `orbs:\n  codecov: codecov/codecov@${codecovVersion}`
             )
-          : defaultConfig,
+          } else {
+            config = config.replace(
+              /^(version:.*)/m,
+              `$1\n\norbs:\n  codecov: codecov/codecov@${codecovVersion}`
+            )
+          }
+          config = config.replace(
+            /tc prepublish\n(\s*)- run:/m,
+            'tc prepublish\n$1- codecov/upload\n$1- run:'
+          )
+        }
+        return config
+      },
     }
   },
 ]
