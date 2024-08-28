@@ -78,16 +78,29 @@ module.exports = [
           semver.lt(fromVersion || '0.0.0', '4.7.0') &&
           !config.includes('codecov')
         ) {
+          if (!/tc prepublish\n(\s*)- run:/m.test(config)) {
+            // eslint-disable-next-line no-console
+            console.error(
+              'WARNING: failed to add codecov upload to .circleci/config.yml'
+            )
+            return config
+          }
           if (/^orbs:/m.test(config)) {
             config = config.replace(
               /^orbs:/m,
               `orbs:\n  codecov: codecov/codecov@${codecovVersion}`
             )
-          } else {
+          } else if (/^(version:.*)/m.test(config)) {
             config = config.replace(
               /^(version:.*)/m,
               `$1\n\norbs:\n  codecov: codecov/codecov@${codecovVersion}`
             )
+          } else {
+            // eslint-disable-next-line no-console
+            console.error(
+              'WARNING: failed to add codecov upload to .circleci/config.yml'
+            )
+            return config
           }
           config = config.replace(
             /tc prepublish\n(\s*)- run:/m,

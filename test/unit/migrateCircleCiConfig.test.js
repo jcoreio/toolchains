@@ -110,6 +110,50 @@ describe('packages/circle', () => {
       )
     ).to.equal(withoutCodecov)
 
+    const unmigratable = dedent`
+      # created by @jcoreio/toolchain-circle
+      
+      version: 2.1
+
+      jobs:
+        build:
+          docker:
+            - image: cimg/node:20.10.0
+      
+          steps:
+            - checkout
+            - run:
+                name: Setup NPM Token
+                command: |
+                  npm config set \\
+                    "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \\
+                    "registry=https://registry.npmjs.org/"
+            - run:
+                name: Corepack enable
+                command: sudo corepack enable
+            - run:
+                name: Install Dependencies
+                command: pnpm install --frozen-lockfile
+            - run:
+                name: Prepublish
+                command: |
+                  pnpm run prepublish
+            - run:
+                name: Release
+                command: |
+                  [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
+      
+      workflows:
+        build:
+          jobs:
+            - build:
+                context:
+                  - npm-release
+                  - github-release
+    `
+
+    expect(getConfig(unmigratable)).to.equal(unmigratable)
+
     expect(
       getConfig(dedent`
       # created by @jcoreio/toolchain-circle
