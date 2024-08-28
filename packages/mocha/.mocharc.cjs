@@ -7,6 +7,7 @@ module.exports = {
   reporter: 'spec',
   recursive: true,
   spec: getSpecs(getPluginsArraySync('mochaSpecs')),
+  watchIgnore: ['**/node_modules', '**/.git'],
   ...(process.env.JCOREIO_TOOLCHAIN_ESM
     ? {
         'node-option': [
