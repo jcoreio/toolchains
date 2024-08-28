@@ -69,7 +69,12 @@ async function migrateProjectPackageJson({ fromVersion }) {
       unset(packageJson, path)
     }
   }
-  if (!packageJson.main && !packageJson.exports && !packageJson.module) {
+  if (
+    !fromVersion &&
+    !packageJson.main &&
+    !packageJson.exports &&
+    !packageJson.module
+  ) {
     const hasIndexTypes =
       (await fs.pathExists(Path.join('src', 'index.ts'))) ||
       (await fs.pathExists(Path.join('src', 'index.tsx'))) ||
@@ -88,7 +93,11 @@ async function migrateProjectPackageJson({ fromVersion }) {
       delete devDependencies[dep]
     }
 
-    if (!packageJson.exports && packageJson.main) {
+    if (
+      semver.lt(fromVersion || '0.0.0', '3.0.0') &&
+      !packageJson.exports &&
+      packageJson.main
+    ) {
       const relativize = (p) => (p.startsWith('.') ? p : `./${p}`)
 
       const dotStar = await confirm({
