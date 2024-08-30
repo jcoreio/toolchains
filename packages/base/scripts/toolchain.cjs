@@ -15,6 +15,7 @@ try {
 }
 const scripts = toolchainConfig
   ? {
+      badges: require('./badges.cjs'),
       migrate: require('./migrate.cjs'),
       build: require('./build.cjs'),
       'build:smoke-test': require('./smokeTestBuild.cjs'),
