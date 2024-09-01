@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const glob = require('@jcoreio/toolchain/util/glob.cjs')
+const { glob } = require('@jcoreio/toolchain/util/glob.cjs')
 
 module.exports = async function fixSourceMaps() {
   const mapFiles = await glob(

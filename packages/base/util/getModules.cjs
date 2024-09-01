@@ -1,5 +1,5 @@
 const fs = require('./projectFs.cjs')
-const glob = require('./glob.cjs')
+const { glob } = require('./glob.cjs')
 const path = require('path')
 
 module.exports = async function getModules(packageJsonFile) {

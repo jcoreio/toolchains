@@ -1,12 +1,12 @@
 const once = require('./once.cjs')
-const { globIterateSync } = require('./glob.cjs')
+const { globIterate } = require('./glob.cjs')
 const { config } = require('./findUps.cjs')
 
-module.exports = once(function hasTSSourcesSync() {
+module.exports = once(async function hasTSSources() {
   if (config && typeof config.hasTypeScriptSources === 'boolean') {
     return config.hasTypeScriptSources
   }
-  for (const file of globIterateSync('src/**/*.{ts,cts,mts,tsx,ctsx,mtsx}', {
+  for await (const file of globIterate('src/**/*.{ts,cts,mts,tsx,ctsx,mtsx}', {
     ignore: '**/*.d.{ts,cts,mts}',
   })) {
     return true

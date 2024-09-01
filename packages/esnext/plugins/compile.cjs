@@ -1,6 +1,6 @@
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const glob = require('@jcoreio/toolchain/util/glob.cjs')
+const { glob } = require('@jcoreio/toolchain/util/glob.cjs')
 const path = require('path')
 const dedent = require('dedent-js')
 const {

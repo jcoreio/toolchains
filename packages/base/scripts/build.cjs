@@ -3,7 +3,7 @@ const Path = require('path')
 const { projectDir } = require('../util/findUps.cjs')
 const fs = require('../util/projectFs.cjs')
 const execa = require('../util/execa.cjs')
-const glob = require('../util/glob.cjs')
+const { glob } = require('../util/glob.cjs')
 
 exports.run = async function build(args = []) {
   await execa('tc', ['clean'])

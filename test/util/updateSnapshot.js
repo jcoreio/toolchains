@@ -1,7 +1,6 @@
 const fs = require('fs-extra')
 const Path = require('path')
-const glob = require('glob')
-const { promisify } = require('util')
+const { glob } = require('glob')
 const fixtures = Path.resolve(__dirname, '..', '..', 'fixtures')
 
 async function updateSnapshot(name, snapshotName) {
@@ -12,16 +11,12 @@ async function updateSnapshot(name, snapshotName) {
   const snapshot = Path.join(fixtures, name, snapshotName)
   await fs.remove(snapshot)
 
-  const files = await promisify(glob)('{*,**/*}', {
+  const files = await glob('**', {
     cwd: actual,
+    follow: true,
     dot: true,
     nodir: true,
-    ignore: [
-      '**/.nyc_output/**',
-      '**/coverage/**',
-      '**/node_modules/**',
-      '**/.git/**',
-    ],
+    ignore: '**/{node_modules,coverage,.git,.nyc_output}/**',
   })
   const dirs = new Set()
   await Promise.all(

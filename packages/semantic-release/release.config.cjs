@@ -1,6 +1,6 @@
 const {
   projectDir,
-  packageJson: { name: pkg, private },
+  packageJson: { name: pkg, private: _private },
   monorepoSubpackageJsonFiles,
   monorepoPackageJson,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
@@ -94,7 +94,7 @@ module.exports =
               },
             },
           ],
-          ...(private
+          ...(_private
             ? []
             : [
                 [
@@ -113,7 +113,7 @@ module.exports =
         plugins: [
           require.resolve('@semantic-release/commit-analyzer'),
           require.resolve('@semantic-release/release-notes-generator'),
-          ...(private
+          ...(_private
             ? []
             : [
                 [

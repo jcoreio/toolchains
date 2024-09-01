@@ -1,4 +1,4 @@
-const glob = require('../../util/glob.cjs')
+const { glob } = require('../../util/glob.cjs')
 const fs = require('../../util/projectFs.cjs')
 const path = require('path')
 

@@ -1,7 +1,7 @@
-const fs = require('./projectFs.cjs')
 const once = require('./once.cjs')
+const { glob } = require('./glob.cjs')
 
 module.exports = once(async function hasTSFiles() {
-  const files = await fs.readdir('src')
-  return files.some((f) => /\.[cm]?tsx?$/.test(f))
+  const files = await glob('**/*.{ts,tsx}')
+  return files.length > 0
 })

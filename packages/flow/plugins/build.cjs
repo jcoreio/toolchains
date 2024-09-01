@@ -1,14 +1,14 @@
 const Path = require('path')
-const glob = require('@jcoreio/toolchain/util/glob.cjs')
+const { glob } = require('@jcoreio/toolchain/util/glob.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const hasTSSourcesSync = require('@jcoreio/toolchain/util/hasTSSourcesSync.cjs')
+const hasTSSources = require('@jcoreio/toolchain/util/hasTSSources.cjs')
 const resolveImportsCodemod = require('@jcoreio/toolchain-esnext/util/resolveImportsCodemod.cjs')
 const { toolchainConfig } = require('@jcoreio/toolchain/util/findUps.cjs')
 
 module.exports = [
   [
     async function build(args = []) {
-      if (!hasTSSourcesSync()) {
+      if (!(await hasTSSources())) {
         const jsFiles = await glob(Path.join('src', '**', '*.{js,cjs,mjs}'))
         for (const ext of [
           '.js.flow',
