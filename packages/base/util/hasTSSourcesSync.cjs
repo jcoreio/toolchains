@@ -1,15 +1,15 @@
 const once = require('./once.cjs')
-const { globIterateSync } = require('./glob.cjs')
-const { config } = require('./findUps.cjs')
+const { globExistsSync } = require('./glob.cjs')
+const { toolchainConfig } = require('./findUps.cjs')
 
 module.exports = once(function hasTSSourcesSync() {
-  if (config && typeof config.hasTypeScriptSources === 'boolean') {
-    return config.hasTypeScriptSources
+  if (
+    toolchainConfig &&
+    typeof toolchainConfig.hasTypeScriptSources === 'boolean'
+  ) {
+    return toolchainConfig.hasTypeScriptSources
   }
-  for (const file of globIterateSync('src/**/*.{ts,cts,mts,tsx,ctsx,mtsx}', {
+  return globExistsSync('src/**/*.{ts,cts,mts,tsx,ctsx,mtsx}', {
     ignore: '**/*.d.{ts,cts,mts}',
-  })) {
-    return true
-  }
-  return false
+  })
 })

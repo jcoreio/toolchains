@@ -1,6 +1,7 @@
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const { glob } = require('@jcoreio/toolchain/util/glob.cjs')
+const buildGlobOpts = require('@jcoreio/toolchain/util/buildGlobOpts.cjs')
 const path = require('path')
 const dedent = require('dedent-js')
 const {
@@ -21,6 +22,10 @@ module.exports = [
           'src',
           ...(extensions.length ? ['--extensions', extensions.join(',')] : []),
           ...(extensions.includes('.ts') ? ['--ignore', '**/*.d.ts'] : []),
+          ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
+            '--ignore',
+            pattern,
+          ]),
           '--out-dir',
           'dist',
           '--out-file-extension',
@@ -57,6 +62,10 @@ module.exports = [
               ...(extensions.length
                 ? ['--extensions', extensions.join(',')]
                 : []),
+              ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
+                '--ignore',
+                pattern,
+              ]),
               '--out-dir',
               'dist',
               '--out-file-extension',
@@ -74,6 +83,7 @@ module.exports = [
         for (const ext of ['.js', '.mjs']) {
           if (!extensions.includes(ext)) {
             const srcFiles = await glob(path.join('**', '*' + ext), {
+              ...buildGlobOpts,
               cwd: path.join(projectDir, 'src'),
             })
             for (const file of srcFiles) {
@@ -90,7 +100,10 @@ module.exports = [
       }
 
       if (toolchainConfig.sourceMaps) {
-        const srcFiles = await glob(path.join('src', '**'), { nodir: true })
+        const srcFiles = await glob(path.join('src', '**'), {
+          ...buildGlobOpts,
+          nodir: true,
+        })
         await Promise.all(
           srcFiles.map(async (src) => {
             if (src === 'src') return

@@ -8,4 +8,16 @@ module.exports = {
     globIterate(what, { cwd: projectDir, ...options }),
   globIterateSync: (what, options) =>
     globIterateSync(what, { cwd: projectDir, ...options }),
+  globExists: async (what, options) => {
+    for await (const _ of module.exports.globIterate(what, options)) {
+      return true
+    }
+    return false
+  },
+  globExistsSync: (what, options) => {
+    for (const _ of module.exports.globIterateSync(what, options)) {
+      return true
+    }
+    return false
+  },
 }

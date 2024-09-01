@@ -2,6 +2,7 @@ const { name } = require('../package.json')
 const confirmOutputEsm = require('@jcoreio/toolchain/scripts/migrate/confirmOutputEsm.cjs')
 const dedent = require('dedent-js')
 const hasTSSources = require('@jcoreio/toolchain/util/hasTSSources.cjs')
+const initBuildIgnore = require('@jcoreio/toolchain/util/initBuildIgnore.cjs')
 
 module.exports = [
   [
@@ -18,6 +19,7 @@ module.exports = [
             ${
               outputEsm ? '// ' : ''
             }outputEsm: false, // disables ESM output (default: true)
+            buildIgnore: ${JSON.stringify(await initBuildIgnore(), null, 2)},
             hasTypeScriptSources: ${await hasTSSources()},
             // esWrapper: true, // outputs ES module wrappers for CJS modules (default: false)
             // sourceMaps: false, // default is true (outputs .map files, also accepts 'inline' or 'both')

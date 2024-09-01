@@ -4,6 +4,7 @@ const fs = require('../util/projectFs.cjs')
 const JSON5 = require('json5')
 const { isMonorepoSubpackage } = require('../util/findUps.cjs')
 const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
+const initBuildIgnore = require('../util/initBuildIgnore.cjs')
 
 async function getRootEslintConfig() {
   if (await fs.pathExists('.eslintrc.json')) {
@@ -53,6 +54,7 @@ module.exports = [
         return dedent`
           /* eslint-env node, es2018 */
           module.exports = {
+            buildIgnore: ${JSON.stringify(await initBuildIgnore(), null, 2)},
             // scripts: {
             //   pretest: 'docker compose up -d',
             //   jsExample: {
@@ -73,13 +75,13 @@ module.exports = [
         existing && fromVersion
           ? existing
           : dedent`
-        /* eslint-env node, es2018 */
-        const base = require('${name}/${file}')
-        module.exports = {
-          ...base,
-        }
-  
-      `
+              /* eslint-env node, es2018 */
+              const base = require('${name}/${file}')
+              module.exports = {
+                ...base,
+              }
+        
+            `
     }
     const tasks = isMonorepoSubpackage
       ? []

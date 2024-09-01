@@ -1,5 +1,7 @@
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const JSON5 = require('json5')
+const { globExists } = require('@jcoreio/toolchain/util/glob.cjs')
+const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 
 async function getRootTsconfig() {
   if (await fs.pathExists('tsconfig.json')) {
@@ -19,6 +21,18 @@ module.exports = [
       !rootTsconfig ||
       !rootTsconfig.extends ||
       !rootTsconfig.extends.includes('@jcoreio/toolchain')
+    const buildExclude = ['node_modules', 'test']
+    if (await globExists('src/**/__tests__')) {
+      buildExclude.push('src/**/__tests__')
+    }
+    for (const extension of getPluginsArraySync('sourceExtensions')) {
+      for (const suffix of ['spec', 'test']) {
+        const pattern = `src/**/*.${suffix}.${extension}`
+        if (await globExists(pattern, { ignore: 'src/**/__tests__/**' })) {
+          buildExclude.push(pattern)
+        }
+      }
+    }
     return {
       'tsconfig.json': {
         content: JSON.stringify(
@@ -39,7 +53,7 @@ module.exports = [
           {
             extends: './tsconfig.json',
             include: ['./src'],
-            exclude: ['node_modules', './src/**/*.spec.ts', './test'],
+            exclude: buildExclude,
             compilerOptions: {
               outDir: './dist',
               declaration: true,

@@ -128,6 +128,23 @@ Available commands:
   version             print version of @jcoreio/toolchain
 ```
 
+### Exclude files from build output
+
+Configure the `buildIgnore` option in your `toolchain.config.cjs`. `buildIgnore`
+takes an array of glob patterns. `**` is supported, though brace expansion (e.g.
+`*.{ts,tsx}`) is not currently.
+
+Example:
+
+```js
+/* eslint-env node, es2018 */
+module.exports = {
+  cjsBabelEnv: { forceAllTransforms: true },
+  outputEsm: false,
+  buildIgnore: ['src/**/__tests__'],
+}
+```
+
 ### Customize Git hooks
 
 Edit `githooks.cjs`. The default added by `toolchain init` is:

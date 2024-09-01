@@ -6,6 +6,7 @@ module.exports = z.object({
   esWrapper: z.boolean().optional(),
   outputEsm: z.boolean().optional(),
   hasTypeScriptSources: z.boolean().optional(),
+  buildIgnore: z.array(z.string()).optional(),
   sourceMaps: z
     .union([
       /**
