@@ -38,6 +38,7 @@ module.exports =
   monorepoPackageJson.name !== '@jcoreio/toolchains'
     ? {
         ...base,
+        // use separate git tags for each subpackage
         tagFormat: `${pkg}-v\${version}`,
         plugins: [
           [
@@ -45,17 +46,24 @@ module.exports =
             {
               preset: 'conventionalcommits',
               releaseRules: [
+                // don't let commits scoped to other packages like fix(otherPackageName): ... trigger a release in this package
                 ...otherPackages.flatMap((scope) => ({
                   scope,
                   release: false,
                 })),
-                ...[pkg, undefined].flatMap((scope) => [
+                ...[
+                  // make commits scoped to this package like fix(packageName): ... trigger a release in this package
+                  pkg,
+                  // make unscoped commits like fix: ... trigger a release in all packages
+                  undefined,
+                ].flatMap((scope) => [
                   { breaking: true, scope, release: 'major' },
                   { revert: true, scope, release: 'patch' },
                   { type: 'feat', scope, release: 'minor' },
                   { type: 'fix', scope, release: 'patch' },
                   { type: 'perf', scope, release: 'patch' },
                 ]),
+                // don't let any other types of commits trigger a release
                 { scope: undefined, release: false },
               ],
             },
@@ -82,12 +90,15 @@ module.exports =
                     { type: 'perf', section: 'Performance Improvements' },
                     { type: 'refactor', section: 'Code Refactoring' },
                   ].flatMap((cfg) => [
+                    // include commits scoped to this package like fix(packageName): ... in the release notes for this package
                     { ...cfg, scope: pkg, hidden: false },
+                    // exclude commits scoped to other packages like fix(otherPackageName): ... from the release notes for this package
                     ...otherPackages.map((otherPkg) => ({
                       ...cfg,
                       scope: otherPkg,
                       hidden: true,
                     })),
+                    // include unscoped commits like fix: ... in the release notes for all packages
                     { ...cfg, hidden: false },
                   ]),
                 ],
@@ -98,6 +109,8 @@ module.exports =
             ? []
             : [
                 [
+                  // this fork of @semantic-release/npm includes a patch that is necessary to fix an issue with monorepos
+                  // https://github.com/semantic-release/npm/pull/531
                   require.resolve('@jcoreio/semantic-release-npm'),
                   {
                     pkgRoot: path.join(projectDir, 'dist'),
