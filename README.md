@@ -11,11 +11,13 @@ A system for managing JS/TS project dev tools
     - [Upgrading `@jcoreio/toolchain`](#upgrading-jcoreiotoolchain)
     - [Specify `main`, `module`, `exports`, and `bin` and link package locally](#specify-main-module-exports-and-bin-and-link-package-locally)
     - [Run build scripts](#run-build-scripts)
+    - [Exclude files from build output](#exclude-files-from-build-output)
     - [Customize Git hooks](#customize-git-hooks)
     - [Disable ESM build](#disable-esm-build)
     - [Disable source map output](#disable-source-map-output)
     - [Configure transpilation options](#configure-transpilation-options)
     - [Run scripts before or after toolchain scripts](#run-scripts-before-or-after-toolchain-scripts)
+    - [Disable scripts like `build:smoke-test` that are run by `prepublish`](#disable-scripts-like-buildsmoke-test-that-are-run-by-prepublish)
     - [Load chai plugins, customize mocha, etc.](#load-chai-plugins-customize-mocha-etc)
     - [Change mocha default specs](#change-mocha-default-specs)
     - [Define multiple test targets](#define-multiple-test-targets)
@@ -227,6 +229,19 @@ module.exports = {
         // do something...
       },
     },
+  },
+}
+```
+
+### Disable scripts like `build:smoke-test` that are run by `prepublish`
+
+In `toolchain.config.cjs`:
+
+```js
+module.exports = {
+  ...
+  scripts: {
+    'build:smoke-test': false,
   },
 }
 ```

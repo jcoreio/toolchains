@@ -42,11 +42,16 @@ const scripts = toolchainConfig
       ...Object.fromEntries(
         Object.entries(toolchainConfig.scripts || {}).map(([name, script]) => [
           name,
-          typeof script === 'string'
+          typeof script === 'string' && script.trim()
             ? {
                 run: (args = []) =>
                   execa([script, ...args].join(' '), { shell: true }),
                 description: script,
+              }
+            : !script || typeof script === 'string'
+            ? {
+                run: () => {},
+                description: '(no-op)',
               }
             : script,
         ])
