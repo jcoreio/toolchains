@@ -2,6 +2,7 @@ const { name } = require('../package.json')
 const confirmOutputEsm = require('@jcoreio/toolchain/scripts/migrate/confirmOutputEsm.cjs')
 const dedent = require('dedent-js')
 const hasTSSources = require('@jcoreio/toolchain/util/hasTSSources.cjs')
+const hasJSSources = require('@jcoreio/toolchain/util/hasJSSources.cjs')
 const initBuildIgnore = require('@jcoreio/toolchain/util/initBuildIgnore.cjs')
 const { toolchainPackages } = require('@jcoreio/toolchain/util/findUps.cjs')
 
@@ -22,9 +23,11 @@ module.exports = [
             }outputEsm: false, // disables ESM output (default: true)
             buildIgnore: ${JSON.stringify(await initBuildIgnore(), null, 2)},
             hasTypeScriptSources: ${
-              fromVersion
-                ? await hasTSSources()
-                : toolchainPackages.includes('@jcoreio/toolchain-typescript')
+              toolchainPackages.includes('@jcoreio/toolchain-typescript')
+                ? fromVersion
+                  ? await hasTSSources()
+                  : !(await hasJSSources())
+                : false
             },
             // esWrapper: true, // outputs ES module wrappers for CJS modules (default: false)
             // sourceMaps: false, // default is true (outputs .map files, also accepts 'inline' or 'both')
