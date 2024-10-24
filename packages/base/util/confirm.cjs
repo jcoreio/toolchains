@@ -7,7 +7,7 @@ module.exports = async function confirm({
 }) {
   return isInteractive
     ? (
-        await require('prompts')({
+        await require('./prompt')({
           type: 'confirm',
           message,
           initial,

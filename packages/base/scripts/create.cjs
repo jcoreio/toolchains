@@ -7,7 +7,7 @@ const parseRepositoryUrl = require('../util/parseRepositoryUrl.cjs')
 const markdownBadges = require('../util/markdownBadges.cjs')
 
 async function create(args = []) {
-  const prompt = require('prompts')
+  const prompt = require('../util/prompt.cjs')
 
   let monorepoPackageJson, monorepoProjectDir
   try {

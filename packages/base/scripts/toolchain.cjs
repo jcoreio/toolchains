@@ -37,6 +37,7 @@ const scripts = toolchainConfig
         },
       },
       'install-git-hooks': require('./install-git-hooks.cjs'),
+      'install-optional-deps': require('./install-optional-deps.cjs'),
       ...(isMonorepoRoot ? { create: require('./create.cjs') } : {}),
       ...getPluginsObjectSync('scripts'),
       ...Object.fromEntries(

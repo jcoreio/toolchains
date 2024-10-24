@@ -35,7 +35,7 @@ async function init(args = []) {
 
   let selectedToolchains = [...toolchains]
   if (isInteractive) {
-    ;({ selectedToolchains } = await require('prompts')({
+    ;({ selectedToolchains } = await require('../uitl/prompt')({
       name: 'selectedToolchains',
       type: 'multiselect',
       message: 'Select toolchains to install',
