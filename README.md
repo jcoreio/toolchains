@@ -43,7 +43,7 @@ A system for managing JS/TS project dev tools
 In the parent dir of where you want to create your project directory, run:
 
 ```sh
-pnpm --package=@jcoreio/toolchain@<version> dlx tc create
+pnpm --package=@jcoreio/toolchain dlx tc create
 ```
 
 ### Migrating an existing project to `@jcoreio/toolchain`
@@ -51,7 +51,7 @@ pnpm --package=@jcoreio/toolchain@<version> dlx tc create
 In your project dir, run:
 
 ```sh
-pnpm --package=@jcoreio/toolchain@<version> dlx tc init
+pnpm --package=@jcoreio/toolchain dlx tc init
 ```
 
 This does a bunch of things:
