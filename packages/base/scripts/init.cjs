@@ -80,6 +80,9 @@ async function init(args = []) {
       : [...selectedToolchains].map((t) => `${t}@^${version}`)),
   ])
   await execa('tc', ['migrate'])
+  if (isInteractive) {
+    await execa('tc', ['install-optional-deps'])
+  }
 }
 
 exports.description = 'install toolchains and migrate'
