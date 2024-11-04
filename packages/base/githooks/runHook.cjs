@@ -20,7 +20,7 @@ module.exports = async function runHook(hookName) {
     if (!hook) return
 
     if (typeof hook === 'function') {
-      await hook()
+      await hook(...process.argv.slice(2))
     } else if (hook) {
       await execa(hook, {
         cwd: projDir,
@@ -28,6 +28,8 @@ module.exports = async function runHook(hookName) {
       })
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error)
     const { exitCode } = error
     process.exit(exitCode != null ? exitCode : 1)
     return
