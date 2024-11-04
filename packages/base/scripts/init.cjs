@@ -35,7 +35,7 @@ async function init(args = []) {
 
   let selectedToolchains = [...toolchains]
   if (isInteractive) {
-    ;({ selectedToolchains } = await require('../util/prompt')({
+    ;({ selectedToolchains } = await require('../util/prompt.cjs')({
       name: 'selectedToolchains',
       type: 'multiselect',
       message: 'Select toolchains to install',
