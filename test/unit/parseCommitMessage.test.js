@@ -4,6 +4,20 @@ const { expect } = require('chai')
 const parseCommitMessage = require('../../packages/base/util/parseCommitMessage.cjs')
 const ParseError = require('../../packages/base/util/ParseError.cjs')
 
+const validTypes = [
+  'build',
+  'chore',
+  'ci',
+  'docs',
+  'feat',
+  'fix',
+  'perf',
+  'refactor',
+  'revert',
+  'style',
+  'test',
+]
+
 describe(`parseCommitMessage`, function () {
   for (const [input, expected] of Object.entries({
     'fix: do stuff': {
@@ -49,11 +63,11 @@ describe(`parseCommitMessage`, function () {
         body: 'BREAKING CHANGE: broke everything\n\nApproved-by: Jesus',
       },
     ' fix: do stuff': new ParseError(
-      'must begin with a type containing lowercase letters or - like `fix` or `feat`',
+      `must begin with a type - valid types are: ${validTypes.join(', ')}`,
       0
     ),
     'fix_stuff: do stuff': new ParseError(
-      'must begin with a type containing lowercase letters or - like `fix` or `feat`',
+      `invalid type: fix_stuff - valid types are: ${validTypes.join(', ')}`,
       0
     ),
     'fix do stuff': new ParseError('missing : after type/scope', 3),

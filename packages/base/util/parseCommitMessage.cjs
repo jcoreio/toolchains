@@ -1,12 +1,28 @@
 const ParseState = require('./ParseState.cjs')
 const ParseError = require('./ParseError.cjs')
 
+const validTypes = [
+  'build',
+  'chore',
+  'ci',
+  'docs',
+  'feat',
+  'fix',
+  'perf',
+  'refactor',
+  'revert',
+  'style',
+  'test',
+]
+
 function parseCommitMessage(message) {
   const state = new ParseState(message)
   const type = state.match(/[^(:! )]+/)
-  if (!type || !/^[-a-z]+$/.test(type)) {
+  if (!type || !validTypes.includes(type[0])) {
     throw new ParseError(
-      'must begin with a type containing lowercase letters or - like `fix` or `feat`',
+      `${
+        type ? `invalid type: ${type[0]}` : 'must begin with a type'
+      } - valid types are: ${validTypes.join(', ')}`,
       0
     )
   }
