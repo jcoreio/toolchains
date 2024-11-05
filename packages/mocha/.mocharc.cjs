@@ -16,5 +16,6 @@ module.exports = {
         ],
       }
     : {}),
+  ...(process.env.CI ? { forbidOnly: true } : {}),
   extension: extensions,
 }
