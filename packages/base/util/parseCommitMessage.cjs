@@ -16,6 +16,9 @@ const validTypes = [
 ]
 
 function parseCommitMessage(message) {
+  if (/^merge branch/i.test(message)) {
+    return { merge: true }
+  }
   const state = new ParseState(message)
   const type = state.match(/[^(:! )]+/)
   if (!type || !validTypes.includes(type[0])) {

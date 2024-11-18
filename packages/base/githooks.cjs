@@ -19,15 +19,17 @@ module.exports = {
     }
     try {
       const parsed = parseCommitMessage(content)
-      const scope = parsed.scope && parsed.scope[0]
-      if (
-        scope &&
-        monorepoSubpackageJsons &&
-        !monorepoSubpackageJsons.some((j) => scope === j.name)
-      ) {
-        throw new Error(
-          `invalid scope: ${scope} - scope must be the name of a package in this monorepo`
-        )
+      if (!parsed.merge) {
+        const scope = parsed.scope && parsed.scope[0]
+        if (
+          scope &&
+          monorepoSubpackageJsons &&
+          !monorepoSubpackageJsons.some((j) => scope === j.name)
+        ) {
+          throw new Error(
+            `invalid scope: ${scope} - scope must be the name of a package in this monorepo`
+          )
+        }
       }
       // eslint-disable-next-line no-console
       console.error(chalk`{green ✔} validated commit message`)
