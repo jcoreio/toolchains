@@ -66,15 +66,15 @@ function assertValidLogLevel(level: Level): void {
   }
 }
 
-const configuredLogLevels: { [path: string]: Level } = {}
-const envLogLevels: { [path: string]: Level } = {}
+let configuredLogLevels: { [path in string]?: Level } = {}
+const envLogLevels: { [path in string]?: Level } = {}
 
 const logLevelAtPath = (path: string): Level | undefined =>
   configuredLogLevels[path] || envLogLevels[path]
 
 const envVar = (varName: string): string | undefined =>
-  typeof process !== 'undefined' && process.env
-    ? process.env[varName]
+  typeof process !== 'undefined' && process.env // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+    ? process.env[varName] // eslint-disable-line @typescript-eslint/no-unnecessary-condition
     : undefined // eslint-disable-line no-undef
 
 let calcedEnvLogLevels = false
@@ -94,11 +94,11 @@ function calcEnvLogLevels(): void {
   calcedEnvLogLevels = true
 }
 
-let logLevelsCache: { [path: string]: Level } = {}
+let logLevelsCache: { [path in string]?: Level } = {}
 
 export function resetLogLevels(): void {
   logLevelsCache = {}
-  for (const path in configuredLogLevels) delete configuredLogLevels[path]
+  configuredLogLevels = {}
 }
 
 export function setLogLevel(path: string, level: Level): void {
@@ -192,7 +192,7 @@ export function setLogProvider(provider: LogProvider): void {
   _logProvider = provider
 }
 
-const loggersByPath: { [loggerPath: string]: Logger } = {}
+const loggersByPath: { [loggerPath in string]?: Logger } = {}
 
 class LoggerImpl implements Logger {
   loggerPath: string

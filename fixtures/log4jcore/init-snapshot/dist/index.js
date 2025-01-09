@@ -60,7 +60,9 @@ var logLevelAtPath = function logLevelAtPath(path) {
   return configuredLogLevels[path] || envLogLevels[path];
 };
 var envVar = function envVar(varName) {
-  return typeof process !== 'undefined' && process.env ? process.env[varName] : undefined;
+  return typeof process !== 'undefined' && process.env // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+  ? process.env[varName] // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+  : undefined;
 }; // eslint-disable-line no-undef
 
 var calcedEnvLogLevels = false;
@@ -85,9 +87,7 @@ function calcEnvLogLevels() {
 var logLevelsCache = {};
 function resetLogLevels() {
   logLevelsCache = {};
-  for (var _path in configuredLogLevels) {
-    delete configuredLogLevels[_path];
-  }
+  configuredLogLevels = {};
 }
 function setLogLevel(path, level) {
   assertValidLogLevel(level);

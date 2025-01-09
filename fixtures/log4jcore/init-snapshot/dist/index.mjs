@@ -31,10 +31,12 @@ function assertValidLogLevel(level) {
       throw new Error(`invalid log level: ${level}`);
   }
 }
-const configuredLogLevels = {};
+let configuredLogLevels = {};
 const envLogLevels = {};
 const logLevelAtPath = path => configuredLogLevels[path] || envLogLevels[path];
-const envVar = varName => typeof process !== 'undefined' && process.env ? process.env[varName] : undefined; // eslint-disable-line no-undef
+const envVar = varName => typeof process !== 'undefined' && process.env // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+? process.env[varName] // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+: undefined; // eslint-disable-line no-undef
 
 let calcedEnvLogLevels = false;
 function calcEnvLogLevels() {
@@ -55,7 +57,7 @@ function calcEnvLogLevels() {
 let logLevelsCache = {};
 export function resetLogLevels() {
   logLevelsCache = {};
-  for (const path in configuredLogLevels) delete configuredLogLevels[path];
+  configuredLogLevels = {};
 }
 export function setLogLevel(path, level) {
   assertValidLogLevel(level);

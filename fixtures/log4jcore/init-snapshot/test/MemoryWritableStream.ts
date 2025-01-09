@@ -1,7 +1,7 @@
 import { Writable } from 'stream'
 
 export default class MemoryWritableStream extends Writable {
-  _chunks: Buffer[] = []
+  _chunks: any[] = []
 
   _write(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

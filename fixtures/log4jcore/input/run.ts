@@ -25,7 +25,6 @@ const spawn = (command: string, args?: Array<string>, options?: any) => {
     options = args
     args = []
   }
-  if (!args) args = []
   if (!options) options = {}
   return promake.spawn(command, args, {
     stdio: 'inherit',
