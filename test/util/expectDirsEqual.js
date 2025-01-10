@@ -32,13 +32,23 @@ async function expectDirsEqual(actual, expected) {
   const actualEntries = await readdir(await fs.realpath(actual))
   const expectedEntries = await readdir(expected)
   expect(actualEntries.sort(), `contents of ${actual}`).to.have.members(
-    expectedEntries.map((e) => e.replace(/_\.gitignore$/, '.gitignore')).sort()
+    expectedEntries
+      .map((e) =>
+        e
+          .replace(/_\.gitignore$/, '.gitignore')
+          .replace(/_lint-staged\.config\.cjs$/, 'lint-staged.config.cjs')
+      )
+      .sort()
   )
   for (const entry of actualEntries) {
     const actualPath = Path.join(actual, entry)
     const expectedPath = Path.join(
       expected,
-      entry === '.gitignore' ? '_.gitignore' : entry
+      entry === '.gitignore'
+        ? '_.gitignore'
+        : entry === 'lint-staged.config.cjs'
+        ? '_lint-staged.config.cjs'
+        : entry
     )
     if (/\/$/.test(entry)) {
       await expectDirsEqual(actualPath, expectedPath)
