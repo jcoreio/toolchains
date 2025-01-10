@@ -13,7 +13,8 @@ module.exports = async function runHook(hookName) {
     let hooks
     try {
       hooks = require(Path.join(projDir, 'githooks.cjs'))
-    } catch (error) { // eslint-disable-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
+    } catch (error) {
       hooks = require('../githooks.cjs')
     }
     const hook = hooks[hookName]

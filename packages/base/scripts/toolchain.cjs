@@ -50,11 +50,11 @@ const scripts = toolchainConfig
                 description: script,
               }
             : !script || typeof script === 'string'
-            ? {
-                run: () => {},
-                description: '(no-op)',
-              }
-            : script,
+              ? {
+                  run: () => {},
+                  description: '(no-op)',
+                }
+              : script,
         ])
       ),
     }

@@ -34,7 +34,8 @@ async function create(args = []) {
           encoding: 'utf8',
         })
       ).stdout.trim()
-    } catch (error) { // eslint-disable-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
+    } catch (error) {
       // ignore
     }
   }

@@ -7,8 +7,8 @@ async function eslintArgs() {
     ...((await fs.pathExists('.eslintignore'))
       ? ['--ignore-pattern', '.eslintignore']
       : (await fs.pathExists('.gitignore'))
-      ? ['--ignore-pattern', '.gitignore']
-      : []),
+        ? ['--ignore-pattern', '.gitignore']
+        : []),
     '--ignore-pattern',
     'flow-typed/',
     '--ext',
