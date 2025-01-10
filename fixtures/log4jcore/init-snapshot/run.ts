@@ -6,7 +6,6 @@ import touch from 'touch'
 import glob from 'glob'
 // @ts-expect-error missing type defs
 import Promake from 'promake'
-// @ts-expect-error missing type defs
 import defaultenv from 'defaultenv'
 
 const promake = new Promake()
