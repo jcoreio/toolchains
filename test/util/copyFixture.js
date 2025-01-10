@@ -3,6 +3,7 @@ const Path = require('path')
 const fixtures = Path.resolve(__dirname, '..', '..', 'fixtures')
 const packages = Path.resolve(__dirname, '..', '..', 'packages')
 const os = require('os')
+const { glob } = require('glob')
 
 async function copyFixture(name, inputDir = 'input') {
   const src = Path.join(fixtures, name, inputDir)
@@ -17,11 +18,10 @@ async function copyFixture(name, inputDir = 'input') {
     Path.join(os.tmpdir(), 'toolchains', 'packages')
   )
   await fs.ensureSymlink(dest, destlink)
-  if (await fs.pathExists(Path.join(dest, '_lint-staged.config.cjs'))) {
-    await fs.rename(
-      Path.join(dest, '_lint-staged.config.cjs'),
-      Path.join(dest, 'lint-staged.config.cjs')
-    )
+  for (const file of await glob(
+    Path.join(dest, '**', '_lint-staged.config.cjs')
+  )) {
+    await fs.rename(file, file.replace(/_lint-staged/, 'lint-staged'))
   }
   return destlink
 }
