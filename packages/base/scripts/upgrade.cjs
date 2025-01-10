@@ -6,8 +6,10 @@ const {
   monorepoSubpackageJsons,
 } = require('../util/findUps.cjs')
 const execa = require('../util/execa.cjs')
+const confirm = require('../util/confirm.cjs')
+const semver = require('semver')
 const writeMigratedVersion = require('../util/writeMigratedVersion.cjs')
-const { name } = require('../package.json')
+const { name, version: currentVersion } = require('../package.json')
 
 async function upgrade([version] = []) {
   const toolchains = [
@@ -17,8 +19,10 @@ async function upgrade([version] = []) {
         .filter((pkg) => pkg.startsWith(`${name}-`))
     ),
   ]
-  if (!packageJson[name] || !packageJson[name].migratedVersion) {
+  let migratedVersion = packageJson[name] && packageJson[name].migratedVersion
+  if (!migratedVersion) {
     await writeMigratedVersion()
+    migratedVersion = currentVersion
   }
   const isTest = Boolean(process.env.JCOREIO_TOOLCHAIN_SELF_TEST)
 
@@ -28,6 +32,19 @@ async function upgrade([version] = []) {
         stdio: 'pipe',
       })
     ).stdout.trim()
+    if (
+      semver.major(version) > semver.major(migratedVersion) &&
+      !(await confirm({
+        message: 'Do you want to upgrade to a newer major version?',
+        initial: true,
+      }))
+    ) {
+      version = (
+        await execa('npm', ['view', `${name}@^${migratedVersion}`, 'version'], {
+          stdio: 'pipe',
+        })
+      ).stdout.trim()
+    }
   }
 
   await execa(
