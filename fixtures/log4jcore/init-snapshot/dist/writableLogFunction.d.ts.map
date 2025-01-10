@@ -1,1 +1,1 @@
-{"version":3,"file":"writableLogFunction.d.ts","sourceRoot":"","sources":["src/writableLogFunction.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,QAAQ,CAAA;AAGjC,MAAM,CAAC,OAAO,UAAU,mBAAmB,CACzC,QAAQ,EAAE,QAAQ,GACjB,CAAC,GAAG,IAAI,EAAE,GAAG,EAAE,KAAK,GAAG,CAKzB"}
+{"version":3,"file":"writableLogFunction.d.ts","sourceRoot":"","sources":["src/writableLogFunction.ts"],"names":[],"mappings":";AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,QAAQ,CAAA;AAGjC,MAAM,CAAC,OAAO,UAAU,mBAAmB,CACzC,QAAQ,EAAE,QAAQ,GACjB,CAAC,GAAG,IAAI,EAAE,GAAG,EAAE,KAAK,GAAG,CAKzB"}

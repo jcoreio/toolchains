@@ -35,11 +35,6 @@
       "pre-push": "npm test"
     }
   },
-  "lint-staged": {
-    "*.{js,json,css,md}": [
-      "prettier --write"
-    ]
-  },
   "commitlint": {
     "extends": [
       "@jedwards1211/commitlint-config"

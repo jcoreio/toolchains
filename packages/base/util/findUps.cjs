@@ -91,14 +91,28 @@ const toolchainPackages = (exports.toolchainPackages = [
   ...Object.keys(packageJson.devDependencies || {}),
 ].filter((dep) => dep.startsWith(name)))
 
+const isToolchainDev = Path.normalize(__dirname)
+  .replace(/\\/, '/')
+  .endsWith('packages/base/util')
+
 const toolchainPackageJsons = (exports.toolchainPackageJsons = {})
 for (const pkg of toolchainPackages) {
   toolchainPackageJsons[pkg] =
     pkg === packageJson.name
       ? packageJson
-      : require(require.resolve(`${pkg}/package.json`, {
-          paths: [projectDir],
-        }))
+      : require(isToolchainDev
+          ? Path.resolve(
+              __dirname,
+              '..',
+              '..',
+              pkg === '@jcoreio/toolchain'
+                ? 'base'
+                : pkg.replace('@jcoreio/toolchain-', ''),
+              'package.json'
+            )
+          : require.resolve(`${pkg}/package.json`, {
+              paths: [projectDir],
+            }))
 }
 
 let toolchainConfigFile

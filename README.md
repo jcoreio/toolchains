@@ -141,7 +141,7 @@ Example:
 ```js
 /* eslint-env node, es2018 */
 module.exports = {
-  cjsBabelEnv: { forceAllTransforms: true },
+  cjsBabelEnv: { targets: { node: 16 } },
   outputEsm: false,
   buildIgnore: ['src/**/__tests__'],
 }
@@ -179,7 +179,7 @@ Set `outputEsm: false` in `toolchain.config.cjs`:
 ```js
 /* eslint-env node, es2018 */
 module.exports = {
-  cjsBabelEnv: { forceAllTransforms: true },
+  cjsBabelEnv: { targets: { node: 16 } },
   outputEsm: false,
 }
 ```
@@ -205,7 +205,7 @@ You can put options for `@babel/preset-env` in `cjsBabelEnv`/`esmBabelEnv` in `t
 ```js
 /* eslint-env node, es2018 */
 module.exports = {
-  cjsBabelEnv: { forceAllTransforms: true },
+  cjsBabelEnv: { targets: { node: 16 } },
   esmBabelEnv: { targets: { node: 16 } },
 }
 ```
@@ -219,7 +219,7 @@ object with props `{ description: string, run: () => any }`:
 ```js
 /* eslint-env node, es2018 */
 module.exports = {
-  cjsBabelEnv: { forceAllTransforms: true },
+  cjsBabelEnv: { targets: { node: 16 } },
   esmBabelEnv: { targets: { node: 16 } },
   scripts: {
     pretest: 'echo test',
