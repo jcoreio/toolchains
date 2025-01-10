@@ -14,23 +14,17 @@ exports.setLogLevel = setLogLevel;
 exports.setLogProvider = setLogProvider;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const LOG_LEVEL_TRACE = 1;
-exports.LOG_LEVEL_TRACE = LOG_LEVEL_TRACE;
-const LOG_LEVEL_DEBUG = 2;
-exports.LOG_LEVEL_DEBUG = LOG_LEVEL_DEBUG;
-const LOG_LEVEL_INFO = 3;
-exports.LOG_LEVEL_INFO = LOG_LEVEL_INFO;
-const LOG_LEVEL_WARN = 4;
-exports.LOG_LEVEL_WARN = LOG_LEVEL_WARN;
-const LOG_LEVEL_ERROR = 5;
-exports.LOG_LEVEL_ERROR = LOG_LEVEL_ERROR;
-const LOG_LEVEL_FATAL = 6;
-exports.LOG_LEVEL_FATAL = LOG_LEVEL_FATAL;
+const LOG_LEVEL_TRACE = exports.LOG_LEVEL_TRACE = 1;
+const LOG_LEVEL_DEBUG = exports.LOG_LEVEL_DEBUG = 2;
+const LOG_LEVEL_INFO = exports.LOG_LEVEL_INFO = 3;
+const LOG_LEVEL_WARN = exports.LOG_LEVEL_WARN = 4;
+const LOG_LEVEL_ERROR = exports.LOG_LEVEL_ERROR = 5;
+const LOG_LEVEL_FATAL = exports.LOG_LEVEL_FATAL = 6;
 const LOG_LEVEL_MIN = LOG_LEVEL_TRACE;
 const LOG_LEVEL_MAX = LOG_LEVEL_FATAL;
 const DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
 const PATH_SEPARATOR = '.';
-const logLevelToName = {
+const logLevelToName = exports.logLevelToName = {
   [LOG_LEVEL_TRACE]: 'TRACE',
   [LOG_LEVEL_DEBUG]: 'DEBUG',
   [LOG_LEVEL_INFO]: 'INFO',
@@ -38,7 +32,6 @@ const logLevelToName = {
   [LOG_LEVEL_ERROR]: 'ERROR',
   [LOG_LEVEL_FATAL]: 'FATAL'
 };
-exports.logLevelToName = logLevelToName;
 function assertValidLogLevel(level) {
   switch (level) {
     case LOG_LEVEL_TRACE:
@@ -210,6 +203,5 @@ function logger(loggerPath = '') {
   });
   return logger;
 }
-var _default = logger;
-exports.default = _default;
+var _default = exports.default = logger;
 //# sourceMappingURL=index.js.map

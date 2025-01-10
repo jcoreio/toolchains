@@ -120,7 +120,7 @@ try {
   toolchainConfigFile = require.resolve(
     Path.join(exports.projectDir, 'toolchain.config.cjs')
   )
-} catch (error) {
+} catch (error) { // eslint-disable-line no-unused-vars
   // ignore
 }
 

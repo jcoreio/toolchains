@@ -93,7 +93,7 @@ declare module 'webpack' {
             request: string,
             callback: (err?: Error, result?: string) => void
           ) => void)
-        | ExternalItem
+        | ExternalItem,
       >
 
   declare type RuleSetCondition =
@@ -618,14 +618,17 @@ declare module 'webpack' {
       env: { [string]: mixed, ... } | string[]
     ): $ElementType<
       $NonMaybeType<$PropertyType<ResolveOptions, 'plugins'>>,
-      number
+      number,
     >;
   }
 
   declare class DefinePlugin {
-    constructor({ [string]: string, ... }): $ElementType<
+    constructor({
+      [string]: string,
+      ...
+    }): $ElementType<
       $NonMaybeType<$PropertyType<ResolveOptions, 'plugins'>>,
-      number
+      number,
     >;
   }
 
@@ -639,7 +642,7 @@ declare module 'webpack' {
       void | RegExp
     ): $ElementType<
       $NonMaybeType<$PropertyType<ResolveOptions, 'plugins'>>,
-      number
+      number,
     >;
   }
 
@@ -668,14 +671,14 @@ declare module 'webpack' {
       fileContext?: ?string,
     |}): $ElementType<
       $NonMaybeType<$PropertyType<ResolveOptions, 'plugins'>>,
-      number
+      number,
     >;
   }
 
   declare class HotModuleReplacementPlugin {
     constructor(): $ElementType<
       $NonMaybeType<$PropertyType<ResolveOptions, 'plugins'>>,
-      number
+      number,
     >;
   }
 
@@ -685,7 +688,7 @@ declare module 'webpack' {
       newContentRegExp?: RegExp
     ): $ElementType<
       $NonMaybeType<$PropertyType<ResolveOptions, 'plugins'>>,
-      number
+      number,
     >;
   }
 

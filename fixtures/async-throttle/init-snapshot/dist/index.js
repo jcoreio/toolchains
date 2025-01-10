@@ -76,7 +76,6 @@ function throttle(fn, _wait, options = {}) {
 }
 ;
 throttle.CanceledError = CanceledError;
-var _default = throttle;
-exports.default = _default;
+var _default = exports.default = throttle;
 module.exports = exports.default;
 //# sourceMappingURL=index.js.map

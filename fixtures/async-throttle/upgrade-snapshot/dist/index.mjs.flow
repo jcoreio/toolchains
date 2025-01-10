@@ -52,7 +52,7 @@ type $Resolve<V> = $Call<
     <V>(Promise<V>): $Resolve<V>,
     <V>(V): V,
   },
-  V
+  V,
 >
 
 export type ThrottledFunction<Args: Array<any>, Value> = {
@@ -67,9 +67,7 @@ function throttle<Args: Array<any>, Value>(
   _wait: ?number,
   options: {|
     getNextArgs?: (args0: Args, args1: Args) => Args,
-  |} = {
-    /* :: ...null */
-  }
+  |} = { ...null }
 ): ThrottledFunction<Args, Value> {
   const wait = _wait != null && Number.isFinite(_wait) ? Math.max(_wait, 0) : 0
   const getNextArgs = options.getNextArgs || ((prev, next) => next)

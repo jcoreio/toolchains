@@ -92,7 +92,7 @@ async function toolchain(command, args) {
   }
 
   try {
-    if (!command.startsWith('pre' && scripts[`pre${command}`])) {
+    if (!command.startsWith('pre') && scripts[`pre${command}`]) {
       await (scripts[`pre${command}`] && scripts[`pre${command}`].run(args))
     }
     await script.run(args)

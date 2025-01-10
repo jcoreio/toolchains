@@ -17,7 +17,7 @@ function getExecaArgs(command, args, options, ...rest) {
   let projectDir, toolchainPackages
   try {
     ;({ projectDir, toolchainPackages } = require('./findUps.cjs'))
-  } catch (error) {
+  } catch (error) { // eslint-disable-line no-unused-vars
     projectDir = process.cwd()
     toolchainPackages = []
   }

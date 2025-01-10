@@ -13,7 +13,7 @@ try {
   hasMain =
     execa.sync('git', ['rev-parse', '--verify', 'main'], { stdio: 'pipe' })
       .exitCode === 0
-} catch (error) {
+} catch (error) { // eslint-disable-line no-unused-vars
   hasMain = false
 }
 

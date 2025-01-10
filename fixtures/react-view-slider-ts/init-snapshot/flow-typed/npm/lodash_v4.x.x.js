@@ -24,7 +24,7 @@ declare module 'lodash' {
     R,
     *,
     *,
-    *
+    *,
   >
 
   declare type __CurriedFunction4<A, B, C, D, R, AA: A, BB: B, CC: C, DD: D> =
@@ -41,7 +41,7 @@ declare module 'lodash' {
     *,
     *,
     *,
-    *
+    *,
   >
 
   declare type __CurriedFunction5<
@@ -55,7 +55,7 @@ declare module 'lodash' {
     BB: B,
     CC: C,
     DD: D,
-    EE: E
+    EE: E,
   > = ((...r: [AA]) => CurriedFunction4<BB, CC, DD, EE, R>) &
     ((...r: [AA, BB]) => CurriedFunction3<CC, DD, EE, R>) &
     ((...r: [AA, BB, CC]) => CurriedFunction2<DD, EE, R>) &
@@ -72,7 +72,7 @@ declare module 'lodash' {
     *,
     *,
     *,
-    *
+    *,
   >
 
   declare type __CurriedFunction6<
@@ -88,7 +88,7 @@ declare module 'lodash' {
     CC: C,
     DD: D,
     EE: E,
-    FF: F
+    FF: F,
   > = ((...r: [AA]) => CurriedFunction5<BB, CC, DD, EE, FF, R>) &
     ((...r: [AA, BB]) => CurriedFunction4<CC, DD, EE, FF, R>) &
     ((...r: [AA, BB, CC]) => CurriedFunction3<DD, EE, FF, R>) &
@@ -108,7 +108,7 @@ declare module 'lodash' {
     *,
     *,
     *,
-    *
+    *,
   >
 
   declare type Curry = (<A, R>((...r: [A]) => R) => CurriedFunction1<A, R>) &
@@ -1466,7 +1466,7 @@ declare module 'lodash/fp' {
     R,
     *,
     *,
-    *
+    *,
   >
 
   declare type __CurriedFunction4<A, B, C, D, R, AA: A, BB: B, CC: C, DD: D> =
@@ -1483,7 +1483,7 @@ declare module 'lodash/fp' {
     *,
     *,
     *,
-    *
+    *,
   >
 
   declare type __CurriedFunction5<
@@ -1497,7 +1497,7 @@ declare module 'lodash/fp' {
     BB: B,
     CC: C,
     DD: D,
-    EE: E
+    EE: E,
   > = ((...r: [AA]) => CurriedFunction4<BB, CC, DD, EE, R>) &
     ((...r: [AA, BB]) => CurriedFunction3<CC, DD, EE, R>) &
     ((...r: [AA, BB, CC]) => CurriedFunction2<DD, EE, R>) &
@@ -1514,7 +1514,7 @@ declare module 'lodash/fp' {
     *,
     *,
     *,
-    *
+    *,
   >
 
   declare type __CurriedFunction6<
@@ -1530,7 +1530,7 @@ declare module 'lodash/fp' {
     CC: C,
     DD: D,
     EE: E,
-    FF: F
+    FF: F,
   > = ((...r: [AA]) => CurriedFunction5<BB, CC, DD, EE, FF, R>) &
     ((...r: [AA, BB]) => CurriedFunction4<CC, DD, EE, FF, R>) &
     ((...r: [AA, BB, CC]) => CurriedFunction3<DD, EE, FF, R>) &
@@ -1550,7 +1550,7 @@ declare module 'lodash/fp' {
     *,
     *,
     *,
-    *
+    *,
   >
 
   declare type Curry = (<A, R>((...r: [A]) => R) => CurriedFunction1<A, R>) &
@@ -4479,7 +4479,7 @@ declare module 'lodash/fp/findLastIndex' {
 declare module 'lodash/fp/findLastIndexFrom' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'findLastIndexFrom'
+    'findLastIndexFrom',
   >
 }
 
@@ -4538,7 +4538,7 @@ declare module 'lodash/fp/intersectionBy' {
 declare module 'lodash/fp/intersectionWith' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'intersectionWith'
+    'intersectionWith',
   >
 }
 
@@ -4557,7 +4557,7 @@ declare module 'lodash/fp/lastIndexOf' {
 declare module 'lodash/fp/lastIndexOfFrom' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'lastIndexOfFrom'
+    'lastIndexOfFrom',
   >
 }
 
@@ -4612,21 +4612,21 @@ declare module 'lodash/fp/sortedIndexOf' {
 declare module 'lodash/fp/sortedLastIndex' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'sortedLastIndex'
+    'sortedLastIndex',
   >
 }
 
 declare module 'lodash/fp/sortedLastIndexBy' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'sortedLastIndexBy'
+    'sortedLastIndexBy',
   >
 }
 
 declare module 'lodash/fp/sortedLastIndexOf' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'sortedLastIndexOf'
+    'sortedLastIndexOf',
   >
 }
 
@@ -4709,7 +4709,7 @@ declare module 'lodash/fp/xor' {
 declare module 'lodash/fp/symmetricDifference' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'symmetricDifference'
+    'symmetricDifference',
   >
 }
 
@@ -4720,7 +4720,7 @@ declare module 'lodash/fp/xorBy' {
 declare module 'lodash/fp/symmetricDifferenceBy' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'symmetricDifferenceBy'
+    'symmetricDifferenceBy',
   >
 }
 
@@ -4731,7 +4731,7 @@ declare module 'lodash/fp/xorWith' {
 declare module 'lodash/fp/symmetricDifferenceWith' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'symmetricDifferenceWith'
+    'symmetricDifferenceWith',
   >
 }
 
@@ -5106,7 +5106,7 @@ declare module 'lodash/fp/isArrayLike' {
 declare module 'lodash/fp/isArrayLikeObject' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'isArrayLikeObject'
+    'isArrayLikeObject',
   >
 }
 
@@ -5389,7 +5389,7 @@ declare module 'lodash/fp/assignWith' {
 declare module 'lodash/fp/assignInAllWith' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'assignInAllWith'
+    'assignInAllWith',
   >
 }
 
@@ -5432,7 +5432,7 @@ declare module 'lodash/fp/defaultsDeep' {
 declare module 'lodash/fp/defaultsDeepAll' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'defaultsDeepAll'
+    'defaultsDeepAll',
   >
 }
 
@@ -5859,7 +5859,7 @@ declare module 'lodash/fp/matches' {
 declare module 'lodash/fp/matchesProperty' {
   declare module.exports: $PropertyType<
     $Exports<'lodash/fp'>,
-    'matchesProperty'
+    'matchesProperty',
   >
 }
 
