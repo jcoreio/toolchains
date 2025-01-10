@@ -17,6 +17,12 @@ async function copyFixture(name, inputDir = 'input') {
     Path.join(os.tmpdir(), 'toolchains', 'packages')
   )
   await fs.ensureSymlink(dest, destlink)
+  if (await fs.pathExists(Path.join(dest, '_lint-staged.config.cjs'))) {
+    await fs.rename(
+      Path.join(dest, '_lint-staged.config.cjs'),
+      Path.join(dest, 'lint-staged.config.cjs')
+    )
+  }
   return destlink
 }
 
