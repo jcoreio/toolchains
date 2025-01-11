@@ -4,8 +4,9 @@ import path from 'path'
 import { execSync } from 'child_process'
 import touch from 'touch'
 import glob from 'glob'
-
-const Promake = require('promake')
+// @ts-expect-error missing type defs
+import Promake from 'promake'
+import defaultenv from 'defaultenv'
 
 const promake = new Promake()
 
@@ -39,8 +40,8 @@ function env /* ...names */() /* : {[name: string]: ?string} */ {
   /* : Array<string> */
   return {
     ...process.env,
-    //...require('defaultenv')(names.map(name => `env/${name}.js`), {noExport: true}),
-    ...require('defaultenv')([], { noExport: true }),
+    //...defaultenv(names.map(name => `env/${name}.js`), {noExport: true}),
+    ...defaultenv([], { noExport: true }),
   }
 }
 
@@ -156,8 +157,10 @@ for (const fix of [false, true]) {
   )
 }
 
-task('open:coverage', () => {
-  require('opn')('coverage/lcov-report/index.html')
+task('open:coverage', async () => {
+  // @ts-expect-error missing type defs
+  const open = await import('opn')
+  open('coverage/lcov-report/index.html')
 }).description('open test coverage output')
 
 cli()

@@ -175,6 +175,7 @@ async function migrateProjectPackageJson({ fromVersion }) {
           ) {
             pkgSection[dep] = versionRange
           }
+          // eslint-disable-next-line no-unused-vars
         } catch (error) {
           // ignore; package.json probably has a version like workspace:* etc
         }

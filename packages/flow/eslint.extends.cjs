@@ -1,18 +1,19 @@
 module.exports = {
-  plugins: ['eslint-plugin-flowtype'],
+  parser: '@babel/eslint-parser',
+  plugins: ['ft-flow'],
   rules: {
-    'flowtype/boolean-style': [2, 'boolean'],
-    'flowtype/define-flow-type': 1,
-    'flowtype/delimiter-dangle': [2, 'always-multiline'],
-    'flowtype/no-dupe-keys': 2,
-    'flowtype/no-primitive-constructor-types': 2,
-    'flowtype/require-parameter-type': [
+    'ft-flow/boolean-style': [2, 'boolean'],
+    'ft-flow/define-flow-type': 1,
+    'ft-flow/delimiter-dangle': [2, 'always-multiline'],
+    'ft-flow/no-dupe-keys': 2,
+    'ft-flow/no-primitive-constructor-types': 2,
+    'ft-flow/require-parameter-type': [
       2,
       {
         excludeArrowFunctions: 'expressionsOnly',
       },
     ],
-    'flowtype/require-return-type': [
+    'ft-flow/require-return-type': [
       2,
       'always',
       {
@@ -20,22 +21,22 @@ module.exports = {
         excludeArrowFunctions: 'expressionsOnly',
       },
     ],
-    'flowtype/require-valid-file-annotation': 2,
-    'flowtype/semi': [2, 'never'],
-    'flowtype/space-after-type-colon': [
+    'ft-flow/require-valid-file-annotation': 2,
+    'ft-flow/semi': [2, 'never'],
+    'ft-flow/space-after-type-colon': [
       2,
       'always',
       {
         allowLineBreak: true,
       },
     ],
-    'flowtype/space-before-generic-bracket': [2, 'never'],
-    'flowtype/space-before-type-colon': [2, 'never'],
-    'flowtype/union-intersection-spacing': [2, 'always'],
-    'flowtype/use-flow-type': 1,
+    'ft-flow/space-before-generic-bracket': [2, 'never'],
+    'ft-flow/space-before-type-colon': [2, 'never'],
+    'ft-flow/union-intersection-spacing': [2, 'always'],
+    // 'ft-flow/use-flow-type': 1,
   },
   settings: {
-    flowtype: {
+    'ft-flow': {
       onlyFilesWithFlowAnnotation: true,
     },
   },

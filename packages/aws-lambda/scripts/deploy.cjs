@@ -55,10 +55,11 @@ module.exports = async function deploy() {
 
   if (toolchainPackages.includes('@jcoreio/toolchain-esnext')) {
     // eslint-disable-next-line @jcoreio/implicit-dependencies/no-implicit
-    require(require.resolve(
-      '@jcoreio/toolchain-esnext/util/babelRegister.cjs',
-      { paths: [projectDir] }
-    ))
+    require(
+      require.resolve('@jcoreio/toolchain-esnext/util/babelRegister.cjs', {
+        paths: [projectDir],
+      })
+    )
   }
   const templatePath = path.join(
     projectDir,

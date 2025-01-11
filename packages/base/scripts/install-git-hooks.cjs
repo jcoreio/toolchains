@@ -20,9 +20,9 @@ async function installGitHooks() {
   } else {
     // chmod in case pnpm doesn't preserve mode of hooks scripts
     await Promise.all(
-      (
-        await fs.readdir(githooksDir)
-      ).map((hook) => fs.chmod(Path.join(githooksDir, hook), 0o755))
+      (await fs.readdir(githooksDir)).map((hook) =>
+        fs.chmod(Path.join(githooksDir, hook), 0o755)
+      )
     )
     await execa('git', [
       'config',

@@ -100,19 +100,21 @@ for (const pkg of toolchainPackages) {
   toolchainPackageJsons[pkg] =
     pkg === packageJson.name
       ? packageJson
-      : require(isToolchainDev
-          ? Path.resolve(
-              __dirname,
-              '..',
-              '..',
-              pkg === '@jcoreio/toolchain'
-                ? 'base'
-                : pkg.replace('@jcoreio/toolchain-', ''),
-              'package.json'
-            )
-          : require.resolve(`${pkg}/package.json`, {
-              paths: [projectDir],
-            }))
+      : require(
+          isToolchainDev
+            ? Path.resolve(
+                __dirname,
+                '..',
+                '..',
+                pkg === '@jcoreio/toolchain'
+                  ? 'base'
+                  : pkg.replace('@jcoreio/toolchain-', ''),
+                'package.json'
+              )
+            : require.resolve(`${pkg}/package.json`, {
+                paths: [projectDir],
+              })
+        )
 }
 
 let toolchainConfigFile
@@ -120,6 +122,7 @@ try {
   toolchainConfigFile = require.resolve(
     Path.join(exports.projectDir, 'toolchain.config.cjs')
   )
+  // eslint-disable-next-line no-unused-vars
 } catch (error) {
   // ignore
 }

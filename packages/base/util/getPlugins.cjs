@@ -10,6 +10,7 @@ function getPlugins(name) {
       path = require.resolve(Path.join(pkg, 'plugins', `${name}.cjs`), {
         paths: [projectDir],
       })
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       continue
     }

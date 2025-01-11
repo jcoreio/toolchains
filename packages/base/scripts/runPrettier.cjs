@@ -5,8 +5,8 @@ async function prettierArgs() {
   return (await fs.pathExists('.prettierignore'))
     ? ['--ignore-path', '.prettierignore']
     : (await fs.pathExists('.gitignore'))
-    ? ['--ignore-path', '.gitignore']
-    : []
+      ? ['--ignore-path', '.gitignore']
+      : []
 }
 
 async function runPrettier(args = []) {

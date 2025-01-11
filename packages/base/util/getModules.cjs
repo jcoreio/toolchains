@@ -22,10 +22,10 @@ module.exports = async function getModules(packageJsonFile) {
       ? /\.cjs$/.test(file)
         ? 'commonjs'
         : /\.mjs$/.test(file)
-        ? 'module'
-        : /\.js$/.test(file)
-        ? defaultType
-        : undefined
+          ? 'module'
+          : /\.js$/.test(file)
+            ? defaultType
+            : undefined
       : undefined
   ) {
     if (!file) return
@@ -55,8 +55,8 @@ module.exports = async function getModules(packageJsonFile) {
             (key === 'require'
               ? 'commonjs'
               : key === 'import'
-              ? 'module'
-              : undefined)
+                ? 'module'
+                : undefined)
         )
       }
     }

@@ -50,11 +50,11 @@ const scripts = toolchainConfig
                 description: script,
               }
             : !script || typeof script === 'string'
-            ? {
-                run: () => {},
-                description: '(no-op)',
-              }
-            : script,
+              ? {
+                  run: () => {},
+                  description: '(no-op)',
+                }
+              : script,
         ])
       ),
     }
@@ -92,7 +92,7 @@ async function toolchain(command, args) {
   }
 
   try {
-    if (!command.startsWith('pre' && scripts[`pre${command}`])) {
+    if (!command.startsWith('pre') && scripts[`pre${command}`]) {
       await (scripts[`pre${command}`] && scripts[`pre${command}`].run(args))
     }
     await script.run(args)

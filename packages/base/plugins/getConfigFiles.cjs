@@ -33,20 +33,20 @@ module.exports = [
         /* eslint-env node, es2018 */
         module.exports = {
           extends: [require.resolve('${name}/eslintConfig.cjs')],${
-              env
-                ? `\nenv: ${JSON.stringify(env, null, 2).replace(
-                    /\n/gm,
-                    '\n  '
-                  )},`
-                : ''
-            }${
-              rules
-                ? `\nrules: ${JSON.stringify(rules, null, 2).replace(
-                    /\n/gm,
-                    '\n  '
-                  )}`
-                : ''
-            }
+            env
+              ? `\nenv: ${JSON.stringify(env, null, 2).replace(
+                  /\n/gm,
+                  '\n  '
+                )},`
+              : ''
+          }${
+            rules
+              ? `\nrules: ${JSON.stringify(rules, null, 2).replace(
+                  /\n/gm,
+                  '\n  '
+                )}`
+              : ''
+          }
         }
       `,
       'toolchain.config.cjs': async (existing) => {

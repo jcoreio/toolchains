@@ -39,7 +39,7 @@ class Delay {
   }
 }
 function throttle(fn, _wait, options = {
-  /* :: ...null */
+  ...null
 }) {
   const wait = _wait != null && Number.isFinite(_wait) ? Math.max(_wait, 0) : 0;
   const getNextArgs = options.getNextArgs || ((prev, next) => next);
@@ -114,7 +114,7 @@ function throttle(fn, _wait, options = {
   wrapper.cancel = async () => {
     var _delay, _delay$cancel;
     const prevLastInvocationDone = lastInvocationDone;
-    (_delay = delay) === null || _delay === void 0 ? void 0 : (_delay$cancel = _delay.cancel) === null || _delay$cancel === void 0 ? void 0 : _delay$cancel.call(_delay);
+    (_delay = delay) === null || _delay === void 0 || (_delay$cancel = _delay.cancel) === null || _delay$cancel === void 0 || _delay$cancel.call(_delay);
     nextInvocation = null;
     nextArgs = null;
     lastInvocationDone = null;
@@ -123,7 +123,7 @@ function throttle(fn, _wait, options = {
   };
   wrapper.flush = async () => {
     var _delay2, _delay2$flush;
-    (_delay2 = delay) === null || _delay2 === void 0 ? void 0 : (_delay2$flush = _delay2.flush) === null || _delay2$flush === void 0 ? void 0 : _delay2$flush.call(_delay2);
+    (_delay2 = delay) === null || _delay2 === void 0 || (_delay2$flush = _delay2.flush) === null || _delay2$flush === void 0 || _delay2$flush.call(_delay2);
     await lastInvocationDone;
   };
   return wrapper;
@@ -131,6 +131,5 @@ function throttle(fn, _wait, options = {
 const defaultExport = Object.assign(throttle, {
   CanceledError
 });
-var _default = defaultExport;
-exports.default = _default;
+var _default = exports.default = defaultExport;
 //# sourceMappingURL=index.js.map

@@ -13,6 +13,7 @@ module.exports = async function runHook(hookName) {
     let hooks
     try {
       hooks = require(Path.join(projDir, 'githooks.cjs'))
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       hooks = require('../githooks.cjs')
     }

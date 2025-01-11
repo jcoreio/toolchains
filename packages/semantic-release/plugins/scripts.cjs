@@ -25,6 +25,7 @@ module.exports = [
             for (const key in ownPackageJson.toolchainManaged
               .optionalDevDependencies)
               require(key)
+            // eslint-disable-next-line no-unused-vars
           } catch (error) {
             await execa('pnpm', [
               'install',
