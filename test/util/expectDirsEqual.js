@@ -47,8 +47,8 @@ async function expectDirsEqual(actual, expected) {
       entry === '.gitignore'
         ? '_.gitignore'
         : entry === 'lint-staged.config.cjs'
-        ? '_lint-staged.config.cjs'
-        : entry
+          ? '_lint-staged.config.cjs'
+          : entry
     )
     if (/\/$/.test(entry)) {
       await expectDirsEqual(actualPath, expectedPath)
