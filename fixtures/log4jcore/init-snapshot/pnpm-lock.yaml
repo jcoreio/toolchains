@@ -86,8 +86,8 @@ devDependencies:
     specifier: ^5.2.0
     version: 5.2.1
   defaultenv:
-    specifier: ^4.0.0
-    version: 4.0.0
+    specifier: ^4.1.0
+    version: 4.1.0
   eslint:
     specifier: ^9.17.0
     version: 9.18.0
@@ -1068,10 +1068,10 @@ packages:
     resolution: {integrity: sha512-GtxAN4HvBachZzm4OnWqc45ESpUCMwkYcsjnsPs23FwJbsO+k4t0k9bQCgOmzIlpHO28+WPK/KRbRk0DDHuuDw==}
     dev: true
 
-  /defaultenv@4.0.0:
-    resolution: {integrity: sha512-gtjEZPB17tzhuJqBuMQAnkhzERiyCp+vNmclUpeFjmQk+UGghe0RmPk8oBeu43JIrlUhwe5id8emPFuZVSTkUw==}
+  /defaultenv@4.1.0:
+    resolution: {integrity: sha512-No/Mp9fHW+QK3Mvuf/3l6jQD7UqHFLHPto5Ea4wqeM1YEUnXAp8VL6g/w4y5wsr0Q+5A66KXzMIGj+Nc260c3w==}
     dependencies:
-      dotenv: 4.0.0
+      dotenv: 10.0.0
     optionalDependencies:
       '@jcoreio/kexec': 4.0.0
     dev: true
@@ -1098,9 +1098,9 @@ packages:
     engines: {node: '>=0.3.1'}
     dev: true
 
-  /dotenv@4.0.0:
-    resolution: {integrity: sha512-XcaMACOr3JMVcEv0Y/iUM2XaOsATRZ3U1In41/1jjK6vJZ2PZbQ1bzCG8uvaByfaBpl9gqc9QWJovpUGBXLLYQ==}
-    engines: {node: '>=4.6.0'}
+  /dotenv@10.0.0:
+    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
+    engines: {node: '>=10'}
     dev: true
 
   /emoji-regex@8.0.0:

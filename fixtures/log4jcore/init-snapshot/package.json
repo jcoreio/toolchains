@@ -52,7 +52,7 @@
     "chalk": "^2.4.2",
     "copy": "^0.3.2",
     "cross-env": "^5.2.0",
-    "defaultenv": "^4.0.0",
+    "defaultenv": "^4.1.0",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-ft-flow": "^3.0.11",
