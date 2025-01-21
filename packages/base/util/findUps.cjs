@@ -86,7 +86,7 @@ const findGitDir = once(function findGitDir(cwd = process.cwd()) {
 exports.findGitDir = findGitDir
 
 const toolchainPackages = (exports.toolchainPackages = [
-  packageJson.name,
+  name,
   ...Object.keys(packageJson.dependencies || {}),
   ...Object.keys(packageJson.devDependencies || {}),
 ].filter((dep) => dep.startsWith(name)))
