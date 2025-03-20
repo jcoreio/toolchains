@@ -1,14 +1,10 @@
-const fs = require('../util/projectFs.cjs')
 const execa = require('../util/execa.cjs')
 const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
 
 async function eslintArgs() {
   return [
-    ...((await fs.pathExists('.eslintignore'))
-      ? ['--ignore-pattern', '.eslintignore']
-      : (await fs.pathExists('.gitignore'))
-        ? ['--ignore-pattern', '.gitignore']
-        : []),
+    '--ignore-pattern',
+    'dist/',
     '--ignore-pattern',
     'flow-typed/',
     '--ext',
