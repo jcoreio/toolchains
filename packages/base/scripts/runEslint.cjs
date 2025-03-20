@@ -1,10 +1,19 @@
+const fs = require('../util/projectFs.cjs')
 const execa = require('../util/execa.cjs')
 const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
 
 async function eslintArgs() {
   return [
-    '--ignore-pattern',
-    'dist/',
+    ...((await fs.pathExists('.eslintignore')) ||
+    !(await fs.pathExists('.gitignore'))
+      ? []
+      : (await fs.readFile('.gitignore', 'utf8'))
+          .split(/\r\n?|\n/gm)
+          .flatMap((pattern) =>
+            !/^#/.test(pattern.trim())
+              ? ['--ignore-pattern', pattern.trim()]
+              : []
+          )),
     '--ignore-pattern',
     'flow-typed/',
     '--ext',
