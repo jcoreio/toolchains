@@ -2,7 +2,7 @@
   "name": "@jcoreio/toolchains",
   "private": true,
   "version": "0.0.0-development",
-  "packageManager": "pnpm@8.11.0",
+  "packageManager": "pnpm@10.6.5",
   "description": "JS/TS build toolchains",
   "repository": {
     "type": "git",
@@ -22,12 +22,13 @@
     "@jcoreio/toolchain-semantic-release": "workspace:*",
     "@semantic-release/exec": "^6.0.3",
     "chai": "^4.3.7",
+    "chalk": "^4.1.2",
     "dedent-js": "^1.0.1",
     "eslint": "^9.17.0",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
-    "gitignore-fs": "^2.1.0",
+    "gitignore-fs": "^2.2.2",
     "glob": "^11.0.0",
     "mocha": "^10.2.0"
   },

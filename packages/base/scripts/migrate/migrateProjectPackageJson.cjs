@@ -147,6 +147,13 @@ async function migrateProjectPackageJson({ fromVersion }) {
           },
         },
     pick(toolchainManaged, 'engines', 'packageManager'),
+    {
+      packageManager:
+        !packageJson.packageManager ||
+        semver.lt(packageJson.packageManager, toolchainManaged.packageManager)
+          ? toolchainManaged.packageManager
+          : packageJson.packageManager,
+    },
     pick(packageJson, 'engines')
   )
   if (!fromVersion && isEmpty(packageJson.config)) delete packageJson.config

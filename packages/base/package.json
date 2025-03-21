@@ -23,6 +23,7 @@
     "find-up": "^5.0.0",
     "fs-extra": "^10.0.0",
     "glob": "^11.0.0",
+    "js-yaml": "4.1.0",
     "json5": "^2.2.1",
     "lint-staged": "^15.2.2",
     "minimatch": "^10.0.1",
@@ -39,7 +40,7 @@
     "engines": {
       "node": ">=16"
     },
-    "packageManager": "pnpm@8.11.0",
+    "packageManager": "pnpm@10.6.5",
     "devDependencies": {
       "eslint": "*",
       "@jcoreio/eslint-plugin-implicit-dependencies": "*"

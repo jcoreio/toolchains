@@ -4,7 +4,7 @@
  */
 
 const fs = require('fs-extra')
-const Gitignore = require('gitignore-fs').default
+const Gitignore = require('gitignore-fs')
 const Path = require('path')
 const { expect } = require('chai')
 
