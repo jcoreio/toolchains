@@ -150,7 +150,11 @@ async function migrateProjectPackageJson({ fromVersion }) {
     {
       packageManager:
         !packageJson.packageManager ||
-        semver.lt(packageJson.packageManager, toolchainManaged.packageManager)
+        !packageJson.packageManager.startsWith('pnpm@') ||
+        semver.lt(
+          packageJson.packageManager.replace(/^pnpm@/, ''),
+          toolchainManaged.packageManager.replace(/^pnpm@/, '')
+        )
           ? toolchainManaged.packageManager
           : packageJson.packageManager,
     },
