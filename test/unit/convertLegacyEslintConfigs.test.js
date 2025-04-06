@@ -18,7 +18,6 @@ describe(`convertLegacyEslintConfigs`, function () {
         },
       })
     ).to.deep.equal(dedent`
-      /* eslint-env node, es2018 */
       const { defineConfig } = require('eslint/config')
       const globals = require('globals')
 

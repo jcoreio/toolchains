@@ -3,11 +3,15 @@ const { defineConfig } = require('eslint/config')
 const { includeIgnoreFile } = require('@eslint/compat')
 const { projectDir } = require('../util/findUps.cjs')
 const path = require('path')
+const fs = require('../util/projectFs.cjs')
 const { globSync } = require('../util/glob.cjs')
 
 module.exports = [
   () => {
     const gitignores = globSync('**/.gitignore')
+    if (fs.pathExistsSync('.eslintignore')) {
+      gitignores.push('.eslintignore')
+    }
     return defineConfig([
       ...gitignores.map((file) =>
         includeIgnoreFile(path.resolve(projectDir, file))

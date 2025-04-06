@@ -8,7 +8,6 @@ async function convertLegacyEslintConfigs(configs) {
   const hasGlobals = Object.values(configs).some((c) => c.env)
   return format(
     dedent`
-      /* eslint-env node, es2018 */
       const { defineConfig } = require('eslint/config')
       ${hasGlobals ? `const globals = require('globals')` : ''}
 
@@ -19,7 +18,12 @@ async function convertLegacyEslintConfigs(configs) {
             ([file, { env, rules }]) =>
               dedent`
               {
-                files: ${JSON.stringify([path.dirname(file) + '/**'])},${
+                ${
+                  path.dirname(file) === '.'
+                    ? ''
+                    : `
+                files: ${JSON.stringify([path.dirname(file) + '/**'])},`
+                }${
                   rules
                     ? `
                 rules: ${JSON.stringify(rules)},`

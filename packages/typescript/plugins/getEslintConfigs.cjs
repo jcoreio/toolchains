@@ -9,10 +9,10 @@ module.exports = [
         ...tseslint.configs.strictTypeChecked,
       ].map((conf) => ({
         ...conf,
-        files: ['**/*.{ts,tsx,cts,mts}'],
+        files: ['**/*.{ts,tsx,cts,ctsx,mts,mtsx}'],
       })),
       {
-        files: ['**/*.{ts,tsx,cts,mts}'],
+        files: ['**/*.{ts,tsx,cts,ctsx,mts,mtsx}'],
         languageOptions: {
           parserOptions: {
             project: true,

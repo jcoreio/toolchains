@@ -7,8 +7,17 @@ module.exports = defineConfig([
     files: ['test/**'],
     languageOptions: {
       globals: {
+        ...globals.es6,
         ...globals.mocha,
         ...globals.node,
+      },
+    },
+  },
+  {
+    files: ['src/**'],
+    languageOptions: {
+      globals: {
+        ...globals.es6,
       },
     },
   },

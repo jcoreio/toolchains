@@ -5,6 +5,7 @@ module.exports = [
   () =>
     defineConfig([
       {
+        files: ['**/*.{js,jsx,cjs,cjsx,mjs,mjsx,ts,tsx,mts,mtsx,cts,ctsx'],
         plugins: { 'no-only-tests': noOnlyTests },
         rules: {
           'no-only-tests/no-only-tests': 'error',

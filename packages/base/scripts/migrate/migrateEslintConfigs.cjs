@@ -6,6 +6,7 @@ async function migrateEslintConfigs({ fromVersion }) {
   for (const file of [
     ...(await glob(Path.join('**', '.eslintrc{,.json}'))),
     '.eslintrc.js',
+    '.eslintrc.cjs',
   ]) {
     const exists = await fs.pathExists(file)
     if (exists) {

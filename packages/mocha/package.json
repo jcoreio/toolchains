@@ -31,8 +31,7 @@
   },
   "toolchainManaged": {
     "devDependencies": {
-      "mocha": "*",
-      "eslint-plugin-no-only-tests": "*"
+      "mocha": "*"
     },
     "optionalDevDependencies": {
       "@types/chai": "^4.3.5",

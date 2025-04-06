@@ -6,7 +6,7 @@ module.exports = [
   () =>
     defineConfig([
       {
-        files: ['**/*.{js,mjs,cjs}'],
+        files: ['**/*.{js,jsx,mjs,mjsx,cjs,cjsx}'],
         languageOptions: {
           parser: babelParser,
           parserOptions: {
