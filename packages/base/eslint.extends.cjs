@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', require.resolve('eslint-config-prettier')],
   plugins: ['@jcoreio/eslint-plugin-implicit-dependencies'],
   rules: {
     '@jcoreio/implicit-dependencies/no-implicit': [

@@ -22,6 +22,7 @@
     "@jcoreio/toolchain": "workspace:*",
     "babel-plugin-istanbul": "^7.0.0",
     "dedent-js": "^1.0.1",
+    "eslint": "^9.24.0",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",

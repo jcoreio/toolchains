@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 export type Level = 1 | 2 | 3 | 4 | 5 | 6
 
 export interface Logger {
@@ -74,8 +72,8 @@ const logLevelAtPath = (path: string): Level | undefined =>
 
 const envVar = (varName: string): string | undefined =>
   typeof process !== 'undefined' && process.env // eslint-disable-line @typescript-eslint/no-unnecessary-condition
-    ? process.env[varName] // eslint-disable-line @typescript-eslint/no-unnecessary-condition
-    : undefined // eslint-disable-line no-undef
+    ? process.env[varName]
+    : undefined
 
 let calcedEnvLogLevels = false
 function calcEnvLogLevels(): void {
@@ -139,7 +137,7 @@ const hasDate = !envVar('LOG_NO_DATE')
 
 export const defaultLogFunctionProvider: LogFunctionProvider = (
   level: Level
-) => (level >= LOG_LEVEL_ERROR ? console.error : console.log) // eslint-disable-line no-console
+) => (level >= LOG_LEVEL_ERROR ? console.error : console.log)
 
 let _logFunctionProvider: LogFunctionProvider = defaultLogFunctionProvider
 

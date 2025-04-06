@@ -12,8 +12,6 @@ exports.resetLogLevels = resetLogLevels;
 exports.setLogFunctionProvider = setLogFunctionProvider;
 exports.setLogLevel = setLogLevel;
 exports.setLogProvider = setLogProvider;
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 const LOG_LEVEL_TRACE = exports.LOG_LEVEL_TRACE = 1;
 const LOG_LEVEL_DEBUG = exports.LOG_LEVEL_DEBUG = 2;
 const LOG_LEVEL_INFO = exports.LOG_LEVEL_INFO = 3;
@@ -49,9 +47,7 @@ let configuredLogLevels = {};
 const envLogLevels = {};
 const logLevelAtPath = path => configuredLogLevels[path] || envLogLevels[path];
 const envVar = varName => typeof process !== 'undefined' && process.env // eslint-disable-line @typescript-eslint/no-unnecessary-condition
-? process.env[varName] // eslint-disable-line @typescript-eslint/no-unnecessary-condition
-: undefined; // eslint-disable-line no-undef
-
+? process.env[varName] : undefined;
 let calcedEnvLogLevels = false;
 function calcEnvLogLevels() {
   if (calcedEnvLogLevels) return;
@@ -101,7 +97,7 @@ function logLevel(path) {
   return levelForPath;
 }
 const hasDate = !envVar('LOG_NO_DATE');
-const defaultLogFunctionProvider = level => level >= LOG_LEVEL_ERROR ? console.error : console.log; // eslint-disable-line no-console
+const defaultLogFunctionProvider = level => level >= LOG_LEVEL_ERROR ? console.error : console.log;
 exports.defaultLogFunctionProvider = defaultLogFunctionProvider;
 let _logFunctionProvider = defaultLogFunctionProvider;
 
