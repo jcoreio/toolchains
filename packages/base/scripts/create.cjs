@@ -73,27 +73,27 @@ async function create(args = []) {
       message: 'Package keywords:',
       format: (text) => (text || '').split(/\s*,\s*|\s+/g),
     },
-    ...(monorepoPackageJson
-      ? []
-      : [
-          {
-            type: 'text',
-            name: 'organization',
-            initial: (prev, { name }) => {
-              const match = /^@(.*?)\//.exec(name)
-              if (match) return match[1]
-            },
-            message: 'GitHub organization:',
-            validate: required,
+    ...(monorepoPackageJson ?
+      []
+    : [
+        {
+          type: 'text',
+          name: 'organization',
+          initial: (prev, { name }) => {
+            const match = /^@(.*?)\//.exec(name)
+            if (match) return match[1]
           },
-          {
-            type: 'text',
-            name: 'repo',
-            message: 'GitHub repo:',
-            initial: (prev, { name }) => name.replace(/^@(.*?)\//, ''),
-            validate: required,
-          },
-        ]),
+          message: 'GitHub organization:',
+          validate: required,
+        },
+        {
+          type: 'text',
+          name: 'repo',
+          message: 'GitHub repo:',
+          initial: (prev, { name }) => name.replace(/^@(.*?)\//, ''),
+          validate: required,
+        },
+      ]),
     {
       type: 'select',
       name: 'license',
@@ -140,8 +140,9 @@ async function create(args = []) {
     copyrightHolder,
   } = answers
 
-  const { organization, repo } = monorepoPackageJson
-    ? parseRepositoryUrl(monorepoPackageJson.repository.url)
+  const { organization, repo } =
+    monorepoPackageJson ?
+      parseRepositoryUrl(monorepoPackageJson.repository.url)
     : answers
 
   const cwd = path.resolve(directory)
@@ -150,12 +151,12 @@ async function create(args = []) {
 
   const fs = ChdirFs(cwd)
 
-  const subpackagePath = monorepoProjectDir
-    ? path.relative(monorepoProjectDir, cwd)
-    : undefined
+  const subpackagePath =
+    monorepoProjectDir ? path.relative(monorepoProjectDir, cwd) : undefined
 
-  const branch = subpackagePath
-    ? (
+  const branch =
+    subpackagePath ?
+      (
         await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
           stdio: 'pipe',
           encoding: 'utf8',

@@ -117,12 +117,13 @@ module.exports = async function deploy() {
   const isServerless = lambdaResource.Type === 'AWS::Serverless::Function'
 
   // Adapt between janky difference between AWS::Serverless::Function and AWS::Lambda::Function
-  const adapter = isServerless
-    ? {
+  const adapter =
+    isServerless ?
+      {
         get Code() {
           const { CodeUri } = lambdaResource
-          return CodeUri
-            ? {
+          return CodeUri ?
+              {
                 get S3Bucket() {
                   return CodeUri.Bucket
                 },

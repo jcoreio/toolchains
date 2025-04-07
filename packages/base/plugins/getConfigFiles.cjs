@@ -11,13 +11,13 @@ const { glob } = require('../util/glob.cjs')
 module.exports = [
   async function getConfigFiles({ fromVersion }) {
     const files = {
-      ...(isMonorepoSubpackage
-        ? {}
-        : {
-            '.npmrc': dedent`
+      ...(isMonorepoSubpackage ?
+        {}
+      : {
+          '.npmrc': dedent`
               optional=false
             `,
-          }),
+        }),
       'eslint.config.cjs': async (existing) => {
         if (existing && fromVersion) return existing
         const configs = {}
@@ -64,9 +64,8 @@ module.exports = [
       'prettier.config.cjs',
     ]) {
       files[file] = async (existing) =>
-        existing && fromVersion
-          ? existing
-          : dedent`
+        existing && fromVersion ? existing : (
+          dedent`
               /* eslint-env node, es2018 */
               const base = require('${name}/${file}')
               module.exports = {
@@ -74,39 +73,38 @@ module.exports = [
               }
         
             `
+        )
     }
-    const tasks = isMonorepoSubpackage
-      ? []
-      : await getPluginsArraySync('vscodeTasks')
-    const launch = isMonorepoSubpackage
-      ? []
-      : await getPluginsArraySync('vscodeLaunch')
+    const tasks =
+      isMonorepoSubpackage ? [] : await getPluginsArraySync('vscodeTasks')
+    const launch =
+      isMonorepoSubpackage ? [] : await getPluginsArraySync('vscodeLaunch')
 
     if (tasks.length) {
       files['.vscode/tasks.json'] = async (existing) =>
-        existing && fromVersion
-          ? existing
-          : JSON.stringify(
-              {
-                version: '2.0.0',
-                tasks,
-              },
-              null,
-              2
-            )
+        existing && fromVersion ? existing : (
+          JSON.stringify(
+            {
+              version: '2.0.0',
+              tasks,
+            },
+            null,
+            2
+          )
+        )
     }
     if (launch.length) {
       files['.vscode/launch.json'] = async (existing) =>
-        existing && fromVersion
-          ? existing
-          : JSON.stringify(
-              {
-                version: '0.2.0',
-                configurations: launch,
-              },
-              null,
-              2
-            )
+        existing && fromVersion ? existing : (
+          JSON.stringify(
+            {
+              version: '0.2.0',
+              configurations: launch,
+            },
+            null,
+            2
+          )
+        )
     }
 
     return files

@@ -14,9 +14,9 @@ const objectExpression = (props) =>
   )
 
 const idOrString = (value) =>
-  /^[_a-z$][_a-z0-9$]*$/.test(value)
-    ? t.identifier(value)
-    : t.stringLiteral(value)
+  /^[_a-z$][_a-z0-9$]*$/.test(value) ?
+    t.identifier(value)
+  : t.stringLiteral(value)
 
 const member = (object, key) => {
   const prop = idOrString(key)

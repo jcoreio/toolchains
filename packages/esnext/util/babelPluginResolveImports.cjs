@@ -26,9 +26,9 @@ module.exports = function babelPluginResolveImports({ types: t }) {
             (s) => s.type !== 'ImportSpecifier'
           )
           path.replaceWithMultiple([
-            ...(nonNamed.length
-              ? [t.importDeclaration(nonNamed, t.stringLiteral('lodash'))]
-              : []),
+            ...(nonNamed.length ?
+              [t.importDeclaration(nonNamed, t.stringLiteral('lodash'))]
+            : []),
             ...path.node.specifiers.map((s) =>
               t.importDeclaration(
                 [t.importDefaultSpecifier(s.local)],

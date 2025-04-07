@@ -1,7 +1,11 @@
 const toposort = require('toposort')
 
 function asArray(x) {
-  return Array.isArray(x) ? x : x ? [x] : []
+  return (
+    Array.isArray(x) ? x
+    : x ? [x]
+    : []
+  )
 }
 
 function normalizeDef(def) {

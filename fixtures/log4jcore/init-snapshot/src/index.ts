@@ -71,9 +71,11 @@ const logLevelAtPath = (path: string): Level | undefined =>
   configuredLogLevels[path] || envLogLevels[path]
 
 const envVar = (varName: string): string | undefined =>
-  typeof process !== 'undefined' && process.env // eslint-disable-line @typescript-eslint/no-unnecessary-condition
-    ? process.env[varName]
-    : undefined
+  (
+    typeof process !== 'undefined' && process.env // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+  ) ?
+    process.env[varName]
+  : undefined
 
 let calcedEnvLogLevels = false
 function calcEnvLogLevels(): void {
@@ -210,9 +212,8 @@ class LoggerImpl implements Logger {
         // This allows debug text to only be calculated when the relevant debug level is
         // enabled, e.g. log.trace(() => JSON.stringify(data))
         const resolvedArgs = args[0]()
-        argsToLogger = Array.isArray(resolvedArgs)
-          ? resolvedArgs
-          : [resolvedArgs]
+        argsToLogger =
+          Array.isArray(resolvedArgs) ? resolvedArgs : [resolvedArgs]
       }
       for (const provider of this._logProviders || [_logProvider]) {
         provider(this.loggerPath, level, ...argsToLogger)

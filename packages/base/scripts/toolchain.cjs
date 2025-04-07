@@ -13,8 +13,9 @@ try {
     throw error
   }
 }
-const scripts = toolchainConfig
-  ? {
+const scripts =
+  toolchainConfig ?
+    {
       badges: require('./badges.cjs'),
       migrate: require('./migrate.cjs'),
       build: require('./build.cjs'),
@@ -43,18 +44,18 @@ const scripts = toolchainConfig
       ...Object.fromEntries(
         Object.entries(toolchainConfig.scripts || {}).map(([name, script]) => [
           name,
-          typeof script === 'string' && script.trim()
-            ? {
-                run: (args = []) =>
-                  execa([script, ...args].join(' '), { shell: true }),
-                description: script,
-              }
-            : !script || typeof script === 'string'
-              ? {
-                  run: () => {},
-                  description: '(no-op)',
-                }
-              : script,
+          typeof script === 'string' && script.trim() ?
+            {
+              run: (args = []) =>
+                execa([script, ...args].join(' '), { shell: true }),
+              description: script,
+            }
+          : !script || typeof script === 'string' ?
+            {
+              run: () => {},
+              description: '(no-op)',
+            }
+          : script,
         ])
       ),
     }

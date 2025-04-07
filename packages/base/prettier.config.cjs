@@ -4,5 +4,6 @@ module.exports = {
   semi: false,
   singleQuote: true,
   trailingComma: 'es5',
+  experimentalTernaries: true,
   overrides: getPluginsArraySync('prettierOverrides'),
 }

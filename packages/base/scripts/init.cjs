@@ -73,11 +73,9 @@ async function init(args = []) {
     '--prefer-offline',
     ...(isMonorepoRoot ? ['-w'] : []),
     isTest ? '../packages/base' : `${name}@^${version}`,
-    ...(isTest
-      ? [...selectedToolchains].map((t) =>
-          t.replace(`${name}-`, '../packages/')
-        )
-      : [...selectedToolchains].map((t) => `${t}@^${version}`)),
+    ...(isTest ?
+      [...selectedToolchains].map((t) => t.replace(`${name}-`, '../packages/'))
+    : [...selectedToolchains].map((t) => `${t}@^${version}`)),
   ])
   await execa('tc', ['migrate'])
   if (isInteractive) {

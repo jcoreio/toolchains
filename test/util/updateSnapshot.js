@@ -30,11 +30,11 @@ async function updateSnapshot(name, snapshotName) {
         Path.join(actual, f),
         Path.join(
           snapshot,
-          Path.basename(f) === '.gitignore'
-            ? Path.join(Path.dirname(f), '_.gitignore')
-            : Path.basename(f) === 'lint-staged.config.cjs'
-              ? Path.join(Path.dirname(f), '_lint-staged.config.cjs')
-              : f
+          Path.basename(f) === '.gitignore' ?
+            Path.join(Path.dirname(f), '_.gitignore')
+          : Path.basename(f) === 'lint-staged.config.cjs' ?
+            Path.join(Path.dirname(f), '_lint-staged.config.cjs')
+          : f
         )
       )
     })

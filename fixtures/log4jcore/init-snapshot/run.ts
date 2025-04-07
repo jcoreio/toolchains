@@ -11,9 +11,8 @@ const promake = new Promake()
 process.chdir(__dirname)
 const pathDelimiter = /^win/.test(process.platform) ? ';' : ':'
 const npmBin = execSync(`npm bin`).toString('utf8').trim()
-process.env.PATH = process.env.PATH
-  ? `${npmBin}${pathDelimiter}${process.env.PATH}`
-  : npmBin
+process.env.PATH =
+  process.env.PATH ? `${npmBin}${pathDelimiter}${process.env.PATH}` : npmBin
 
 const { rule, task, exec, cli } = promake
 
@@ -131,7 +130,10 @@ for (const coverage of [false, true]) {
   const prefix = coverage ? 'coverage' : 'test'
   for (const watch of coverage ? [false] : [false, true]) {
     for (const debug of watch ? [false] : [false, true]) {
-      const suffix = watch ? ':watch' : debug ? ':debug' : ''
+      const suffix =
+        watch ? ':watch'
+        : debug ? ':debug'
+        : ''
       task(
         `${prefix}${suffix}`,
         ['node_modules'],

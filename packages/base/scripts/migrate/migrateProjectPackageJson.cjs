@@ -110,53 +110,55 @@ async function migrateProjectPackageJson({ fromVersion }) {
       packageJson.exports = {
         './package.json': './package.json',
         '.': {
-          ...(packageJson.types
-            ? { types: relativize(packageJson.types) }
-            : {}),
-          ...(outputEsm !== false && packageJson.module
-            ? { import: relativize(packageJson.module) }
-            : {}),
+          ...(packageJson.types ?
+            { types: relativize(packageJson.types) }
+          : {}),
+          ...(outputEsm !== false && packageJson.module ?
+            { import: relativize(packageJson.module) }
+          : {}),
           default: relativize(packageJson.main),
         },
-        ...(dotStar
-          ? {
-              './*': {
-                types: './*.d.ts',
-                ...(outputEsm !== false ? { import: './*.mjs' } : {}),
-                default: './*.js',
-              },
-            }
-          : {}),
+        ...(dotStar ?
+          {
+            './*': {
+              types: './*.d.ts',
+              ...(outputEsm !== false ? { import: './*.mjs' } : {}),
+              default: './*.js',
+            },
+          }
+        : {}),
       }
     }
   }
 
   merge(
     packageJson,
-    fromVersion
-      ? {}
-      : {
-          version: '0.0.0-development',
-          sideEffects: false,
-          scripts: {
-            tc: 'toolchain',
-            toolchain: 'toolchain',
-            test: 'toolchain test',
-            prepublishOnly:
-              'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
-          },
+    fromVersion ?
+      {}
+    : {
+        version: '0.0.0-development',
+        sideEffects: false,
+        scripts: {
+          tc: 'toolchain',
+          toolchain: 'toolchain',
+          test: 'toolchain test',
+          prepublishOnly:
+            'echo This package is meant to be published by semantic-release from the dist build directory. && exit 1',
         },
+      },
     pick(toolchainManaged, 'engines', 'packageManager'),
     {
       packageManager:
-        !packageJson.packageManager ||
-        !packageJson.packageManager.startsWith('pnpm@') ||
-        semver.lt(
-          packageJson.packageManager.replace(/^pnpm@/, ''),
-          toolchainManaged.packageManager.replace(/^pnpm@/, '')
-        )
-          ? toolchainManaged.packageManager
-          : packageJson.packageManager,
+        (
+          !packageJson.packageManager ||
+          !packageJson.packageManager.startsWith('pnpm@') ||
+          semver.lt(
+            packageJson.packageManager.replace(/^pnpm@/, ''),
+            toolchainManaged.packageManager.replace(/^pnpm@/, '')
+          )
+        ) ?
+          toolchainManaged.packageManager
+        : packageJson.packageManager,
     },
     pick(packageJson, 'engines')
   )

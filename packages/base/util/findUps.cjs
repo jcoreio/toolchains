@@ -8,10 +8,9 @@ const { name } = require('../package.json')
 const configSchema = require('./configSchema.cjs')
 
 const cwd = (
-  fs.pathExistsSync(Path.join(process.cwd(), 'package.json'))
-    ? process.cwd()
-    : __filename
-).replace(/\/node_modules(\/.*|$)/, '')
+  fs.pathExistsSync(Path.join(process.cwd(), 'package.json')) ?
+    process.cwd()
+  : __filename).replace(/\/node_modules(\/.*|$)/, '')
 
 const packageJsonFile = (exports.packageJsonFile = findUp.sync('package.json', {
   cwd,
@@ -32,37 +31,38 @@ const pnpmWorkspaceFile = (exports.pnpmWorkspaceFile = findUp.sync(
     type: 'file',
   }
 ))
-const pnpmWorkspace = pnpmWorkspaceFile
-  ? require('yaml').parse(fs.readFileSync(pnpmWorkspaceFile, 'utf8'))
+const pnpmWorkspace =
+  pnpmWorkspaceFile ?
+    require('yaml').parse(fs.readFileSync(pnpmWorkspaceFile, 'utf8'))
   : undefined
 
 const isMonorepoSubpackage = (exports.isMonorepoSubpackage =
-  pnpmWorkspace && Array.isArray(pnpmWorkspace.packages)
-    ? pnpmWorkspace.packages.some((p) =>
-        new RegExp(`^${p.replace(/\*/g, '[^/]+')}$`).test(
-          Path.relative(Path.dirname(pnpmWorkspaceFile), projectDir)
-        )
+  pnpmWorkspace && Array.isArray(pnpmWorkspace.packages) ?
+    pnpmWorkspace.packages.some((p) =>
+      new RegExp(`^${p.replace(/\*/g, '[^/]+')}$`).test(
+        Path.relative(Path.dirname(pnpmWorkspaceFile), projectDir)
       )
-    : false)
+    )
+  : false)
 
 const isMonorepoRoot = (exports.isMonorepoRoot =
   pnpmWorkspaceFile != null && Path.dirname(pnpmWorkspaceFile) === projectDir)
 
 const monorepoProjectDir = (exports.monorepoProjectDir =
-  isMonorepoSubpackage || isMonorepoRoot
-    ? Path.dirname(pnpmWorkspaceFile)
-    : undefined)
+  isMonorepoSubpackage || isMonorepoRoot ?
+    Path.dirname(pnpmWorkspaceFile)
+  : undefined)
 
 const monorepoPackageJsonFile = (exports.monorepoPackageJsonFile =
-  monorepoProjectDir
-    ? Path.join(monorepoProjectDir, 'package.json')
-    : undefined)
-exports.monorepoPackageJson = monorepoPackageJsonFile
-  ? fs.readJsonSync(monorepoPackageJsonFile)
-  : undefined
+  monorepoProjectDir ?
+    Path.join(monorepoProjectDir, 'package.json')
+  : undefined)
+exports.monorepoPackageJson =
+  monorepoPackageJsonFile ? fs.readJsonSync(monorepoPackageJsonFile) : undefined
 
-exports.monorepoSubpackageJsonFiles = pnpmWorkspace
-  ? [
+exports.monorepoSubpackageJsonFiles =
+  pnpmWorkspace ?
+    [
       ...new Set(
         pnpmWorkspace.packages.flatMap((p) =>
           globSync(Path.join(p, 'package.json'), { cwd: monorepoProjectDir })
@@ -71,8 +71,9 @@ exports.monorepoSubpackageJsonFiles = pnpmWorkspace
     ].map((f) => Path.resolve(monorepoProjectDir, f))
   : undefined
 
-exports.monorepoSubpackageJsons = exports.monorepoSubpackageJsonFiles
-  ? exports.monorepoSubpackageJsonFiles.map((f) => fs.readJsonSync(f))
+exports.monorepoSubpackageJsons =
+  exports.monorepoSubpackageJsonFiles ?
+    exports.monorepoSubpackageJsonFiles.map((f) => fs.readJsonSync(f))
   : undefined
 
 const findGitDir = once(function findGitDir(cwd = process.cwd()) {
@@ -98,23 +99,23 @@ const isToolchainDev = Path.normalize(__dirname)
 const toolchainPackageJsons = (exports.toolchainPackageJsons = {})
 for (const pkg of toolchainPackages) {
   toolchainPackageJsons[pkg] =
-    pkg === packageJson.name
-      ? packageJson
-      : require(
-          isToolchainDev
-            ? Path.resolve(
-                __dirname,
-                '..',
-                '..',
-                pkg === '@jcoreio/toolchain'
-                  ? 'base'
-                  : pkg.replace('@jcoreio/toolchain-', ''),
-                'package.json'
-              )
-            : require.resolve(`${pkg}/package.json`, {
-                paths: [projectDir],
-              })
-        )
+    pkg === packageJson.name ?
+      packageJson
+    : require(
+        isToolchainDev ?
+          Path.resolve(
+            __dirname,
+            '..',
+            '..',
+            pkg === '@jcoreio/toolchain' ? 'base' : (
+              pkg.replace('@jcoreio/toolchain-', '')
+            ),
+            'package.json'
+          )
+        : require.resolve(`${pkg}/package.json`, {
+            paths: [projectDir],
+          })
+      )
 }
 
 let toolchainConfigFile
@@ -136,8 +137,9 @@ try {
     toolchainConfigFile ? require(toolchainConfigFile) : packageJson[name] || {}
   )
 } catch (error) {
-  const toolchainConfigLocation = toolchainConfigFile
-    ? Path.relative(cwd, toolchainConfigFile)
+  const toolchainConfigLocation =
+    toolchainConfigFile ?
+      Path.relative(cwd, toolchainConfigFile)
     : `packageJson[${JSON.stringify(name)}]`
 
   // eslint-disable-next-line no-console

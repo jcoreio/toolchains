@@ -42,11 +42,11 @@ module.exports = [
             include: [
               './src',
               './test',
-              ...(rootTsconfig && rootTsconfig.include
-                ? rootTsconfig.include.filter(
-                    (i) => !/^(\.\/)?(src|test)(\/|$)/.test(i)
-                  )
-                : []),
+              ...(rootTsconfig && rootTsconfig.include ?
+                rootTsconfig.include.filter(
+                  (i) => !/^(\.\/)?(src|test)(\/|$)/.test(i)
+                )
+              : []),
             ],
             exclude: ['node_modules'],
             ...(lib && { compilerOptions: { lib } }),

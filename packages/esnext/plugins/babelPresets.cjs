@@ -8,13 +8,13 @@ module.exports = [
       [
         require.resolve('@babel/preset-env'),
         {
-          ...(JCOREIO_TOOLCHAIN_ESM
-            ? toolchainConfig.esmBabelEnv || {
-                targets: {
-                  node: 16,
-                },
-              }
-            : toolchainConfig.cjsBabelEnv || { forceAllTransforms: true }),
+          ...(JCOREIO_TOOLCHAIN_ESM ?
+            toolchainConfig.esmBabelEnv || {
+              targets: {
+                node: 16,
+              },
+            }
+          : toolchainConfig.cjsBabelEnv || { forceAllTransforms: true }),
           modules: JCOREIO_TOOLCHAIN_ESM ? false : 'auto',
         },
       ],

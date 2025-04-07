@@ -8,14 +8,14 @@ module.exports = {
   recursive: true,
   spec: getSpecs(getPluginsArraySync('mochaSpecs')),
   watchIgnore: ['**/node_modules', '**/.git'],
-  ...(process.env.JCOREIO_TOOLCHAIN_ESM
-    ? {
-        'node-option': [
-          'experimental-default-type=module',
-          `import=@jcoreio/toolchain-esnext/util/esmLoader.cjs`,
-        ],
-      }
-    : {}),
+  ...(process.env.JCOREIO_TOOLCHAIN_ESM ?
+    {
+      'node-option': [
+        'experimental-default-type=module',
+        `import=@jcoreio/toolchain-esnext/util/esmLoader.cjs`,
+      ],
+    }
+  : {}),
   ...(process.env.CI ? { forbidOnly: true } : {}),
   extension: extensions,
 }

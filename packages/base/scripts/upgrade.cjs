@@ -49,22 +49,22 @@ async function upgrade([version] = []) {
 
   await execa(
     'pnpm',
-    isTest
-      ? [
-          ...(isMonorepoRoot ? ['-r'] : []),
-          'add',
-          '-D',
-          '--prefer-offline',
-          '../packages/base',
-          ...toolchains.map((t) => t.replace(`${name}-`, '../packages/')),
-        ]
-      : [
-          ...(isMonorepoRoot ? ['-r'] : []),
-          'update',
-          '--prefer-offline',
-          `${name}@^${version}`,
-          ...toolchains.map((t) => `${t}@^${version}`),
-        ]
+    isTest ?
+      [
+        ...(isMonorepoRoot ? ['-r'] : []),
+        'add',
+        '-D',
+        '--prefer-offline',
+        '../packages/base',
+        ...toolchains.map((t) => t.replace(`${name}-`, '../packages/')),
+      ]
+    : [
+        ...(isMonorepoRoot ? ['-r'] : []),
+        'update',
+        '--prefer-offline',
+        `${name}@^${version}`,
+        ...toolchains.map((t) => `${t}@^${version}`),
+      ]
   )
   if (isMonorepoRoot) await execa('pnpm', ['run', '-r', 'tc', 'migrate'])
   else await execa('tc', ['migrate'])

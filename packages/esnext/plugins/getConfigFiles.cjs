@@ -23,11 +23,10 @@ module.exports = [
             }outputEsm: false, // disables ESM output (default: true)
             buildIgnore: ${JSON.stringify(await initBuildIgnore(), null, 2)},
             hasTypeScriptSources: ${
-              toolchainPackages.includes('@jcoreio/toolchain-typescript')
-                ? fromVersion
-                  ? await hasTSSources()
-                  : !(await hasJSSources())
-                : false
+              toolchainPackages.includes('@jcoreio/toolchain-typescript') ?
+                fromVersion ? await hasTSSources()
+                : !(await hasJSSources())
+              : false
             },
             // esWrapper: true, // outputs ES module wrappers for CJS modules (default: false)
             // sourceMaps: false, // default is true (outputs .map files, also accepts 'inline' or 'both')

@@ -29,9 +29,9 @@ const makeScripts = ({
       `coverage${name.substring(4)}${suffix}`,
       {
         description: `${
-          typeof value.description === 'string'
-            ? value.description
-            : `run ${name}`
+          typeof value.description === 'string' ?
+            value.description
+          : `run ${name}`
         }${descriptionSuffix} with code coverage`,
         run: async (args = []) => {
           await execa('nyc', ['tc', name, ...args], {

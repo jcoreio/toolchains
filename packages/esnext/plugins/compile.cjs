@@ -30,9 +30,9 @@ module.exports = [
           'dist',
           '--out-file-extension',
           '.js',
-          ...(toolchainConfig.sourceMaps
-            ? ['--source-maps', toolchainConfig.sourceMaps]
-            : []),
+          ...(toolchainConfig.sourceMaps ?
+            ['--source-maps', toolchainConfig.sourceMaps]
+          : []),
         ],
         { env: { ...process.env, JCOREIO_TOOLCHAIN_CJS: '1' } }
       )
@@ -59,9 +59,9 @@ module.exports = [
             'babel',
             [
               'src',
-              ...(extensions.length
-                ? ['--extensions', extensions.join(',')]
-                : []),
+              ...(extensions.length ?
+                ['--extensions', extensions.join(',')]
+              : []),
               ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
                 '--ignore',
                 pattern,
@@ -70,9 +70,9 @@ module.exports = [
               'dist',
               '--out-file-extension',
               '.mjs',
-              ...(toolchainConfig.sourceMaps
-                ? ['--source-maps', toolchainConfig.sourceMaps]
-                : []),
+              ...(toolchainConfig.sourceMaps ?
+                ['--source-maps', toolchainConfig.sourceMaps]
+              : []),
             ],
             { env: { ...process.env, JCOREIO_TOOLCHAIN_ESM: '1' } }
           )

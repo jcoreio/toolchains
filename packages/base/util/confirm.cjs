@@ -5,8 +5,8 @@ module.exports = async function confirm({
   initial,
   ifNotInteractive = initial,
 }) {
-  return isInteractive
-    ? (
+  return isInteractive ?
+      (
         await require('./prompt.cjs')({
           type: 'confirm',
           message,

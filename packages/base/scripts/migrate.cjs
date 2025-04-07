@@ -20,9 +20,8 @@ async function migrate(args = []) {
   const hasYarnOrNpmLockfile = require('../util/hasYarnOrNpmLockfile.cjs')
   const writeMigratedVersion = require('../util/writeMigratedVersion.cjs')
 
-  const fromVersion = packageJson[name]
-    ? packageJson[name].migratedVersion
-    : undefined
+  const fromVersion =
+    packageJson[name] ? packageJson[name].migratedVersion : undefined
   if (!fromVersion && !isMonorepoSubpackage && !findGitDir()) {
     await execa('git', ['init'])
     await installGitHooks.run()

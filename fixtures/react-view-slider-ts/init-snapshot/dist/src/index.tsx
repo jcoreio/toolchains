@@ -327,8 +327,9 @@ export default class ViewSlider extends React.Component<Props, State> {
       whiteSpace: 'nowrap',
       minHeight: '100%',
       direction: rtl ? 'rtl' : 'ltr',
-      transition: transitioning
-        ? `transform ${transitionTimingFunction} ${transitionDuration}ms`
+      transition:
+        transitioning ?
+          `transform ${transitionTimingFunction} ${transitionDuration}ms`
         : undefined,
       ...viewportStyle,
     }

@@ -42,10 +42,12 @@ class ParseState {
     )
     pattern.lastIndex = this.index
     const match = pattern.exec(this.input)
-    return match &&
-      match.index === this.index &&
-      match.index + match[0].length <= this.end
-      ? match
+    return (
+        match &&
+          match.index === this.index &&
+          match.index + match[0].length <= this.end
+      ) ?
+        match
       : undefined
   }
 

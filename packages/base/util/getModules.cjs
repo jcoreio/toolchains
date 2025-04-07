@@ -18,15 +18,12 @@ module.exports = async function getModules(packageJsonFile) {
   const defaultType = type
   function checkFile(
     file,
-    type = file
-      ? /\.cjs$/.test(file)
-        ? 'commonjs'
-        : /\.mjs$/.test(file)
-          ? 'module'
-          : /\.js$/.test(file)
-            ? defaultType
-            : undefined
+    type = file ?
+      /\.cjs$/.test(file) ? 'commonjs'
+      : /\.mjs$/.test(file) ? 'module'
+      : /\.js$/.test(file) ? defaultType
       : undefined
+    : undefined
   ) {
     if (!file) return
     if (type === 'commonjs') cjs.add(file)
@@ -52,11 +49,9 @@ module.exports = async function getModules(packageJsonFile) {
         await checkExport(
           value,
           type ||
-            (key === 'require'
-              ? 'commonjs'
-              : key === 'import'
-                ? 'module'
-                : undefined)
+            (key === 'require' ? 'commonjs'
+            : key === 'import' ? 'module'
+            : undefined)
         )
       }
     }

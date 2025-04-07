@@ -7,16 +7,16 @@ module.exports = [
   async function getConfigFiles({ fromVersion }) {
     return {
       'nyc.config.cjs': async (existing) =>
-        existing && fromVersion
-          ? existing
-          : dedent`
+        existing && fromVersion ? existing : (
+          dedent`
               /* eslint-env node, es2018 */
               const base = require('${name}/nyc.config.cjs')
               module.exports = {
                 ...base,
               }
 
-            `,
+            `
+        ),
       '.mocharc.cjs': async (existing) => {
         if (existing && fromVersion) return existing
         const specs = []

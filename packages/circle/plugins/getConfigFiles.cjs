@@ -50,9 +50,9 @@ module.exports = [
                   [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc prepublish
             - codecov/upload
             ${
-              scripts.release
-                ? releaseStep.replace(/^/gm, ' '.repeat(6)).replace(/^ {6}/, '')
-                : ''
+              scripts.release ?
+                releaseStep.replace(/^/gm, ' '.repeat(6)).replace(/^ {6}/, '')
+              : ''
             }
 
       workflows:

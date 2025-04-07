@@ -21,6 +21,7 @@ module.exports = [
           },
         },
         rules: {
+          '@typescript-eslint/ban-ts-comment': 0,
           '@typescript-eslint/member-delimiter-style': 0,
           '@typescript-eslint/no-confusing-void-expression': 0,
           '@typescript-eslint/no-explicit-any': 0,

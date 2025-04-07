@@ -4,16 +4,16 @@ const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync
 const lintExtList = getPluginsArraySync('lintExtensions')
 
 const lintExts =
-  lintExtList.length === 1
-    ? `*.${lintExtList[0]}`
-    : `*.{${lintExtList.join(',')}}`
+  lintExtList.length === 1 ?
+    `*.${lintExtList[0]}`
+  : `*.{${lintExtList.join(',')}}`
 
 const formatExtList = getPluginsArraySync('formatExtensions')
 
 const formatExts =
-  formatExtList.length === 1
-    ? `*.${formatExtList[0]}`
-    : `*.{${formatExtList.join(',')}}`
+  formatExtList.length === 1 ?
+    `*.${formatExtList[0]}`
+  : `*.{${formatExtList.join(',')}}`
 
 const fixtureDir = path.resolve(__dirname, 'fixtures')
 
