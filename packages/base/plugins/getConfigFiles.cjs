@@ -1,11 +1,11 @@
 const { name } = require('../package.json')
 const dedent = require('dedent-js')
 const fs = require('../util/projectFs.cjs')
-const JSON5 = require('json5')
 const { isMonorepoSubpackage } = require('../util/findUps.cjs')
 const getPluginsArraySync = require('../util/getPluginsArraySync.cjs')
 const initBuildIgnore = require('../util/initBuildIgnore.cjs')
-const convertLegacyEslintConfigs = require('../util/convertLegacyEslintConfigs.cjs')
+const migrateLegacyEslintConfigs = require('../util/migrateLegacyEslintConfigs.cjs')
+const chalk = require('chalk')
 const { glob } = require('../util/glob.cjs')
 
 module.exports = [
@@ -21,10 +21,25 @@ module.exports = [
       'eslint.config.cjs': async (existing) => {
         if (existing && fromVersion) return existing
         const configs = {}
-        for (const file of await glob('**/.eslintrc{,.json}')) {
-          configs[file] = JSON5.parse(await fs.readFile(file))
+        for (const file of await glob('**/.eslintrc{,.json,.js,.cjs}')) {
+          configs[file] = await fs.readFile(file)
         }
-        return convertLegacyEslintConfigs(configs)
+        const { migrated, warnings } = await migrateLegacyEslintConfigs(configs)
+        if (warnings.length) {
+          for (const [file, fileWarnings] of Object.entries(warnings)) {
+            // eslint-disable-next-line no-console
+            console.warn(
+              chalk.yellow(
+                dedent`
+                  WARNING: ${file} could not be completely migrated because of the following:
+                    ${fileWarnings.map((w) => `- ${w}`).join('\n  ')} 
+                  
+                `
+              )
+            )
+          }
+        }
+        return migrated
       },
       'toolchain.config.cjs': async (existing) => {
         if (existing) return existing
