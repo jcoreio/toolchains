@@ -54,7 +54,6 @@ module.exports = async function deploy() {
   const { deployCloudFormationStack } = require('@jcoreio/cloudformation-tools')
 
   if (toolchainPackages.includes('@jcoreio/toolchain-esnext')) {
-    // eslint-disable-next-line @jcoreio/implicit-dependencies/no-implicit
     require(
       require.resolve('@jcoreio/toolchain-esnext/util/babelRegister.cjs', {
         paths: [projectDir],

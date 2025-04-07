@@ -15,19 +15,19 @@
   "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/react",
   "dependencies": {
     "@babel/core": "^7.26.0",
+    "@babel/eslint-parser": "^7.25.9",
     "@babel/preset-react": "^7.26.3",
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-esnext": "workspace:*",
     "eslint": "^9.17.0",
-    "eslint-plugin-react": "^7.37.3"
+    "eslint-plugin-react": "^7.37.5"
   },
   "peerDependencies": {
     "react": "*"
   },
   "toolchainManaged": {
     "devDependencies": {
-      "@jcoreio/toolchain-esnext": "*",
-      "eslint-plugin-react": "*"
+      "@jcoreio/toolchain-esnext": "*"
     },
     "optionalDevDependencies": {
       "global-jsdom": "^9.0.1",

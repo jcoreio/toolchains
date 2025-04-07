@@ -18,9 +18,6 @@
     "dedent-js": "^1.0.1",
     "resolve-bin": "^1.0.0"
   },
-  "bin": {
-    "semantic-release": "./bin/semantic-release"
-  },
   "toolchainManaged": {
     "optionalDevDependencies": {
       "@semantic-release/commit-analyzer": "^12.0.0",

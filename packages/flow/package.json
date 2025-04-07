@@ -29,8 +29,7 @@
     "devDependencies": {
       "@jcoreio/toolchain-esnext": "*",
       "@babel/plugin-syntax-flow": "*",
-      "@babel/plugin-transform-react-jsx": "*",
-      "eslint-plugin-ft-flow": "*"
+      "@babel/plugin-transform-react-jsx": "*"
     }
   }
 }

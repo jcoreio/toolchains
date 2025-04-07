@@ -1,5 +1,3 @@
-/* eslint-disable  @typescript-eslint/no-var-requires,  @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-explicit-any */
-
 import path from 'path'
 import { execSync } from 'child_process'
 import touch from 'touch'

@@ -14,6 +14,12 @@
   },
   "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/base",
   "dependencies": {
+    "@babel/generator": "^7.27.0",
+    "@babel/parser": "^7.27.0",
+    "@babel/template": "^7.27.0",
+    "@babel/types": "^7.27.0",
+    "@eslint/compat": "^1.2.8",
+    "@eslint/js": "^9.23.0",
     "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
     "chalk": "^4.0.0",
     "dedent-js": "^1.0.1",
@@ -23,6 +29,7 @@
     "find-up": "^5.0.0",
     "fs-extra": "^10.0.0",
     "glob": "^11.0.0",
+    "globals": "^16.0.0",
     "js-yaml": "4.1.0",
     "json5": "^2.2.1",
     "lint-staged": "^15.2.2",
@@ -43,13 +50,12 @@
     "packageManager": "pnpm@10.6.5",
     "devDependencies": {
       "eslint": "*",
-      "@jcoreio/eslint-plugin-implicit-dependencies": "*"
+      "globals": "*",
+      "lint-staged": "*",
+      "prettier": "*"
     }
   },
   "bin": {
-    "eslint": "./bin/eslint",
-    "lint-staged": "./bin/lint-staged",
-    "prettier": "./bin/prettier",
     "tc": "./scripts/toolchain.cjs",
     "toolchain": "./scripts/toolchain.cjs"
   },

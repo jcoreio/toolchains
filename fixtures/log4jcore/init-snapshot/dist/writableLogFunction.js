@@ -7,7 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = writableLogFunction;
 var _util = _interopRequireDefault(require("util"));
 function writableLogFunction(writable) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (format, ...args) => {
     writable.write(_util.default.format(format, ...args) + '\n');
   };
