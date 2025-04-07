@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/jcoreio/async-throttle#readme",
   "devDependencies": {
-    "@babel/eslint-parser": "^7.12.13",
     "@babel/plugin-syntax-flow": "^7.26.0",
     "@babel/plugin-transform-react-jsx": "^7.25.9",
     "@jcoreio/toolchain": "link:../packages/base",
