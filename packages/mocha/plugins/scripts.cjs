@@ -2,11 +2,25 @@ const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const {
   toolchainPackages,
   toolchainConfig,
+  isMonorepoRoot,
+  monorepoSubpackageDirs,
+  projectDir,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
+const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
+const path = require('path')
 
 const testScripts = Object.entries(toolchainConfig.scripts || {}).filter(
   ([name]) => /^test\W/.test(name)
 )
+
+const getFileArgs = async (args) =>
+  (
+    await Promise.all(
+      args.map(async (arg) =>
+        !arg.startsWith('-') && (await fs.pathExists(arg)) ? [arg] : []
+      )
+    )
+  ).flat()
 
 const makeScripts = ({
   suffix = '',
@@ -47,6 +61,43 @@ const makeScripts = ({
   [`test${suffix}`]: {
     description: `run all tests${descriptionSuffix}`,
     run: async (args = []) => {
+      if (isMonorepoRoot) {
+        const fileArgs = await getFileArgs(args)
+        const subpackageDirs = new Set(
+          fileArgs.map((file) =>
+            monorepoSubpackageDirs.find(
+              (dir) =>
+                !path
+                  .relative(
+                    path.resolve(projectDir, dir),
+                    path.resolve(projectDir, file)
+                  )
+                  .startsWith('.')
+            )
+          )
+        )
+        const subpackageDir =
+          subpackageDirs.size === 1 ? [...subpackageDirs][0] : undefined
+
+        if (subpackageDir) {
+          await execa(
+            'tc',
+            [
+              'test',
+              ...args.map((arg) => {
+                if (!fs.pathExistsSync(arg)) return arg
+                return path.relative(
+                  path.resolve(projectDir, subpackageDir),
+                  path.resolve(projectDir, arg)
+                )
+              }),
+            ],
+            { env, cwd: subpackageDir }
+          )
+          return
+        }
+      }
+
       if (testScripts.length) {
         for (const [name] of testScripts) {
           await execa('tc', [name, ...args], { env })

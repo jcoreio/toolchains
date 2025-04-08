@@ -71,6 +71,11 @@ exports.monorepoSubpackageJsonFiles =
     ].map((f) => Path.resolve(monorepoProjectDir, f))
   : undefined
 
+exports.monorepoSubpackageDirs =
+  exports.monorepoSubpackageJsonFiles ?
+    exports.monorepoSubpackageJsonFiles.map((f) => Path.dirname(f))
+  : undefined
+
 exports.monorepoSubpackageJsons =
   exports.monorepoSubpackageJsonFiles ?
     exports.monorepoSubpackageJsonFiles.map((f) => fs.readJsonSync(f))
