@@ -5,9 +5,12 @@ const chalk = require('chalk')
 const getPluginsObjectSync = require('../util/getPluginsObjectSync.cjs')
 const execa = require('../util/execa.cjs')
 
-let toolchainConfig, isMonorepoRoot
+let toolchainConfig,
+  isMonorepoRoot,
+  foundProject = false
 try {
   ;({ toolchainConfig, isMonorepoRoot } = require('../util/findUps.cjs'))
+  foundProject = true
 } catch (error) {
   if (!error.message.startsWith('failed to find project package.json')) {
     throw error
@@ -39,7 +42,9 @@ const scripts =
       },
       'install-git-hooks': require('./install-git-hooks.cjs'),
       'install-optional-deps': require('./install-optional-deps.cjs'),
-      ...(isMonorepoRoot ? { create: require('./create.cjs') } : {}),
+      ...(isMonorepoRoot || !foundProject ?
+        { create: require('./create.cjs') }
+      : {}),
       ...getPluginsObjectSync('scripts'),
       ...Object.fromEntries(
         Object.entries(toolchainConfig.scripts || {}).map(([name, script]) => [
