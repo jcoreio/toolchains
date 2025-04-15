@@ -1,5 +1,6 @@
 const { defineConfig } = require('eslint/config')
 const react = require('eslint-plugin-react')
+const { toolchainPackages } = require('@jcoreio/toolchain/util/findUps.cjs')
 
 module.exports = [
   () =>
@@ -24,7 +25,9 @@ module.exports = [
           react: {
             pragma: 'React',
             version: 'detect',
-            flowVersion: 'detect',
+            ...(toolchainPackages.includes('@jcoreio/toolchain-flow') && {
+              flowVersion: 'detect',
+            }),
           },
         },
       },
