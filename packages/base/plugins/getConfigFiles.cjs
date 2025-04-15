@@ -7,11 +7,15 @@ const initBuildIgnore = require('../util/initBuildIgnore.cjs')
 const migrateLegacyEslintConfigs = require('../util/migrateLegacyEslintConfigs.cjs')
 const chalk = require('chalk')
 const { glob } = require('../util/glob.cjs')
+const semver = require('semver')
 
 module.exports = [
   async function getConfigFiles({ fromVersion }) {
     const files = {
-      ...(isMonorepoSubpackage ?
+      ...((
+        isMonorepoSubpackage ||
+        (fromVersion && semver.gte(fromVersion, '5.0.0'))
+      ) ?
         {}
       : {
           '.npmrc': dedent`

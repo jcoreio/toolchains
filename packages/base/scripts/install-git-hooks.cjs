@@ -3,10 +3,9 @@
 const execa = require('../util/execa.cjs')
 const Path = require('path')
 const dedent = require('dedent-js')
-const { findGitDir } = require('../util/findUps.cjs')
+const { findGitDir, projectDir } = require('../util/findUps.cjs')
 const fs = require('fs-extra')
-
-const githooksDir = Path.resolve(__dirname, '..', 'githooks')
+const { name } = require('../package.json')
 
 async function installGitHooks() {
   const gitDir = findGitDir()
@@ -18,6 +17,12 @@ async function installGitHooks() {
       after you run \`git init\`, try \`pnpm tc install-git-hooks\`.
     `)
   } else {
+    const symlinkPath = Path.join('node_modules', name, 'githooks')
+    const githooksDir =
+      (await fs.pathExists(Path.resolve(projectDir, symlinkPath))) ?
+        symlinkPath
+      : Path.resolve(__dirname, '..', 'githooks')
+
     // chmod in case pnpm doesn't preserve mode of hooks scripts
     await Promise.all(
       (await fs.readdir(githooksDir)).map((hook) =>
