@@ -24,8 +24,8 @@ async function migrate(args = []) {
     packageJson[name] ? packageJson[name].migratedVersion : undefined
   if (!fromVersion && !isMonorepoSubpackage && !findGitDir()) {
     await execa('git', ['init'])
-    await installGitHooks.run()
   }
+  await installGitHooks.run()
   await migrateProjectPackageJson({ fromVersion })
   if (await hasYarnOrNpmLockfile()) {
     await execa('pnpm', ['import'])
