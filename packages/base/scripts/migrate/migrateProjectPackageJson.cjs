@@ -69,6 +69,27 @@ async function migrateProjectPackageJson({ fromVersion }) {
       unset(packageJson, path)
     }
   }
+
+  const promptRemoveDevDeps = require('./migrateRemoveDevDeps.cjs')
+    .filter((dep) => devDependencies[dep])
+    .sort()
+  if (promptRemoveDevDeps.length) {
+    const selected =
+      require('../../util/isInteractive.cjs') ?
+        (
+          await require('../../util/prompt.cjs')({
+            name: 'selected',
+            type: 'multiselect',
+            message: 'Select dependencies to uninstall:',
+            choices: promptRemoveDevDeps,
+          })
+        ).selected
+      : promptRemoveDevDeps
+    for (const dep of selected) {
+      delete devDependencies[dep]
+    }
+  }
+
   if (
     !fromVersion &&
     !packageJson.main &&
@@ -87,10 +108,6 @@ async function migrateProjectPackageJson({ fromVersion }) {
     }
     if (hasIndexTypes) {
       packageJson.types = 'dist/index.d.ts'
-    }
-
-    for (const dep of require('./migrateRemoveDevDeps.cjs')) {
-      delete devDependencies[dep]
     }
 
     if (
