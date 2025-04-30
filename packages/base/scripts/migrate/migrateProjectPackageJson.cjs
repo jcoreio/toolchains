@@ -81,7 +81,11 @@ async function migrateProjectPackageJson({ fromVersion }) {
             name: 'selected',
             type: 'multiselect',
             message: 'Select dependencies to uninstall:',
-            choices: promptRemoveDevDeps,
+            choices: promptRemoveDevDeps.map((dep) => ({
+              title: dep,
+              value: dep,
+              selected: true,
+            })),
           })
         ).selected
       : promptRemoveDevDeps

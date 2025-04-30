@@ -113,7 +113,6 @@ module.exports = [
   'isparta',
   'istanbul',
   'jsdom-global',
-  'lint-staged',
   'prettier-eslint',
   'rimraf',
   'semantic-release',
