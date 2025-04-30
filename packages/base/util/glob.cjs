@@ -4,7 +4,30 @@ const { projectDir } = require('./findUps.cjs')
 const extendOptions = (options) => ({
   cwd: projectDir,
   ...options,
-  ignore: [...(options.ignore || []), '**/node_modules/**'],
+  ignore:
+    (
+      options &&
+      options.ignore &&
+      !Array.isArray(options.ignore) &&
+      typeof options.ignore !== 'string'
+    ) ?
+      {
+        ignored: (p) =>
+          !/\/node_modules\/|\\node_modules\\/.test(p.fullpath()) &&
+          (!options.ignore.ignored || options.ignore.ignored(p)),
+        childrenIgnored: (p) =>
+          !/\/node_modules\/|\\node_modules\\/.test(p.fullpath()) &&
+          (!options.ignore.childrenIgnored ||
+            options.ignore.childrenIgnored(p)),
+      }
+    : [
+        ...((options && options.ignore ?
+          Array.isArray(options.ignore) ?
+            options.ignore
+          : [options.ignore]
+        : []) || []),
+        '**/node_modules/**',
+      ],
 })
 
 module.exports = {
