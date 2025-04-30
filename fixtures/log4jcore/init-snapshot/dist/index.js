@@ -97,7 +97,7 @@ function logLevel(path) {
   return levelForPath;
 }
 const hasDate = !envVar('LOG_NO_DATE');
-const defaultLogFunctionProvider = level => level >= LOG_LEVEL_ERROR ? console.error : console.log;
+const defaultLogFunctionProvider = level => level >= LOG_LEVEL_ERROR ? console.error : console.log; // eslint-disable-line no-console
 exports.defaultLogFunctionProvider = defaultLogFunctionProvider;
 let _logFunctionProvider = defaultLogFunctionProvider;
 

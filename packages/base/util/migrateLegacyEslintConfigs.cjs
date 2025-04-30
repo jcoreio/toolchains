@@ -64,7 +64,8 @@ async function migrateLegacyEslintConfigs(configs) {
   }
 
   const CONFIG = expression.ast(`[...require('${name}/eslintConfig.cjs')]`)
-  for (const [file, content] of Object.entries(configs)) {
+  for (const file of Object.keys(configs).sort()) {
+    const content = configs[file]
     function warn(warning) {
       ;(warnings[file] || (warnings[file] = [])).push(warning)
     }

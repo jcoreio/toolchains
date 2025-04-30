@@ -89,6 +89,16 @@ describe(`migrateLegacyEslintConfigs`, function () {
       module.exports = defineConfig([
         ...require('@jcoreio/toolchain/eslintConfig.cjs'),
         {
+          languageOptions: {
+            globals: {
+              ...globals.commonjs,
+              ...globals['shared-node-browser'],
+              ...globals.es2017,
+            },
+          },
+          rules: makeRules(),
+        },
+        {
           files: ['test/**'],
           rules: {
             'no-undef': 0,
@@ -99,16 +109,6 @@ describe(`migrateLegacyEslintConfigs`, function () {
               ...globals.node,
             },
           },
-        },
-        {
-          languageOptions: {
-            globals: {
-              ...globals.commonjs,
-              ...globals['shared-node-browser'],
-              ...globals.es2017,
-            },
-          },
-          rules: makeRules(),
         },
       ])
 
