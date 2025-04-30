@@ -27,9 +27,7 @@
   },
   "toolchainManaged": {
     "devDependencies": {
-      "@jcoreio/toolchain-esnext": "*",
-      "@babel/plugin-syntax-flow": "*",
-      "@babel/plugin-transform-react-jsx": "*"
+      "@jcoreio/toolchain-esnext": "*"
     }
   }
 }

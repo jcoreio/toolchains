@@ -13,10 +13,6 @@
     "url": "https://github.com/jcoreio/toolchains/issues"
   },
   "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/mocha",
-  "bin": {
-    "mocha": "./bin/mocha",
-    "nyc": "./bin/nyc"
-  },
   "main": "./index.cjs",
   "dependencies": {
     "@jcoreio/toolchain": "workspace:*",
@@ -31,7 +27,8 @@
   },
   "toolchainManaged": {
     "devDependencies": {
-      "mocha": "*"
+      "mocha": "*",
+      "nyc": "*"
     },
     "optionalDevDependencies": {
       "@types/chai": "^4.3.5",
