@@ -7,10 +7,7 @@ const once = require('./once.cjs')
 const { name } = require('../package.json')
 const configSchema = require('./configSchema.cjs')
 
-const cwd = (
-  fs.pathExistsSync(Path.join(process.cwd(), 'package.json')) ?
-    process.cwd()
-  : __filename).replace(/\/node_modules(\/.*|$)/, '')
+const cwd = process.cwd().replace(/\/node_modules(\/.*|$)/, '')
 
 const packageJsonFile = (exports.packageJsonFile = findUp.sync('package.json', {
   cwd,
