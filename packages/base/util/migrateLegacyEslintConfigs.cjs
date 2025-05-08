@@ -1,6 +1,6 @@
 const { name } = require('../package.json')
 const { format } = require('prettier')
-const prettierConfig = require('../prettier.config.cjs')
+const prettierConfig = require('../prettierConfig.cjs')
 const { statement, expression, default: template } = require('@babel/template')
 const { generate } = require('@babel/generator')
 const path = require('path')

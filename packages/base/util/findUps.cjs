@@ -7,24 +7,66 @@ const once = require('./once.cjs')
 const { name } = require('../package.json')
 const configSchema = require('./configSchema.cjs')
 
-const cwd = process.cwd().replace(/\/node_modules(\/.*|$)/, '')
-
-const packageJsonFile = (exports.packageJsonFile = findUp.sync('package.json', {
-  cwd,
+// First see if the cwd is within a project dir
+let dir = process
+  .cwd()
+  .replace(/\/node_modules(\/.*|$)|\\node_modules(\\.*|$)/, '')
+let packageJsonFile = findUp.sync('package.json', {
+  cwd: dir,
   type: 'file',
-}))
+})
+
+if (!packageJsonFile) {
+  // When the cwd is not within a project dir, see if this file is within a project dir
+  dir = __dirname.replace(/\/node_modules(\/.*|$)|\\node_modules(\\.*|$)/, '')
+
+  packageJsonFile = findUp.sync('package.json', {
+    cwd: dir,
+    type: 'file',
+  })
+}
 if (!packageJsonFile) {
   throw new Error(
-    `failed to find project package.json in a parent directory of ${cwd}`
+    `failed to find project package.json in a parent directory of ${dir}`
   )
 }
-const packageJson = (exports.packageJson = fs.readJsonSync(packageJsonFile))
+
+// When this file is within the @jcoreio/toolchains monorepo, the above will find
+// packages/base/package.json, but we want to get the monorepo root package.json instead
+// if @jcoreio/toolchains is operating on itself.   But if we're invoking the CLI from
+// a working copy of the monorepo from a cwd outside of it, we want to error out
+let packageJson = fs.readJsonSync(packageJsonFile)
+if (packageJson.name === name) {
+  packageJsonFile = findUp.sync('package.json', {
+    cwd: Path.dirname(Path.dirname(packageJsonFile)),
+    type: 'file',
+  })
+  packageJson = packageJsonFile ? fs.readJsonSync(packageJsonFile) : undefined
+  if (
+    // When vscode-prettier is trying to format a file in this monorepo, the
+    // cwd may be outside the monorepo, which would make our logic decide
+    // no project is found...we work around this by setting this environment
+    // variable in the tool configs.
+    (!process.env.JCOREIO_TOOLCHAIN_SELF_TEST &&
+      Path.relative(Path.dirname(packageJsonFile), process.cwd()).startsWith(
+        '..'
+      )) ||
+    !packageJson ||
+    packageJson.name !== '@jcoreio/toolchains'
+  ) {
+    throw new Error(
+      `failed to find project package.json in a parent directory of ${dir}`
+    )
+  }
+}
+exports.packageJsonFile = packageJsonFile
+exports.packageJson = packageJson
 const projectDir = (exports.projectDir = Path.dirname(packageJsonFile))
 
 const pnpmWorkspaceFile = (exports.pnpmWorkspaceFile = findUp.sync(
   'pnpm-workspace.yaml',
   {
-    cwd,
+    dir,
     type: 'file',
   }
 ))
@@ -141,7 +183,7 @@ try {
 } catch (error) {
   const toolchainConfigLocation =
     toolchainConfigFile ?
-      Path.relative(cwd, toolchainConfigFile)
+      Path.relative(process.cwd(), toolchainConfigFile)
     : `packageJson[${JSON.stringify(name)}]`
 
   // eslint-disable-next-line no-console

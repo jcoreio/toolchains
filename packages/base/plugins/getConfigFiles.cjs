@@ -61,22 +61,35 @@ module.exports = [
           }
         `
       },
+      'prettier.config.cjs': async (existing) => {
+        if (existing) {
+          return existing.replace(
+            `${name}/prettier.config.cjs`,
+            `${name}/prettierConfig.cjs`
+          )
+        }
+        return dedent`
+          /* eslint-env node, es2018 */
+          const base = require('${name}/prettierConfig.cjs')
+          module.exports = {
+            ...base,
+          }
+        `
+      },
     }
     for (const file of [
       ...(isMonorepoSubpackage ? [] : ['githooks.cjs']),
       'lint-staged.config.cjs',
-      'prettier.config.cjs',
     ]) {
       files[file] = async (existing) =>
         existing && fromVersion ? existing : (
           dedent`
-              /* eslint-env node, es2018 */
-              const base = require('${name}/${file}')
-              module.exports = {
-                ...base,
-              }
-        
-            `
+            /* eslint-env node, es2018 */
+            const base = require('${name}/${file}')
+            module.exports = {
+              ...base,
+            }
+          `
         )
     }
     const tasks =

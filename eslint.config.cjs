@@ -1,5 +1,7 @@
 /* eslint-env node, 2018 */
 
+process.env.JCOREIO_TOOLCHAIN_SELF_TEST = '1'
+
 const { defineConfig, globalIgnores } = require('eslint/config')
 const globals = require('globals')
 

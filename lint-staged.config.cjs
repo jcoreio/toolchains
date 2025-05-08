@@ -1,3 +1,5 @@
+process.env.JCOREIO_TOOLCHAIN_SELF_TEST = '1'
+
 const path = require('path')
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 
