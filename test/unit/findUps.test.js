@@ -20,6 +20,7 @@ async function getProjectDir(cwd) {
         stdio: 'pipe',
         encoding: 'utf8',
         maxBuffer: 1024 * 1024,
+        env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '' },
       }
     )
   ).stdout
@@ -53,6 +54,7 @@ it(`running tc outside a project shows create command`, async function () {
       stdio: 'pipe',
       encoding: 'utf8',
       maxBuffer: 1024 * 1024,
+      env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '' },
     }
   ).catch((e) => e)
   expect(stderr).to.match(/create a new toolchain project/)
