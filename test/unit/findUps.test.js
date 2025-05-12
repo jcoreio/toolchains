@@ -46,7 +46,7 @@ describe(`findUps`, function () {
       )
     ).to.equal(Path.resolve(__dirname, '..', '..'))
   })
-  it.only(`inside a folder with a nameless package.json`, async function () {
+  it(`inside a folder with a nameless package.json`, async function () {
     const dir = os.tmpdir()
     await fs.writeJson(
       Path.join(dir, 'package.json'),
