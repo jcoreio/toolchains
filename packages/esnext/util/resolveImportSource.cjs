@@ -22,6 +22,9 @@ module.exports = function resolveImportSource({
       basedir,
       extensions: [
         path.extname(file.replace(/\.flow$/, '')),
+        ...(/\.d\.[cm]?ts$/i.test(file) ?
+          [file.replace(/.*(\.d\.[cm]?ts)$/i, '$1')]
+        : []),
         '.mjs',
         '.cjs',
         '.js',
@@ -35,7 +38,7 @@ module.exports = function resolveImportSource({
       ],
     })
     let result = path.relative(basedir, resolved)
-    if (outputExtension) result = result.replace(/\.[^.]+$/, outputExtension)
+    if (outputExtension) result = result.replace(/\.[^\\/]+$/, outputExtension)
     return result.startsWith('.') ? result : `./${result}`
   }
   const match = /^((?:@[^/]+\/)?[^/]+)(?:\/(.+))?$/.exec(source)

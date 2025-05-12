@@ -5,8 +5,7 @@ export type ThrottledFunction<Args extends any[], Value> = {
   cancel: () => Promise<void>;
   flush: () => Promise<void>;
 };
-declare function throttle<Args extends any[], Value>(fn: (...args: Args) => Value | Promise<Value>, _wait?: number | null, options?: {
+export default function throttle<Args extends any[], Value>(fn: (...args: Args) => Value | Promise<Value>, _wait?: number | null, options?: {
   getNextArgs?: (args0: Args, args1: Args) => Args;
 }): ThrottledFunction<Args, Value>;
-export = throttle;
-//# sourceMappingURL=index.d.ts.map
+//# sourceMappingURL=index.d.mts.map

@@ -1,13 +1,14 @@
-import { Level, LogProvider } from './index';
+import { Level, LogProvider } from "./index.js";
 export type MemoryLogMessage = {
-    loggerPath: string;
-    level: Level;
-    time: number;
-    args: any[];
+  loggerPath: string;
+  level: Level;
+  time: number;
+  args: any[];
 };
 export interface MemoryLogProvider extends LogProvider {
-    (loggerPath: string, level: Level, ...args: Array<any>): void;
-    messages: MemoryLogMessage[];
+  (loggerPath: string, level: Level, ...args: Array<any>): void;
+  messages: MemoryLogMessage[];
 }
-export default function memoryLogProvider(): MemoryLogProvider;
+declare function memoryLogProvider(): MemoryLogProvider;
+export = memoryLogProvider;
 //# sourceMappingURL=memoryLogProvider.d.ts.map

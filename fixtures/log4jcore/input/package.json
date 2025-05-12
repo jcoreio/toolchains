@@ -134,5 +134,32 @@
     "major": {
       "automerge": false
     }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": {
+        "import": "./dist/index.d.mts",
+        "default": "./dist/index.d.ts"
+      },
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
+    },
+    "./memoryLogProvider": {
+      "types": {
+        "import": "./dist/memoryLogProvider.d.mts",
+        "default": "./dist/memoryLogProvider.d.ts"
+      },
+      "import": "./dist/memoryLogProvider.mjs",
+      "default": "./dist/memoryLogProvider.js"
+    },
+    "./*": {
+      "types": {
+        "import": "./dist/*.d.mts",
+        "default": "./dist/*.d.ts"
+      },
+      "import": "./dist/*.mjs",
+      "default": "./dist/*.js"
+    }
   }
 }

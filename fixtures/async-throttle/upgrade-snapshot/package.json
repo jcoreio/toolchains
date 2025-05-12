@@ -55,6 +55,16 @@
     "node": ">=16"
   },
   "packageManager": "pnpm@10.6.5",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./index.d.mts",
+        "default": "./index.d.ts"
+      },
+      "import": "./index.mjs",
+      "default": "./index.js"
+    }
+  },
   "@jcoreio/toolchain": {
     "migratedVersion": "0.0.0-development"
   }
