@@ -46,6 +46,7 @@ module.exports = async function getModules(packageJsonFile) {
       }
     } else if (exp instanceof Object) {
       for (const [key, value] of Object.entries(exp)) {
+        if (key === 'types') continue
         await checkExport(
           value,
           type ||

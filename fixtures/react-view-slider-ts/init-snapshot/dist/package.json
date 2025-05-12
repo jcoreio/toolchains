@@ -33,7 +33,10 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./index.d.ts",
+      "types": {
+        "import": "./index.d.mts",
+        "default": "./index.d.ts"
+      },
       "import": "./index.mjs",
       "default": "./index.js"
     }

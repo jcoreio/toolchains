@@ -1,4 +1,7 @@
-const { toolchainManaged } = require('../../util/findUps.cjs')
+const {
+  toolchainConfig: { outputEsm },
+  toolchainManaged,
+} = require('../../util/findUps.cjs')
 const { name } = require('../../package.json')
 const getPluginsAsyncFunction = require('../../util/getPluginsAsyncFunction.cjs')
 const fs = require('../../util/projectFs.cjs')
@@ -11,6 +14,7 @@ const confirmOutputEsm = require('./confirmOutputEsm.cjs')
 const confirm = require('../../util/confirm.cjs')
 const unset = require('../../util/unset.cjs')
 const merge = require('../../util/merge.cjs')
+const migrateExportMap = require('./migrateExportMap.cjs')
 
 async function migrateProjectPackageJson({ fromVersion }) {
   const packageJson = await fs.readJson('package.json')
@@ -142,7 +146,10 @@ async function migrateProjectPackageJson({ fromVersion }) {
         ...(dotStar ?
           {
             './*': {
-              types: './*.d.ts',
+              types: {
+                ...(outputEsm !== false ? { import: './*.d.mts' } : {}),
+                default: './*.d.ts',
+              },
               ...(outputEsm !== false ? { import: './*.mjs' } : {}),
               default: './*.js',
             },
@@ -151,6 +158,8 @@ async function migrateProjectPackageJson({ fromVersion }) {
       }
     }
   }
+
+  migrateExportMap(packageJson.exports, { outputEsm, fromVersion })
 
   merge(
     packageJson,

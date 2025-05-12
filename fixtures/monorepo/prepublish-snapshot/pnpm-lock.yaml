@@ -1469,7 +1469,7 @@ packages:
       fs-extra: 10.1.0
       glob: 7.2.3
       json5: 2.2.3
-      lint-staged: 15.5.1
+      lint-staged: 15.5.2
       open: 8.4.2
       prettier: 2.8.8
       prompts: 2.4.2
@@ -2993,8 +2993,8 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /lint-staged@15.5.1:
-    resolution: {integrity: sha512-6m7u8mue4Xn6wK6gZvSCQwBvMBR36xfY24nF5bMTf2MHDYG6S3yhJuOgdYVw99hsjyDt2d4z168b3naI8+NWtQ==}
+  /lint-staged@15.5.2:
+    resolution: {integrity: sha512-YUSOLq9VeRNAo/CTaVmhGDKG+LBtA8KF1X4K5+ykMSwWST1vDxJRB2kv2COgLb1fvpCo+A/y9A0G0znNVmdx4w==}
     engines: {node: '>=18.12.0'}
     hasBin: true
     dependencies:
