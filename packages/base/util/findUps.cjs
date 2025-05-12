@@ -6,15 +6,18 @@ const merge = require('./merge.cjs')
 const once = require('./once.cjs')
 const { name } = require('../package.json')
 const configSchema = require('./configSchema.cjs')
+const debug = require('debug')('@jcoreio/toolchain:findUps')
 
 // First see if the cwd is within a project dir
 let dir = process
   .cwd()
   .replace(/\/node_modules(\/.*|$)|\\node_modules(\\.*|$)/, '')
+
 let packageJsonFile = findUp.sync('package.json', {
   cwd: dir,
   type: 'file',
 })
+debug({ step: 0, cwd: process.cwd(), dir, packageJsonFile })
 
 if (!packageJsonFile) {
   // When the cwd is not within a project dir, see if this file is within a project dir
@@ -25,7 +28,10 @@ if (!packageJsonFile) {
     type: 'file',
   })
 }
+debug({ step: 1, dir, packageJsonFile })
+
 if (!packageJsonFile) {
+  debug(`failed to find project package.json in a parent directory of ${dir}`)
   throw new Error(
     `failed to find project package.json in a parent directory of ${dir}`
   )
@@ -36,12 +42,19 @@ if (!packageJsonFile) {
 // if @jcoreio/toolchains is operating on itself.   But if we're invoking the CLI from
 // a working copy of the monorepo from a cwd outside of it, we want to error out
 let packageJson = fs.readJsonSync(packageJsonFile)
+debug({ step: 2, 'packageJson.name': packageJson.name })
+
 if (packageJson.name === name) {
   packageJsonFile = findUp.sync('package.json', {
     cwd: Path.dirname(Path.dirname(packageJsonFile)),
     type: 'file',
   })
   packageJson = packageJsonFile ? fs.readJsonSync(packageJsonFile) : undefined
+  debug({
+    step: 3,
+    packageJsonFile,
+    'packageJson.name': packageJson.name,
+  })
   if (
     // When vscode-prettier is trying to format a file in this monorepo, the
     // cwd may be outside the monorepo, which would make our logic decide
@@ -54,6 +67,7 @@ if (packageJson.name === name) {
     !packageJson ||
     packageJson.name !== '@jcoreio/toolchains'
   ) {
+    debug(`failed to find project package.json in a parent directory of ${dir}`)
     throw new Error(
       `failed to find project package.json in a parent directory of ${dir}`
     )
@@ -227,3 +241,5 @@ for (const toolchainPkgJson of Object.values(toolchainPackageJsons)) {
     }
   }
 }
+
+debug(exports)
