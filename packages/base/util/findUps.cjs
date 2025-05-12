@@ -13,7 +13,16 @@ let dir = process
   .cwd()
   .replace(/\/node_modules(\/.*|$)|\\node_modules(\\.*|$)/, '')
 
-let packageJsonFile = findUp.sync('package.json', {
+function matchNamedPackageJson(directory) {
+  try {
+    const json = fs.readJsonSync(Path.join(directory, 'package.json'))
+    if (json.name) return 'package.json'
+  } catch {
+    return undefined
+  }
+}
+
+let packageJsonFile = findUp.sync(matchNamedPackageJson, {
   cwd: dir,
   type: 'file',
 })
@@ -23,7 +32,7 @@ if (!packageJsonFile) {
   // When the cwd is not within a project dir, see if this file is within a project dir
   dir = __dirname.replace(/\/node_modules(\/.*|$)|\\node_modules(\\.*|$)/, '')
 
-  packageJsonFile = findUp.sync('package.json', {
+  packageJsonFile = findUp.sync(matchNamedPackageJson, {
     cwd: dir,
     type: 'file',
   })
@@ -44,8 +53,15 @@ if (!packageJsonFile) {
 let packageJson = fs.readJsonSync(packageJsonFile)
 debug({ step: 2, 'packageJson.name': packageJson.name })
 
+if (!packageJsonFile) {
+  debug(`failed to find project package.json in a parent directory of ${dir}`)
+  throw new Error(
+    `failed to find project package.json in a parent directory of ${dir}`
+  )
+}
+
 if (packageJson.name === name) {
-  packageJsonFile = findUp.sync('package.json', {
+  packageJsonFile = findUp.sync(matchNamedPackageJson, {
     cwd: Path.dirname(Path.dirname(packageJsonFile)),
     type: 'file',
   })

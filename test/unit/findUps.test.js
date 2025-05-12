@@ -6,6 +6,8 @@ const { describe, it } = require('mocha')
 const { expect } = require('chai')
 const execa = require('../../packages/base/util/execa.cjs')
 const Path = require('path')
+const os = require('os')
+const fs = require('fs-extra')
 
 async function getProjectDir(cwd) {
   return (
@@ -43,6 +45,17 @@ describe(`findUps`, function () {
         Path.resolve(__dirname, '..', '..', 'packages', 'base', 'util')
       )
     ).to.equal(Path.resolve(__dirname, '..', '..'))
+  })
+  it.only(`inside a folder with a nameless package.json`, async function () {
+    const dir = os.tmpdir()
+    await fs.writeJson(
+      Path.join(dir, 'package.json'),
+      { dependencies: { '@jcoreio/toolchain': '0.0.0-development' } },
+      { spaces: 2 }
+    )
+    expect(await getProjectDir(dir)).to.match(
+      /failed to find project package\.json/
+    )
   })
 })
 it(`running tc outside a project shows create command`, async function () {
