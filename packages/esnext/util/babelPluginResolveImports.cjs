@@ -40,6 +40,9 @@ module.exports = function babelPluginResolveImports({ types: t }) {
           handleSource(path.get('source'), state)
         }
       },
+      TSImportType(path, state) {
+        handleSource(path.get('argument'), state)
+      },
       ExportNamedDeclaration(path, state) {
         handleSource(path.get('source'), state)
       },
