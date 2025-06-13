@@ -5,10 +5,25 @@ const { projectDir } = require('../util/findUps.cjs')
 const path = require('path')
 const fs = require('../util/projectFs.cjs')
 const { globSync } = require('../util/glob.cjs')
+const execa = require('../util/execa.cjs')
 
 module.exports = [
   () => {
     const gitignores = globSync('**/.gitignore')
+    try {
+      const globalGitignore = execa
+        .sync('git', ['config', 'core.excludesFile'], {
+          stdio: 'pipe',
+          maxBuffer: 1024 * 1024,
+          encoding: 'utf8',
+        })
+        .stdout.trim()
+      if (globalGitignore && fs.pathExistsSync(globalGitignore)) {
+        gitignores.push(globalGitignore)
+      }
+    } catch {
+      // ignore
+    }
     if (fs.pathExistsSync('.eslintignore')) {
       gitignores.push('.eslintignore')
     }
