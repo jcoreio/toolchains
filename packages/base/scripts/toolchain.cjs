@@ -71,6 +71,10 @@ const scripts =
 exports.scripts = scripts
 
 async function toolchain(command, args) {
+  const ifCommandExists = args.includes('--if-command-exists')
+  if (ifCommandExists) {
+    args.splice(args.indexOf('--if-command-exists'), 1)
+  }
   if (!command) {
     /* eslint-disable no-console */
     console.error('Usage: toolchain <command> <arguments...>\n')
@@ -89,8 +93,12 @@ async function toolchain(command, args) {
   }
   const script = scripts[command]
   if (!script) {
-    console.error('Unknown command:', command) // eslint-disable-line no-console
-    process.exit(1)
+    if (ifCommandExists) {
+      process.exit(0)
+    } else {
+      console.error('Unknown command:', command) // eslint-disable-line no-console
+      process.exit(1)
+    }
   }
 
   if (require.main === module && script !== scripts.version) {

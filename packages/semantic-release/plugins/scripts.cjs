@@ -18,6 +18,7 @@ module.exports = [
             '--workspace-concurrency=1',
             'tc',
             'release',
+            '--if-command-exists',
           ])
         } else {
           try {
