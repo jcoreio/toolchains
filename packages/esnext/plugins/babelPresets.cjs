@@ -16,6 +16,7 @@ module.exports = [
             }
           : toolchainConfig.cjsBabelEnv || { forceAllTransforms: true }),
           modules: JCOREIO_TOOLCHAIN_ESM ? false : 'auto',
+          exclude: ['proposal-dynamic-import'],
         },
       ],
     ]
