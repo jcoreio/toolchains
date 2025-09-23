@@ -9,7 +9,7 @@ export async function load(url, context, nextLoad) {
   // Since we allow the project to omit `type` in `package.json` and transpile the same source
   // code to CJS and ESM, we need to set the module type based upon the mode the toolchain is
   // running in here for Node >=23.
-  if (context.format == null) {
+  if (context.format == null && !url.includes('/node_modules/')) {
     const extension = path.extname(fileURLToPath(url))
     if (
       extension === '.js' ||
