@@ -8,7 +8,7 @@ const globals = require('globals')
 module.exports = defineConfig([
   ...require('@jcoreio/toolchain/eslintConfig.cjs'),
   {
-    files: ['packages/**/*.{js,cjs}'],
+    files: ['packages/**/*.{js,cjs,mjs}'],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -27,7 +27,7 @@ module.exports = defineConfig([
     },
   },
   {
-    files: ['*.{js,cjs}', 'test/**/*.{js,cjs}'],
+    files: ['*.{js,cjs,mjs}', 'test/**/*.{js,cjs.mjs}'],
     languageOptions: {
       globals: {
         ...globals.node,
