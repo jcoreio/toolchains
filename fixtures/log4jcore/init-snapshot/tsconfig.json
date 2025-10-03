@@ -1,5 +1,5 @@
 {
   "extends": "./node_modules/@jcoreio/toolchain-typescript/tsconfig.json",
-  "include": ["./src", "./test", "./run.ts"],
+  "include": ["./src", "./test", "./*.ts", "./run.ts"],
   "exclude": ["node_modules"]
 }

@@ -42,6 +42,7 @@ module.exports = [
             include: [
               './src',
               './test',
+              './*.ts',
               ...(rootTsconfig && rootTsconfig.include ?
                 rootTsconfig.include.filter(
                   (i) => !/^(\.\/)?(src|test)(\/|$)/.test(i)

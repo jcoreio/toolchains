@@ -18,6 +18,7 @@ const migrateExportMap = require('./migrateExportMap.cjs')
 
 async function migrateProjectPackageJson({ fromVersion }) {
   const packageJson = await fs.readJson('package.json')
+  const dependencies = packageJson.dependencies || {}
   const devDependencies =
     packageJson.devDependencies || (packageJson.devDependencies = {})
 
@@ -74,9 +75,15 @@ async function migrateProjectPackageJson({ fromVersion }) {
     }
   }
 
+  const keptDeps = new Set()
+  if (dependencies.webpack || devDependencies.webpack) {
+    keptDeps.add('@babel/register') // may be used for loading TS-based webpack config
+  }
+
   const promptRemoveDevDeps = require('./migrateRemoveDevDeps.cjs')
-    .filter((dep) => devDependencies[dep])
+    .filter((dep) => devDependencies[dep] && !keptDeps.has(dep))
     .sort()
+
   if (promptRemoveDevDeps.length) {
     const selected =
       require('../../util/isInteractive.cjs') ?
