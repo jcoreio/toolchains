@@ -15,7 +15,6 @@ module.exports = [
         files: ['**/*.{ts,tsx,cts,ctsx,mts,mtsx}'],
         languageOptions: {
           parserOptions: {
-            project: true,
             projectService: true,
             tsconfigRootDir: projectDir,
           },
