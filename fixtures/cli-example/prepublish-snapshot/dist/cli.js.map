@@ -1,0 +1,1 @@
+{"version":3,"file":"cli.js","names":["_index","require","echo","process","argv","slice"],"sources":["src/cli.ts"],"sourcesContent":["#!/usr/bin/env node\n\nimport { echo } from './index.ts'\n\necho(...process.argv.slice(2))\n"],"mappings":"AAAA;AAAmB;;AAEnB,IAAAA,MAAA,GAAAC,OAAA;AAEA,IAAAC,WAAI,EAAC,GAAGC,OAAO,CAACC,IAAI,CAACC,KAAK,CAAC,CAAC,CAAC,CAAC","ignoreList":[]}

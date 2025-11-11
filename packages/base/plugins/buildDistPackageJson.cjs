@@ -1,4 +1,6 @@
 const mapValues = require('../util/mapValues.cjs')
+const { toolchainConfig } = require('@jcoreio/toolchain/util/findUps.cjs')
+const outputEsm = toolchainConfig.outputEsm !== false
 
 module.exports = [
   async function buildDistPackageJson(packageJson) {
@@ -6,16 +8,33 @@ module.exports = [
     delete packageJson.scripts
     delete packageJson.config
 
-    function replaceDist(path) {
-      return path.replace(/^(\.\/)?dist\//, '$1')
+    function replaceDist(path, ext) {
+      path = path.replace(/^(\.\/)?(src|dist)\//, '$1')
+      if (ext) path = path.replace(/(\.d)?\.tsx?$/, ext)
+      return path
     }
 
-    for (const key of ['main', 'module', 'browser', 'types', 'bin']) {
+    for (const key of ['main', 'module', 'browser', 'types', 'bin', 'types']) {
       if (typeof packageJson[key] === 'string') {
-        packageJson[key] = replaceDist(packageJson[key])
+        packageJson[key] = replaceDist(
+          packageJson[key],
+          key === 'module' ? '.mjs'
+          : key === 'main' ? '.js'
+          : key === 'types' ? '.d.ts'
+          : outputEsm ? '.mjs'
+          : '.js'
+        )
       }
     }
-    for (const key of ['bin', 'directories']) {
+    for (const key of ['bin']) {
+      if (typeof packageJson[key] === 'object' && packageJson[key] != null) {
+        packageJson[key] = mapValues(packageJson[key], (path) =>
+          replaceDist(path, outputEsm ? '.mjs' : '.js')
+        )
+      }
+    }
+
+    for (const key of ['directories']) {
       if (typeof packageJson[key] === 'object' && packageJson[key] != null) {
         packageJson[key] = mapValues(packageJson[key], replaceDist)
       }
