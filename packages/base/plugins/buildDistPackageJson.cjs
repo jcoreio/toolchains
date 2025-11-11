@@ -1,6 +1,6 @@
 const mapValues = require('../util/mapValues.cjs')
 const { toolchainConfig } = require('@jcoreio/toolchain/util/findUps.cjs')
-const { outputEsm } = toolchainConfig
+const outputEsm = toolchainConfig.outputEsm !== false
 
 module.exports = [
   async function buildDistPackageJson(packageJson) {
@@ -10,16 +10,17 @@ module.exports = [
 
     function replaceDist(path, ext) {
       path = path.replace(/^(\.\/)?(src|dist)\//, '$1')
-      if (ext) path = path.replace(/\.tsx?$/, ext)
+      if (ext) path = path.replace(/(\.d)?\.tsx?$/, ext)
       return path
     }
 
-    for (const key of ['main', 'module', 'browser', 'types', 'bin']) {
+    for (const key of ['main', 'module', 'browser', 'types', 'bin', 'types']) {
       if (typeof packageJson[key] === 'string') {
         packageJson[key] = replaceDist(
           packageJson[key],
           key === 'module' ? '.mjs'
-          : key === 'types' ? undefined
+          : key === 'main' ? '.js'
+          : key === 'types' ? '.d.ts'
           : outputEsm ? '.mjs'
           : '.js'
         )

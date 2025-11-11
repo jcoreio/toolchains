@@ -9,7 +9,7 @@ module.exports = function resolveImportSource({
   outputExtension,
 }) {
   if (
-    /\.[cm]?[tj]sx?$/i.test(source) ||
+    /(\.d\.ts|\.[cm]?jsx?)$/i.test(source) ||
     source.startsWith('node:') ||
     builtinModules.has(source)
   ) {
@@ -18,6 +18,9 @@ module.exports = function resolveImportSource({
 
   const basedir = path.dirname(file)
   if (source.startsWith('.')) {
+    if (/\.[cm]?tsx?$/i.test(source) && /\.d\.[cm]?ts$/i.test(file)) {
+      source = source.replace(/\.[^.]+$/, '')
+    }
     const resolved = resolve(source, {
       basedir,
       extensions: [
