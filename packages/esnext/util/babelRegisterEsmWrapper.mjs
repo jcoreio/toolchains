@@ -1,6 +1,8 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { resolve, load as wrappedLoad } from 'babel-register-esm'
+import fs from 'fs-extra'
+import { packageJson } from '@jcoreio/toolchain/util/findUps.cjs'
 
 export { resolve }
 
@@ -10,7 +12,8 @@ export async function load(url, context, nextLoad) {
   // code to CJS and ESM, we need to set the module type based upon the mode the toolchain is
   // running in here for Node >=23.
   if (context.format == null && !url.includes('/node_modules/')) {
-    const extension = path.extname(fileURLToPath(url))
+    const file = url.startsWith('file:') ? fileURLToPath(url) : url
+    const extension = path.extname(file)
     if (
       extension === '.js' ||
       extension === '.jsx' ||
@@ -21,11 +24,19 @@ export async function load(url, context, nextLoad) {
         url,
         {
           ...context,
-          format: process.env.JCOREIO_TOOLCHAIN_ESM ? 'module' : 'commonjs',
+          format:
+            (
+              extension.startsWith('.js') &&
+              packageJson.type !== 'module' &&
+              (await fs.pathExists(file))
+            ) ?
+              'commonjs'
+            : process.env.JCOREIO_TOOLCHAIN_ESM ? 'module'
+            : 'commonjs',
         },
         nextLoad
       )
     }
   }
-  return await wrappedLoad(url, context, nextLoad)
+  return await nextLoad(url, context)
 }
