@@ -5,6 +5,7 @@ const buildGlobOpts = require('@jcoreio/toolchain/util/buildGlobOpts.cjs')
 const path = require('path')
 const dedent = require('dedent-js')
 const {
+  packageJson,
   toolchainConfig,
   projectDir,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
@@ -29,7 +30,7 @@ module.exports = [
           '--out-dir',
           'dist',
           '--out-file-extension',
-          '.js',
+          packageJson.type === 'module' ? '.cjs' : '.js',
           ...(toolchainConfig.sourceMaps ?
             ['--source-maps', toolchainConfig.sourceMaps]
           : []),
@@ -69,7 +70,7 @@ module.exports = [
               '--out-dir',
               'dist',
               '--out-file-extension',
-              '.mjs',
+              packageJson.type === 'module' ? '.js' : '.mjs',
               ...(toolchainConfig.sourceMaps ?
                 ['--source-maps', toolchainConfig.sourceMaps]
               : []),
@@ -80,7 +81,7 @@ module.exports = [
       }
 
       if (extensions.length) {
-        for (const ext of ['.js', '.mjs']) {
+        for (const ext of ['.js', '.cjs', '.mjs']) {
           if (!extensions.includes(ext)) {
             const srcFiles = await glob(path.join('**', '*' + ext), {
               ...buildGlobOpts,
