@@ -1,0 +1,33 @@
+{
+  "name": "@jcoreio/type-module",
+  "description": "example CLI project for testing type: module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "fixtures/type-module/input"
+  },
+  "homepage": "https://github.com/jcoreio/toolchains/tree/convert-ts-bin/fixtures/type-module/input",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchains/issues"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "keywords": [
+    ""
+  ],
+  "type": "module",
+  "bin": "./cli.js",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "types": "./index.d.cts",
+  "version": "0.0.0-development",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@10.6.5",
+  "dependencies": {},
+  "@jcoreio/toolchain": {
+    "migratedVersion": "5.5.9"
+  }
+}

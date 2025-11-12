@@ -14,22 +14,26 @@ module.exports = [
       return path
     }
 
+    const dtsExtension = packageJson.type === 'module' ? '.d.cts' : '.d.ts'
+    const cjsExtension = packageJson.type === 'module' ? '.cjs' : '.js'
+    const esmExtension = packageJson.type === 'module' ? '.js' : '.mjs'
+
     for (const key of ['main', 'module', 'browser', 'types', 'bin', 'types']) {
       if (typeof packageJson[key] === 'string') {
         packageJson[key] = replaceDist(
           packageJson[key],
-          key === 'module' ? '.mjs'
-          : key === 'main' ? '.js'
-          : key === 'types' ? '.d.ts'
-          : outputEsm ? '.mjs'
-          : '.js'
+          key === 'module' ? esmExtension
+          : key === 'main' ? cjsExtension
+          : key === 'types' ? dtsExtension
+          : outputEsm ? esmExtension
+          : cjsExtension
         )
       }
     }
     for (const key of ['bin']) {
       if (typeof packageJson[key] === 'object' && packageJson[key] != null) {
         packageJson[key] = mapValues(packageJson[key], (path) =>
-          replaceDist(path, outputEsm ? '.mjs' : '.js')
+          replaceDist(path, outputEsm ? esmExtension : cjsExtension)
         )
       }
     }

@@ -1,5 +1,8 @@
 const Path = require('path')
-const { toolchainConfig } = require('@jcoreio/toolchain/util/findUps.cjs')
+const {
+  toolchainConfig,
+  packageJson,
+} = require('@jcoreio/toolchain/util/findUps.cjs')
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const { glob } = require('@jcoreio/toolchain/util/glob.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
@@ -19,7 +22,10 @@ module.exports = [
       const dtsFiles = await glob(Path.join('dist', '**', '*.d.ts'))
       await Promise.all(
         dtsFiles.map(async (src) => {
-          const dest = src.replace(/\.d\.ts$/, '.d.mts')
+          const dest = src.replace(
+            /\.d\.ts$/,
+            packageJson.type === 'module' ? '.d.cts' : '.d.mts'
+          )
           // eslint-disable-next-line no-console
           console.error(src, '->', dest)
           const content = await fs.readFile(src, 'utf8')
@@ -60,7 +66,10 @@ module.exports = [
               plugins: [
                 [
                   '@jcoreio/toolchain-esnext/util/babelPluginResolveImports.cjs',
-                  { outputExtension: '.js' },
+                  {
+                    outputExtension:
+                      packageJson.type === 'module' ? '.cjs' : '.js',
+                  },
                 ],
                 function ({ types: t }) {
                   return {
@@ -94,26 +103,31 @@ module.exports = [
               plugins: [
                 [
                   '@jcoreio/toolchain-esnext/util/babelPluginResolveImports.cjs',
-                  { outputExtension: '.mjs' },
+                  {
+                    outputExtension:
+                      packageJson.type === 'module' ? '.js' : '.mjs',
+                  },
                 ],
               ],
             }),
           ])
-          cts.map.file = Path.basename(src)
-          mts.map.file = Path.basename(dest)
+          const ctsFile = packageJson.type === 'module' ? dest : src
+          const mtsFile = packageJson.type === 'module' ? src : dest
+          cts.map.file = Path.basename(ctsFile)
+          mts.map.file = Path.basename(mtsFile)
           await Promise.all([
             fs.writeFile(
-              src,
-              `${cts.code}\n//# sourceMappingURL=${Path.basename(src)}.map`,
+              ctsFile,
+              `${cts.code}\n//# sourceMappingURL=${Path.basename(ctsFile)}.map`,
               'utf8'
             ),
-            fs.writeJson(`${src}.map`, cts.map),
+            fs.writeJson(`${ctsFile}.map`, cts.map),
             fs.writeFile(
-              dest,
-              `${mts.code}\n//# sourceMappingURL=${Path.basename(dest)}.map`,
+              mtsFile,
+              `${mts.code}\n//# sourceMappingURL=${Path.basename(mtsFile)}.map`,
               'utf8'
             ),
-            fs.writeJson(`${dest}.map`, mts.map),
+            fs.writeJson(`${mtsFile}.map`, mts.map),
           ])
         })
       )

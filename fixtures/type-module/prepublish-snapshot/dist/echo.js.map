@@ -1,0 +1,1 @@
+{"version":3,"file":"echo.js","names":["echo","args","console","log"],"sources":["src/echo.ts"],"sourcesContent":["export function echo(...args: string[]) {\n  // eslint-disable-next-line no-console\n  console.log(...args)\n}\n"],"mappings":"AAAA,OAAO,SAASA,IAAIA,CAAC,GAAGC,IAAc,EAAE;EACtC;EACAC,OAAO,CAACC,GAAG,CAAC,GAAGF,IAAI,CAAC;AACtB","ignoreList":[]}
