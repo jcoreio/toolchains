@@ -18,8 +18,9 @@ A system for managing JS/TS project dev tools
     - [Configure transpilation options](#configure-transpilation-options)
     - [Run scripts before or after toolchain scripts](#run-scripts-before-or-after-toolchain-scripts)
     - [Disable scripts like `build:smoke-test` that are run by `prepublish`](#disable-scripts-like-buildsmoke-test-that-are-run-by-prepublish)
-    - [Load chai plugins, customize mocha, etc.](#load-chai-plugins-customize-mocha-etc)
-    - [Change mocha default specs](#change-mocha-default-specs)
+    - [Load Chai plugins, customize Mocha, etc.](#load-chai-plugins-customize-mocha-etc)
+    - [Run Mocha tests in watch mode](#run-mocha-tests-in-watch-mode)
+    - [Change Mocha default specs](#change-mocha-default-specs)
     - [Define multiple test targets](#define-multiple-test-targets)
     - [Create dual CJS+ESM packages](#create-dual-cjsesm-packages)
     - [Explicit `.cjs`/`.cts`/`.ctsx` files](#explicit-cjsctsctsx-files)
@@ -250,9 +251,9 @@ module.exports = {
 }
 ```
 
-### Load chai plugins, customize mocha, etc.
+### Load Chai plugins, customize Mocha, etc.
 
-Edit `.mocharc.cjs`. For example to add your own configuration script that loads chai plugins:
+Edit `.mocharc.cjs`. For example to add your own configuration script that loads Chai plugins:
 
 ```js
 /* eslint-env node, es2018 */
@@ -263,7 +264,17 @@ module.exports = {
 }
 ```
 
-### Change mocha default specs
+### Run Mocha tests in watch mode
+
+For CJS mode, use `tc test --watch` (which just forwards the `--watch` option to `mocha`).
+
+For ESM mode (if you have `"type": "module"` in your `package.json`) this won't work
+because [Mocha can't bust the ES module cache when files change](https://github.com/mochajs/mocha/issues/4374).
+
+To work around this you can either use `tc test --no-option=watch` (slower, restarts the entire
+process on changes) or use `tc test:cjs --watch` since Mocha busts the CJS module cache.
+
+### Change Mocha default specs
 
 Edit `.mocharc.cjs`. It's recommended to use the `getSpecs` helper to avoid running
 all specs by default if specific specs are passed on the command line. It's kind of
