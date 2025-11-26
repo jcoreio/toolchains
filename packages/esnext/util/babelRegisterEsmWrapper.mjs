@@ -8,11 +8,16 @@ const projectDirPrefix = pathToFileURL(projectDir) + '/'
 
 export async function resolve(specifier, context, nextResolve) {
   if (
-    specifier.startsWith('.') &&
-    context.parentURL.startsWith('file:') &&
-    !context.parentURL.includes('/node_modules/')
+    specifier.startsWith(projectDirPrefix) ||
+    (specifier.startsWith('.') &&
+      context.parentURL.startsWith('file:') &&
+      !context.parentURL.includes('/node_modules/'))
   ) {
     const basedir = path.dirname(fileURLToPath(context.parentURL))
+    if (!specifier.startsWith('.')) {
+      specifier = path.relative(basedir, fileURLToPath(specifier))
+      if (!specifier.startsWith('.')) specifier = `./${specifier}`
+    }
     const altTypeResolved = resolveAltType(specifier, basedir)
     if (altTypeResolved) {
       return {
