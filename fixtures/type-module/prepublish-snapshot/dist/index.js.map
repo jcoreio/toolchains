@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","names":[],"sources":["src/index.ts"],"sourcesContent":["export * from './echo.ts'\n"],"mappings":"AAAA","ignoreList":[]}
+{"version":3,"file":"index.js","names":[],"sources":["src/index.ts"],"sourcesContent":["export * from './echo.ts'\nexport * from './dirname.ts'\n"],"mappings":"AAAA;AACA","ignoreList":[]}

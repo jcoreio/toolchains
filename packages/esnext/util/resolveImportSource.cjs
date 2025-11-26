@@ -2,12 +2,18 @@ const resolve = require('resolve/sync')
 const path = require('path')
 const fs = require('fs-extra')
 const builtinModules = new Set(require('module').builtinModules)
+const resolveAltType = require('./resolveAltType.cjs')
 
 module.exports = function resolveImportSource({
   file,
   source,
   outputExtension,
 }) {
+  const basedir = path.dirname(file)
+
+  const altTypeResolved = resolveAltType(source, basedir)
+  if (altTypeResolved) return altTypeResolved
+
   if (
     /(\.d\.ts|\.[cm]?jsx?)$/i.test(source) ||
     source.startsWith('node:') ||
@@ -16,7 +22,6 @@ module.exports = function resolveImportSource({
     return source
   }
 
-  const basedir = path.dirname(file)
   if (source.startsWith('.')) {
     if (/\.[cm]?tsx?$/i.test(source) && /\.d\.[cm]?ts$/i.test(file)) {
       source = source.replace(/\.[^.]+$/, '')

@@ -26,6 +26,7 @@ module.exports = [
             /\.d\.ts$/,
             packageJson.type === 'module' ? '.d.cts' : '.d.mts'
           )
+          if (await fs.pathExists(dest)) return
           // eslint-disable-next-line no-console
           console.error(src, '->', dest)
           const content = await fs.readFile(src, 'utf8')
