@@ -24,7 +24,7 @@ export async function resolve(specifier, context, nextResolve) {
     const altTypeResolved = resolveAltType(specifier, basedir)
     if (altTypeResolved) {
       return {
-        url: pathToFileURL(path.resolve(basedir, altTypeResolved)),
+        url: pathToFileURL(path.resolve(basedir, altTypeResolved)).toString(),
         shortCircuit: true,
         format:
           process.env.JCOREIO_TOOLCHAIN_CJS ? 'commonjs'
