@@ -39,14 +39,14 @@ export async function load(url, context, nextLoad) {
   }
   const extension = path.extname(url)
   if (
-    process.env.JCOREIO_TOOLCHAIN_ESM &&
+    (process.env.JCOREIO_TOOLCHAIN_ESM || extension.startsWith('.m')) &&
     url.startsWith(projectDirPrefix) &&
     (!extension || /\.m?[jt]sx?$/i.test(extension))
   ) {
     context = { ...context, format: 'module' }
   }
   if (
-    process.env.JCOREIO_TOOLCHAIN_CJS &&
+    (process.env.JCOREIO_TOOLCHAIN_CJS || extension.startsWith('.c')) &&
     url.startsWith(projectDirPrefix) &&
     (!extension || /\.c?[jt]sx?$/i.test(extension))
   ) {
