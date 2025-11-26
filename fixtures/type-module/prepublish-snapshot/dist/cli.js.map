@@ -1,1 +1,1 @@
-{"version":3,"file":"cli.js","names":["echo","process","argv","slice"],"sources":["src/cli.ts"],"sourcesContent":["#!/usr/bin/env node\n\nimport { echo } from './index.ts'\n\necho(...process.argv.slice(2))\n"],"mappings":"AAAA;AAEA,SAASA,IAAI;AAEbA,IAAI,CAAC,GAAGC,OAAO,CAACC,IAAI,CAACC,KAAK,CAAC,CAAC,CAAC,CAAC","ignoreList":[]}
+{"version":3,"file":"cli.js","names":["echo","process","argv","slice"],"sources":["src/cli.ts"],"sourcesContent":[null],"mappings":"AAAA;AAEA,SAASA,IAAI;AAEbA,IAAI,CAAC,GAAGC,OAAO,CAACC,IAAI,CAACC,KAAK,CAAC,CAAC,CAAC,CAAC","ignoreList":[]}

@@ -1,1 +1,1 @@
-{"version":3,"file":"dirname.cjs","names":["exports","dirname","__dirname"],"sources":["src/dirname.cts"],"sourcesContent":["exports.dirname = __dirname\nexport declare const dirname: string\n"],"mappings":";;AAAAA,OAAO,CAACC,OAAO,GAAGC,SAAS","ignoreList":[]}
+{"version":3,"file":"dirname.cjs","names":["exports","dirname","__dirname"],"sources":["src/dirname.cts"],"sourcesContent":[null],"mappings":";;AAAAA,OAAO,CAACC,OAAO,GAAGC,SAAS","ignoreList":[]}
