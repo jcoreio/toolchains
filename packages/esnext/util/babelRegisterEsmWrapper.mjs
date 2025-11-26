@@ -13,7 +13,10 @@ export async function resolve(specifier, context, nextResolve) {
       context.parentURL.startsWith('file:') &&
       !context.parentURL.includes('/node_modules/'))
   ) {
-    const basedir = path.dirname(fileURLToPath(context.parentURL))
+    const basedir =
+      context.parentURL ?
+        path.dirname(fileURLToPath(context.parentURL))
+      : process.cwd()
     if (!specifier.startsWith('.')) {
       specifier = path.relative(basedir, fileURLToPath(specifier))
       if (!specifier.startsWith('.')) specifier = `./${specifier}`
@@ -21,7 +24,7 @@ export async function resolve(specifier, context, nextResolve) {
     const altTypeResolved = resolveAltType(specifier, basedir)
     if (altTypeResolved) {
       return {
-        url: new URL(altTypeResolved, context.parentURL).toString(),
+        url: pathToFileURL(path.resolve(basedir, altTypeResolved)),
         shortCircuit: true,
         format:
           process.env.JCOREIO_TOOLCHAIN_CJS ? 'commonjs'
