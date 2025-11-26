@@ -9,6 +9,7 @@ exports.run = async function (args = []) {
     await execa('tc', ['check'])
     if (scripts.coverage) await execa('tc', ['coverage'])
     if (scripts['test:esm']) await execa('tc', ['test:esm'])
+    if (scripts['test:cjs']) await execa('tc', ['test:cjs'])
     await execa('tc', ['build'])
     await execa('tc', ['build:smoke-test'])
   }

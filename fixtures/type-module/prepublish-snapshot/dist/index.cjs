@@ -14,4 +14,15 @@ Object.keys(_echo).forEach(function (key) {
     }
   });
 });
+var _dirname = require("./dirname.cjs");
+Object.keys(_dirname).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _dirname[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _dirname[key];
+    }
+  });
+});
 //# sourceMappingURL=index.cjs.map

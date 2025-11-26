@@ -1,13 +1,34 @@
 import path from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
-import { resolve, load as wrappedLoad } from 'babel-register-esm'
+import { resolve as baseResolve, load as wrappedLoad } from 'babel-register-esm'
 import fs from 'fs-extra'
 import { packageJson, projectDir } from '@jcoreio/toolchain/util/findUps.cjs'
 import hasTSSources from '@jcoreio/toolchain/util/hasTSSources.cjs'
+import resolveAltType from './resolveAltType.cjs'
 
 const projectDirPrefix = pathToFileURL(projectDir) + '/'
 
-export { resolve }
+export async function resolve(specifier, context, nextResolve) {
+  if (
+    specifier.startsWith('.') &&
+    context.parentURL.startsWith('file:') &&
+    !context.parentURL.includes('/node_modules/')
+  ) {
+    const basedir = path.dirname(fileURLToPath(context.parentURL))
+    const altTypeResolved = resolveAltType(specifier, basedir)
+    if (altTypeResolved) {
+      return {
+        url: new URL(altTypeResolved, context.parentURL).toString(),
+        shortCircuit: true,
+        format:
+          process.env.JCOREIO_TOOLCHAIN_CJS ? 'commonjs'
+          : process.env.JCOREIO_TOOLCHAIN_ESM ? 'module'
+          : context.format,
+      }
+    }
+  }
+  return await baseResolve(specifier, context, nextResolve)
+}
 
 export async function load(url, context, nextLoad) {
   if (!url.startsWith('file:') || url.includes('/node_modules/')) {

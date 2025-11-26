@@ -1,6 +1,6 @@
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const { glob } = require('@jcoreio/toolchain/util/glob.cjs')
+const { glob, globIterate } = require('@jcoreio/toolchain/util/glob.cjs')
 const buildGlobOpts = require('@jcoreio/toolchain/util/buildGlobOpts.cjs')
 const path = require('path')
 const dedent = require('dedent-js')
@@ -12,31 +12,53 @@ const {
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 const fixSourceMaps = require('../util/fixSourceMaps.cjs')
 
+async function hasSourceFilesForExtension(extension) {
+  const ignore = [
+    ...(toolchainConfig.buildIgnore || []),
+    ...(/\.[cm]?ts$/i.test(extension) ? [`**/*.d${extension}`] : []),
+  ]
+  for await (const file of globIterate(`src/**/*${extension}`, {
+    ignore: ignore.length ? ignore : undefined,
+  })) {
+    return true
+  }
+  return false
+}
+
 module.exports = [
   [
     async function compile(args = []) {
       const extensions = getPluginsArraySync('babelExtensions')
 
-      await execa(
-        'babel',
-        [
-          'src',
-          ...(extensions.length ? ['--extensions', extensions.join(',')] : []),
-          ...(extensions.includes('.ts') ? ['--ignore', '**/*.d.ts'] : []),
-          ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
-            '--ignore',
-            pattern,
-          ]),
-          '--out-dir',
-          'dist',
-          '--out-file-extension',
-          packageJson.type === 'module' ? '.cjs' : '.js',
-          ...(toolchainConfig.sourceMaps ?
-            ['--source-maps', toolchainConfig.sourceMaps]
-          : []),
-        ],
-        { env: { ...process.env, JCOREIO_TOOLCHAIN_CJS: '1' } }
-      )
+      for (const extension of extensions) {
+        if (extension.startsWith('.m')) continue
+        if (!(await hasSourceFilesForExtension(extension))) continue
+        await execa(
+          'babel',
+          [
+            'src',
+            '--extensions',
+            extension,
+            ...(/\.[cm]?ts$/i.test(extension) ?
+              ['--ignore', '**/*.d' + extension]
+            : []),
+            ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
+              '--ignore',
+              pattern,
+            ]),
+            '--out-dir',
+            'dist',
+            '--out-file-extension',
+            /\.c[tj]sx?$/i.test(extension) || packageJson.type === 'module' ?
+              '.cjs'
+            : '.js',
+            ...(toolchainConfig.sourceMaps ?
+              ['--source-maps', toolchainConfig.sourceMaps]
+            : []),
+          ],
+          { env: { ...process.env, JCOREIO_TOOLCHAIN_CJS: '1' } }
+        )
+      }
 
       const jsFiles = await glob(path.join('dist', '**', '*.js'))
       if (toolchainConfig.outputEsm !== false) {
@@ -56,27 +78,35 @@ module.exports = [
             )
           )
         } else {
-          await execa(
-            'babel',
-            [
-              'src',
-              ...(extensions.length ?
-                ['--extensions', extensions.join(',')]
-              : []),
-              ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
-                '--ignore',
-                pattern,
-              ]),
-              '--out-dir',
-              'dist',
-              '--out-file-extension',
-              packageJson.type === 'module' ? '.js' : '.mjs',
-              ...(toolchainConfig.sourceMaps ?
-                ['--source-maps', toolchainConfig.sourceMaps]
-              : []),
-            ],
-            { env: { ...process.env, JCOREIO_TOOLCHAIN_ESM: '1' } }
-          )
+          for (const extension of extensions) {
+            if (extension.startsWith('.c')) continue
+            if (!(await hasSourceFilesForExtension(extension))) continue
+            await execa(
+              'babel',
+              [
+                'src',
+                '--extensions',
+                extension,
+                ...(/\.[cm]?ts$/i.test(extension) ?
+                  ['--ignore', '**/*.d' + extension]
+                : []),
+                ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
+                  '--ignore',
+                  pattern,
+                ]),
+                '--out-dir',
+                'dist',
+                '--out-file-extension',
+                /\.m[tj]sx?$/.test(extension) || packageJson.type !== 'module' ?
+                  '.mjs'
+                : '.js',
+                ...(toolchainConfig.sourceMaps ?
+                  ['--source-maps', toolchainConfig.sourceMaps]
+                : []),
+              ],
+              { env: { ...process.env, JCOREIO_TOOLCHAIN_ESM: '1' } }
+            )
+          }
         }
       }
 

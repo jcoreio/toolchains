@@ -5,6 +5,7 @@ const {
   isMonorepoRoot,
   monorepoSubpackageDirs,
   projectDir,
+  packageJson,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const path = require('path')
@@ -118,6 +119,7 @@ if (
   module.exports = [
     {
       ...makeScripts({
+        suffix: packageJson.type === 'module' ? ':cjs' : undefined,
         descriptionSuffix: ' in CJS mode',
         env: {
           ...process.env,
@@ -126,7 +128,7 @@ if (
         },
       }),
       ...makeScripts({
-        suffix: ':esm',
+        suffix: packageJson.type === 'module' ? undefined : ':esm',
         descriptionSuffix: ' in ESM mode',
         env: {
           ...process.env,
