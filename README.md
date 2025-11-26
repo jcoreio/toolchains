@@ -22,8 +22,12 @@ A system for managing JS/TS project dev tools
     - [Change mocha default specs](#change-mocha-default-specs)
     - [Define multiple test targets](#define-multiple-test-targets)
     - [Create dual CJS+ESM packages](#create-dual-cjsesm-packages)
-  - [Current limitations](#current-limitations)
-    - [Source maps](#source-maps)
+    - [Explicit `.cjs`/`.cts`/`.ctsx` files](#explicit-cjsctsctsx-files)
+      - [`package.json`](#packagejson)
+      - [`src/dirname.cts`](#srcdirnamects)
+      - [`src/dirname.ts`](#srcdirnamets)
+      - [`src/index.ts`](#srcindexts)
+    - [Running TypeScript natively in Node 22.18.0+](#running-typescript-natively-in-node-22180)
 
 ## Project goals
 
@@ -310,19 +314,90 @@ module.exports = {
 ### Create dual CJS+ESM packages
 
 As long as you use `@jcoreio/toolchain-esnext` and don't have `outputEsm: false` in
-your `toolchain.config.cjs`, `tc build` will output both `.cjs` and `.mjs` files.
+your `toolchain.config.cjs`, `tc build` will output both CJS and ESM.
 
-There will be a `tc test:esm` command available that runs all your tests in ESM mode
-so you can make sure the ESM works.
+The behavior varies depending on the module `"type"` setting in your `package.json`:
 
-Although ESM requires explicit file extensions for relative imports, you should still
-omit them from your source and test code so that the build and test scripts work for
-both CJS and ESM. The toolchain will use a babel plugin to add the necessary extensions
-to your import paths when building and testing.
+| Setting                             | Output CJS Extension | Output ESM Extension | CJS Test Command | ESM Test Comand |
+| ----------------------------------- | -------------------- | -------------------- | ---------------- | --------------- |
+| `"type": "commonjs"` (_or omitted_) | `.js`                | `.mjs`               | `tc test`        | `tc test:esm`   |
+| `"type": "module"`                  | `.cjs`               | `.js`                | `tc test:cjs`    | `tc test`       |
 
-## Current limitations
+Although ESM requires explicit file extensions for relative imports, you can
+omit them from your source and test code if your `package.json` doesn't have `"type": "module"`.
+The toolchain will use a babel plugin to add the necessary extensions to your import paths when
+building and testing.
 
-### Source maps
+Dual CJS+ESM output and test modes will work even if you use explicit file extensions in your source code.
 
-Right now the build doesn't output source maps or source files in
-the published package, but we should probably make it do that.
+### Explicit `.cjs`/`.cts`/`.ctsx` files
+
+If you have `"type": "module"`, then any import from `.js`/`.ts`/`.tsx` in your source code will automatically be resolved
+to a corresponding `.cjs`/`.cts`/`.ctsx` file (if it exists) when running `test:cjs` or building CJS output.
+
+This allows you to use APIs that aren't available in both CJS and ESM without duplicating the rest of your code. For
+instance if you want to use the root source directory you can create files like this:
+
+#### `package.json`
+
+```json
+{
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": {
+        "require": "./dist/index.d.cts",
+        "default": "./dist/index.d.ts"
+      },
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  }
+}
+```
+
+#### `src/dirname.cts`
+
+```ts
+exports.dirname = __dirname
+export declare const dirname: string
+```
+
+#### `src/dirname.ts`
+
+```ts
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+export const dirname = path.dirname(fileURLToPath(import.meta.url))
+```
+
+#### `src/index.ts`
+
+```ts
+import { dirname } from './dirname.ts' // automatically gets resolved to ./dirname.cts in CJS mode
+// ...
+```
+
+### Running TypeScript natively in Node 22.18.0+
+
+For a modern Typescript setup, set `"type": "module"` in your `package.json` and set the following `compilerOptions` in your
+`tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true
+  }
+}
+```
+
+And use explicit `.ts` extensions in import statements in your source files.
+
+As long your source code typechecks with these settings you should be able to run it natively with Node 22.18.0+!
+
+It would be possible to run ESM tests without a loader in this case, and I may add an option in the future to turn of
+registering the loader. However, the custom loader would continue to be necessary for `tc test:cjs` and `tc coverage`.
