@@ -8,15 +8,23 @@ const projectDirPrefix = pathToFileURL(projectDir) + '/'
 
 export async function resolve(specifier, context, nextResolve) {
   if (
-    specifier.startsWith('.') &&
-    context.parentURL.startsWith('file:') &&
-    !context.parentURL.includes('/node_modules/')
+    specifier.startsWith(projectDirPrefix) ||
+    (specifier.startsWith('.') &&
+      context.parentURL.startsWith('file:') &&
+      !context.parentURL.includes('/node_modules/'))
   ) {
-    const basedir = path.dirname(fileURLToPath(context.parentURL))
+    const basedir =
+      context.parentURL ?
+        path.dirname(fileURLToPath(context.parentURL))
+      : process.cwd()
+    if (!specifier.startsWith('.')) {
+      specifier = path.relative(basedir, fileURLToPath(specifier))
+      if (!specifier.startsWith('.')) specifier = `./${specifier}`
+    }
     const altTypeResolved = resolveAltType(specifier, basedir)
     if (altTypeResolved) {
       return {
-        url: new URL(altTypeResolved, context.parentURL).toString(),
+        url: pathToFileURL(path.resolve(basedir, altTypeResolved)),
         shortCircuit: true,
         format:
           process.env.JCOREIO_TOOLCHAIN_CJS ? 'commonjs'
@@ -34,14 +42,14 @@ export async function load(url, context, nextLoad) {
   }
   const extension = path.extname(url)
   if (
-    process.env.JCOREIO_TOOLCHAIN_ESM &&
+    (process.env.JCOREIO_TOOLCHAIN_ESM || extension.startsWith('.m')) &&
     url.startsWith(projectDirPrefix) &&
     (!extension || /\.m?[jt]sx?$/i.test(extension))
   ) {
     context = { ...context, format: 'module' }
   }
   if (
-    process.env.JCOREIO_TOOLCHAIN_CJS &&
+    (process.env.JCOREIO_TOOLCHAIN_CJS || extension.startsWith('.c')) &&
     url.startsWith(projectDirPrefix) &&
     (!extension || /\.c?[jt]sx?$/i.test(extension))
   ) {
