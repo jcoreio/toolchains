@@ -28,7 +28,9 @@ async function hasSourceFilesForExtension(extension) {
 module.exports = [
   [
     async function compile(args = []) {
-      const extensions = getPluginsArraySync('babelExtensions')
+      const extensions = getPluginsArraySync('sourceExtensions').map(
+        (ext) => `.${ext}`
+      )
 
       for (const extension of extensions) {
         if (extension.startsWith('.m')) continue
