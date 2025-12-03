@@ -15,7 +15,7 @@ module.exports = function resolveImportSource({
   if (altTypeResolved) return altTypeResolved
 
   if (
-    /(\.d\.ts|\.[cm]?jsx?)$/i.test(source) ||
+    /(\.d\.[cm]?ts|\.[cm]?jsx?)$/i.test(source) ||
     source.startsWith('node:') ||
     builtinModules.has(source)
   ) {
@@ -24,7 +24,7 @@ module.exports = function resolveImportSource({
 
   if (source.startsWith('.')) {
     if (/\.[cm]?tsx?$/i.test(source) && /\.d\.[cm]?ts$/i.test(file)) {
-      source = source.replace(/\.[^.]+$/, '')
+      source = source.replace(/\.[^.\\/]+$/, '')
     }
     const resolved = resolve(source, {
       basedir,
@@ -46,7 +46,9 @@ module.exports = function resolveImportSource({
       ],
     })
     let result = path.relative(basedir, resolved)
-    if (outputExtension) result = result.replace(/\.[^\\/]+$/, outputExtension)
+    if (outputExtension) {
+      result = result.replace(/((\.d)?\.[^.\\/]+)?$/, outputExtension)
+    }
     return result.startsWith('.') ? result : `./${result}`
   }
   const match = /^((?:@[^/]+\/)?[^/]+)(?:\/(.+))?$/.exec(source)
