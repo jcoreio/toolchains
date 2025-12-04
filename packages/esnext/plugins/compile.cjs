@@ -48,6 +48,17 @@ module.exports = [
               '--ignore',
               pattern,
             ]),
+            ...(extension.startsWith('.c') ?
+              []
+            : (
+                await glob(
+                  `src/**/*${extension.replace('.', '.c')}`,
+                  buildGlobOpts
+                )
+              ).flatMap((file) => [
+                '--ignore',
+                file.replace(/\.c([jt]sx?)$/i, '.$1'),
+              ])),
             '--out-dir',
             'dist',
             '--out-file-extension',
@@ -96,6 +107,17 @@ module.exports = [
                   '--ignore',
                   pattern,
                 ]),
+                ...(extension.startsWith('.m') ?
+                  []
+                : (
+                    await glob(
+                      `src/**/*${extension.replace('.', '.m')}`,
+                      buildGlobOpts
+                    )
+                  ).flatMap((file) => [
+                    '--ignore',
+                    file.replace(/\.m([jt]sx?)$/i, '.$1'),
+                  ])),
                 '--out-dir',
                 'dist',
                 '--out-file-extension',
