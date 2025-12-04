@@ -48,6 +48,7 @@ module.exports = [
               '--ignore',
               pattern,
             ]),
+            // ignore any .js/.ts files for which there's an alternate .cjs/.cts file
             ...(extension.startsWith('.c') ?
               []
             : (
@@ -107,6 +108,7 @@ module.exports = [
                   '--ignore',
                   pattern,
                 ]),
+                // ignore any .js/.ts files for which there's an alternate .mjs/.mts file
                 ...(extension.startsWith('.m') ?
                   []
                 : (
