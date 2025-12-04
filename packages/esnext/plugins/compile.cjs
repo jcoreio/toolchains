@@ -48,6 +48,18 @@ module.exports = [
               '--ignore',
               pattern,
             ]),
+            // ignore any .js/.ts files for which there's an alternate .cjs/.cts file
+            ...(extension.startsWith('.c') ?
+              []
+            : (
+                await glob(
+                  `src/**/*${extension.replace('.', '.c')}`,
+                  buildGlobOpts
+                )
+              ).flatMap((file) => [
+                '--ignore',
+                file.replace(/\.c([jt]sx?)$/i, '.$1'),
+              ])),
             '--out-dir',
             'dist',
             '--out-file-extension',
@@ -96,6 +108,18 @@ module.exports = [
                   '--ignore',
                   pattern,
                 ]),
+                // ignore any .js/.ts files for which there's an alternate .mjs/.mts file
+                ...(extension.startsWith('.m') ?
+                  []
+                : (
+                    await glob(
+                      `src/**/*${extension.replace('.', '.m')}`,
+                      buildGlobOpts
+                    )
+                  ).flatMap((file) => [
+                    '--ignore',
+                    file.replace(/\.m([jt]sx?)$/i, '.$1'),
+                  ])),
                 '--out-dir',
                 'dist',
                 '--out-file-extension',
