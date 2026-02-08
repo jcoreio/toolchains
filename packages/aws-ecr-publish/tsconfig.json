@@ -1,0 +1,11 @@
+{
+  "extends": "@jcoreio/toolchain-typescript/tsconfig.json",
+  "include": ["./src", "./test", "./scripts", "./*.ts"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true
+  }
+}

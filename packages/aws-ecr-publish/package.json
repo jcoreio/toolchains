@@ -1,0 +1,29 @@
+{
+  "name": "@jcoreio/toolchain-aws-ecr-publish",
+  "version": "0.0.0-development",
+  "description": "toolchain plugins to publish docker images to AWS ECR",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "packages/aws-ecr-publish"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchains/issues"
+  },
+  "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/aws-ecr-publish",
+  "dependencies": {
+    "@jcoreio/aws-ecr-utils": "^2.6.0",
+    "@jcoreio/toolchain": "workspace:*",
+    "@jcoreio/toolchain-typescript": "workspace:*",
+    "@semantic-release/exec": "^6.0.3",
+    "dedent-js": "^1.0.1"
+  },
+  "toolchainManaged": {
+    "devDependencies": {
+      "@jcoreio/aws-ecr-utils": "^2.6.0",
+      "@jcoreio/toolchain-typescript": "*"
+    }
+  }
+}
