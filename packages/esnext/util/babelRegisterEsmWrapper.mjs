@@ -39,13 +39,12 @@ export async function resolve(specifier, context, nextResolve) {
           path.dirname(fileURLToPath(context.parentURL))
         : process.cwd()
       const file = fileURLToPath(resolved)
-      const altTypeResolved = resolveAltType(
-        path.relative(basedir, file),
-        basedir
-      )
+      let relativeSpec = path.relative(basedir, file)
+      if (!relativeSpec.startsWith('.')) relativeSpec = `./${relativeSpec}`
+      const altTypeResolved = resolveAltType(relativeSpec, basedir)
       if (altTypeResolved) {
         return {
-          url: resolved,
+          url: pathToFileURL(path.resolve(basedir, altTypeResolved)).toString(),
           shortCircuit: true,
           format:
             process.env.JCOREIO_TOOLCHAIN_CJS ? 'commonjs'
