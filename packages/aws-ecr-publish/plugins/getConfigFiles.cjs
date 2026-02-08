@@ -28,38 +28,19 @@ module.exports = [
         ),
         Dockerfile: dedent`
           ARG NODE_VERSION=24
-          FROM node:\${NODE_VERSION} AS build
-
-          WORKDIR /usr/app
-
-          ARG NPM_TOKEN
-
-          # Project uses private NPM modules. Pass in NPM token externally.
-          # Tell NPM to use the token from the environment variable
-          RUN npm config set --location global \
-              "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" \
-              "registry=https://registry.npmjs.org/"
-
-          ARG NODE_ENV=production
-          ENV NODE_ENV=$NODE_ENV
-          COPY package.json pnpm-lock.yaml /usr/app/
-          RUN corepack enable && pnpm i --production --frozen-lockfile
-
-          # Build the final image
           FROM node:\${NODE_VERSION}
 
           WORKDIR /usr/app
 
           ARG NODE_ENV=production
           ENV NODE_ENV=$NODE_ENV
+          COPY package.json pnpm-lock.yaml /usr/app/
+          RUN --mount=type=secret,id=npmrc,target=/usr/app/.npmrc \
+              corepack enable && pnpm i --production --frozen-lockfile
 
           EXPOSE 80
 
-          COPY --from=build /usr/app/node_modules /usr/app/node_modules/
-          COPY --from=build /usr/app/package.json /usr/app/pnpm-lock.yaml /usr/app/
           COPY src/ /usr/app/src/
-
-          ENV PORT=80
 
           RUN ["node", "src/index.ts"]
         `,
