@@ -2,6 +2,7 @@
 module.exports = {
   cjsBabelEnv: { targets: { node: 16 } },
   esmBabelEnv: { targets: { node: 16 } },
+  // outputCjs: false, // disables CJS output (default: true)
   // outputEsm: false, // disables ESM output (default: true)
   buildIgnore: ['src/**/__tests__'],
   hasTypeScriptSources: true,
