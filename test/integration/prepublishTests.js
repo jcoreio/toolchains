@@ -7,7 +7,7 @@ const expectDirsEqual = require('../util/expectDirsEqual')
 const updateSnapshot = require('../util/updateSnapshot')
 const banner = require('../util/banner')
 
-for (const fixture of ['cli-example', 'type-module']) {
+for (const fixture of ['cli-example', 'type-module', 'esm-only']) {
   it(`prepublish ${fixture}`, async function () {
     this.timeout(120000)
     // eslint-disable-next-line no-console

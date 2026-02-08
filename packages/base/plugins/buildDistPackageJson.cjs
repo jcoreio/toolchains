@@ -14,19 +14,27 @@ module.exports = [
       return path
     }
 
-    const dtsExtension = packageJson.type === 'module' ? '.d.cts' : '.d.ts'
-    const cjsExtension = packageJson.type === 'module' ? '.cjs' : '.js'
-    const esmExtension = packageJson.type === 'module' ? '.js' : '.mjs'
+    const isDual =
+      toolchainConfig.outputCjs !== false && toolchainConfig.outputEsm !== false
+    const dtsExtension =
+      isDual && packageJson.type === 'module' ? '.d.cts' : '.d.ts'
+    const cjsExtension =
+      isDual && packageJson.type === 'module' ? '.cjs' : '.js'
+    const esmExtension =
+      isDual && packageJson.type !== 'module' ? '.mjs' : '.js'
 
     for (const key of ['main', 'module', 'browser', 'types', 'bin', 'types']) {
       if (typeof packageJson[key] === 'string') {
         packageJson[key] = replaceDist(
           packageJson[key],
-          key === 'module' ? esmExtension
-          : key === 'main' ? cjsExtension
-          : key === 'types' ? dtsExtension
-          : outputEsm ? esmExtension
-          : cjsExtension
+          isDual ?
+            key === 'module' ? esmExtension
+            : key === 'main' ? cjsExtension
+            : key === 'types' ? dtsExtension
+            : outputEsm ? esmExtension
+            : cjsExtension
+          : key === 'types' ? '.d.ts'
+          : '.js'
         )
       }
     }

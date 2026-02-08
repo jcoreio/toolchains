@@ -32,46 +32,48 @@ module.exports = [
         (ext) => `.${ext}`
       )
 
-      for (const extension of extensions) {
-        if (extension.startsWith('.m')) continue
-        if (!(await hasSourceFilesForExtension(extension))) continue
-        await execa(
-          'babel',
-          [
-            'src',
-            '--extensions',
-            extension,
-            ...(/\.[cm]?ts$/i.test(extension) ?
-              ['--ignore', '**/*.d' + extension]
-            : []),
-            ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
-              '--ignore',
-              pattern,
-            ]),
-            // ignore any .js/.ts files for which there's an alternate .cjs/.cts file
-            ...(extension.startsWith('.c') ?
-              []
-            : (
-                await glob(
-                  `src/**/*${extension.replace('.', '.c')}`,
-                  buildGlobOpts
-                )
-              ).flatMap((file) => [
+      if (toolchainConfig.outputCjs !== false) {
+        for (const extension of extensions) {
+          if (extension.startsWith('.m')) continue
+          if (!(await hasSourceFilesForExtension(extension))) continue
+          await execa(
+            'babel',
+            [
+              'src',
+              '--extensions',
+              extension,
+              ...(/\.[cm]?ts$/i.test(extension) ?
+                ['--ignore', '**/*.d' + extension]
+              : []),
+              ...(toolchainConfig.buildIgnore || []).flatMap((pattern) => [
                 '--ignore',
-                file.replace(/\.c([jt]sx?)$/i, '.$1'),
-              ])),
-            '--out-dir',
-            'dist',
-            '--out-file-extension',
-            /\.c[tj]sx?$/i.test(extension) || packageJson.type === 'module' ?
-              '.cjs'
-            : '.js',
-            ...(toolchainConfig.sourceMaps ?
-              ['--source-maps', toolchainConfig.sourceMaps]
-            : []),
-          ],
-          { env: { ...process.env, JCOREIO_TOOLCHAIN_CJS: '1' } }
-        )
+                pattern,
+              ]),
+              // ignore any .js/.ts files for which there's an alternate .cjs/.cts file
+              ...(extension.startsWith('.c') ?
+                []
+              : (
+                  await glob(
+                    `src/**/*${extension.replace('.', '.c')}`,
+                    buildGlobOpts
+                  )
+                ).flatMap((file) => [
+                  '--ignore',
+                  file.replace(/\.c([jt]sx?)$/i, '.$1'),
+                ])),
+              '--out-dir',
+              'dist',
+              '--out-file-extension',
+              /\.c[tj]sx?$/i.test(extension) || packageJson.type === 'module' ?
+                '.cjs'
+              : '.js',
+              ...(toolchainConfig.sourceMaps ?
+                ['--source-maps', toolchainConfig.sourceMaps]
+              : []),
+            ],
+            { env: { ...process.env, JCOREIO_TOOLCHAIN_CJS: '1' } }
+          )
+        }
       }
 
       const jsFiles = await glob(path.join('dist', '**', '*.js'))

@@ -1,0 +1,39 @@
+{
+  "name": "@jcoreio/esm-only",
+  "description": "example CLI project for testing ESM-only output",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcoreio/toolchains.git",
+    "directory": "fixtures/type-module/input"
+  },
+  "homepage": "https://github.com/jcoreio/toolchains/tree/convert-ts-bin/fixtures/type-module/input",
+  "bugs": {
+    "url": "https://github.com/jcoreio/toolchains/issues"
+  },
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "keywords": [
+    ""
+  ],
+  "type": "module",
+  "bin": "./cli.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "version": "0.0.0-development",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@10.6.5",
+  "dependencies": {},
+  "@jcoreio/toolchain": {
+    "migratedVersion": "5.5.9"
+  }
+}

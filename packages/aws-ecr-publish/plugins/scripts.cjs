@@ -3,20 +3,6 @@ const path = require('path')
 
 module.exports = [
   {
-    build: {
-      description:
-        'build docker image (and push to AWS ECR if necessary in CI)',
-      run: async (args = []) => {
-        const { ecrDeployer } = await import(
-          path.join(projectDir, 'scripts/ecrDeployer.ts')
-        )
-        if (process.env.CI) {
-          await ecrDeployer.buildAndPushIfNecessary()
-        } else {
-          await ecrDeployer.build()
-        }
-      },
-    },
     'docker:push': {
       description: 'push docker image to AWS ECR',
       run: async () => {

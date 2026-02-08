@@ -1,0 +1,1 @@
+{"version":3,"file":"cli.js","names":["echo","process","argv","slice"],"sources":["src/cli.ts"],"sourcesContent":[null],"mappings":"AAAA;AAEA,SAASA,IAAI;AAEbA,IAAI,CAAC,GAAGC,OAAO,CAACC,IAAI,CAACC,KAAK,CAAC,CAAC,CAAC,CAAC","ignoreList":[]}
