@@ -34,7 +34,6 @@ const makeScripts = ({
       await execa('nyc', ['tc', `test${suffix}`, ...args], {
         env: {
           ...env,
-          JCOREIO_TOOLCHAIN_TEST: '1',
           JCOREIO_TOOLCHAIN_COVERAGE: '1',
         },
       })
@@ -53,7 +52,6 @@ const makeScripts = ({
           await execa('nyc', ['tc', name, ...args], {
             env: {
               ...env,
-              JCOREIO_TOOLCHAIN_TEST: '1',
               JCOREIO_TOOLCHAIN_COVERAGE: '1',
             },
           })
@@ -116,7 +114,11 @@ module.exports = [
   makeScripts({
     env:
       toolchainConfig.outputCjs === false ?
-        { ...process.env, JCOREIO_TOOLCHAIN_ESM: '1' }
+        {
+          ...process.env,
+          JCOREIO_TOOLCHAIN_TEST: '1',
+          JCOREIO_TOOLCHAIN_ESM: '1',
+        }
       : undefined,
   }),
 ]
@@ -133,6 +135,7 @@ if (
         descriptionSuffix: ' in CJS mode',
         env: {
           ...process.env,
+          JCOREIO_TOOLCHAIN_TEST: '1',
           JCOREIO_TOOLCHAIN_CJS: '1',
         },
       }),
@@ -141,6 +144,7 @@ if (
         descriptionSuffix: ' in ESM mode',
         env: {
           ...process.env,
+          JCOREIO_TOOLCHAIN_TEST: '1',
           JCOREIO_TOOLCHAIN_ESM: '1',
         },
       }),
