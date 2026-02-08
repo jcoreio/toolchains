@@ -5,6 +5,7 @@ const execa = require('execa')
 const fs = require('fs-extra')
 const banner = require('../util/banner')
 const copyFixture = require('../util/copyFixture')
+const spawnEnv = require('./spawnEnv')
 
 ;(process.env.CI ? it.skip : it)(
   `monorepo semantic-release`,
@@ -16,7 +17,7 @@ const copyFixture = require('../util/copyFixture')
     const execaOpts = {
       cwd: await fs.realpath(linkdir),
       stdio: 'inherit',
-      env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '1' },
+      env: spawnEnv,
     }
     await execa('pnpm', ['i', '--prefer-offline'], execaOpts)
     await execa('git', ['init'], execaOpts)

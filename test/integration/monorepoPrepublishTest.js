@@ -6,6 +6,7 @@ const banner = require('../util/banner')
 const copyFixture = require('../util/copyFixture')
 const expectDirsEqual = require('../util/expectDirsEqual')
 const updateSnapshot = require('../util/updateSnapshot')
+const spawnEnv = require('./spawnEnv')
 
 it(`monorepo prepublish`, async function () {
   this.timeout(120000)
@@ -15,7 +16,7 @@ it(`monorepo prepublish`, async function () {
   const execaOpts = {
     cwd: await fs.realpath(linkdir),
     stdio: 'inherit',
-    env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '1' },
+    env: spawnEnv,
   }
   await execa('pnpm', ['i', '--prefer-offline'], execaOpts)
   await execa('pnpm', ['tc', 'prepublish'], execaOpts)

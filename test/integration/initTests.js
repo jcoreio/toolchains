@@ -7,6 +7,7 @@ const runInit = require('../util/runInit')
 const expectDirsEqual = require('../util/expectDirsEqual')
 const updateSnapshot = require('../util/updateSnapshot')
 const banner = require('../util/banner')
+const spawnEnv = require('./spawnEnv')
 
 for (const fixture of [
   'async-throttle',
@@ -23,7 +24,7 @@ for (const fixture of [
     const execaOpts = {
       cwd: await fs.realpath(linkdir),
       stdio: 'inherit',
-      env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '1' },
+      env: spawnEnv,
     }
     try {
       await runInit(linkdir)
