@@ -1,4 +1,5 @@
 const { name } = require('../package.json')
+const confirmOutputCjs = require('@jcoreio/toolchain/scripts/migrate/confirmOutputCjs.cjs')
 const confirmOutputEsm = require('@jcoreio/toolchain/scripts/migrate/confirmOutputEsm.cjs')
 const dedent = require('dedent-js')
 const hasTSSources = require('@jcoreio/toolchain/util/hasTSSources.cjs')
@@ -12,12 +13,16 @@ module.exports = [
       return {
         'toolchain.config.cjs': async (existing) => {
           if (existing) return existing
+          const outputCjs = await confirmOutputCjs()
           const outputEsm = await confirmOutputEsm()
           return dedent`
           /* eslint-env node, es2018 */
           module.exports = {
-            cjsBabelEnv: { targets: { node: 16 } },
+            ${outputCjs ? '' : '// '}cjsBabelEnv: { targets: { node: 16 } },
             ${outputEsm ? '' : '// '}esmBabelEnv: { targets: { node: 16 } },
+            ${
+              outputCjs ? '// ' : ''
+            }outputCjs: false, // disables CJS output (default: true)
             ${
               outputEsm ? '// ' : ''
             }outputEsm: false, // disables ESM output (default: true)

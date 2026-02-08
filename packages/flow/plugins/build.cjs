@@ -16,7 +16,12 @@ module.exports = [
         )
         for (const ext of [
           '.js.flow',
-          ...(toolchainConfig.outputEsm !== false ? ['.mjs.flow'] : []),
+          ...((
+            toolchainConfig.outputCjs !== false &&
+            toolchainConfig.outputEsm !== false
+          ) ?
+            ['.mjs.flow']
+          : []),
         ]) {
           await Promise.all(
             jsFiles.map(async (src) => {

@@ -113,6 +113,7 @@ const makeScripts = ({
 module.exports = [makeScripts()]
 
 if (
+  toolchainConfig.outputCjs !== false &&
   toolchainConfig.outputEsm !== false &&
   toolchainPackages.includes('@jcoreio/toolchain-esnext')
 ) {
