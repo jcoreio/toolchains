@@ -9,7 +9,6 @@ module.exports = [
       'nyc.config.cjs': async (existing) =>
         existing && fromVersion ? existing : (
           dedent`
-              /* eslint-env node, es2018 */
               const base = require('${name}/nyc.config.cjs')
               module.exports = {
                 ...base,
@@ -36,7 +35,6 @@ module.exports = [
         }
         if (!specs.length) specs.push('test')
         return dedent`
-          /* eslint-env node, es2018 */
           const base = require('${name}/.mocharc.cjs')
           const { getSpecs } = require('${name}')
           module.exports = {

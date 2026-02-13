@@ -16,7 +16,6 @@ module.exports = [
           const outputCjs = await confirmOutputCjs()
           const outputEsm = await confirmOutputEsm()
           return dedent`
-          /* eslint-env node, es2018 */
           module.exports = {
             ${outputCjs ? '' : '// '}cjsBabelEnv: { targets: { node: 16 } },
             ${outputEsm ? '' : '// '}esmBabelEnv: { targets: { node: 16 } },
@@ -46,7 +45,6 @@ module.exports = [
         `
         },
         '.babelrc.cjs': dedent`
-          /* eslint-env node, es2018 */
           module.exports = function (api) {
             const base = require('${name}/.babelrc.cjs')(api)
             return {
