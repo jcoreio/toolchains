@@ -20,4 +20,10 @@ module.exports = defineConfig([
       },
     },
   },
+  {
+    files: ['test/clearConsole.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ])

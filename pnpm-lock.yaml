@@ -12,6 +12,9 @@ importers:
         specifier: ^7.18.6
         version: 7.26.10
     devDependencies:
+      '@babel/types':
+        specifier: ^7.27.0
+        version: 7.27.0
       '@jcoreio/toolchain':
         specifier: workspace:*
         version: link:packages/base
@@ -129,6 +132,9 @@ importers:
       '@babel/template':
         specifier: ^7.27.0
         version: 7.27.0
+      '@babel/traverse':
+        specifier: ^7.26.4
+        version: 7.26.10
       '@babel/types':
         specifier: ^7.27.0
         version: 7.27.0
@@ -1225,10 +1231,6 @@ packages:
 
   '@babel/traverse@7.26.10':
     resolution: {integrity: sha512-k8NuDrxr0WrPH5Aupqb2LCVURP/S0vBEn5mK6iH+GIYob66U5EtoZvcdudR2jQ4cmTwhEwW1DLB+Yyas9zjF6A==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/types@7.26.10':
-    resolution: {integrity: sha512-emqcG3vHrpxUKTrxcblR36dcrcoRDvKmnL/dCL6ZsHaShW80qxCAcNhzQZrpeM765VzEos+xOi4s+r4IXzTwdQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/types@7.27.0':
@@ -6383,7 +6385,7 @@ snapshots:
       '@babel/helper-module-imports': 7.25.9
       '@babel/helper-plugin-utils': 7.26.5
       '@babel/plugin-syntax-jsx': 7.25.9(@babel/core@7.26.10)
-      '@babel/types': 7.26.10
+      '@babel/types': 7.27.0
     transitivePeerDependencies:
       - supports-color
 
@@ -6628,11 +6630,6 @@ snapshots:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-
-  '@babel/types@7.26.10':
-    dependencies:
-      '@babel/helper-string-parser': 7.25.9
-      '@babel/helper-validator-identifier': 7.25.9
 
   '@babel/types@7.27.0':
     dependencies:

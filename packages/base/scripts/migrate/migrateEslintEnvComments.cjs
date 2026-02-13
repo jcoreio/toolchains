@@ -13,15 +13,17 @@ async function migrateEslintEnvComments({ fromVersion }) {
   const getBabelParseOpts = require('../../util/getBabelParseOpts.cjs')
   const chalk = require('chalk')
   const dedent = require('dedent-js')
+  const { parse } = require('@babel/parser')
 
+  /** env name -> array of paths from proj root to file */
+  const envFileMap = new Map()
   const warnings = {}
   for (const file of await glob('**/*.{js,jsx,cjs,mjs,ts,cts,mts,tsx}')) {
     function warn(warning) {
       ;(warnings[file] || (warnings[file] = [])).push(warning)
     }
 
-    const { parse } = require('@babel/parser')
-    const source = await fs.readFile(file)
+    const source = await fs.readFile(file, 'utf8')
     let parsed
     try {
       parsed = parse(source, getBabelParseOpts(file))
@@ -38,9 +40,17 @@ async function migrateEslintEnvComments({ fromVersion }) {
     for (const comment of parsed.comments) {
       const { start, end, value } = comment
       const match = /^\s*eslint-env\s+(.*?)\s*$/.exec(value)
-      const envs = match ? match[1] : undefined
+      const envs = match ? match[1].split(/\s*,\s*/g) : undefined
       if (envs == null) continue
       replacements.push({ start, end, value: '' })
+
+      if (file.startsWith('src/') || file.startsWith('test/')) {
+        for (const env of envs) {
+          let group = envFileMap.get(env)
+          if (!group) envFileMap.set(env, (group = []))
+          group.push(file)
+        }
+      }
     }
 
     if (!replacements.length) continue
@@ -65,6 +75,44 @@ async function migrateEslintEnvComments({ fromVersion }) {
       )
     }
   }
+  if (!envFileMap.size) return
+
+  const t = require('@babel/types')
+  const addEslintConfigsCodemod = require('../../util/addEslintConfigsCodemod.cjs')
+
+  const newConfigs = [...envFileMap].map(([env, files]) =>
+    t.objectExpression([
+      t.objectProperty(
+        t.identifier('files'),
+        t.arrayExpression(files.map((file) => t.stringLiteral(file)))
+      ),
+      t.objectProperty(
+        t.identifier('languageOptions'),
+        t.objectExpression([
+          t.objectProperty(
+            t.identifier('globals'),
+            t.memberExpression(
+              t.identifier('globals'),
+              /^[_a-z$][_a-z0-9$]*$/.test(env) ?
+                t.identifier(env)
+              : t.stringLiteral(env)
+            )
+          ),
+        ])
+      ),
+    ])
+  )
+
+  await fs.writeFile(
+    'eslint.config.cjs',
+    await addEslintConfigsCodemod({
+      file: 'eslint.config.cjs',
+      source: await fs.readFile('eslint.config.cjs', 'utf8'),
+      configs: newConfigs,
+      requireGlobals: true,
+    }),
+    'utf8'
+  )
 }
 
 module.exports = migrateEslintEnvComments
