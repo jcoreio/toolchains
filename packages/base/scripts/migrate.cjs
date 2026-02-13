@@ -14,6 +14,7 @@ async function migrate(args = []) {
   const installGitHooks = require('./install-git-hooks.cjs')
   const migrateProjectPackageJson = require('./migrate/migrateProjectPackageJson.cjs')
   const migrateEslintConfigs = require('./migrate/migrateEslintConfigs.cjs')
+  const migrateEslintEnvComments = require('./migrate/migrateEslintEnvComments.cjs')
   const migrateConfigFiles = require('./migrate/migrateConfigFiles.cjs')
   const migrateMoveTypeDefs = require('./migrate/migrateMoveTypeDefs.cjs')
   const migrateGitignore = require('./migrate/migrateGitignore.cjs')
@@ -32,6 +33,7 @@ async function migrate(args = []) {
   }
   await migrateConfigFiles({ fromVersion })
   await migrateEslintConfigs({ fromVersion })
+  await migrateEslintEnvComments({ fromVersion })
   if (!fromVersion) await migrateMoveTypeDefs()
   await migrateGitignore({ fromVersion })
   await getPluginsAsyncFunction('migrate')(args, { fromVersion })

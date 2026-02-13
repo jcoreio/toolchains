@@ -6,6 +6,7 @@ const path = require('path')
 const fs = require('../util/projectFs.cjs')
 const { globSync } = require('../util/glob.cjs')
 const execa = require('../util/execa.cjs')
+const globals = require('globals')
 
 module.exports = [
   () => {
@@ -73,6 +74,17 @@ module.exports = [
               optional: true,
             },
           ],
+        },
+      },
+      {
+        files: ['**'],
+        ignores: ['src/**', 'test/**'],
+        languageOptions: {
+          ecmaVersion: 2018,
+          globals: {
+            ...globals.es2018,
+            ...globals.node,
+          },
         },
       },
       require('eslint-config-prettier'),

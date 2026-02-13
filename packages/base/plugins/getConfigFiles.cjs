@@ -48,7 +48,6 @@ module.exports = [
       'toolchain.config.cjs': async (existing) => {
         if (existing) return existing
         return dedent`
-          /* eslint-env node, es2018 */
           module.exports = {
             buildIgnore: ${JSON.stringify(await initBuildIgnore(), null, 2)},
             // scripts: {
@@ -69,7 +68,6 @@ module.exports = [
           )
         }
         return dedent`
-          /* eslint-env node, es2018 */
           const base = require('${name}/prettierConfig.cjs')
           module.exports = {
             ...base,
@@ -84,7 +82,6 @@ module.exports = [
       files[file] = async (existing) =>
         existing && fromVersion ? existing : (
           dedent`
-            /* eslint-env node, es2018 */
             const base = require('${name}/${file}')
             module.exports = {
               ...base,

@@ -1,0 +1,151 @@
+const commonPlugins = [
+  'asyncGenerators',
+  'bigInt',
+  'classProperties',
+  'classPrivateProperties',
+  'classPrivateMethods',
+  'classStaticBlock',
+  'functionSent',
+  'logicalAssignment',
+  'moduleStringNames',
+  'nullishCoalescingOperator',
+  'numericSeparator',
+  'objectRestSpread',
+  'optionalCatchBinding',
+  'optionalChaining',
+  'privateIn',
+]
+
+const modulePlugins = [
+  'dynamicImport',
+  'exportNamespaceFrom',
+  'exportDefaultFrom',
+  'importMeta',
+  'topLevelAwait',
+]
+
+const babelParseOpts = {
+  js: {
+    sourceType: 'unambiguous',
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [
+      ...commonPlugins,
+      ...modulePlugins,
+      ['flow', { all: true }],
+      'flowComments',
+      'jsx',
+    ],
+  },
+  jsx: {
+    sourceType: 'unambiguous',
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [
+      ...commonPlugins,
+      ...modulePlugins,
+      ['flow', { all: true }],
+      'flowComments',
+      'jsx',
+    ],
+  },
+  cjs: {
+    sourceType: 'commonjs',
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+  },
+  mjs: {
+    sourceType: 'module',
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [...commonPlugins, ...modulePlugins],
+  },
+  ts: {
+    sourceType: 'unambiguous',
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [
+      ...commonPlugins,
+      ...modulePlugins,
+      'typescript',
+      'decorators-legacy',
+    ],
+  },
+  dts: {
+    sourceType: 'unambiguous',
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [
+      ...commonPlugins,
+      ...modulePlugins,
+      ['typescript', { dts: true }],
+      'decorators-legacy',
+    ],
+  },
+  tsx: {
+    sourceType: 'unambiguous',
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [
+      ...commonPlugins,
+      ...modulePlugins,
+      'jsx',
+      'typescript',
+      'decorators-legacy',
+    ],
+  },
+  cts: {
+    sourceType: 'commonjs',
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [...commonPlugins, 'typescript', 'decorators-legacy'],
+  },
+  dcts: {
+    sourceType: 'commonjs',
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [
+      ...commonPlugins,
+      ['typescript', { dts: true }],
+      'decorators-legacy',
+    ],
+  },
+  mts: {
+    sourceType: 'module',
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [
+      ...commonPlugins,
+      ...modulePlugins,
+      'typescript',
+      'decorators-legacy',
+    ],
+  },
+  dmts: {
+    sourceType: 'module',
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    startLine: 1,
+    plugins: [
+      ...commonPlugins,
+      ...modulePlugins,
+      ['typescript', { dts: true }],
+      'decorators-legacy',
+    ],
+  },
+}
+
+function getBabelParseOpts(file) {
+  const ext =
+    /\.(js|cjs|mjs|jsx|(d\.)?(ts|cts|mts|tsx))$/i.exec(file)?.[0] || 'js'
+  return babelParseOpts[ext]
+}
+
+module.exports = getBabelParseOpts

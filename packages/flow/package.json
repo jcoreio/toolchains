@@ -21,7 +21,7 @@
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-esnext": "workspace:*",
     "dedent-js": "^1.0.1",
-    "eslint": "^9.17.0",
+    "eslint": "^10.0.0",
     "eslint-plugin-ft-flow": "^3.0.11",
     "semver": "^7.5.3"
   },
