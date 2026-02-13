@@ -10,6 +10,7 @@ module.exports = defineConfig([
   {
     files: ['packages/**/*.{js,cjs,mjs}'],
     languageOptions: {
+      ecmaVersion: 2020,
       globals: {
         ...globals.node,
         ...globals.es2018,
