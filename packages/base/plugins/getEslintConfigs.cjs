@@ -22,7 +22,8 @@ module.exports = [
       if (globalGitignore && fs.pathExistsSync(globalGitignore)) {
         gitignores.push(globalGitignore)
       }
-    } catch {
+      // eslint-disable-next-line no-unused-vars
+    } catch (err) {
       // ignore
     }
     if (fs.pathExistsSync('.eslintignore')) {
@@ -77,7 +78,7 @@ module.exports = [
         },
       },
       {
-        files: ['**'],
+        files: ['**/*.{js,cjs,mjs,ts,cts,mts}'],
         ignores: ['src/**', 'test/**'],
         languageOptions: {
           ecmaVersion: 2018,

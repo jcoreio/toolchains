@@ -2,7 +2,7 @@ const { gte } = require('semver')
 
 async function migrateEslintEnvComments({ fromVersion }) {
   // istanbul ignore next
-  if (fromVersion && gte(fromVersion, '6.0.0')) {
+  if (fromVersion && gte(fromVersion, '5.10.0')) {
     return
   }
 
@@ -37,13 +37,15 @@ async function migrateEslintEnvComments({ fromVersion }) {
     const replacements = []
     for (const comment of parsed.comments) {
       const { start, end, value } = comment
-      const envs = /^\s*eslint-env\s+(.*?)\s*$/.exec(value)?.[1]
+      const match = /^\s*eslint-env\s+(.*?)\s*$/.exec(value)
+      const envs = match ? match[1] : undefined
       if (envs == null) continue
       replacements.push({ start, end, value: '' })
     }
 
     if (!replacements.length) continue
     await fs.writeFile(file, replaceRanges(source, replacements), 'utf8')
+    // eslint-disable-next-line no-console
     console.error(
       `removed eslint-env comments from ${path.relative(process.cwd(), file)}`
     )

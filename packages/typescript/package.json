@@ -18,11 +18,11 @@
     "@babel/preset-typescript": "^7.26.0",
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-esnext": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^8.55.0",
-    "@typescript-eslint/parser": "^8.55.0",
-    "eslint": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint": "^9.18.0",
     "json5": "^2.2.1",
-    "typescript-eslint": "^8.55.0"
+    "typescript-eslint": "^8.29.0"
   },
   "peerDependencies": {
     "typescript": "^5.1.0"

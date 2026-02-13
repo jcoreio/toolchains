@@ -143,8 +143,8 @@ const babelParseOpts = {
 }
 
 function getBabelParseOpts(file) {
-  const ext =
-    /\.(js|cjs|mjs|jsx|(d\.)?(ts|cts|mts|tsx))$/i.exec(file)?.[0] || 'js'
+  const match = /\.(js|cjs|mjs|jsx|(d\.)?(ts|cts|mts|tsx))$/i.exec(file)
+  const ext = (match ? match[0] : undefined) || 'js'
   return babelParseOpts[ext]
 }
 
