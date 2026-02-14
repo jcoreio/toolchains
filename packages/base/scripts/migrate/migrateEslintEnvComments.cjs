@@ -2,7 +2,7 @@ const { gte } = require('semver')
 
 async function migrateEslintEnvComments({ fromVersion }) {
   // istanbul ignore next
-  if (fromVersion && gte(fromVersion, '5.10.0')) {
+  if (fromVersion && gte(fromVersion, '5.10.1')) {
     return
   }
 
@@ -18,7 +18,9 @@ async function migrateEslintEnvComments({ fromVersion }) {
   /** env name -> array of paths from proj root to file */
   const envFileMap = new Map()
   const warnings = {}
-  for (const file of await glob('**/*.{js,jsx,cjs,mjs,ts,cts,mts,tsx}')) {
+  for (const file of await glob('**/*.{js,jsx,cjs,mjs,ts,cts,mts,tsx}', {
+    dot: true,
+  })) {
     function warn(warning) {
       ;(warnings[file] || (warnings[file] = [])).push(warning)
     }

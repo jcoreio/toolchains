@@ -22,7 +22,7 @@ module.exports = defineConfig([
     },
   },
   {
-    files: ['test/clearConsole.js'],
+    files: ['test/configure.js', 'test/clearConsole.js'],
     languageOptions: {
       globals: globals.node,
     },

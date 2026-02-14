@@ -20,4 +20,10 @@ module.exports = defineConfig([
       },
     },
   },
+  {
+    files: ['src/simple.js', 'src/index.js'],
+    languageOptions: {
+      globals: globals.browser,
+    },
+  },
 ])

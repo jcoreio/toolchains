@@ -75,7 +75,7 @@ const babelParseOpts = {
       'decorators-legacy',
     ],
   },
-  dts: {
+  'd.ts': {
     sourceType: 'unambiguous',
     allowImportExportEverywhere: true,
     allowReturnOutsideFunction: true,
@@ -106,7 +106,7 @@ const babelParseOpts = {
     startLine: 1,
     plugins: [...commonPlugins, 'typescript', 'decorators-legacy'],
   },
-  dcts: {
+  'd.cts': {
     sourceType: 'commonjs',
     allowReturnOutsideFunction: true,
     startLine: 1,
@@ -128,7 +128,7 @@ const babelParseOpts = {
       'decorators-legacy',
     ],
   },
-  dmts: {
+  'd.mts': {
     sourceType: 'module',
     allowImportExportEverywhere: true,
     allowReturnOutsideFunction: true,
@@ -143,8 +143,8 @@ const babelParseOpts = {
 }
 
 function getBabelParseOpts(file) {
-  const match = /\.(js|cjs|mjs|jsx|(d\.)?(ts|cts|mts|tsx))$/i.exec(file)
-  const ext = (match ? match[0] : undefined) || 'js'
+  const match = /\.(js|cjs|mjs|jsx|tsx|(d\.)?(ts|cts|mts))$/i.exec(file)
+  const ext = (match ? match[1] : undefined) || 'js'
   return babelParseOpts[ext]
 }
 
