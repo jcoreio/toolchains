@@ -1,8 +1,8 @@
-const { gte } = require('semver')
+const { gt } = require('semver')
 
 async function migrateEslintEnvComments({ fromVersion }) {
   // istanbul ignore next
-  if (fromVersion && gte(fromVersion, '5.10.1')) {
+  if (fromVersion && gt(fromVersion, '5.10.2')) {
     return
   }
 
