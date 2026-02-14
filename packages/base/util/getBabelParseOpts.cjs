@@ -53,7 +53,6 @@ const babelParseOpts = {
   },
   cjs: {
     sourceType: 'commonjs',
-    allowReturnOutsideFunction: true,
     startLine: 1,
   },
   mjs: {
@@ -102,13 +101,11 @@ const babelParseOpts = {
   },
   cts: {
     sourceType: 'commonjs',
-    allowReturnOutsideFunction: true,
     startLine: 1,
     plugins: [...commonPlugins, 'typescript', 'decorators-legacy'],
   },
   'd.cts': {
     sourceType: 'commonjs',
-    allowReturnOutsideFunction: true,
     startLine: 1,
     plugins: [
       ...commonPlugins,
