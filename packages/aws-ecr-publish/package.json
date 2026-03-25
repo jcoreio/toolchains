@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/aws-ecr-publish",
   "dependencies": {
-    "@jcoreio/aws-ecr-utils": "^2.6.0",
+    "@jcoreio/aws-ecr-utils": "^2.7.2",
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-typescript": "workspace:*",
     "@semantic-release/exec": "^6.0.3",
@@ -22,7 +22,7 @@
   },
   "toolchainManaged": {
     "devDependencies": {
-      "@jcoreio/aws-ecr-utils": "^2.6.0",
+      "@jcoreio/aws-ecr-utils": "^2.7.2",
       "@jcoreio/toolchain-typescript": "*"
     }
   }
