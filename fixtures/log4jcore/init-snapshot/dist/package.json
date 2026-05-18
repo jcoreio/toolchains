@@ -19,6 +19,7 @@
     "url": "https://github.com/jcoreio/log4jcore/issues"
   },
   "homepage": "https://github.com/jcoreio/log4jcore#readme",
+  "packageManager": "pnpm@10.6.5",
   "main": "index.js",
   "module": "index.mjs",
   "exports": {
@@ -33,7 +34,6 @@
     }
   },
   "sideEffects": false,
-  "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "@babel/runtime": "^7.26.0"
   },
