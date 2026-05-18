@@ -28,7 +28,9 @@
     "typescript": "^5.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.1.0"
+    "typescript": "^5.1.0",
+    "@arethetypeswrong/cli": "0.18.2",
+    "fflate": "0.8.2"
   },
   "toolchainManaged": {
     "devDependencies": {

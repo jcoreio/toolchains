@@ -6,8 +6,7 @@ module.exports = [
     await execa(
       'pnpm',
       [
-        '--package=@arethetypeswrong/cli',
-        'dlx',
+        'exec',
         'attw',
         '--pack',
         '.',
