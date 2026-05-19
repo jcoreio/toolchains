@@ -7,6 +7,8 @@ module.exports = [
       'pnpm',
       [
         'exec',
+        // used to just dlx the package but we need to pin transitive deps to work
+        // around bugs
         'attw',
         '--pack',
         '.',
