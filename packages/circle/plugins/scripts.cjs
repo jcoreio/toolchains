@@ -1,5 +1,6 @@
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const { packageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
+const npmTrustCircle = require('../scripts/npmTrustCircle.cjs')
 
 module.exports = [
   {
@@ -14,6 +15,11 @@ module.exports = [
           .replace(/\.git$/, '')
         await execa('open', [`https://circleci.com/gh/${url}`])
       },
+    },
+    'npm-trust-circle': {
+      description:
+        'set up npm trusted publishing with CircleCI (requires CircleCI token)',
+      run: npmTrustCircle,
     },
   },
 ]
