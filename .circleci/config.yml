@@ -37,6 +37,7 @@ jobs:
       - run:
           name: Release
           command: |
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
             [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
 
 workflows:
