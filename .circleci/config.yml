@@ -42,4 +42,5 @@ workflows:
     jobs:
       - build:
           context:
+            - npm
             - github-release
