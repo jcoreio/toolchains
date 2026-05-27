@@ -91,7 +91,7 @@ module.exports = async function npmTrustCircle(args = []) {
    * @returns {Promise<Object>} API response
    */
   async function fetchCircleCI(url, params) {
-    url = `https://circleci.com/${url}`
+    url = `https://circleci.com/${url.replace(/^\//, '')}`
     if (params) url = `${url}?${new URLSearchParams(params).toString()}`
     const res = await fetch(url, {
       headers: {
@@ -153,9 +153,10 @@ module.exports = async function npmTrustCircle(args = []) {
   const { owner, repo } = await getRepoInfo()
 
   console.log(`Fetching CircleCI data for ${owner}/${repo}...`)
+  const orgSlug = `github/${owner}`
 
   // Get organization ID
-  const orgResponse = await fetchCircleCI(`/api/v2/me`)
+  const orgResponse = await fetchCircleCI(`/api/v2/organization/${orgSlug}`)
   const orgId = orgResponse.id
   console.log(`✓ Organization ID: ${orgId}`)
 
@@ -191,7 +192,7 @@ module.exports = async function npmTrustCircle(args = []) {
       `✓ Found ${contextNames.length} context(s): ${contextNames.join(', ')}`
     )
     console.log('\nFetching context IDs from CircleCI API...')
-    contextIds = await fetchContextIds(`github/${owner}`, contextNames)
+    contextIds = await fetchContextIds(orgSlug, contextNames)
     if (contextIds.length > 0) {
       console.log(`✓ Found ${contextIds.length} context ID(s)`)
     }
