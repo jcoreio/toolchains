@@ -8,13 +8,15 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/node:20.19.0
+      - image: cimg/node:24.15.0
 
     steps:
       - checkout
       - run:
           name: Corepack enable
-          command: sudo corepack enable
+          command: |
+            sudo corepack enable
+            npm i -g npm@12.0.2
       - run:
           name: Install Dependencies
           command: |
