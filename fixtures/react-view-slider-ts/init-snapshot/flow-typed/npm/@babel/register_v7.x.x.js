@@ -3,10 +3,7 @@
 
 declare module '@babel/register' {
   declare type Ignore =
-    | boolean
-    | string
-    | RegExp
-    | ((filename: string) => boolean)
+    boolean | string | RegExp | ((filename: string) => boolean)
   declare type Options = {|
     ast?: boolean,
     auxiliaryCommentAfter?: ?string,
@@ -36,8 +33,7 @@ declare module '@babel/register' {
     presets?: Array<string>,
     retainLines?: boolean,
     resolveModuleSource?:
-      | null
-      | ((source: string, filename: string) => boolean),
+      null | ((source: string, filename: string) => boolean),
     shouldPrintComment?: null | ((commentContents: string) => string),
     sourceFileName?: string,
     sourceMaps?: boolean | 'inline' | 'both',

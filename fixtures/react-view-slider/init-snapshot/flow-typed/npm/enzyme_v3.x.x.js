@@ -7,8 +7,7 @@ declare module 'enzyme' {
     index: number
   ) => boolean
   declare type UntypedSelector =
-    | string
-    | { [key: string]: number | string | boolean, ... }
+    string | { [key: string]: number | string | boolean, ... }
   declare type EnzymeSelector = UntypedSelector | React$ElementType
 
   // CheerioWrapper is a type alias for an actual cheerio instance
