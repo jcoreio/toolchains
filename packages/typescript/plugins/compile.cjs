@@ -19,6 +19,7 @@ module.exports = [
           ...(toolchainConfig.sourceMaps ? ['--declarationMap'] : []),
         ])
       }
+
       const dtsFiles = await glob(Path.join('dist', '**', '*.d.ts'))
       await Promise.all(
         dtsFiles.map(async (src) => {
@@ -26,9 +27,14 @@ module.exports = [
             /\.d\.ts$/,
             packageJson.type === 'module' ? '.d.cts' : '.d.mts'
           )
-          if (await fs.pathExists(dest)) return
-          // eslint-disable-next-line no-console
-          console.error(src, '->', dest)
+          if (
+            toolchainConfig.outputCjs !== false &&
+            toolchainConfig.outputEsm !== false
+          ) {
+            if (await fs.pathExists(dest)) return
+            // eslint-disable-next-line no-console
+            console.error(src, '->', dest)
+          }
           const content = await fs.readFile(src, 'utf8')
           const parserOpts = {
             sourceType: 'unambiguous',
@@ -59,76 +65,80 @@ module.exports = [
             ],
           }
           const [cts, mts] = await Promise.all([
-            babel.transformAsync(content, {
-              filename: src,
-              babelrc: false,
-              sourceMaps: true,
-              parserOpts,
-              plugins: [
-                [
-                  '@jcoreio/toolchain-esnext/util/babelPluginResolveImports.cjs',
-                  {
-                    outputExtension:
-                      packageJson.type === 'module' ? '.cjs' : '.js',
-                  },
-                ],
-                function ({ types: t }) {
-                  return {
-                    visitor: {
-                      ExportDefaultDeclaration(path) {
-                        const { declaration } = path.node
-                        if (declaration.type === 'Identifier') {
-                          path.replaceWith(t.tsExportAssignment(declaration))
-                        } else if (
-                          declaration.id &&
-                          declaration.id.type === 'Identifier'
-                        ) {
-                          path.replaceWithMultiple([
-                            Object.assign(declaration, { declare: true }),
-                            t.tsExportAssignment(
-                              t.identifier(declaration.id.name)
-                            ),
-                          ])
-                        }
-                      },
+            toolchainConfig.outputCjs !== false &&
+              babel.transformAsync(content, {
+                filename: src,
+                babelrc: false,
+                sourceMaps: true,
+                parserOpts,
+                plugins: [
+                  [
+                    '@jcoreio/toolchain-esnext/util/babelPluginResolveImports.cjs',
+                    {
+                      outputExtension:
+                        packageJson.type === 'module' ? '.cjs' : '.js',
                     },
-                  }
-                },
-              ],
-            }),
-            await babel.transformAsync(content, {
-              filename: src,
-              babelrc: false,
-              sourceMaps: true,
-              parserOpts,
-              plugins: [
-                [
-                  '@jcoreio/toolchain-esnext/util/babelPluginResolveImports.cjs',
-                  {
-                    outputExtension:
-                      packageJson.type === 'module' ? '.js' : '.mjs',
+                  ],
+                  function ({ types: t }) {
+                    return {
+                      visitor: {
+                        ExportDefaultDeclaration(path) {
+                          const { declaration } = path.node
+                          if (declaration.type === 'Identifier') {
+                            path.replaceWith(t.tsExportAssignment(declaration))
+                          } else if (
+                            declaration.id &&
+                            declaration.id.type === 'Identifier'
+                          ) {
+                            path.replaceWithMultiple([
+                              Object.assign(declaration, { declare: true }),
+                              t.tsExportAssignment(
+                                t.identifier(declaration.id.name)
+                              ),
+                            ])
+                          }
+                        },
+                      },
+                    }
                   },
                 ],
-              ],
-            }),
+              }),
+            toolchainConfig.outputEsm !== false &&
+              (await babel.transformAsync(content, {
+                filename: src,
+                babelrc: false,
+                sourceMaps: true,
+                parserOpts,
+                plugins: [
+                  [
+                    '@jcoreio/toolchain-esnext/util/babelPluginResolveImports.cjs',
+                    {
+                      outputExtension:
+                        packageJson.type === 'module' ? '.js' : '.mjs',
+                    },
+                  ],
+                ],
+              })),
           ])
           const ctsFile = packageJson.type === 'module' ? dest : src
           const mtsFile = packageJson.type === 'module' ? src : dest
-          cts.map.file = Path.basename(ctsFile)
-          mts.map.file = Path.basename(mtsFile)
+          if (cts) cts.map.file = Path.basename(ctsFile)
+          if (mts) mts.map.file = Path.basename(mtsFile)
           await Promise.all([
-            fs.writeFile(
-              ctsFile,
-              `${cts.code}\n//# sourceMappingURL=${Path.basename(ctsFile)}.map`,
-              'utf8'
-            ),
-            fs.writeJson(`${ctsFile}.map`, cts.map),
-            fs.writeFile(
-              mtsFile,
-              `${mts.code}\n//# sourceMappingURL=${Path.basename(mtsFile)}.map`,
-              'utf8'
-            ),
-            fs.writeJson(`${mtsFile}.map`, mts.map),
+            cts &&
+              fs.writeFile(
+                ctsFile,
+                `${cts.code}\n//# sourceMappingURL=${Path.basename(ctsFile)}.map`,
+                'utf8'
+              ),
+            cts && fs.writeJson(`${ctsFile}.map`, cts.map),
+            mts &&
+              fs.writeFile(
+                mtsFile,
+                `${mts.code}\n//# sourceMappingURL=${Path.basename(mtsFile)}.map`,
+                'utf8'
+              ),
+            mts && fs.writeJson(`${mtsFile}.map`, mts.map),
           ])
         })
       )

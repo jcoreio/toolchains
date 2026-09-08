@@ -17,7 +17,8 @@ function matchNamedPackageJson(directory) {
   try {
     const json = fs.readJsonSync(Path.join(directory, 'package.json'))
     if (json.name) return 'package.json'
-  } catch {
+    // eslint-disable-next-line no-unused-vars
+  } catch (err) {
     return undefined
   }
 }

@@ -6,6 +6,7 @@ const path = require('path')
 const fs = require('../util/projectFs.cjs')
 const { globSync } = require('../util/glob.cjs')
 const execa = require('../util/execa.cjs')
+const globals = require('globals')
 
 module.exports = [
   () => {
@@ -21,7 +22,8 @@ module.exports = [
       if (globalGitignore && fs.pathExistsSync(globalGitignore)) {
         gitignores.push(globalGitignore)
       }
-    } catch {
+      // eslint-disable-next-line no-unused-vars
+    } catch (err) {
       // ignore
     }
     if (fs.pathExistsSync('.eslintignore')) {
@@ -73,6 +75,17 @@ module.exports = [
               optional: true,
             },
           ],
+        },
+      },
+      {
+        files: ['**/*.{js,cjs,mjs,ts,cts,mts}'],
+        ignores: ['src/**', 'test/**'],
+        languageOptions: {
+          ecmaVersion: 2018,
+          globals: {
+            ...globals.es2018,
+            ...globals.node,
+          },
         },
       },
       require('eslint-config-prettier'),

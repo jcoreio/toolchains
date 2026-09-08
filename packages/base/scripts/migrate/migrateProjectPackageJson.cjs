@@ -1,5 +1,5 @@
 const {
-  toolchainConfig: { outputEsm },
+  toolchainConfig: { outputCjs, outputEsm },
   toolchainManaged,
 } = require('../../util/findUps.cjs')
 const { name } = require('../../package.json')
@@ -10,6 +10,7 @@ const semver = require('semver')
 const isEmpty = require('../../util/isEmpty.cjs')
 const pick = require('../../util/pick.cjs')
 const Path = require('path')
+const confirmOutputCjs = require('./confirmOutputCjs.cjs')
 const confirmOutputEsm = require('./confirmOutputEsm.cjs')
 const confirm = require('../../util/confirm.cjs')
 const unset = require('../../util/unset.cjs')
@@ -138,6 +139,7 @@ async function migrateProjectPackageJson({ fromVersion }) {
         ifNotInteractive: false,
         message: 'Add ./* exports map to package.json?',
       })
+      const outputCjs = await confirmOutputCjs()
       const outputEsm = await confirmOutputEsm()
       packageJson.exports = {
         './package.json': './package.json',
@@ -145,19 +147,25 @@ async function migrateProjectPackageJson({ fromVersion }) {
           ...(packageJson.types ?
             { types: relativize(packageJson.types) }
           : {}),
-          ...(outputEsm !== false && packageJson.module ?
+          ...(outputEsm !== false && outputCjs !== false && packageJson.module ?
             { import: relativize(packageJson.module) }
           : {}),
-          default: relativize(packageJson.main),
+          default: relativize(
+            outputCjs === false ? packageJson.module : packageJson.main
+          ),
         },
         ...(dotStar ?
           {
             './*': {
               types: {
-                ...(outputEsm !== false ? { import: './*.d.mts' } : {}),
+                ...(outputEsm !== false && outputCjs !== false ?
+                  { import: './*.d.mts' }
+                : {}),
                 default: './*.d.ts',
               },
-              ...(outputEsm !== false ? { import: './*.mjs' } : {}),
+              ...(outputEsm !== false && outputCjs !== false ?
+                { import: './*.mjs' }
+              : {}),
               default: './*.js',
             },
           }
@@ -166,7 +174,7 @@ async function migrateProjectPackageJson({ fromVersion }) {
     }
   }
 
-  migrateExportMap(packageJson.exports, { outputEsm, fromVersion })
+  migrateExportMap(packageJson.exports, { outputCjs, outputEsm, fromVersion })
 
   merge(
     packageJson,

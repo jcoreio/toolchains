@@ -2,11 +2,13 @@ const semver = require('semver')
 
 function migrateExportMap(
   exportMap,
-  { fromVersion = '0.0.0', outputEsm = true } = {}
+  { fromVersion = '0.0.0', outputCjs = true, outputEsm = true } = {}
 ) {
   if (
-    (semver.lt(fromVersion || '0.0.0', '5.5.0') && exportMap,
-    outputEsm !== false)
+    semver.lt(fromVersion || '0.0.0', '5.5.0') &&
+    exportMap &&
+    outputCjs !== false &&
+    outputEsm !== false
   ) {
     function process(obj) {
       if (typeof obj.types === 'string') {

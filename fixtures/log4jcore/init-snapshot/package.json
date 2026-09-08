@@ -67,6 +67,7 @@
     "ts-node": "^8.6.2",
     "typescript": "5.4"
   },
+  "packageManager": "pnpm@10.6.5",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "exports": {
@@ -81,7 +82,6 @@
     }
   },
   "sideEffects": false,
-  "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "@babel/runtime": "^7.26.0"
   },

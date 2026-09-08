@@ -10,6 +10,7 @@
   "keywords": [
     ""
   ],
+  "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "@jcoreio/toolchain": "4.6.0"
   }

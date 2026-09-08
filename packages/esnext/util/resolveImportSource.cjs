@@ -52,7 +52,7 @@ module.exports = function resolveImportSource({
     return result.startsWith('.') ? result : `./${result}`
   }
   const match = /^((?:@[^/]+\/)?[^/]+)(?:\/(.+))?$/.exec(source)
-  if (!match) return source
+  if (!match || process.env.JCOREIO_TOOLCHAIN_CJS) return source
   const [, pkg, subpath] = match
   if (!subpath) return source
   try {

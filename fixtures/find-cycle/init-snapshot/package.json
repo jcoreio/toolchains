@@ -51,8 +51,8 @@
     "nyc": "^15.1.0",
     "prettier": "^3.4.2"
   },
-  "sideEffects": false,
   "packageManager": "pnpm@10.6.5",
+  "sideEffects": false,
   "@jcoreio/toolchain": {
     "migratedVersion": "0.0.0-development"
   }

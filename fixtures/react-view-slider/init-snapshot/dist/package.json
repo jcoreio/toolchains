@@ -26,6 +26,7 @@
   "peerDependencies": {
     "react": "^16.8.0"
   },
+  "packageManager": "pnpm@10.6.5",
   "main": "index.js",
   "module": "index.mjs",
   "exports": {
@@ -38,7 +39,6 @@
   "engines": {
     "node": ">=16"
   },
-  "packageManager": "pnpm@10.6.5",
   "@jcoreio/toolchain": {
     "migratedVersion": "0.0.0-development"
   }

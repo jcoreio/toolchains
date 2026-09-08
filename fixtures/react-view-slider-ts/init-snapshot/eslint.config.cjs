@@ -20,4 +20,10 @@ module.exports = defineConfig([
       },
     },
   },
+  {
+    files: ['src/index.tsx'],
+    languageOptions: {
+      globals: globals.browser,
+    },
+  },
 ])

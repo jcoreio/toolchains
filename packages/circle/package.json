@@ -17,6 +17,7 @@
     "@jcoreio/toolchain": "workspace:*",
     "dedent-js": "^1.0.1",
     "open": "^8.4.0",
-    "semver": "^7.5.3"
+    "semver": "^7.5.3",
+    "yaml": "^2.4.1"
   }
 }

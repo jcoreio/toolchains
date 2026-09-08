@@ -11,6 +11,7 @@ const copyFixture = require('../util/copyFixture')
 const expectDirsEqual = require('../util/expectDirsEqual')
 const updateSnapshot = require('../util/updateSnapshot')
 const banner = require('../util/banner')
+const spawnEnv = require('./spawnEnv')
 
 for (const fixture of ['async-throttle']) {
   it(`outputEsm: false with ${fixture}`, async function () {
@@ -21,7 +22,7 @@ for (const fixture of ['async-throttle']) {
     const execaOpts = {
       cwd: await fs.realpath(linkdir),
       stdio: 'inherit',
-      env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '1' },
+      env: spawnEnv,
     }
     await execa('pnpm', ['i'], execaOpts)
     await execa('pnpm', ['tc', 'build'], execaOpts)

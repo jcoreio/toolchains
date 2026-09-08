@@ -5,7 +5,6 @@ module.exports = [
   async function getConfigFiles() {
     return {
       'release.config.cjs': dedent`
-        /* eslint-env node, es2018 */
         module.exports = {
           extends: [require.resolve('${name}/release.config.cjs')],
         }

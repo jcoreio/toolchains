@@ -15,6 +15,7 @@
   },
   "homepage": "https://github.com/jcoreio/toolchains#readme",
   "devDependencies": {
+    "@babel/types": "^7.27.0",
     "@jcoreio/toolchain": "workspace:*",
     "@jcoreio/toolchain-circle": "workspace:*",
     "@jcoreio/toolchain-mocha": "workspace:*",

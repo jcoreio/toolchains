@@ -1,5 +1,4 @@
 /* @flow */
-/* eslint-env browser */
 
 import * as React from 'react';
 import { prefix } from 'inline-style-prefixer';

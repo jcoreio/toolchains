@@ -164,9 +164,7 @@ declare module 'lodash' {
     | propertyIterateeShorthand
 
   declare type OIterateeWithResult<V, O, R> =
-    | Object
-    | string
-    | ((value: V, key: string, object: O) => R)
+    Object | string | ((value: V, key: string, object: O) => R)
   declare type OIteratee<O> = OIterateeWithResult<any, O, any>
   declare type OFlatMapIteratee<T, U> = OIterateeWithResult<any, T, Array<U>>
 
@@ -191,16 +189,14 @@ declare module 'lodash' {
   declare type Comparator<T> = (item: T, item2: T) => boolean
 
   declare type MapIterator<T, U> =
-    | ((item: T, index: number, array: Array<T>) => U)
-    | propertyIterateeShorthand
+    ((item: T, index: number, array: Array<T>) => U) | propertyIterateeShorthand
 
   declare type ReadOnlyMapIterator<T, U> =
     | ((item: T, index: number, array: $ReadOnlyArray<T>) => U)
     | propertyIterateeShorthand
 
   declare type OMapIterator<T, O, U> =
-    | ((item: T, key: string, object: O) => U)
-    | propertyIterateeShorthand
+    ((item: T, key: string, object: O) => U) | propertyIterateeShorthand
 
   declare class Lodash {
     // Array
@@ -2300,15 +2296,11 @@ declare module 'lodash/fp' {
     ): boolean;
     sortBy<T>(
       iteratees:
-        | $ReadOnlyArray<Iteratee<T> | OIteratee<T>>
-        | Iteratee<T>
-        | OIteratee<T>
+        $ReadOnlyArray<Iteratee<T> | OIteratee<T>> | Iteratee<T> | OIteratee<T>
     ): (collection: $ReadOnlyArray<T> | { [id: any]: T }) => Array<T>;
     sortBy<T>(
       iteratees:
-        | $ReadOnlyArray<Iteratee<T> | OIteratee<T>>
-        | Iteratee<T>
-        | OIteratee<T>,
+        $ReadOnlyArray<Iteratee<T> | OIteratee<T>> | Iteratee<T> | OIteratee<T>,
       collection: $ReadOnlyArray<T> | { [id: any]: T }
     ): Array<T>;
 
