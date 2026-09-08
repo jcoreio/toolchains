@@ -31,9 +31,7 @@ class Delay {
     });
   }
 }
-function throttle(fn, _wait, options = {
-  ...null
-}) {
+function throttle(fn, _wait, options = {/* :: ...null */}) {
   const wait = _wait != null && Number.isFinite(_wait) ? Math.max(_wait, 0) : 0;
   const getNextArgs = options.getNextArgs || ((prev, next) => next);
   let nextArgs;

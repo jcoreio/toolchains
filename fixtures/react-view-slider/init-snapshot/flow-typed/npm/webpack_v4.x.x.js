@@ -72,10 +72,7 @@ declare module 'webpack' {
     | string
     | {
         [k: string]:
-          | string
-          | { [k: string]: any, ... }
-          | ArrayOfStringValues
-          | boolean,
+          string | { [k: string]: any, ... } | ArrayOfStringValues | boolean,
         ...
       }
     | RegExp
@@ -114,8 +111,7 @@ declare module 'webpack' {
   declare type RuleSetConditions = Array<RuleSetCondition>
 
   declare type RuleSetConditionOrConditions =
-    | RuleSetCondition
-    | RuleSetConditions
+    RuleSetCondition | RuleSetConditions
 
   declare type RuleSetLoader = string
 
@@ -270,9 +266,7 @@ declare module 'webpack' {
     removeAvailableModules?: boolean,
     removeEmptyChunks?: boolean,
     runtimeChunk?:
-      | boolean
-      | ('single' | 'multiple')
-      | { name?: string | Function, ... },
+      boolean | ('single' | 'multiple') | { name?: string | Function, ... },
     sideEffects?: boolean,
     splitChunks?: false | OptimizationSplitChunksOptions,
     usedExports?: boolean,
