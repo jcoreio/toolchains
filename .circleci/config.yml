@@ -8,20 +8,22 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/node:24.15.0
+      - image: cimg/node:20.19.0
 
     steps:
       - checkout
       - run:
-          name: Corepack enable
+          name: Setup NPM Token
           command: |
-            sudo corepack enable
-            npm i -g npm@12.0.2
+            npm config set \
+              "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \
+              "registry=https://registry.npmjs.org/"
+      - run:
+          name: Corepack enable
+          command: sudo corepack enable
       - run:
           name: Install Dependencies
-          command: |
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-            pnpm install --frozen-lockfile
+          command: pnpm install --frozen-lockfile
       - run:
           name: set git username/pw
           command: |
@@ -30,13 +32,11 @@ jobs:
       - run:
           name: Prepublish
           command: |
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
             [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc prepublish
       - codecov/upload
       - run:
           name: Release
           command: |
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
             [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
 
 workflows:
@@ -44,4 +44,5 @@ workflows:
     jobs:
       - build:
           context:
+            - npm-release
             - github-release
