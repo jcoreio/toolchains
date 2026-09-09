@@ -11,7 +11,6 @@ async function getRootTsconfig() {
 
 module.exports = [
   async function getConfigFiles({ fromVersion }) {
-    if (fromVersion) return {}
     const rootTsconfig = await getRootTsconfig()
     const lib =
       rootTsconfig &&
@@ -37,8 +36,7 @@ module.exports = [
       'tsconfig.json': {
         content: JSON.stringify(
           {
-            extends:
-              './node_modules/@jcoreio/toolchain-typescript/tsconfig.json',
+            extends: '@jcoreio/toolchain-typescript/tsconfig.json',
             include: [
               './src',
               './test',
