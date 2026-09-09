@@ -155,7 +155,7 @@ module.exports = async function npmTrustCircle(args = []) {
   console.log(`Fetching CircleCI data for ${owner}/${repo}...`)
 
   // Get organization ID
-  const orgResponse = await fetchCircleCI(`/api/v2/me`)
+  const orgResponse = await fetchCircleCI(`/api/v2/organization/gh/${owner}`)
   const orgId = orgResponse.id
   console.log(`✓ Organization ID: ${orgId}`)
 
