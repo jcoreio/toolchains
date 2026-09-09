@@ -113,11 +113,9 @@ module.exports =
           []
         : [
             [
-              // this fork of @semantic-release/npm includes a patch that is necessary to fix an issue with monorepos
-              // https://github.com/semantic-release/npm/pull/531
-              require.resolve('@jcoreio/semantic-release-npm'),
+              require.resolve('@semantic-release/exec'),
               {
-                pkgRoot: path.join(projectDir, 'dist'),
+                publishCmd: `cd ${path.join(projectDir, 'dist')} && npm version \${nextRelease.version} && npm publish . --loglevel silly || git tag -d ${pkg}-v\${nextRelease.version}`,
               },
             ],
           ]),
@@ -134,9 +132,9 @@ module.exports =
           []
         : [
             [
-              require.resolve('@jcoreio/semantic-release-npm'),
+              require.resolve('@semantic-release/exec'),
               {
-                pkgRoot: path.join(projectDir, 'dist'),
+                publishCmd: `cd ${path.join(projectDir, 'dist')} && npm version \${nextRelease.version} && npm publish . --loglevel silly || git tag -d v\${nextRelease.version}`,
               },
             ],
           ]),
