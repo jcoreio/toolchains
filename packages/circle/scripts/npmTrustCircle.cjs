@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
+const confirm = require('@jcoreio/toolchain/util/confirm.cjs')
 const {
   packageJson,
   isMonorepoRoot,
@@ -8,6 +9,8 @@ const {
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const yaml = require('yaml')
 const { inspect } = require('util')
+const path = require('path')
+const os = require('os')
 
 /**
  * Gets the repository owner and name from git remote or package.json
@@ -74,15 +77,38 @@ async function extractContextNames() {
   }
 }
 
-module.exports = async function npmTrustCircle(args = []) {
-  const dryRun = args.includes('--dry-run')
-  const circleToken =
+const circleTokenFile = path.join(os.homedir(), '.config', 'circle-token')
+
+async function getCircleToken(args = []) {
+  let circleToken =
     args.filter((a) => !a.startsWith('-'))[0] || process.env.CIRCLE_TOKEN
   if (!circleToken) {
-    throw new Error(
-      'CircleCI token required. Pass as first argument or set CIRCLE_TOKEN environment variable.'
-    )
+    if (await fs.pathExists(circleTokenFile)) {
+      circleToken = (await fs.readFile(circleTokenFile, 'utf8')).trim()
+      console.error(`read CircleCI token from ${circleTokenFile}`)
+    } else {
+      throw new Error(
+        'CircleCI token required. Pass as first argument or set CIRCLE_TOKEN environment variable.'
+      )
+    }
+  } else if (
+    !(await fs.pathExists(circleTokenFile)) &&
+    (await confirm({
+      message: `Save CircleCI token to ${circleTokenFile}?`,
+      initial: true,
+      ifNotInteractive: false,
+    }))
+  ) {
+    await fs.mkdirs(path.dirname(circleTokenFile))
+    await fs.writeFile(circleTokenFile, circleToken)
   }
+  return circleToken
+}
+
+module.exports = async function npmTrustCircle(args = []) {
+  const dryRun = args.includes('--dry-run')
+  const replace = args.includes('--replace')
+  const circleToken = await getCircleToken(args)
 
   /**
    * Fetches CircleCI data using the CircleCI API
@@ -204,7 +230,31 @@ module.exports = async function npmTrustCircle(args = []) {
       monorepoSubpackageJsons.map((p) => p.name)
     : [packageJson.name]
 
+  let errored = false
   for (const packageName of packageNames) {
+    if (errored) {
+      if (
+        await confirm({
+          message: 'Continue to next subpackage?',
+          initial: true,
+        })
+      ) {
+        errored = false
+      } else {
+        process.exit(1)
+      }
+    }
+
+    if (replace) {
+      for (const [, trust_id] of (
+        await execa('npm', ['trust', 'list', packageName], {
+          stdio: ['inherit', 'pipe', 'inherit'],
+        })
+      ).stdout.matchAll(/^id: ([-a-f0-9]+)/gm)) {
+        await execa('npm', ['trust', 'revoke', packageName, `--id=${trust_id}`])
+      }
+    }
+
     // Now run npm trust with the collected information
     const npmTrustArgs = [
       'trust',
@@ -224,7 +274,13 @@ module.exports = async function npmTrustCircle(args = []) {
       ...(dryRun ? ['--dry-run'] : []),
     ]
 
-    console.log(`\nExecuting: npm ${npmTrustArgs.join(' ')}`)
-    await execa('npm', npmTrustArgs, { stdio: 'inherit' })
+    try {
+      await execa('npm', npmTrustArgs, {
+        stdio: 'inherit',
+        env: { ...process.env, NPM_TOKEN: '' },
+      })
+    } catch {
+      errored = true
+    }
   }
 }
