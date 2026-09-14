@@ -1,7 +1,10 @@
 const dedent = require('dedent-js')
 const { name } = require('../package.json')
 const { scripts } = require('@jcoreio/toolchain/scripts/toolchain.cjs')
+const confirm = require('@jcoreio/toolchain/util/confirm.cjs')
 const semver = require('semver')
+const trustedPublishingCodemod = require('../migrations/trustedPublishingCodemod.cjs')
+const npmTrustCircle = require('../scripts/npmTrustCircle.cjs')
 
 module.exports = [
   async function getConfigFiles({ fromVersion }) {
@@ -64,7 +67,7 @@ module.exports = [
                   - github-release
     `
     return {
-      '.circleci/config.yml': (config) => {
+      '.circleci/config.yml': async (config) => {
         if (
           !config ||
           (semver.lt(fromVersion || '0.0.0', '3.0.0') && !config.includes(name))
@@ -106,6 +109,17 @@ module.exports = [
             /tc prepublish\n(\s*)- run:/m,
             'tc prepublish\n$1- codecov/upload\n$1- run:'
           )
+        }
+        if (
+          semver.lt(fromVersion || '0.0.0', '5.13.0') &&
+          !config.includes('NPM_ID_TOKEN=') &&
+          (await confirm({
+            message: 'Migrate CircleCI config to use npm trusted publishing?',
+            initial: true,
+          }))
+        ) {
+          config = trustedPublishingCodemod(config)
+          await npmTrustCircle().catch(() => {})
         }
         return config
       },
