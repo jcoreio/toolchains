@@ -6,7 +6,9 @@ module.exports = {
     'test:unit': {
       description: 'run unit tests',
       run: (args = []) =>
-        execa('mocha', ['--config', '.mocharc-unit.cjs', ...args]),
+        execa('mocha', ['--config', '.mocharc-unit.cjs', ...args], {
+          env: { ...process.env, JCOREIO_TOOLCHAIN_SELF_TEST: '1' },
+        }),
     },
     'test:integration': {
       description: 'run integration tests',

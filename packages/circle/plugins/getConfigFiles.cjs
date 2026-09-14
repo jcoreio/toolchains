@@ -7,14 +7,16 @@ const trustedPublishingCodemod = require('../migrations/trustedPublishingCodemod
 const npmTrustCircle = require('../scripts/npmTrustCircle.cjs')
 
 module.exports = [
-  async function getConfigFiles({ fromVersion }) {
-    const dockerImageVersion = '20.10.0'
+  function getConfigFiles({ fromVersion }) {
+    const dockerImageVersion = '24.14.1'
     const dockerImage = `cimg/node:${dockerImageVersion}`
 
     const releaseStep = dedent`
       - run:
           name: Release
           command: |
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            export NPM_TOKEN=
             [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
     `
 
@@ -36,17 +38,12 @@ module.exports = [
           steps:
             - checkout
             - run:
-                name: Setup NPM Token
-                command: |
-                  npm config set \\
-                    "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \\
-                    "registry=https://registry.npmjs.org/"
-            - run:
                 name: Corepack enable
                 command: sudo corepack enable
             - run:
                 name: Install Dependencies
-                command: pnpm install --frozen-lockfile
+                command: |-
+                  env "npm_config_//registry.npmjs.org/:_authToken=$NPM_TOKEN" pnpm install --frozen-lockfile
             - run:
                 name: Prepublish
                 command: |
@@ -63,7 +60,7 @@ module.exports = [
           jobs:
             - build:
                 context:
-                  - npm-release
+                  - npm-readonly
                   - github-release
     `
     return {
@@ -116,6 +113,7 @@ module.exports = [
           (await confirm({
             message: 'Migrate CircleCI config to use npm trusted publishing?',
             initial: true,
+            ifNotInteractive: false,
           }))
         ) {
           config = trustedPublishingCodemod(config)

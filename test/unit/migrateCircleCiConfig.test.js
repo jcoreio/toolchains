@@ -21,22 +21,17 @@ describe('packages/circle', () => {
       jobs:
         build:
           docker:
-            - image: cimg/node:20.10.0
+            - image: cimg/node:24.14.1
       
           steps:
             - checkout
-            - run:
-                name: Setup NPM Token
-                command: |
-                  npm config set \\
-                    "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \\
-                    "registry=https://registry.npmjs.org/"
             - run:
                 name: Corepack enable
                 command: sudo corepack enable
             - run:
                 name: Install Dependencies
-                command: pnpm install --frozen-lockfile
+                command: |-
+                  env "npm_config_//registry.npmjs.org/:_authToken=$NPM_TOKEN" pnpm install --frozen-lockfile
             - run:
                 name: Prepublish
                 command: |
@@ -45,20 +40,22 @@ describe('packages/circle', () => {
             - run:
                 name: Release
                 command: |
+                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+                  export NPM_TOKEN=
                   [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
-      
+
       workflows:
         build:
           jobs:
             - build:
                 context:
-                  - npm-release
+                  - npm-readonly
                   - github-release
     `
 
-    expect(getConfig()).to.equal(defaultConfig)
+    expect(await getConfig()).to.equal(defaultConfig)
 
-    expect(getConfig(defaultConfig)).to.equal(defaultConfig)
+    expect(await getConfig(defaultConfig)).to.equal(defaultConfig)
 
     const withoutCodecov = dedent`
       # created by @jcoreio/toolchain-circle
@@ -68,22 +65,17 @@ describe('packages/circle', () => {
       jobs:
         build:
           docker:
-            - image: cimg/node:20.10.0
+            - image: cimg/node:24.14.1
       
           steps:
             - checkout
-            - run:
-                name: Setup NPM Token
-                command: |
-                  npm config set \\
-                    "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \\
-                    "registry=https://registry.npmjs.org/"
             - run:
                 name: Corepack enable
                 command: sudo corepack enable
             - run:
                 name: Install Dependencies
-                command: pnpm install --frozen-lockfile
+                command: |-
+                  env "npm_config_//registry.npmjs.org/:_authToken=$NPM_TOKEN" pnpm install --frozen-lockfile
             - run:
                 name: Prepublish
                 command: |
@@ -91,6 +83,8 @@ describe('packages/circle', () => {
             - run:
                 name: Release
                 command: |
+                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+                  export NPM_TOKEN=
                   [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
       
       workflows:
@@ -98,14 +92,14 @@ describe('packages/circle', () => {
           jobs:
             - build:
                 context:
-                  - npm-release
+                  - npm-readonly
                   - github-release
     `
 
-    expect(getConfig(withoutCodecov)).to.equal(defaultConfig)
+    expect(await getConfig(withoutCodecov)).to.equal(defaultConfig)
 
     expect(
-      (await getConfigFiles({ fromVersion: '4.7.0' }))['.circleci/config.yml'](
+      await getConfigFiles({ fromVersion: '4.7.0' })['.circleci/config.yml'](
         withoutCodecov
       )
     ).to.equal(withoutCodecov)
@@ -118,7 +112,7 @@ describe('packages/circle', () => {
       jobs:
         build:
           docker:
-            - image: cimg/node:20.10.0
+            - image: cimg/node:24.14.1
       
           steps:
             - checkout
@@ -152,10 +146,10 @@ describe('packages/circle', () => {
                   - github-release
     `
 
-    expect(getConfig(unmigratable)).to.equal(unmigratable)
+    expect(await getConfig(unmigratable)).to.equal(unmigratable)
 
     expect(
-      getConfig(dedent`
+      await getConfig(dedent`
       # created by @jcoreio/toolchain-circle
 
       version: 2.1
@@ -166,7 +160,7 @@ describe('packages/circle', () => {
       jobs:
         build:
           docker:
-            - image: cimg/node:20.10.0
+            - image: cimg/node:24.14.1
       
           steps:
             - checkout
@@ -211,7 +205,7 @@ describe('packages/circle', () => {
       jobs:
         build:
           docker:
-            - image: cimg/node:20.10.0
+            - image: cimg/node:24.14.1
       
           steps:
             - checkout
