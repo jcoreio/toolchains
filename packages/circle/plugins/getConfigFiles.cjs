@@ -117,7 +117,9 @@ module.exports = [
           }))
         ) {
           config = trustedPublishingCodemod(config)
-          await npmTrustCircle().catch(() => {})
+          await npmTrustCircle({ config: require('yaml').parse(config) }).catch(
+            () => {}
+          )
         }
         return config
       },

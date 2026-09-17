@@ -7,7 +7,7 @@ const {
   monorepoSubpackageJsons,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const yaml = require('yaml')
+const getTrustedPublishingContexts = require('../util/getTrustedPublishingContexts.cjs')
 const { inspect } = require('util')
 const path = require('path')
 const os = require('os')
@@ -40,43 +40,6 @@ async function getRepoInfo() {
   }
 }
 
-/**
- * Extracts context names from CircleCI config
- * @returns {Promise<string[]>} Array of context names
- */
-async function extractContextNames() {
-  try {
-    const configContent = await fs.readFile('.circleci/config.yml', 'utf8')
-    const config = yaml.parse(configContent)
-
-    if (!config.workflows || typeof config.workflows !== 'object') return []
-
-    const contextNames = new Set()
-
-    for (const workflow of Object.values(config.workflows)) {
-      for (const job of workflow.jobs || []) {
-        if (!job || typeof job !== 'object') continue
-        for (const jobConfig of Object.values(job)) {
-          if (!jobConfig || !jobConfig.context) continue
-          for (const context of Array.isArray(jobConfig.context) ?
-            jobConfig.context
-          : [jobConfig.context]) {
-            contextNames.add(context)
-          }
-        }
-      }
-    }
-
-    return Array.from(contextNames)
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      throw new Error('.circleci/config.yml not found')
-    }
-    err.message = `Failed to parse .circleci/config.yml: ${err.message}`
-    throw err
-  }
-}
-
 const circleTokenFile = path.join(os.homedir(), '.config', 'circle-token')
 
 async function getCircleToken(args = []) {
@@ -105,7 +68,7 @@ async function getCircleToken(args = []) {
   return circleToken
 }
 
-module.exports = async function npmTrustCircle(args = []) {
+module.exports = async function npmTrustCircle(args = [], { config } = {}) {
   const dryRun = args.includes('--dry-run')
   const replace = args.includes('--replace')
   const circleToken = await getCircleToken(args)
@@ -208,7 +171,7 @@ module.exports = async function npmTrustCircle(args = []) {
 
   // Extract contexts from .circleci/config.yml
   console.log('\nExtracting contexts from .circleci/config.yml...')
-  const contextNames = await extractContextNames()
+  const contextNames = await getTrustedPublishingContexts(config)
 
   // Look up context IDs using paginated API
   let contextIds = []
