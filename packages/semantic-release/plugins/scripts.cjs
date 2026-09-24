@@ -87,24 +87,39 @@ module.exports = [
           // eslint-disable-next-line no-console
           console.error('NPM_ID_TOKEN token claims:', decoded)
         }
+        const [npmTag] = semver.prerelease(nextVersion) || []
         try {
-          await execa('npm', ['publish', '.', '--loglevel', 'silly'], {
-            cwd: 'dist',
-            env,
-          })
-        } catch {
-          await execa('git', ['tag', '-d', `v${nextVersion}`], {
-            cwd: 'dist',
-            env,
-          })
           await execa(
-            'git',
-            ['push', '--delete', 'origin', `v${nextVersion}`],
+            'npm',
+            [
+              'publish',
+              '.',
+              '--loglevel',
+              'silly',
+              ...(npmTag ? ['--tag', npmTag] : []),
+            ],
             {
               cwd: 'dist',
               env,
             }
           )
+        } catch {
+          await execa('git', ['tag', '-d', `v${nextVersion}`], {
+            cwd: 'dist',
+            env,
+          })
+          let origin = 'origin'
+          if (process.env.GH_TOKEN) {
+            const repoUrl = new URL(packageJson.repository.url)
+            repoUrl.username = 'x-access-token'
+            repoUrl.password = process.env.GH_TOKEN
+            origin = repoUrl.toString()
+          }
+
+          await execa('git', ['push', '--delete', origin, `v${nextVersion}`], {
+            cwd: 'dist',
+            env,
+          })
           process.exit(1)
         }
       },
