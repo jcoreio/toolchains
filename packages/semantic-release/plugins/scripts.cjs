@@ -30,14 +30,27 @@ module.exports = [
               require(key)
             // eslint-disable-next-line no-unused-vars
           } catch (error) {
-            await execa('pnpm', [
-              'install',
-              '-D',
-              ...(isMonorepoRoot ? ['-w'] : []),
-              ...Object.entries(
-                ownPackageJson.toolchainManaged.optionalDevDependencies
-              ).map(([key, value]) => `${key}@${value}`),
-            ])
+            await execa(
+              'pnpm',
+              [
+                'install',
+                '-D',
+                ...(isMonorepoRoot ? ['-w'] : []),
+                ...Object.entries(
+                  ownPackageJson.toolchainManaged.optionalDevDependencies
+                ).map(([key, value]) => `${key}@${value}`),
+              ],
+              {
+                env:
+                  process.env.NPM_TOKEN ?
+                    {
+                      ...process.env,
+                      'npm_config_//registry.npmjs.org/:_authToken':
+                        process.env.NPM_TOKEN,
+                    }
+                  : process.env,
+              }
+            )
           }
           await execa('semantic-release', args)
         }
@@ -68,6 +81,7 @@ module.exports = [
             )
           ).stdout.trim()
           env.NPM_TOKEN = ''
+          env['npm_config_//registry.npmjs.org/:_authToken'] = ''
 
           const decoded = JWT.decode(env.NPM_ID_TOKEN)
           // eslint-disable-next-line no-console
