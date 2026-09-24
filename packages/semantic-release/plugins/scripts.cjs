@@ -56,7 +56,7 @@ module.exports = [
         }
       },
     },
-    publish: {
+    'publish-release': {
       description: 'publish package (meant to be called from release script)',
       run: async ([nextVersion] = []) => {
         if (!semver.valid(nextVersion)) {

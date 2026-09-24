@@ -8,7 +8,7 @@ module.exports = {
     [
       '@semantic-release/exec',
       {
-        publishCmd: 'pnpm run -r tc publish ${nextRelease.version}',
+        publishCmd: 'pnpm run -r tc publish-release ${nextRelease.version}',
       },
     ],
     '@semantic-release/github',

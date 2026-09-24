@@ -129,7 +129,7 @@ module.exports =
         : [
             [
               require.resolve('@semantic-release/exec'),
-              { publishCmd: `pnpm run tc publish` },
+              { publishCmd: `pnpm run tc publish-release` },
             ],
           ]),
         require.resolve('@semantic-release/github'),
