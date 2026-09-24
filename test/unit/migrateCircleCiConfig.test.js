@@ -40,8 +40,6 @@ describe('packages/circle', () => {
             - run:
                 name: Release
                 command: |
-                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  export NPM_TOKEN=
                   [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
 
       workflows:
@@ -50,7 +48,7 @@ describe('packages/circle', () => {
             - build:
                 context:
                   - npm-readonly
-                  - github-release
+                  - github-release\n
     `
 
     expect(await getConfig()).to.equal(defaultConfig)
@@ -83,8 +81,6 @@ describe('packages/circle', () => {
             - run:
                 name: Release
                 command: |
-                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  export NPM_TOKEN=
                   [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
       
       workflows:
@@ -93,7 +89,7 @@ describe('packages/circle', () => {
             - build:
                 context:
                   - npm-readonly
-                  - github-release
+                  - github-release\n
     `
 
     expect(await getConfig(withoutCodecov)).to.equal(defaultConfig)
@@ -143,7 +139,7 @@ describe('packages/circle', () => {
             - build:
                 context:
                   - npm-release
-                  - github-release
+                  - github-release\n
     `
 
     expect(await getConfig(unmigratable)).to.equal(unmigratable)
@@ -191,7 +187,7 @@ describe('packages/circle', () => {
             - build:
                 context:
                   - npm-release
-                  - github-release
+                  - github-release\n
     `)
     ).to.equal(dedent`
       # created by @jcoreio/toolchain-circle
@@ -210,17 +206,12 @@ describe('packages/circle', () => {
           steps:
             - checkout
             - run:
-                name: Setup NPM Token
-                command: |
-                  npm config set \\
-                    "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \\
-                    "registry=https://registry.npmjs.org/"
-            - run:
                 name: Corepack enable
                 command: sudo corepack enable
             - run:
                 name: Install Dependencies
-                command: pnpm install --frozen-lockfile
+                command: |-
+                  env "npm_config_//registry.npmjs.org/:_authToken=$NPM_TOKEN" pnpm install --frozen-lockfile
             - run:
                 name: Prepublish
                 command: |
@@ -236,8 +227,8 @@ describe('packages/circle', () => {
           jobs:
             - build:
                 context:
-                  - npm-release
-                  - github-release
+                  - npm-readonly
+                  - github-release\n
     `)
   })
 })

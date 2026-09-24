@@ -16,7 +16,9 @@
   "dependencies": {
     "@jcoreio/toolchain": "workspace:*",
     "dedent-js": "^1.0.1",
-    "resolve-bin": "^1.0.0"
+    "jsonwebtoken": "^9.0.3",
+    "resolve-bin": "^1.0.0",
+    "semver": "^7.5.3"
   },
   "toolchainManaged": {
     "optionalDevDependencies": {

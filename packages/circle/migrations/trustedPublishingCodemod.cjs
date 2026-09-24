@@ -1,6 +1,5 @@
 const semver = require('semver')
 const YAML = require('yaml')
-const dedent = require('dedent-js')
 
 module.exports = function trustedPublishingCodemod(config) {
   config = config.replace(/cimg\/node:(\d+\.\d+\.\d+)/, (match, version) => {
@@ -28,17 +27,6 @@ module.exports = function trustedPublishingCodemod(config) {
       if (command.startsWith('pnpm install')) {
         const newCommand = new YAML.Scalar(
           `env "npm_config_//registry.npmjs.org/:_authToken=$NPM_TOKEN" ${command}`
-        )
-        newCommand.type = 'BLOCK_LITERAL'
-        commandItem.value = newCommand
-      }
-      if (command.includes('tc release')) {
-        const newCommand = new YAML.Scalar(
-          dedent`
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-            export NPM_TOKEN=
-            ${command}
-          `
         )
         newCommand.type = 'BLOCK_LITERAL'
         commandItem.value = newCommand

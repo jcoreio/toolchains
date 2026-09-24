@@ -82,8 +82,6 @@ describe('packages/circle', () => {
             - run:
                 name: Release
                 command: |
-                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-                  export NPM_TOKEN=
                   [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
 
       workflows:

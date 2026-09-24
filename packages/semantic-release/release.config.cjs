@@ -1,12 +1,10 @@
 const {
-  projectDir,
   packageJson: { name: pkg, private: _private },
   monorepoSubpackageJsonFiles,
   monorepoPackageJson,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
 const getPluginsArraySync = require('@jcoreio/toolchain/util/getPluginsArraySync.cjs')
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
-const path = require('path')
 
 let hasMain
 try {
@@ -114,9 +112,7 @@ module.exports =
         : [
             [
               require.resolve('@semantic-release/exec'),
-              {
-                publishCmd: `cd ${path.join(projectDir, 'dist')} && ((npm version \${nextRelease.version} && npm publish . --loglevel silly) || (git tag -d ${pkg}-v\${nextRelease.version} && git push --delete origin ${pkg}-v\${nextRelease.version} && exit 1))`,
-              },
+              { publishCmd: `pnpm run tc publish` },
             ],
           ]),
         require.resolve('@semantic-release/github'),
@@ -133,9 +129,7 @@ module.exports =
         : [
             [
               require.resolve('@semantic-release/exec'),
-              {
-                publishCmd: `cd ${path.join(projectDir, 'dist')} && ((npm version \${nextRelease.version} && npm publish . --loglevel silly) || (git tag -d v\${nextRelease.version} && git push --delete origin v\${nextRelease.version} && exit 1))`,
-              },
+              { publishCmd: `pnpm run tc publish` },
             ],
           ]),
         require.resolve('@semantic-release/github'),

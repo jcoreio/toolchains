@@ -1,7 +1,6 @@
 const dedent = require('dedent-js')
 const { name } = require('../package.json')
 const { scripts } = require('@jcoreio/toolchain/scripts/toolchain.cjs')
-const confirm = require('@jcoreio/toolchain/util/confirm.cjs')
 const semver = require('semver')
 const trustedPublishingCodemod = require('../migrations/trustedPublishingCodemod.cjs')
 const npmTrustCircle = require('../scripts/npmTrustCircle.cjs')
@@ -15,8 +14,6 @@ module.exports = [
       - run:
           name: Release
           command: |
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-            export NPM_TOKEN=
             [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
     `
 
@@ -61,7 +58,7 @@ module.exports = [
             - build:
                 context:
                   - npm-readonly
-                  - github-release
+                  - github-release\n
     `
     return {
       '.circleci/config.yml': async (config) => {
@@ -109,16 +106,17 @@ module.exports = [
         }
         if (
           semver.lt(fromVersion || '0.0.0', '5.13.0') &&
-          !config.includes('NPM_ID_TOKEN=') &&
-          (await confirm({
-            message: 'Migrate CircleCI config to use npm trusted publishing?',
-            initial: true,
-            ifNotInteractive: false,
-          }))
+          !config.includes('NPM_ID_TOKEN=')
         ) {
           config = trustedPublishingCodemod(config)
           await npmTrustCircle({ config: require('yaml').parse(config) }).catch(
             () => {}
+          )
+        }
+        if (semver.lt(fromVersion || '0.0.0', '6.0.0-beta.1')) {
+          config = config.replace(
+            /^\s*export NPM_ID_TOKEN=\$\(circleci run oidc get --claims '\{"aud": "npm:registry.npmjs.org"\}'\)\s*?\n\s*export NPM_TOKEN=\s*?\n/gm,
+            ''
           )
         }
         return config
