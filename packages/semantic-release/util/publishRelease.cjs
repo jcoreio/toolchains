@@ -18,6 +18,12 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
     return
   }
   await execa('pnpm', ['version', nextVersion], { cwd })
+  if (/[/\\]dist$/.test(cwd)) {
+    // write subpackage root's version so that other packages will
+    // resolve workspace:* version to it
+    const parentDir = path.dirname(cwd)
+    await execa('pnpm', ['version', nextVersion], { cwd: parentDir })
+  }
   const env = { ...process.env }
   if (process.env.CIRCLECI === 'true') {
     env.NPM_ID_TOKEN = (
