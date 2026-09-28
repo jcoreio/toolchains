@@ -4,19 +4,18 @@ const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const semver = require('semver')
 const JWT = require('jsonwebtoken')
 
-module.exports = async function publishRelease({ projectDir, nextVersion }) {
+module.exports = async function publishRelease({ cwd, nextVersion }) {
   if (!semver.valid(nextVersion)) {
     // eslint-disable-next-line no-console
     console.error('Usage: tc publish <version>')
     process.exit(1)
   }
-  const packageJson = fs.readJson(path.join(projectDir, 'package.json'))
+  const packageJson = fs.readJson(path.join(cwd, 'package.json'))
   if (packageJson.private) {
     // eslint-disable-next-line no-console
     console.error(`Package ${packageJson.name} is private, skipping`)
     return
   }
-  const cwd = path.join(projectDir, 'dist')
   await execa('npm', ['version', nextVersion], { cwd })
   const env = { ...process.env }
   if (process.env.CIRCLECI === 'true') {

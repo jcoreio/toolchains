@@ -7,6 +7,7 @@ const {
 const resolveBin = require('resolve-bin')
 const ownPackageJson = require('../package.json')
 const publishRelease = require('../util/publishRelease.cjs')
+const path = require('path')
 
 module.exports = [
   {
@@ -60,7 +61,10 @@ module.exports = [
       'publish-release': {
         description: 'publish package (meant to be called from release script)',
         run: async ([nextVersion] = []) => {
-          await publishRelease({ projectDir, nextVersion })
+          await publishRelease({
+            cwd: path.join(projectDir, 'dist'),
+            nextVersion,
+          })
         },
       },
     }),
