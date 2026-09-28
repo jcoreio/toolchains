@@ -1,10 +1,11 @@
 const path = require('path')
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
+const { monorepoPackageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
 const semver = require('semver')
 const JWT = require('jsonwebtoken')
 
-module.exports = async function publishRelease({ cwd, nextVersion }) {
+module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
   if (!semver.valid(nextVersion)) {
     // eslint-disable-next-line no-console
     console.error('Usage: tc publish <version>')
@@ -38,23 +39,31 @@ module.exports = async function publishRelease({ cwd, nextVersion }) {
   try {
     await execa(
       'pnpm',
-      ['publish', '.', ...(npmTag ? ['--tag', npmTag] : [])],
+      ['publish', '.', '--no-git-checks', ...(npmTag ? ['--tag', npmTag] : [])],
       { cwd, env }
     )
   } catch {
-    await execa('git', ['tag', '-d', `v${nextVersion}`], {
+    if (!gitTag) {
+      gitTag =
+        monorepoPackageJson ?
+          `${packageJson.name}-v${nextVersion}`
+        : `v${nextVersion}`
+    }
+    await execa('git', ['tag', '-d', gitTag], {
       cwd: 'dist',
       env,
     })
     let origin = 'origin'
     if (process.env.GH_TOKEN) {
-      const repoUrl = new URL(packageJson.repository.url)
+      const repoUrl = new URL(
+        monorepoPackageJson?.repository?.url || packageJson.repository?.url
+      )
       repoUrl.username = 'x-access-token'
       repoUrl.password = process.env.GH_TOKEN
       origin = repoUrl.toString()
     }
 
-    await execa('git', ['push', '--delete', origin, `v${nextVersion}`], {
+    await execa('git', ['push', '--delete', origin, gitTag], {
       cwd,
       env,
     })

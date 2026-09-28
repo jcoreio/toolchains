@@ -23,7 +23,7 @@ module.exports = {
       description: 'publish package (meant to be called from release script)',
       run: async ([nextVersion] = []) => {
         for (const cwd of monorepoSubpackageDirs) {
-          await publishRelease({ cwd, nextVersion })
+          await publishRelease({ cwd, nextVersion, gitTag: `v${nextVersion}` })
         }
       },
     },
