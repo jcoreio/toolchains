@@ -16,7 +16,7 @@ module.exports = async function publishRelease({ cwd, nextVersion }) {
     console.error(`Package ${packageJson.name} is private, skipping`)
     return
   }
-  await execa('npm', ['version', nextVersion], { cwd })
+  await execa('pnpm', ['version', nextVersion], { cwd })
   const env = { ...process.env }
   if (process.env.CIRCLECI === 'true') {
     env.NPM_ID_TOKEN = (
@@ -27,6 +27,7 @@ module.exports = async function publishRelease({ cwd, nextVersion }) {
       )
     ).stdout.trim()
     env.NPM_TOKEN = ''
+    env.npm_config_loglevel = 'silly'
     env['npm_config_//registry.npmjs.org/:_authToken'] = ''
 
     const decoded = JWT.decode(env.NPM_ID_TOKEN)
@@ -36,14 +37,8 @@ module.exports = async function publishRelease({ cwd, nextVersion }) {
   const [npmTag] = semver.prerelease(nextVersion) || []
   try {
     await execa(
-      'npm',
-      [
-        'publish',
-        '.',
-        '--loglevel',
-        'silly',
-        ...(npmTag ? ['--tag', npmTag] : []),
-      ],
+      'pnpm',
+      ['publish', '.', ...(npmTag ? ['--tag', npmTag] : [])],
       { cwd, env }
     )
   } catch {

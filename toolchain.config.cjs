@@ -1,7 +1,5 @@
 /* eslint-env node, es2018 */
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
-const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
-const path = require('path')
 const {
   monorepoSubpackageDirs,
 } = require('@jcoreio/toolchain/util/findUps.cjs')
@@ -25,21 +23,6 @@ module.exports = {
       description: 'publish package (meant to be called from release script)',
       run: async ([nextVersion] = []) => {
         for (const cwd of monorepoSubpackageDirs) {
-          const packageJsonFile = path.join(cwd, 'package.json')
-          const packageJson = await fs.readJson(packageJsonFile)
-          const { dependencies } = packageJson
-          let changed = false
-          if (dependencies) {
-            for (const pkg in dependencies) {
-              if (dependencies[pkg] === 'workspace:*') {
-                dependencies[pkg] = nextVersion
-                changed = true
-              }
-            }
-          }
-          if (changed) {
-            await fs.writeJson(packageJsonFile, packageJson, { spaces: 2 })
-          }
           await publishRelease({ cwd, nextVersion })
         }
       },
