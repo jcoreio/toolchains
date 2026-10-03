@@ -13,45 +13,51 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
     process.exit(1)
   }
   const packageJson = await fs.readJson(path.join(cwd, 'package.json'))
-  if (packageJson.private) {
-    // eslint-disable-next-line no-console
-    console.error(`Package ${packageJson.name} is private, skipping`)
-    return
-  }
-  await setVersion({
-    packageJsonFile: path.join(cwd, 'package.json'),
-    version: nextVersion,
-  })
-  if (/[/\\]dist$/.test(cwd)) {
-    // write subpackage root's version so that other packages will
-    // resolve workspace:* version to it
-    const parentPackageJsonFile = path.join(path.dirname(cwd), 'package.json')
-    if (await fs.pathExists(parentPackageJsonFile)) {
-      await setVersion({
-        packageJsonFile: parentPackageJsonFile,
-        version: nextVersion,
-      })
-    }
-  }
-  const env = { ...process.env }
-  if (process.env.CIRCLECI === 'true') {
-    env.NPM_ID_TOKEN = (
-      await execa(
-        'circleci',
-        ['run', 'oidc', 'get', '--claims', '{"aud": "npm:registry.npmjs.org"}'],
-        { stdio: ['inherit', 'pipe', 'inherit'], encoding: 'utf8' }
-      )
-    ).stdout.trim()
-    env.NPM_TOKEN = ''
-    env.npm_config_loglevel = 'silly'
-    env['npm_config_//registry.npmjs.org/:_authToken'] = ''
-
-    const decoded = JWT.decode(env.NPM_ID_TOKEN)
-    // eslint-disable-next-line no-console
-    console.error('NPM_ID_TOKEN token claims:', decoded)
-  }
-  const [npmTag] = semver.prerelease(nextVersion) || []
   try {
+    if (packageJson.private) {
+      // eslint-disable-next-line no-console
+      console.error(`Package ${packageJson.name} is private, skipping`)
+      return
+    }
+    await setVersion({
+      packageJsonFile: path.join(cwd, 'package.json'),
+      version: nextVersion,
+    })
+    if (/[/\\]dist$/.test(cwd)) {
+      // write subpackage root's version so that other packages will
+      // resolve workspace:* version to it
+      const parentPackageJsonFile = path.join(path.dirname(cwd), 'package.json')
+      if (await fs.pathExists(parentPackageJsonFile)) {
+        await setVersion({
+          packageJsonFile: parentPackageJsonFile,
+          version: nextVersion,
+        })
+      }
+    }
+    const env = { ...process.env }
+    if (process.env.CIRCLECI === 'true') {
+      env.NPM_ID_TOKEN = (
+        await execa(
+          'circleci',
+          [
+            'run',
+            'oidc',
+            'get',
+            '--claims',
+            '{"aud": "npm:registry.npmjs.org"}',
+          ],
+          { stdio: ['inherit', 'pipe', 'inherit'], encoding: 'utf8' }
+        )
+      ).stdout.trim()
+      env.NPM_TOKEN = ''
+      env.npm_config_loglevel = 'silly'
+      env['npm_config_//registry.npmjs.org/:_authToken'] = ''
+
+      const decoded = JWT.decode(env.NPM_ID_TOKEN)
+      // eslint-disable-next-line no-console
+      console.error('NPM_ID_TOKEN token claims:', decoded)
+    }
+    const [npmTag] = semver.prerelease(nextVersion) || []
     await execa(
       'pnpm',
       ['publish', '.', '--no-git-checks', ...(npmTag ? ['--tag', npmTag] : [])],
@@ -64,10 +70,7 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
           `${packageJson.name}-v${nextVersion}`
         : `v${nextVersion}`
     }
-    await execa('git', ['tag', '-d', gitTag], {
-      cwd: 'dist',
-      env,
-    })
+    await execa('git', ['tag', '-d', gitTag], { cwd })
     let origin = 'origin'
     if (process.env.GH_TOKEN) {
       const repoUrl = new URL(
@@ -78,10 +81,7 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
       origin = repoUrl.toString()
     }
 
-    await execa('git', ['push', '--delete', origin, gitTag], {
-      cwd,
-      env,
-    })
+    await execa('git', ['push', '--delete', origin, gitTag], { cwd })
     process.exit(1)
   }
 }
