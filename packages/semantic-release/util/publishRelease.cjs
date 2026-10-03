@@ -4,7 +4,7 @@ const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const { monorepoPackageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
 const semver = require('semver')
 const JWT = require('jsonwebtoken')
-const { default: setVersion } = require('./setVersion.cjs')
+const setVersion = require('./setVersion.cjs')
 
 module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
   if (!semver.valid(nextVersion)) {
@@ -25,8 +25,7 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
   if (/[/\\]dist$/.test(cwd)) {
     // write subpackage root's version so that other packages will
     // resolve workspace:* version to it
-    const parentDir = path.dirname(cwd)
-    const parentPackageJsonFile = path.join(parentDir, 'package.json')
+    const parentPackageJsonFile = path.join(path.dirname(cwd), 'package.json')
     if (await fs.pathExists(parentPackageJsonFile)) {
       await setVersion({
         packageJsonFile: parentPackageJsonFile,
