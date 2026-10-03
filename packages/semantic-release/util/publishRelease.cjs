@@ -17,7 +17,7 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
     console.error(`Package ${packageJson.name} is private, skipping`)
     return
   }
-  await execa('pnpm', ['version', nextVersion], { cwd })
+  await execa('pnpm', ['version', nextVersion, '--force'], { cwd })
   if (/[/\\]dist$/.test(cwd)) {
     // write subpackage root's version so that other packages will
     // resolve workspace:* version to it
@@ -46,7 +46,7 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
     await execa(
       'pnpm',
       ['publish', '.', '--no-git-checks', ...(npmTag ? ['--tag', npmTag] : [])],
-      { cwd, env }
+      { cwd, env, stdio: ['pipe', 'inherit', 'inherit'] }
     )
   } catch {
     if (!gitTag) {
