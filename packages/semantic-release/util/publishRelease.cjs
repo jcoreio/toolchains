@@ -4,6 +4,7 @@ const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const { monorepoPackageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
 const semver = require('semver')
 const JWT = require('jsonwebtoken')
+const { default: setVersion } = require('./setVersion.cjs')
 
 module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
   if (!semver.valid(nextVersion)) {
@@ -11,18 +12,27 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
     console.error('Usage: tc publish <version>')
     process.exit(1)
   }
-  const packageJson = fs.readJson(path.join(cwd, 'package.json'))
+  const packageJson = await fs.readJson(path.join(cwd, 'package.json'))
   if (packageJson.private) {
     // eslint-disable-next-line no-console
     console.error(`Package ${packageJson.name} is private, skipping`)
     return
   }
-  await execa('pnpm', ['version', nextVersion, '--force'], { cwd })
+  await setVersion({
+    packageJsonFile: path.join(cwd, 'package.json'),
+    version: nextVersion,
+  })
   if (/[/\\]dist$/.test(cwd)) {
     // write subpackage root's version so that other packages will
     // resolve workspace:* version to it
     const parentDir = path.dirname(cwd)
-    await execa('pnpm', ['version', nextVersion, '--force'], { cwd: parentDir })
+    const parentPackageJsonFile = path.join(parentDir, 'package.json')
+    if (await fs.pathExists(parentPackageJsonFile)) {
+      await setVersion({
+        packageJsonFile: parentPackageJsonFile,
+        version: nextVersion,
+      })
+    }
   }
   const env = { ...process.env }
   if (process.env.CIRCLECI === 'true') {
