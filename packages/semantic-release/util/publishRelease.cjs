@@ -1,5 +1,6 @@
 const path = require('path')
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
+const chalk = require('chalk')
 const fs = require('@jcoreio/toolchain/util/projectFs.cjs')
 const { monorepoPackageJson } = require('@jcoreio/toolchain/util/findUps.cjs')
 const semver = require('semver')
@@ -63,25 +64,33 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
       ['publish', '.', '--no-git-checks', ...(npmTag ? ['--tag', npmTag] : [])],
       { cwd, env, stdio: ['pipe', 'inherit', 'inherit'] }
     )
-  } catch {
-    if (!gitTag) {
-      gitTag =
-        monorepoPackageJson ?
-          `${packageJson.name}-v${nextVersion}`
-        : `v${nextVersion}`
-    }
-    await execa('git', ['tag', '-d', gitTag], { cwd })
-    let origin = 'origin'
-    if (process.env.GH_TOKEN) {
-      const repoUrl = new URL(
-        monorepoPackageJson?.repository?.url || packageJson.repository?.url
-      )
-      repoUrl.username = 'x-access-token'
-      repoUrl.password = process.env.GH_TOKEN
-      origin = repoUrl.toString()
-    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error.message)
 
-    await execa('git', ['push', '--delete', origin, gitTag], { cwd })
-    process.exit(1)
+    try {
+      if (!gitTag) {
+        gitTag =
+          monorepoPackageJson ?
+            `${packageJson.name}-v${nextVersion}`
+          : `v${nextVersion}`
+      }
+      await execa('git', ['tag', '-d', gitTag], { cwd })
+      let origin = 'origin'
+      if (process.env.GH_TOKEN) {
+        const repoUrl = new URL(
+          monorepoPackageJson?.repository?.url || packageJson.repository?.url
+        )
+        repoUrl.username = 'x-access-token'
+        repoUrl.password = process.env.GH_TOKEN
+        origin = repoUrl.toString()
+      }
+
+      await execa('git', ['push', '--delete', origin, gitTag], { cwd })
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(chalk`{red ✖} Deleting git tag failed:`, error.message)
+    }
+    throw new Error(chalk`{red ✖} Publish failed`)
   }
 }

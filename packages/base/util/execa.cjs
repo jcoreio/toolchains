@@ -57,17 +57,19 @@ function getExecaArgs(command, args, options, ...rest) {
 }
 
 function convertExecaError(command, error) {
-  const { code, signal } = error
-  if (code) {
+  const { exitCode, signal, stdout, stderr } = error
+  if (exitCode) {
     error.message = chalk`{red ✖} {bold ${extractCommand(
       command
-    )}} exited with code ${code}`
+    )}} exited with code ${exitCode}`
   }
   if (signal) {
     error.message = chalk`{red ✖} {bold ${extractCommand(
       command
     )}} was killed with signal ${signal}`
   }
+  if (stdout != null) error.message = `${stdout}\n${error.message}`
+  if (stderr != null) error.message = `${stderr}\n${error.message}`
   return error
 }
 

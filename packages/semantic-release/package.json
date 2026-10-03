@@ -15,6 +15,7 @@
   "homepage": "https://github.com/jcoreio/toolchains/tree/main/packages/semantic-release",
   "dependencies": {
     "@jcoreio/toolchain": "workspace:*",
+    "chalk": "^4.1.2",
     "dedent-js": "^1.0.1",
     "jsonwebtoken": "^9.0.3",
     "resolve-bin": "^1.0.0",
