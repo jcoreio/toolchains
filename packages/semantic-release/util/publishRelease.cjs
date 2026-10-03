@@ -22,7 +22,7 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
     // write subpackage root's version so that other packages will
     // resolve workspace:* version to it
     const parentDir = path.dirname(cwd)
-    await execa('pnpm', ['version', nextVersion], { cwd: parentDir })
+    await execa('pnpm', ['version', nextVersion, '--force'], { cwd: parentDir })
   }
   const env = { ...process.env }
   if (process.env.CIRCLECI === 'true') {
