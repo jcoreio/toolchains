@@ -18,7 +18,7 @@ module.exports = [
           ['--profile', 'esm-only']
         : []),
       ],
-      { cwd: __dirname }
+      { cwd: path.resolve(__dirname, '..') }
     )
   },
 ]
