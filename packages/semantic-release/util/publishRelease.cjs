@@ -53,6 +53,7 @@ module.exports = async function publishRelease({ cwd, nextVersion, gitTag }) {
       env.NPM_TOKEN = ''
       env.npm_config_loglevel = 'silly'
       env['npm_config_//registry.npmjs.org/:_authToken'] = ''
+      env.NPM_CONFIG_USERCONFIG = '/dev/null'
 
       const decoded = JWT.decode(env.NPM_ID_TOKEN)
       // eslint-disable-next-line no-console
