@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const execa = require('@jcoreio/toolchain/util/execa.cjs')
 const confirm = require('@jcoreio/toolchain/util/confirm.cjs')
+const isInteractive = require('@jcoreio/toolchain/util/isInteractive.cjs')
 const {
   packageJson,
   isMonorepoRoot,
@@ -11,6 +12,7 @@ const getTrustedPublishingContexts = require('../util/getTrustedPublishingContex
 const { inspect } = require('util')
 const path = require('path')
 const os = require('os')
+const { spawn } = require('child_process')
 
 /**
  * Gets the repository owner and name from git remote or package.json
@@ -38,6 +40,53 @@ async function getRepoInfo() {
     owner: match[1],
     repo: match[2].replace(/\.git$/, ''),
   }
+}
+
+/**
+ * Runs `npm trust list` and returns its output.
+ *
+ * npm won't prompt for an OTP when stdout is piped
+ * (https://github.com/npm/cli/issues/10190), so when interactive we run it in
+ * a pseudo-terminal via `script`, and tee the output to process.stdout so that
+ * the user sees the OTP/login prompts.
+ * @param {string} packageName
+ * @returns {Promise<string>} the output, with ANSI escape codes removed
+ */
+async function npmTrustList(packageName) {
+  const npmArgs = ['trust', 'list', packageName]
+  if (!isInteractive || process.platform === 'win32') {
+    return (
+      await execa('npm', npmArgs, {
+        stdio: ['inherit', 'pipe', 'inherit'],
+      })
+    ).stdout
+  }
+  const scriptArgs =
+    process.platform === 'linux' ?
+      [
+        '-qec',
+        ['npm', ...npmArgs]
+          .map((a) => `'${a.replace(/'/g, "'\\''")}'`)
+          .join(' '),
+        '/dev/null',
+      ]
+    : ['-q', '/dev/null', 'npm', ...npmArgs]
+  console.error(`$ npm ${npmArgs.join(' ')}`)
+  const child = spawn('script', scriptArgs, {
+    stdio: ['inherit', 'pipe', 'inherit'],
+  })
+  let output = ''
+  child.stdout.on('data', (chunk) => {
+    process.stdout.write(chunk)
+    output += chunk.toString()
+  })
+  const code = await new Promise((resolve, reject) => {
+    child.on('error', reject)
+    child.on('close', resolve)
+  })
+  if (code) throw new Error(`npm trust list exited with code ${code}`)
+  // eslint-disable-next-line no-control-regex
+  return output.replace(/\x1b\[[0-9;]*m/g, '')
 }
 
 const circleTokenFile = path.join(os.homedir(), '.config', 'circle-token')
@@ -209,11 +258,9 @@ module.exports = async function npmTrustCircle(args = [], { config } = {}) {
     }
 
     if (replace) {
-      for (const [, trust_id] of (
-        await execa('npm', ['trust', 'list', packageName], {
-          stdio: ['inherit', 'pipe', 'inherit'],
-        })
-      ).stdout.matchAll(/^id: ([-a-f0-9]+)/gm)) {
+      for (const [, trust_id] of (await npmTrustList(packageName)).matchAll(
+        /^id: ([-a-f0-9]+)/gm
+      )) {
         await execa('npm', ['trust', 'revoke', packageName, `--id=${trust_id}`])
       }
     }
