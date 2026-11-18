@@ -257,34 +257,39 @@ module.exports = async function npmTrustCircle(args = [], { config } = {}) {
       }
     }
 
-    if (replace) {
-      for (const [, trust_id] of (await npmTrustList(packageName)).matchAll(
-        /^id: ([-a-f0-9]+)/gm
-      )) {
-        await execa('npm', ['trust', 'revoke', packageName, `--id=${trust_id}`])
-      }
-    }
-
-    // Now run npm trust with the collected information
-    const npmTrustArgs = [
-      'trust',
-      'circleci',
-      packageName,
-      '-y',
-      '--allow-publish',
-      '--org-id',
-      orgId,
-      '--project-id',
-      projectId,
-      '--pipeline-definition-id',
-      pipelineDefinitionId,
-      '--vcs-origin',
-      `github.com/${owner}/${repo}`,
-      ...contextIds.flatMap((contextId) => ['--context-id', contextId]),
-      ...(dryRun ? ['--dry-run'] : []),
-    ]
-
     try {
+      if (replace) {
+        for (const [, trust_id] of (await npmTrustList(packageName)).matchAll(
+          /^id: ([-a-f0-9]+)/gm
+        )) {
+          await execa('npm', [
+            'trust',
+            'revoke',
+            packageName,
+            `--id=${trust_id}`,
+          ])
+        }
+      }
+
+      // Now run npm trust with the collected information
+      const npmTrustArgs = [
+        'trust',
+        'circleci',
+        packageName,
+        '-y',
+        '--allow-publish',
+        '--org-id',
+        orgId,
+        '--project-id',
+        projectId,
+        '--pipeline-definition-id',
+        pipelineDefinitionId,
+        '--vcs-origin',
+        `github.com/${owner}/${repo}`,
+        ...contextIds.flatMap((contextId) => ['--context-id', contextId]),
+        ...(dryRun ? ['--dry-run'] : []),
+      ]
+
       await execa('npm', npmTrustArgs, {
         stdio: 'inherit',
         env: { ...process.env, NPM_TOKEN: '' },
